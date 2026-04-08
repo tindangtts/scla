@@ -3,20 +3,38 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Star City Living App API specification
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: auth
+    description: Authentication and user management
+  - name: announcements
+    description: Community announcements and newsletters
+  - name: promotions
+    description: Offers and promotions
+  - name: invoices
+    description: Bill payment and invoices
+  - name: tickets
+    description: Star Assist support tickets
+  - name: bookings
+    description: SCSC sports centre bookings
+  - name: info
+    description: Info Centre
+  - name: wallet
+    description: Wallet and deposit balances
+  - name: notifications
+    description: Push notifications
+
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +42,619 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  # Auth endpoints
+  /auth/register:
+    post:
+      operationId: registerUser
+      tags: [auth]
+      summary: Register a new guest user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterUserBody"
+      responses:
+        "201":
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/login:
+    post:
+      operationId: loginUser
+      tags: [auth]
+      summary: Login with email and password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginUserBody"
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "401":
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/me:
+    get:
+      operationId: getCurrentUser
+      tags: [auth]
+      summary: Get current authenticated user
+      responses:
+        "200":
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+
+  /auth/upgrade:
+    post:
+      operationId: requestResidentUpgrade
+      tags: [auth]
+      summary: Request resident account upgrade
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResidentUpgradeBody"
+      responses:
+        "200":
+          description: Upgrade request submitted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResidentUpgradeRequest"
+
+  /auth/upgrade-requests:
+    get:
+      operationId: listUpgradeRequests
+      tags: [auth]
+      summary: List all pending resident upgrade requests (admin)
+      responses:
+        "200":
+          description: List of upgrade requests
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ResidentUpgradeRequest"
+
+  /auth/upgrade-requests/{id}/approve:
+    post:
+      operationId: approveUpgradeRequest
+      tags: [auth]
+      summary: Approve a resident upgrade request (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Request approved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResidentUpgradeRequest"
+
+  /auth/upgrade-requests/{id}/reject:
+    post:
+      operationId: rejectUpgradeRequest
+      tags: [auth]
+      summary: Reject a resident upgrade request (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResidentUpgradeRequest"
+
+  # Announcements
+  /announcements:
+    get:
+      operationId: listAnnouncements
+      tags: [announcements]
+      summary: List community announcements and newsletters
+      parameters:
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [announcement, newsletter]
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        "200":
+          description: List of announcements
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Announcement"
+
+  /announcements/{id}:
+    get:
+      operationId: getAnnouncement
+      tags: [announcements]
+      summary: Get a single announcement
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Announcement details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Announcement"
+
+  # Promotions
+  /promotions:
+    get:
+      operationId: listPromotions
+      tags: [promotions]
+      summary: List promotions and offers
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        "200":
+          description: List of promotions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Promotion"
+
+  /promotions/{id}:
+    get:
+      operationId: getPromotion
+      tags: [promotions]
+      summary: Get a single promotion
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Promotion details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Promotion"
+
+  # Invoices / Bill Payment
+  /invoices:
+    get:
+      operationId: listInvoices
+      tags: [invoices]
+      summary: List invoices for the current resident
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [unpaid, partially_paid, paid]
+        - name: month
+          in: query
+          schema:
+            type: string
+            description: "Filter by month (YYYY-MM)"
+      responses:
+        "200":
+          description: List of invoices
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Invoice"
+
+  /invoices/{id}:
+    get:
+      operationId: getInvoice
+      tags: [invoices]
+      summary: Get invoice detail
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Invoice detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Invoice"
+
+  /invoices/summary:
+    get:
+      operationId: getInvoiceSummary
+      tags: [invoices]
+      summary: Get billing summary (total outstanding, this month, count)
+      responses:
+        "200":
+          description: Invoice summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceSummary"
+
+  /invoices/{id}/pay:
+    post:
+      operationId: initiatePayment
+      tags: [invoices]
+      summary: Initiate payment for an invoice
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InitiatePaymentBody"
+      responses:
+        "200":
+          description: Payment session created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaymentSession"
+
+  # Wallet
+  /wallet:
+    get:
+      operationId: getWallet
+      tags: [wallet]
+      summary: Get wallet balance and recent transactions
+      responses:
+        "200":
+          description: Wallet info
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Wallet"
+
+  /deposit:
+    get:
+      operationId: getDeposit
+      tags: [wallet]
+      summary: Get deposit balance and history
+      responses:
+        "200":
+          description: Deposit info
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Deposit"
+
+  # Star Assist Tickets
+  /tickets:
+    get:
+      operationId: listTickets
+      tags: [tickets]
+      summary: List support tickets for current user
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [open, in_progress, completed]
+      responses:
+        "200":
+          description: List of tickets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Ticket"
+    post:
+      operationId: createTicket
+      tags: [tickets]
+      summary: Create a new support ticket
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateTicketBody"
+      responses:
+        "201":
+          description: Ticket created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+
+  /tickets/{id}:
+    get:
+      operationId: getTicket
+      tags: [tickets]
+      summary: Get ticket detail
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Ticket detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+
+  /tickets/summary:
+    get:
+      operationId: getTicketSummary
+      tags: [tickets]
+      summary: Get ticket summary stats
+      responses:
+        "200":
+          description: Ticket summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TicketSummary"
+
+  # SCSC Bookings
+  /facilities:
+    get:
+      operationId: listFacilities
+      tags: [bookings]
+      summary: List available sports centre facilities
+      responses:
+        "200":
+          description: List of facilities
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Facility"
+
+  /facilities/{id}/slots:
+    get:
+      operationId: getFacilitySlots
+      tags: [bookings]
+      summary: Get available time slots for a facility on a date
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: date
+          in: query
+          required: true
+          schema:
+            type: string
+            description: "Date in YYYY-MM-DD format"
+      responses:
+        "200":
+          description: Available slots
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TimeSlot"
+
+  /bookings:
+    get:
+      operationId: listBookings
+      tags: [bookings]
+      summary: List bookings for the current user
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [upcoming, completed, cancelled]
+      responses:
+        "200":
+          description: List of bookings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Booking"
+    post:
+      operationId: createBooking
+      tags: [bookings]
+      summary: Create a new facility booking
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateBookingBody"
+      responses:
+        "201":
+          description: Booking created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Booking"
+
+  /bookings/{id}:
+    get:
+      operationId: getBooking
+      tags: [bookings]
+      summary: Get booking detail
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Booking detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Booking"
+
+  /bookings/{id}/cancel:
+    post:
+      operationId: cancelBooking
+      tags: [bookings]
+      summary: Cancel a booking
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Booking cancelled
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Booking"
+
+  # Info Centre
+  /info-categories:
+    get:
+      operationId: listInfoCategories
+      tags: [info]
+      summary: List info centre categories
+      responses:
+        "200":
+          description: Info categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/InfoCategory"
+
+  /info-articles:
+    get:
+      operationId: listInfoArticles
+      tags: [info]
+      summary: List info articles
+      parameters:
+        - name: categoryId
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Info articles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/InfoArticle"
+
+  /info-articles/{id}:
+    get:
+      operationId: getInfoArticle
+      tags: [info]
+      summary: Get info article detail
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Article detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InfoArticle"
+
+  # Dashboard / wow endpoints
+  /home-summary:
+    get:
+      operationId: getHomeSummary
+      tags: [announcements]
+      summary: Get home screen summary (outstanding balance, ticket counts, latest announcement)
+      responses:
+        "200":
+          description: Home summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HomeSummary"
+
+  /notifications:
+    get:
+      operationId: listNotifications
+      tags: [notifications]
+      summary: List push notifications for the current user
+      responses:
+        "200":
+          description: Notifications
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AppNotification"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +665,784 @@ components:
       required:
         - status
 
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+      required:
+        - error
+
+    # Auth schemas
+    RegisterUserBody:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        password:
+          type: string
+          minLength: 8
+      required:
+        - name
+        - email
+        - phone
+        - password
+
+    LoginUserBody:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+      required:
+        - email
+        - password
+
+    AuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+        user:
+          $ref: "#/components/schemas/User"
+      required:
+        - token
+        - user
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        userType:
+          type: string
+          enum: [guest, resident]
+        unitNumber:
+          type: string
+          nullable: true
+        residentId:
+          type: string
+          nullable: true
+        estateId:
+          type: string
+          nullable: true
+        developmentName:
+          type: string
+          nullable: true
+        upgradeStatus:
+          type: string
+          enum: [none, pending, approved, rejected]
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - name
+        - email
+        - phone
+        - userType
+        - createdAt
+
+    ResidentUpgradeBody:
+      type: object
+      properties:
+        unitNumber:
+          type: string
+        residentId:
+          type: string
+        developmentName:
+          type: string
+      required:
+        - unitNumber
+        - residentId
+        - developmentName
+
+    ResidentUpgradeRequest:
+      type: object
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        userName:
+          type: string
+        userEmail:
+          type: string
+        unitNumber:
+          type: string
+        residentId:
+          type: string
+        developmentName:
+          type: string
+        status:
+          type: string
+          enum: [pending, approved, rejected]
+        submittedAt:
+          type: string
+          format: date-time
+        reviewedAt:
+          type: string
+          format: date-time
+          nullable: true
+        reviewNote:
+          type: string
+          nullable: true
+      required:
+        - id
+        - userId
+        - userName
+        - userEmail
+        - unitNumber
+        - residentId
+        - developmentName
+        - status
+        - submittedAt
+
+    # Announcement schemas
+    Announcement:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+        summary:
+          type: string
+        type:
+          type: string
+          enum: [announcement, newsletter]
+        imageUrl:
+          type: string
+          nullable: true
+        publishedAt:
+          type: string
+          format: date-time
+        isPinned:
+          type: boolean
+      required:
+        - id
+        - title
+        - content
+        - summary
+        - type
+        - publishedAt
+        - isPinned
+
+    # Promotion schemas
+    Promotion:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+        imageUrl:
+          type: string
+          nullable: true
+        validFrom:
+          type: string
+          format: date-time
+        validUntil:
+          type: string
+          format: date-time
+          nullable: true
+        isActive:
+          type: boolean
+        partnerName:
+          type: string
+      required:
+        - id
+        - title
+        - description
+        - category
+        - validFrom
+        - isActive
+        - partnerName
+
+    # Invoice schemas
+    Invoice:
+      type: object
+      properties:
+        id:
+          type: string
+        invoiceNumber:
+          type: string
+        unitNumber:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
+        issueDate:
+          type: string
+          format: date
+        dueDate:
+          type: string
+          format: date
+        totalAmount:
+          type: number
+          description: Amount in MMK
+        paidAmount:
+          type: number
+          description: Amount paid in MMK
+        status:
+          type: string
+          enum: [unpaid, partially_paid, paid]
+        month:
+          type: string
+          description: "YYYY-MM"
+        lineItems:
+          type: array
+          items:
+            $ref: "#/components/schemas/InvoiceLineItem"
+      required:
+        - id
+        - invoiceNumber
+        - unitNumber
+        - category
+        - description
+        - issueDate
+        - dueDate
+        - totalAmount
+        - paidAmount
+        - status
+        - month
+        - lineItems
+
+    InvoiceLineItem:
+      type: object
+      properties:
+        id:
+          type: string
+        description:
+          type: string
+        quantity:
+          type: number
+        unitPrice:
+          type: number
+        amount:
+          type: number
+      required:
+        - id
+        - description
+        - quantity
+        - unitPrice
+        - amount
+
+    InvoiceSummary:
+      type: object
+      properties:
+        totalOutstanding:
+          type: number
+          description: Total unpaid + partially paid amount in MMK
+        totalThisMonth:
+          type: number
+        unpaidCount:
+          type: integer
+        partiallyPaidCount:
+          type: integer
+        lastPaymentDate:
+          type: string
+          format: date
+          nullable: true
+        lastPaymentAmount:
+          type: number
+          nullable: true
+      required:
+        - totalOutstanding
+        - totalThisMonth
+        - unpaidCount
+        - partiallyPaidCount
+
+    InitiatePaymentBody:
+      type: object
+      properties:
+        paymentMethod:
+          type: string
+          enum: [wavepay, kbzpay]
+        invoiceIds:
+          type: array
+          items:
+            type: string
+      required:
+        - paymentMethod
+        - invoiceIds
+
+    PaymentSession:
+      type: object
+      properties:
+        sessionId:
+          type: string
+        paymentMethod:
+          type: string
+          enum: [wavepay, kbzpay]
+        totalAmount:
+          type: number
+        redirectUrl:
+          type: string
+        status:
+          type: string
+          enum: [pending, processing, completed, failed]
+      required:
+        - sessionId
+        - paymentMethod
+        - totalAmount
+        - redirectUrl
+        - status
+
+    # Wallet schemas
+    Wallet:
+      type: object
+      properties:
+        balance:
+          type: number
+          description: Balance in MMK
+        transactions:
+          type: array
+          items:
+            $ref: "#/components/schemas/WalletTransaction"
+      required:
+        - balance
+        - transactions
+
+    WalletTransaction:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum: [credit, debit]
+        amount:
+          type: number
+        description:
+          type: string
+        date:
+          type: string
+          format: date-time
+        balance:
+          type: number
+      required:
+        - id
+        - type
+        - amount
+        - description
+        - date
+        - balance
+
+    Deposit:
+      type: object
+      properties:
+        balance:
+          type: number
+          description: Deposit balance in MMK
+        transactions:
+          type: array
+          items:
+            $ref: "#/components/schemas/DepositTransaction"
+      required:
+        - balance
+        - transactions
+
+    DepositTransaction:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum: [credit, debit]
+        amount:
+          type: number
+        description:
+          type: string
+        date:
+          type: string
+          format: date-time
+      required:
+        - id
+        - type
+        - amount
+        - description
+        - date
+
+    # Ticket schemas
+    Ticket:
+      type: object
+      properties:
+        id:
+          type: string
+        ticketNumber:
+          type: string
+        title:
+          type: string
+        category:
+          type: string
+          enum: [electricals, plumbing, housekeeping, general_enquiry, air_conditioning, pest_control, civil_works, other]
+        serviceType:
+          type: string
+        status:
+          type: string
+          enum: [open, in_progress, completed]
+        unitNumber:
+          type: string
+          nullable: true
+        description:
+          type: string
+        attachmentUrl:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        updates:
+          type: array
+          items:
+            $ref: "#/components/schemas/TicketUpdate"
+      required:
+        - id
+        - ticketNumber
+        - title
+        - category
+        - serviceType
+        - status
+        - description
+        - createdAt
+        - updatedAt
+        - updates
+
+    TicketUpdate:
+      type: object
+      properties:
+        id:
+          type: string
+        message:
+          type: string
+        author:
+          type: string
+        authorType:
+          type: string
+          enum: [resident, staff]
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - message
+        - author
+        - authorType
+        - createdAt
+
+    CreateTicketBody:
+      type: object
+      properties:
+        title:
+          type: string
+        category:
+          type: string
+          enum: [electricals, plumbing, housekeeping, general_enquiry, air_conditioning, pest_control, civil_works, other]
+        serviceType:
+          type: string
+        unitNumber:
+          type: string
+          nullable: true
+        description:
+          type: string
+        attachmentUrl:
+          type: string
+          nullable: true
+      required:
+        - title
+        - category
+        - serviceType
+        - description
+
+    TicketSummary:
+      type: object
+      properties:
+        openCount:
+          type: integer
+        inProgressCount:
+          type: integer
+        completedCount:
+          type: integer
+        recentlyUpdated:
+          type: integer
+      required:
+        - openCount
+        - inProgressCount
+        - completedCount
+        - recentlyUpdated
+
+    # Facility/booking schemas
+    Facility:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        imageUrl:
+          type: string
+          nullable: true
+        category:
+          type: string
+          enum: [swimming_pool, tennis_court, basketball_court, gym, badminton_court, function_room, squash_court]
+        memberRate:
+          type: number
+          description: Rate per hour in MMK for members
+        nonMemberRate:
+          type: number
+          description: Rate per hour in MMK for non-members
+        openingTime:
+          type: string
+          description: "HH:MM"
+        closingTime:
+          type: string
+          description: "HH:MM"
+        maxCapacity:
+          type: integer
+        isAvailable:
+          type: boolean
+      required:
+        - id
+        - name
+        - description
+        - category
+        - memberRate
+        - nonMemberRate
+        - openingTime
+        - closingTime
+        - maxCapacity
+        - isAvailable
+
+    TimeSlot:
+      type: object
+      properties:
+        id:
+          type: string
+        startTime:
+          type: string
+          description: "HH:MM"
+        endTime:
+          type: string
+          description: "HH:MM"
+        isAvailable:
+          type: boolean
+        price:
+          type: number
+          description: Price in MMK
+      required:
+        - id
+        - startTime
+        - endTime
+        - isAvailable
+        - price
+
+    Booking:
+      type: object
+      properties:
+        id:
+          type: string
+        bookingNumber:
+          type: string
+        facilityId:
+          type: string
+        facilityName:
+          type: string
+        facilityCategory:
+          type: string
+        date:
+          type: string
+          format: date
+        startTime:
+          type: string
+        endTime:
+          type: string
+        totalAmount:
+          type: number
+          description: Amount in MMK
+        status:
+          type: string
+          enum: [upcoming, completed, cancelled]
+        paymentStatus:
+          type: string
+          enum: [pending, paid, refunded]
+        notes:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - bookingNumber
+        - facilityId
+        - facilityName
+        - facilityCategory
+        - date
+        - startTime
+        - endTime
+        - totalAmount
+        - status
+        - paymentStatus
+        - createdAt
+
+    CreateBookingBody:
+      type: object
+      properties:
+        facilityId:
+          type: string
+        date:
+          type: string
+          format: date
+        slotId:
+          type: string
+        notes:
+          type: string
+          nullable: true
+      required:
+        - facilityId
+        - date
+        - slotId
+
+    # Info Centre schemas
+    InfoCategory:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        icon:
+          type: string
+        description:
+          type: string
+        articleCount:
+          type: integer
+      required:
+        - id
+        - name
+        - icon
+        - description
+        - articleCount
+
+    InfoArticle:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+        summary:
+          type: string
+        categoryId:
+          type: string
+        categoryName:
+          type: string
+        imageUrl:
+          type: string
+          nullable: true
+        publishedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - title
+        - content
+        - summary
+        - categoryId
+        - categoryName
+        - publishedAt
+
+    # Dashboard / home schemas
+    HomeSummary:
+      type: object
+      properties:
+        userType:
+          type: string
+          enum: [guest, resident]
+        outstandingBalance:
+          type: number
+          nullable: true
+          description: Total outstanding in MMK (residents only)
+        unpaidInvoiceCount:
+          type: integer
+          nullable: true
+        openTicketCount:
+          type: integer
+        unitNumber:
+          type: string
+          nullable: true
+        developmentName:
+          type: string
+          nullable: true
+        latestAnnouncement:
+          $ref: "#/components/schemas/Announcement"
+          nullable: true
+        recentPromotion:
+          $ref: "#/components/schemas/Promotion"
+          nullable: true
+        walletBalance:
+          type: number
+          nullable: true
+      required:
+        - userType
+        - openTicketCount
+
+    AppNotification:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        body:
+          type: string
+        type:
+          type: string
+          enum: [ticket_update, payment_confirmed, announcement, booking_reminder, general]
+        isRead:
+          type: boolean
+        relatedId:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - title
+        - body
+        - type
+        - isRead
+        - createdAt
