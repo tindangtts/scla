@@ -1,7 +1,8 @@
 import { db } from "@workspace/db";
 import {
   usersTable, announcementsTable, promotionsTable,
-  invoicesTable, facilitiesTable, infoCategoriesTable, infoArticlesTable, notificationsTable
+  invoicesTable, facilitiesTable, infoCategoriesTable, infoArticlesTable, notificationsTable,
+  staffUsersTable, ticketsTable, upgradeRequestsTable, faqsTable
 } from "@workspace/db";
 import * as crypto from "crypto";
 
@@ -39,6 +40,58 @@ async function seed() {
     upgradeStatus: "approved",
   }).returning();
 
+  const [guestUser2] = await db.insert(usersTable).values({
+    name: "Ko Aung Kyaw",
+    email: "aung.kyaw@gmail.com",
+    phone: "09-777-222-333",
+    passwordHash: hashPassword("password123"),
+    userType: "guest",
+    upgradeStatus: "pending",
+  }).returning();
+
+  const [guestUser3] = await db.insert(usersTable).values({
+    name: "Ma Thida Nwe",
+    email: "thida.nwe@outlook.com",
+    phone: "09-666-444-555",
+    passwordHash: hashPassword("password123"),
+    userType: "guest",
+    upgradeStatus: "none",
+  }).returning();
+
+  await db.insert(upgradeRequestsTable).values({
+    userId: guestUser2.id,
+    userName: guestUser2.name,
+    userEmail: guestUser2.email,
+    unitNumber: "B-05-12",
+    residentId: "SC-2024-00389",
+    developmentName: "Estella",
+    status: "pending",
+  });
+
+  await db.insert(staffUsersTable).values([
+    {
+      name: "U Kyaw Zin",
+      email: "admin@starcity.com",
+      passwordHash: hashPassword("admin123"),
+      role: "admin" as const,
+      isActive: true,
+    },
+    {
+      name: "Ma Su Su",
+      email: "content@starcity.com",
+      passwordHash: hashPassword("content123"),
+      role: "content_manager" as const,
+      isActive: true,
+    },
+    {
+      name: "Ko Nay Lin",
+      email: "support@starcity.com",
+      passwordHash: hashPassword("support123"),
+      role: "ticket_handler" as const,
+      isActive: true,
+    },
+  ]);
+
   await db.insert(announcementsTable).values([
     {
       title: "Scheduled Water Supply Interruption — 12 April 2026",
@@ -46,6 +99,9 @@ async function seed() {
       summary: "Water supply will be interrupted on 12 April from 8AM to 12PM for maintenance in City Loft and Estella Tower 1.",
       type: "announcement" as const,
       isPinned: true,
+      isDraft: false,
+      targetAudience: "all" as const,
+      tags: ["maintenance", "water"],
       publishedAt: new Date("2026-04-08T09:00:00Z"),
     },
     {
@@ -54,6 +110,9 @@ async function seed() {
       summary: "Main swimming pool closed for cleaning on 10 April from 7AM to 3PM. Leisure pool remains open.",
       type: "announcement" as const,
       isPinned: false,
+      isDraft: false,
+      targetAudience: "all" as const,
+      tags: ["facilities", "pool"],
       publishedAt: new Date("2026-04-06T10:00:00Z"),
     },
     {
@@ -62,7 +121,21 @@ async function seed() {
       summary: "March community highlights including Thingyan celebrations, new gym equipment, and upcoming events for April and May.",
       type: "newsletter" as const,
       isPinned: false,
+      isDraft: false,
+      targetAudience: "all" as const,
+      tags: ["newsletter", "community"],
       publishedAt: new Date("2026-04-01T08:00:00Z"),
+    },
+    {
+      title: "Important: Resident ID Update — Action Required",
+      content: "Dear Residents,\n\nPlease ensure your resident ID is updated in the app by 30 April 2026. Visit the Profile section to verify your linked unit information.",
+      summary: "Residents must update their Resident ID in the app by 30 April 2026.",
+      type: "announcement" as const,
+      isPinned: false,
+      isDraft: true,
+      targetAudience: "residents_only" as const,
+      tags: ["resident", "action-required"],
+      publishedAt: new Date("2026-04-10T09:00:00Z"),
     },
   ]);
 
@@ -229,6 +302,46 @@ async function seed() {
     },
   ]);
 
+  await db.insert(ticketsTable).values([
+    {
+      ticketNumber: "SA-0001",
+      userId: residentUser.id,
+      title: "Air conditioning not working in bedroom",
+      category: "air_conditioning" as const,
+      serviceType: "Repair",
+      status: "in_progress" as const,
+      unitNumber: "A-12-03",
+      description: "The air conditioning unit in the master bedroom stopped working yesterday evening. It powers on but no cold air comes out. Outside temperature is very hot.",
+      updates: [
+        { id: "u1", message: "We have logged your request and assigned it to our HVAC team. A technician will visit on 10 April between 9AM-12PM.", author: "StarCity Support", authorType: "staff", createdAt: "2026-04-09T10:00:00Z" },
+      ],
+    },
+    {
+      ticketNumber: "SA-0002",
+      userId: residentUser.id,
+      title: "Water leak from ceiling in bathroom",
+      category: "plumbing" as const,
+      serviceType: "Emergency Repair",
+      status: "open" as const,
+      unitNumber: "A-12-03",
+      description: "There is water dripping from the ceiling in the bathroom near the shower. The dripping started this morning and seems to be getting worse.",
+      updates: [],
+    },
+    {
+      ticketNumber: "SA-0003",
+      userId: guestUser.id,
+      title: "General inquiry about SCSC membership",
+      category: "general_enquiry" as const,
+      serviceType: "Information Request",
+      status: "completed" as const,
+      unitNumber: null,
+      description: "I would like to know the membership fees for StarCity Sports Centre and what facilities are included.",
+      updates: [
+        { id: "u2", message: "Thank you for your enquiry. SCSC membership fees are: Individual 150,000 MMK/month, Family 250,000 MMK/month. All facilities included. Please visit the sports centre reception to sign up.", author: "StarCity Support", authorType: "staff", createdAt: "2026-04-07T14:00:00Z" },
+      ],
+    },
+  ]);
+
   await db.insert(infoCategoriesTable).values([
     { name: "Estate Rules & Guidelines", icon: "file-text", description: "Community guidelines, by-laws, and estate regulations for all residents.", articleCount: 5 },
     { name: "Utilities & Services", icon: "zap", description: "Information about electricity, water, internet, and waste management services.", articleCount: 4 },
@@ -249,6 +362,14 @@ async function seed() {
       categoryName: cat1.name,
       publishedAt: new Date("2026-01-01T00:00:00Z"),
     },
+  ]);
+
+  await db.insert(faqsTable).values([
+    { question: "How do I pay my monthly service charge?", answer: "You can pay through the Bill Payment section in the app using WavePay or KBZPay. Navigate to Bills, select the invoice, and choose your preferred payment method.", category: "Billing & Payments", isPublished: true, sortOrder: 1 },
+    { question: "How do I book a facility at SCSC?", answer: "Go to the Bookings section from the home screen. Select the facility, choose a date and time slot, confirm the booking details, and proceed with payment.", category: "Facilities", isPublished: true, sortOrder: 2 },
+    { question: "How do I upgrade my account to resident status?", answer: "Visit your Profile and tap 'Upgrade to Resident'. Enter your unit number and Resident ID. Our team will verify and approve your request within 1-2 business days.", category: "Account", isPublished: true, sortOrder: 3 },
+    { question: "What is my Resident ID?", answer: "Your Resident ID is a unique identifier assigned by the estate management office when you registered as a resident. It is printed on your resident welcome letter. Contact the management office if you have lost it.", category: "Account", isPublished: true, sortOrder: 4 },
+    { question: "How do I raise a maintenance request?", answer: "Use the Star Assist feature from the home screen. Select a category (e.g. Electricals, Plumbing), describe the issue, and submit. Our team will respond within 24 hours.", category: "Star Assist", isPublished: true, sortOrder: 5 },
   ]);
 
   await db.insert(notificationsTable).values([
@@ -274,6 +395,10 @@ async function seed() {
   console.log("Demo accounts:");
   console.log("  Guest:    demo@starcity.com / password123");
   console.log("  Resident: resident@starcity.com / password123");
+  console.log("Admin accounts:");
+  console.log("  Admin:    admin@starcity.com / admin123");
+  console.log("  Content:  content@starcity.com / content123");
+  console.log("  Support:  support@starcity.com / support123");
 }
 
 seed().catch(console.error).finally(() => process.exit());

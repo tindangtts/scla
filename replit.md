@@ -51,10 +51,27 @@ Full-stack resident community mobile-style web app for StarCity Estate township 
 - `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
 - `pnpm --filter @workspace/api-server run dev` — run API server locally
 
+## Admin Portal
+
+Full estate management portal at `/admin/` (artifact: `admin`, previewPath `/admin`).
+
+**Admin Modules**: Dashboard, Users, Upgrade Requests, Content (Announcements + Promotions), Tickets, Facilities + Bookings, FAQs, Staff Management
+
+**Admin Auth**: Separate JWT (`ctx: "admin"` header), stored in `localStorage` as `scla_admin_token`, staff users in `staff_users` table.
+
+**Admin API**: All routes at `/api/admin/...`, NOT in OpenAPI spec — uses raw `fetch` calls in the admin frontend.
+
+**Demo Admin Accounts**:
+- Admin: `admin@starcity.com` / `admin123`
+- Content Manager: `content@starcity.com` / `content123`
+- Ticket Handler: `support@starcity.com` / `support123`
+
+**Roles**: `admin`, `content_manager`, `ticket_handler`, `booking_manager`, `user_verifier`
+
 ## Database Schema
 
-Tables: `users`, `upgrade_requests`, `announcements`, `promotions`, `invoices`, `tickets`, `facilities`, `bookings`, `info_categories`, `info_articles`, `notifications`
+Tables: `users`, `upgrade_requests`, `announcements`, `promotions`, `invoices`, `tickets`, `facilities`, `bookings`, `info_categories`, `info_articles`, `notifications`, `staff_users`, `faqs`
 
-Seed data loaded automatically on dev startup (checks before seeding).
+Seed data loaded automatically on dev startup (checks before seeding). Staff users are seeded separately via direct SQL (DB already seeded before staff tables added).
 
 See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details.

@@ -8,3 +8,5 @@ export * from "./facilities";
 export * from "./bookings";
 export * from "./info";
 export * from "./notifications";
+export * from "./staff_users";
+export * from "./faqs";

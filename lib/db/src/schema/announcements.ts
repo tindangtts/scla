@@ -1,8 +1,9 @@
-import { pgTable, text, timestamp, boolean, pgEnum } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, boolean, pgEnum, json } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod/v4";
 
 export const announcementTypeEnum = pgEnum("announcement_type", ["announcement", "newsletter"]);
+export const announcementAudienceEnum = pgEnum("announcement_audience", ["all", "residents_only", "guests_only"]);
 
 export const announcementsTable = pgTable("announcements", {
   id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
@@ -13,6 +14,9 @@ export const announcementsTable = pgTable("announcements", {
   imageUrl: text("image_url"),
   publishedAt: timestamp("published_at").notNull().defaultNow(),
   isPinned: boolean("is_pinned").notNull().default(false),
+  isDraft: boolean("is_draft").notNull().default(false),
+  targetAudience: announcementAudienceEnum("target_audience").notNull().default("all"),
+  tags: json("tags").$type<string[]>().default([]),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 

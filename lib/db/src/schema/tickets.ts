@@ -6,7 +6,7 @@ export const ticketCategoryEnum = pgEnum("ticket_category", [
   "electricals", "plumbing", "housekeeping", "general_enquiry",
   "air_conditioning", "pest_control", "civil_works", "other"
 ]);
-export const ticketStatusEnum = pgEnum("ticket_status", ["open", "in_progress", "completed"]);
+export const ticketStatusEnum = pgEnum("ticket_status", ["open", "in_progress", "completed", "closed"]);
 
 export const ticketsTable = pgTable("tickets", {
   id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
@@ -19,6 +19,7 @@ export const ticketsTable = pgTable("tickets", {
   unitNumber: text("unit_number"),
   description: text("description").notNull(),
   attachmentUrl: text("attachment_url"),
+  assignedTo: text("assigned_to"),
   updates: json("updates").notNull().$type<Array<{
     id: string;
     message: string;
