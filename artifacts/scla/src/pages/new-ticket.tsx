@@ -6,7 +6,7 @@ import { AppLayout } from "@/components/layout/app-layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, HelpCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -14,10 +14,10 @@ const CATEGORIES = [
   { value: "electricals", label: "Electricals" },
   { value: "plumbing", label: "Plumbing" },
   { value: "housekeeping", label: "Housekeeping" },
-  { value: "air_conditioning", label: "Air Conditioning" },
+  { value: "air_conditioning", label: "A/C" },
   { value: "pest_control", label: "Pest Control" },
   { value: "civil_works", label: "Civil Works" },
-  { value: "general_enquiry", label: "General Enquiry" },
+  { value: "general_enquiry", label: "Enquiry" },
   { value: "other", label: "Other" },
 ];
 
@@ -81,100 +81,105 @@ export default function NewTicketPage() {
 
   return (
     <AppLayout>
-      <div className="page-enter">
-        <div className="bg-primary px-4 pt-12 pb-4">
-          <div className="flex items-center gap-3">
-            <button onClick={() => setLocation("/star-assist")} className="p-2 bg-primary-foreground/10 rounded-full" data-testid="button-back">
-              <ChevronLeft className="w-4 h-4 text-primary-foreground" />
+      <div className="page-enter bg-slate-50 min-h-full">
+        <div className="bg-gradient-teal px-5 pt-14 pb-8 rounded-b-[2rem] shadow-md relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-64 h-64 bg-white/5 blur-3xl rounded-full pointer-events-none" />
+          <div className="relative z-10 flex items-center gap-3">
+            <button onClick={() => setLocation("/star-assist")} className="p-2.5 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 transition-colors" data-testid="button-back">
+              <ChevronLeft className="w-5 h-5 text-primary-foreground" />
             </button>
-            <h1 className="text-lg font-semibold text-primary-foreground">New Ticket</h1>
+            <h1 className="text-xl font-extrabold text-primary-foreground tracking-tight">Raise a Ticket</h1>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="px-4 py-4 space-y-4 pb-8">
-          <div className="space-y-1.5">
-            <Label>Title</Label>
-            <Input
-              placeholder="Brief description of your issue"
-              value={form.title}
-              onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
-              required
-              data-testid="input-title"
-            />
-          </div>
-
-          <div className="space-y-1.5">
-            <Label>Category</Label>
-            <div className="grid grid-cols-2 gap-2">
-              {CATEGORIES.map(cat => (
-                <button
-                  key={cat.value}
-                  type="button"
-                  onClick={() => setForm(f => ({ ...f, category: cat.value, serviceType: "" }))}
-                  className={`p-3 rounded-xl border text-sm font-medium text-left transition-all ${
-                    form.category === cat.value
-                      ? "border-primary bg-primary/5 text-primary"
-                      : "border-border text-muted-foreground hover:border-primary/40 hover:text-foreground"
-                  }`}
-                  data-testid={`category-${cat.value}`}
-                >
-                  {cat.label}
-                </button>
-              ))}
+        <form onSubmit={handleSubmit} className="px-5 py-6 space-y-6 pb-12 -mt-4 relative z-20">
+          <div className="bg-card rounded-[1.5rem] p-6 shadow-sm border border-card-border space-y-5">
+            <div className="space-y-2">
+              <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Short Title</Label>
+              <Input
+                placeholder="E.g. Leaking pipe in master bathroom"
+                value={form.title}
+                onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
+                required
+                className="h-12 rounded-xl bg-muted/50 border-transparent focus:bg-background focus:border-primary shadow-sm"
+                data-testid="input-title"
+              />
             </div>
-          </div>
 
-          {form.category && (
-            <div className="space-y-1.5">
-              <Label>Service Type</Label>
-              <div className="grid grid-cols-2 gap-2">
-                {serviceTypes.map(st => (
+            <div className="space-y-3">
+              <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Category</Label>
+              <div className="grid grid-cols-2 gap-2.5">
+                {CATEGORIES.map(cat => (
                   <button
-                    key={st}
+                    key={cat.value}
                     type="button"
-                    onClick={() => setForm(f => ({ ...f, serviceType: st }))}
-                    className={`p-2.5 rounded-xl border text-sm font-medium text-left transition-all ${
-                      form.serviceType === st
-                        ? "border-primary bg-primary/5 text-primary"
-                        : "border-border text-muted-foreground hover:border-primary/40"
+                    onClick={() => setForm(f => ({ ...f, category: cat.value, serviceType: "" }))}
+                    className={`px-3 py-3 rounded-xl border-2 text-sm font-bold text-center transition-all ${
+                      form.category === cat.value
+                        ? "border-primary bg-primary/10 text-primary shadow-inner scale-[0.98]"
+                        : "border-border bg-background text-muted-foreground hover:border-primary/40 hover:text-foreground shadow-sm"
                     }`}
-                    data-testid={`service-type-${st.toLowerCase().replace(/\s+/g, "-")}`}
+                    data-testid={`category-${cat.value}`}
                   >
-                    {st}
+                    {cat.label}
                   </button>
                 ))}
               </div>
             </div>
-          )}
 
-          {(isResident || form.category === "general_enquiry") && (
-            <div className="space-y-1.5">
-              <Label>Unit Number {!isResident && "(optional)"}</Label>
-              <Input
-                placeholder="e.g. A-12-03"
-                value={form.unitNumber}
-                onChange={e => setForm(f => ({ ...f, unitNumber: e.target.value }))}
-                readOnly={isResident && !!user?.unitNumber}
-                data-testid="input-unit"
+            {form.category && (
+              <div className="space-y-3 pt-2 border-t border-border/50 animate-in fade-in slide-in-from-top-2">
+                <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Specific Issue</Label>
+                <div className="grid grid-cols-2 gap-2.5">
+                  {serviceTypes.map(st => (
+                    <button
+                      key={st}
+                      type="button"
+                      onClick={() => setForm(f => ({ ...f, serviceType: st }))}
+                      className={`px-3 py-2.5 rounded-xl border text-[13px] font-bold text-center transition-all ${
+                        form.serviceType === st
+                          ? "border-primary bg-primary text-primary-foreground shadow-md"
+                          : "border-border bg-background text-muted-foreground hover:border-primary/40"
+                      }`}
+                      data-testid={`service-type-${st.toLowerCase().replace(/\s+/g, "-")}`}
+                    >
+                      {st}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {(isResident || form.category === "general_enquiry") && (
+              <div className="space-y-2 pt-2 border-t border-border/50">
+                <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Unit Number {!isResident && "(optional)"}</Label>
+                <Input
+                  placeholder="e.g. A-12-03"
+                  value={form.unitNumber}
+                  onChange={e => setForm(f => ({ ...f, unitNumber: e.target.value }))}
+                  readOnly={isResident && !!user?.unitNumber}
+                  className="h-12 rounded-xl bg-muted/50 border-transparent focus:bg-background focus:border-primary shadow-sm"
+                  data-testid="input-unit"
+                />
+              </div>
+            )}
+
+            <div className="space-y-2 pt-2 border-t border-border/50">
+              <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Description</Label>
+              <textarea
+                className="w-full min-h-[140px] p-4 text-sm font-medium border-transparent rounded-2xl bg-muted/50 resize-none focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary shadow-inner"
+                placeholder="Please describe your issue in detail..."
+                value={form.description}
+                onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
+                required
+                data-testid="input-description"
               />
             </div>
-          )}
-
-          <div className="space-y-1.5">
-            <Label>Description</Label>
-            <textarea
-              className="w-full min-h-[120px] px-3 py-2 text-sm border border-input rounded-xl bg-background resize-none focus:outline-none focus:ring-2 focus:ring-ring"
-              placeholder="Please describe your issue in detail..."
-              value={form.description}
-              onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
-              required
-              data-testid="input-description"
-            />
           </div>
 
           <Button
             type="submit"
-            className="w-full h-12 text-base font-semibold"
+            className="w-full h-14 rounded-2xl text-base font-extrabold shadow-lg shadow-primary/20"
             disabled={createMutation.isPending}
             data-testid="button-submit-ticket"
           >

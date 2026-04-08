@@ -3,7 +3,7 @@ import { useLocation } from "wouter";
 import { useListFacilities, getListFacilitiesQueryKey, useListBookings, getListBookingsQueryKey } from "@workspace/api-client-react";
 import { AppLayout } from "@/components/layout/app-layout";
 import { formatMMK } from "@/lib/format";
-import { ChevronRight, Calendar, Dumbbell } from "lucide-react";
+import { ChevronRight, Calendar, Dumbbell, MapPin, Clock } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const FACILITY_ICONS: Record<string, string> = {
@@ -26,91 +26,98 @@ export default function BookingsPage() {
 
   return (
     <AppLayout>
-      <div className="page-enter">
-        <div className="bg-primary px-4 pt-12 pb-4">
-          <h1 className="text-lg font-semibold text-primary-foreground mb-4">SCSC Bookings</h1>
-          <div className="flex gap-1 bg-primary-foreground/10 p-1 rounded-xl">
+      <div className="page-enter bg-slate-50 min-h-full">
+        <div className="bg-gradient-teal px-5 pt-14 pb-8 rounded-b-[2.5rem] shadow-md relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 blur-3xl rounded-full" />
+          
+          <h1 className="text-2xl font-black text-primary-foreground tracking-tight mb-5 relative z-10">SCSC Bookings</h1>
+          
+          <div className="flex gap-2 bg-black/20 p-1.5 rounded-2xl backdrop-blur-md relative z-10">
             {(["facilities", "mybookings"] as const).map(t => (
               <button
                 key={t}
                 onClick={() => setTab(t)}
-                className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${
-                  tab === t ? "bg-primary-foreground text-primary shadow-sm" : "text-primary-foreground/70"
+                className={`flex-1 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 ${
+                  tab === t 
+                    ? "bg-white text-primary shadow-md scale-[1.02]" 
+                    : "text-white/80 hover:text-white hover:bg-white/10"
                 }`}
                 data-testid={`tab-${t}`}
               >
+                {t === "facilities" ? <MapPin className="w-4 h-4" /> : <Calendar className="w-4 h-4" />}
                 {t === "facilities" ? "Facilities" : "My Bookings"}
               </button>
             ))}
           </div>
         </div>
 
-        <div className="px-4 py-4 pb-6 space-y-3">
+        <div className="px-5 py-6 pb-10 space-y-4">
           {tab === "facilities" ? (
             facLoading ? (
-              <div className="space-y-3">
-                {[1, 2, 3].map(i => <Skeleton key={i} className="h-28 w-full rounded-xl" />)}
+              <div className="space-y-4">
+                {[1, 2, 3].map(i => <Skeleton key={i} className="h-32 w-full rounded-[1.5rem]" />)}
               </div>
             ) : (facilities ?? []).map(facility => (
               <div
                 key={facility.id}
-                className="bg-card border border-card-border rounded-xl p-4 cursor-pointer hover:bg-muted transition-colors"
+                className="bg-card border border-card-border rounded-[1.5rem] p-5 cursor-pointer shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
                 onClick={() => setLocation(`/bookings/${facility.id}`)}
                 data-testid={`card-facility-${facility.id}`}
               >
                 <div className="flex items-start gap-4">
-                  <div className="w-14 h-14 bg-primary/10 rounded-xl flex-shrink-0 flex flex-col items-center justify-center">
-                    <Dumbbell className="w-5 h-5 text-primary mb-0.5" />
-                    <span className="text-[9px] text-primary font-medium text-center leading-tight">
+                  <div className="w-16 h-16 bg-primary/10 rounded-2xl flex-shrink-0 flex flex-col items-center justify-center border border-primary/20">
+                    <Dumbbell className="w-6 h-6 text-primary mb-1" />
+                    <span className="text-[9px] text-primary font-black uppercase tracking-wider text-center leading-tight">
                       {FACILITY_ICONS[facility.category] ?? "Sport"}
                     </span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-sm text-foreground">{facility.name}</p>
-                    <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">{facility.description}</p>
-                    <div className="flex items-center gap-3 mt-2 text-xs">
-                      <span className="text-primary font-medium">From {formatMMK(facility.nonMemberRate)}/hr</span>
-                      <span className="text-muted-foreground">{facility.openingTime}–{facility.closingTime}</span>
+                    <p className="font-extrabold text-base text-foreground leading-tight">{facility.name}</p>
+                    <p className="text-xs font-medium text-muted-foreground mt-1 line-clamp-2 leading-relaxed">{facility.description}</p>
+                    <div className="flex items-center gap-3 mt-3 pt-3 border-t border-border/50">
+                      <span className="text-xs font-bold text-primary bg-primary/5 px-2 py-1 rounded-md">{formatMMK(facility.nonMemberRate)}/hr</span>
+                      <span className="text-xs font-bold text-muted-foreground flex items-center gap-1"><Clock className="w-3 h-3" /> {facility.openingTime}–{facility.closingTime}</span>
                     </div>
                   </div>
-                  <ChevronRight className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-1" />
                 </div>
               </div>
             ))
           ) : (
             bookLoading ? (
-              <div className="space-y-3">
-                {[1, 2].map(i => <Skeleton key={i} className="h-24 w-full rounded-xl" />)}
+              <div className="space-y-4">
+                {[1, 2].map(i => <Skeleton key={i} className="h-28 w-full rounded-[1.5rem]" />)}
               </div>
             ) : !bookings || bookings.length === 0 ? (
-              <div className="text-center py-16">
-                <Calendar className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
-                <p className="font-medium text-foreground">No bookings yet</p>
-                <p className="text-muted-foreground text-sm mt-1">Browse facilities to make your first booking.</p>
+              <div className="text-center py-20 px-4">
+                <div className="w-20 h-20 bg-muted rounded-full flex items-center justify-center mx-auto mb-5 shadow-inner">
+                  <Calendar className="w-10 h-10 text-muted-foreground/50" />
+                </div>
+                <p className="font-extrabold text-xl text-foreground">No bookings yet</p>
+                <p className="text-muted-foreground font-medium text-sm mt-2">Browse facilities to make your first booking.</p>
               </div>
             ) : (
               bookings.map(booking => (
                 <div
                   key={booking.id}
-                  className="bg-card border border-card-border rounded-xl p-4"
+                  className="bg-card border border-card-border rounded-[1.5rem] p-5 shadow-sm hover:shadow-md transition-shadow"
                   data-testid={`card-booking-${booking.id}`}
                 >
                   <div className="flex items-start justify-between">
                     <div>
-                      <span className={`text-xs font-medium px-2 py-0.5 rounded-full mb-2 inline-block ${
-                        booking.status === "upcoming" ? "badge-upcoming" :
-                        booking.status === "completed" ? "badge-completed" : "badge-cancelled"
+                      <span className={`text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-md mb-3 inline-block ${
+                        booking.status === "upcoming" ? "bg-blue-500/10 text-blue-700" :
+                        booking.status === "completed" ? "bg-emerald-500/10 text-emerald-700" : "bg-muted text-muted-foreground"
                       }`}>
-                        {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
+                        {booking.status}
                       </span>
-                      <p className="font-semibold text-sm text-foreground">{booking.facilityName}</p>
-                      <p className="text-xs text-muted-foreground mt-0.5">
-                        {booking.date} · {booking.startTime}–{booking.endTime}
+                      <p className="font-extrabold text-base text-foreground leading-tight">{booking.facilityName}</p>
+                      <p className="text-sm font-bold text-muted-foreground mt-1.5 flex items-center gap-1.5">
+                        <Calendar className="w-3.5 h-3.5" /> {booking.date} · {booking.startTime}–{booking.endTime}
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="font-semibold text-sm">{formatMMK(booking.totalAmount)}</p>
-                      <p className="text-xs text-muted-foreground">{booking.bookingNumber}</p>
+                      <p className="font-black text-base text-foreground tracking-tight">{formatMMK(booking.totalAmount)}</p>
+                      <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-1">#{booking.bookingNumber}</p>
                     </div>
                   </div>
                 </div>

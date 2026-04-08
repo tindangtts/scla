@@ -3,7 +3,7 @@ import { useLocation } from "wouter";
 import { useListInvoices, getListInvoicesQueryKey, useGetInvoiceSummary, getGetInvoiceSummaryQueryKey } from "@workspace/api-client-react";
 import { AppLayout } from "@/components/layout/app-layout";
 import { formatMMK, formatDate, getStatusBadgeClass, getStatusLabel } from "@/lib/format";
-import { ChevronRight, ChevronLeft } from "lucide-react";
+import { ChevronRight, ChevronLeft, FileText } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const STATUS_FILTERS = [
@@ -35,36 +35,42 @@ export default function BillsPage() {
   return (
     <AppLayout>
       <div className="page-enter">
-        <div className="bg-primary px-4 pt-12 pb-6">
-          <div className="flex items-center gap-3 mb-4">
-            <button onClick={() => setLocation("/")} className="p-2 bg-primary-foreground/10 rounded-full" data-testid="button-back">
-              <ChevronLeft className="w-4 h-4 text-primary-foreground" />
+        <div className="bg-gradient-teal px-5 pt-14 pb-8 rounded-b-[2rem] shadow-md relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 blur-3xl rounded-full" />
+          
+          <div className="relative z-10 flex items-center gap-3 mb-6">
+            <button onClick={() => setLocation("/")} className="p-2.5 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 transition-colors" data-testid="button-back">
+              <ChevronLeft className="w-5 h-5 text-primary-foreground" />
             </button>
-            <h1 className="text-lg font-semibold text-primary-foreground">Bill Payment</h1>
+            <h1 className="text-xl font-extrabold text-primary-foreground tracking-tight">Bill Payment</h1>
           </div>
+          
           {summary && (
-            <div className="bg-primary-foreground/10 rounded-xl p-4">
-              <p className="text-primary-foreground/70 text-xs">Total Outstanding</p>
-              <p className="text-primary-foreground text-2xl font-bold mt-1" data-testid="text-total-outstanding">
+            <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-[1.5rem] p-5 shadow-inner">
+              <p className="text-primary-foreground/80 text-xs font-bold uppercase tracking-wider">Total Outstanding</p>
+              <p className="text-primary-foreground text-3xl font-black mt-1.5 tracking-tight" data-testid="text-total-outstanding">
                 {formatMMK(summary.totalOutstanding)}
               </p>
-              <div className="flex gap-4 mt-2 text-xs text-primary-foreground/60">
-                <span>{summary.unpaidCount + summary.partiallyPaidCount} invoice{(summary.unpaidCount + summary.partiallyPaidCount) !== 1 ? "s" : ""} due</span>
+              <div className="flex gap-4 mt-3 pt-3 border-t border-white/10 text-xs font-medium text-primary-foreground/90">
+                <span className="flex items-center gap-1.5">
+                  <div className="w-2 h-2 rounded-full bg-accent" />
+                  {summary.unpaidCount + summary.partiallyPaidCount} pending invoice{(summary.unpaidCount + summary.partiallyPaidCount) !== 1 ? "s" : ""}
+                </span>
               </div>
             </div>
           )}
         </div>
 
         {/* Status filter */}
-        <div className="px-4 py-3 flex gap-2 overflow-x-auto">
+        <div className="px-5 py-5 flex gap-2.5 overflow-x-auto no-scrollbar -mt-2">
           {STATUS_FILTERS.map(f => (
             <button
               key={f.label}
               onClick={() => setStatusFilter(f.value)}
-              className={`px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
+              className={`px-5 py-2.5 rounded-full text-sm font-bold whitespace-nowrap transition-all shadow-sm ${
                 statusFilter === f.value
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-card border border-border text-muted-foreground hover:text-foreground"
+                  ? "bg-primary text-primary-foreground scale-105"
+                  : "bg-card border border-border text-muted-foreground hover:bg-muted hover:text-foreground"
               }`}
               data-testid={`filter-${f.label.toLowerCase()}`}
             >
@@ -73,53 +79,58 @@ export default function BillsPage() {
           ))}
         </div>
 
-        <div className="px-4 pb-6 space-y-6">
+        <div className="px-5 pb-8 space-y-8">
           {isLoading ? (
-            <div className="space-y-3">
-              {[1, 2, 3].map(i => <Skeleton key={i} className="h-24 w-full rounded-xl" />)}
+            <div className="space-y-4">
+              {[1, 2, 3].map(i => <Skeleton key={i} className="h-28 w-full rounded-2xl" />)}
             </div>
           ) : Object.keys(grouped).length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground text-sm">No invoices found</p>
+            <div className="text-center py-16 px-4">
+              <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
+                <FileText className="w-8 h-8 text-muted-foreground/50" />
+              </div>
+              <p className="text-foreground font-bold text-lg">No invoices found</p>
+              <p className="text-muted-foreground font-medium text-sm mt-1">You're all caught up with your bills.</p>
             </div>
           ) : (
             Object.entries(grouped)
               .sort(([a], [b]) => b.localeCompare(a))
               .map(([month, monthInvoices]) => (
                 <div key={month}>
-                  <h2 className="text-sm font-semibold text-muted-foreground mb-2 uppercase tracking-wide">
+                  <h2 className="text-sm font-extrabold text-foreground mb-3 uppercase tracking-wider flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary" />
                     {new Date(month + "-01").toLocaleDateString("en-GB", { month: "long", year: "numeric" })}
                   </h2>
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     {monthInvoices!.map(inv => (
                       <div
                         key={inv.id}
-                        className="bg-card border border-card-border rounded-xl p-4 cursor-pointer hover:bg-muted transition-colors"
+                        className="bg-card border border-card-border rounded-2xl p-5 cursor-pointer shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
                         onClick={() => setLocation(`/bills/${inv.id}`)}
                         data-testid={`card-invoice-${inv.id}`}
                       >
-                        <div className="flex items-start justify-between gap-3">
-                          <div className="min-w-0">
-                            <div className="flex items-center gap-2 mb-1">
-                              <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${getStatusBadgeClass(inv.status)}`}>
+                        <div className="flex items-start justify-between gap-4">
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center gap-2 mb-2">
+                              <span className={`text-[10px] font-bold px-2.5 py-1 uppercase tracking-wide rounded-md ${getStatusBadgeClass(inv.status)}`}>
                                 {getStatusLabel(inv.status)}
                               </span>
                             </div>
-                            <p className="font-medium text-sm text-foreground">{inv.description}</p>
-                            <p className="text-xs text-muted-foreground mt-1">
-                              {inv.invoiceNumber} · Due {formatDate(inv.dueDate)}
+                            <p className="font-bold text-base text-foreground leading-tight">{inv.description}</p>
+                            <p className="text-xs font-medium text-muted-foreground mt-1.5">
+                              #{inv.invoiceNumber} · Due {formatDate(inv.dueDate)}
                             </p>
                           </div>
-                          <div className="flex items-center gap-2 flex-shrink-0">
+                          <div className="flex items-center gap-3 flex-shrink-0">
                             <div className="text-right">
-                              <p className="font-semibold text-sm" data-testid={`text-amount-${inv.id}`}>
+                              <p className="font-black text-base text-foreground tracking-tight" data-testid={`text-amount-${inv.id}`}>
                                 {formatMMK(inv.totalAmount)}
                               </p>
                               {inv.paidAmount > 0 && inv.paidAmount < inv.totalAmount && (
-                                <p className="text-xs text-muted-foreground">Paid: {formatMMK(inv.paidAmount)}</p>
+                                <p className="text-[11px] font-bold text-emerald-600 mt-1">Paid: {formatMMK(inv.paidAmount)}</p>
                               )}
                             </div>
-                            <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                            <ChevronRight className="w-5 h-5 text-muted-foreground/50" />
                           </div>
                         </div>
                       </div>

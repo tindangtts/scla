@@ -3,7 +3,7 @@ import { useLocation } from "wouter";
 import { useListTickets, getListTicketsQueryKey, useGetTicketSummary, getGetTicketSummaryQueryKey } from "@workspace/api-client-react";
 import { AppLayout } from "@/components/layout/app-layout";
 import { formatDateTime, getStatusBadgeClass, getStatusLabel } from "@/lib/format";
-import { ChevronRight, Plus, Ticket } from "lucide-react";
+import { ChevronRight, Plus, Ticket, HelpCircle } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const STATUS_FILTERS = [
@@ -35,43 +35,49 @@ export default function StarAssistPage() {
   return (
     <AppLayout>
       <div className="page-enter">
-        <div className="bg-primary px-4 pt-12 pb-4">
-          <div className="flex items-center justify-between mb-4">
-            <h1 className="text-lg font-semibold text-primary-foreground">Star Assist</h1>
+        <div className="bg-gradient-teal px-5 pt-14 pb-8 rounded-b-[2rem] shadow-md relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-64 h-64 bg-white/5 blur-3xl rounded-full" />
+          
+          <div className="relative z-10 flex items-center justify-between mb-6">
+            <div className="flex items-center gap-2">
+              <HelpCircle className="w-6 h-6 text-accent" />
+              <h1 className="text-xl font-extrabold text-primary-foreground tracking-tight">Star Assist</h1>
+            </div>
             <button
               onClick={() => setLocation("/star-assist/new")}
-              className="flex items-center gap-1.5 bg-accent text-accent-foreground px-3 py-1.5 rounded-full text-sm font-medium"
+              className="flex items-center gap-1.5 bg-accent text-accent-foreground px-4 py-2 rounded-full text-sm font-bold shadow-lg hover:scale-105 transition-transform"
               data-testid="button-new-ticket"
             >
               <Plus className="w-4 h-4" />
               New Ticket
             </button>
           </div>
+          
           {summary && (
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-3 relative z-10">
               {[
-                { label: "Open", value: summary.openCount, cls: "bg-red-500/20 text-red-100" },
-                { label: "In Progress", value: summary.inProgressCount, cls: "bg-amber-500/20 text-amber-100" },
-                { label: "Completed", value: summary.completedCount, cls: "bg-emerald-500/20 text-emerald-100" },
+                { label: "Open", value: summary.openCount, cls: "bg-white/10 text-white" },
+                { label: "In Progress", value: summary.inProgressCount, cls: "bg-white/10 text-white" },
+                { label: "Completed", value: summary.completedCount, cls: "bg-white/10 text-white" },
               ].map(s => (
-                <div key={s.label} className={`${s.cls} rounded-lg p-2.5 text-center`}>
-                  <p className="text-lg font-bold">{s.value}</p>
-                  <p className="text-xs opacity-80">{s.label}</p>
+                <div key={s.label} className={`${s.cls} rounded-2xl p-3 text-center border border-white/10 backdrop-blur-sm`}>
+                  <p className="text-2xl font-black tracking-tight">{s.value}</p>
+                  <p className="text-[10px] font-bold uppercase tracking-wider opacity-80 mt-0.5">{s.label}</p>
                 </div>
               ))}
             </div>
           )}
         </div>
 
-        <div className="px-4 py-3 flex gap-2 overflow-x-auto">
+        <div className="px-5 py-5 flex gap-2.5 overflow-x-auto no-scrollbar -mt-2">
           {STATUS_FILTERS.map(f => (
             <button
               key={f.label}
               onClick={() => setStatusFilter(f.value)}
-              className={`px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
+              className={`px-5 py-2.5 rounded-full text-sm font-bold whitespace-nowrap transition-all shadow-sm ${
                 statusFilter === f.value
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-card border border-border text-muted-foreground hover:text-foreground"
+                  ? "bg-primary text-primary-foreground scale-105"
+                  : "bg-card border border-border text-muted-foreground hover:bg-muted hover:text-foreground"
               }`}
               data-testid={`filter-${f.label.toLowerCase().replace(" ", "-")}`}
             >
@@ -80,21 +86,21 @@ export default function StarAssistPage() {
           ))}
         </div>
 
-        <div className="px-4 pb-6 space-y-2">
+        <div className="px-5 pb-8 space-y-4">
           {isLoading ? (
-            <div className="space-y-3">
-              {[1, 2, 3].map(i => <Skeleton key={i} className="h-24 w-full rounded-xl" />)}
+            <div className="space-y-4">
+              {[1, 2, 3].map(i => <Skeleton key={i} className="h-32 w-full rounded-2xl" />)}
             </div>
           ) : !tickets || tickets.length === 0 ? (
-            <div className="text-center py-16">
-              <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center mx-auto mb-3">
-                <Ticket className="w-6 h-6 text-muted-foreground" />
+            <div className="text-center py-20 px-4">
+              <div className="w-20 h-20 bg-muted rounded-full flex items-center justify-center mx-auto mb-5 shadow-inner">
+                <Ticket className="w-10 h-10 text-muted-foreground/50" />
               </div>
-              <p className="font-medium text-foreground">No tickets yet</p>
-              <p className="text-muted-foreground text-sm mt-1">Tap "New Ticket" to report an issue or make an enquiry.</p>
+              <p className="font-extrabold text-xl text-foreground">No tickets yet</p>
+              <p className="text-muted-foreground font-medium text-sm mt-2 leading-relaxed max-w-[250px] mx-auto">Need help with your unit or have a general enquiry?</p>
               <button
                 onClick={() => setLocation("/star-assist/new")}
-                className="mt-4 px-6 py-2 bg-primary text-primary-foreground rounded-full text-sm font-medium"
+                className="mt-6 px-6 py-3 bg-primary text-primary-foreground rounded-2xl text-sm font-bold shadow-lg shadow-primary/20 hover:bg-primary/90 transition-colors"
                 data-testid="button-create-first-ticket"
               >
                 Create your first ticket
@@ -104,24 +110,31 @@ export default function StarAssistPage() {
             tickets.map(ticket => (
               <div
                 key={ticket.id}
-                className="bg-card border border-card-border rounded-xl p-4 cursor-pointer hover:bg-muted transition-colors"
+                className="bg-card border border-card-border rounded-2xl p-5 cursor-pointer shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
                 onClick={() => setLocation(`/star-assist/${ticket.id}`)}
                 data-testid={`card-ticket-${ticket.id}`}
               >
-                <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${getStatusBadgeClass(ticket.status)}`}>
+                <div className="flex items-start justify-between gap-4">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-3 mb-2.5">
+                      <span className={`text-[10px] font-bold px-2.5 py-1 uppercase tracking-wide rounded-md ${getStatusBadgeClass(ticket.status)}`}>
                         {getStatusLabel(ticket.status)}
                       </span>
-                      <span className="text-xs text-muted-foreground">{ticket.ticketNumber}</span>
+                      <span className="text-xs font-bold text-muted-foreground/70 uppercase tracking-widest">{ticket.ticketNumber}</span>
                     </div>
-                    <p className="font-medium text-sm text-foreground line-clamp-1">{ticket.title}</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">
-                      {categoryLabels[ticket.category] ?? ticket.category} · {formatDateTime(ticket.createdAt)}
-                    </p>
+                    <p className="font-extrabold text-base text-foreground line-clamp-1 leading-snug">{ticket.title}</p>
+                    <div className="flex items-center gap-2 mt-2">
+                      <span className="text-xs font-semibold text-primary bg-primary/5 px-2 py-0.5 rounded-md">
+                        {categoryLabels[ticket.category] ?? ticket.category}
+                      </span>
+                      <span className="text-xs font-medium text-muted-foreground/70">
+                        {formatDateTime(ticket.createdAt)}
+                      </span>
+                    </div>
                   </div>
-                  <ChevronRight className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-1" />
+                  <div className="p-2 bg-muted/50 rounded-full mt-1">
+                    <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                  </div>
                 </div>
               </div>
             ))

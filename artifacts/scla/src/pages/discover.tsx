@@ -3,7 +3,7 @@ import { useLocation } from "wouter";
 import { useListAnnouncements, getListAnnouncementsQueryKey, useListPromotions, getListPromotionsQueryKey } from "@workspace/api-client-react";
 import { AppLayout } from "@/components/layout/app-layout";
 import { formatDate } from "@/lib/format";
-import { ChevronRight, Pin } from "lucide-react";
+import { ChevronRight, Pin, Megaphone, Tag } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function DiscoverPage() {
@@ -22,81 +22,83 @@ export default function DiscoverPage() {
 
   return (
     <AppLayout>
-      <div className="page-enter">
-        <div className="bg-primary px-4 pt-12 pb-4">
-          <h1 className="text-lg font-semibold text-primary-foreground mb-4">Discover</h1>
-          <div className="flex gap-1 bg-primary-foreground/10 p-1 rounded-xl">
+      <div className="page-enter bg-slate-50 min-h-full">
+        <div className="bg-gradient-teal px-5 pt-14 pb-8 rounded-b-[2.5rem] shadow-md relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 blur-3xl rounded-full" />
+          
+          <h1 className="text-2xl font-black text-primary-foreground tracking-tight mb-5 relative z-10">Discover StarCity</h1>
+          
+          <div className="flex gap-2 bg-black/20 p-1.5 rounded-2xl backdrop-blur-md relative z-10">
             {(["announcements", "offers"] as const).map(t => (
               <button
                 key={t}
                 onClick={() => setTab(t)}
-                className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all capitalize ${
-                  tab === t ? "bg-primary-foreground text-primary shadow-sm" : "text-primary-foreground/70"
+                className={`flex-1 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 ${
+                  tab === t 
+                    ? "bg-white text-primary shadow-md scale-[1.02]" 
+                    : "text-white/80 hover:text-white hover:bg-white/10"
                 }`}
                 data-testid={`tab-${t}`}
               >
+                {t === "announcements" ? <Megaphone className="w-4 h-4" /> : <Tag className="w-4 h-4" />}
                 {t === "announcements" ? "Notices" : "Offers"}
               </button>
             ))}
           </div>
         </div>
 
-        <div className="px-4 py-4 pb-6 space-y-3">
+        <div className="px-5 py-6 pb-10 space-y-4">
           {tab === "announcements" ? (
             annLoading ? (
-              <div className="space-y-3">
-                {[1, 2, 3].map(i => <Skeleton key={i} className="h-24 w-full rounded-xl" />)}
+              <div className="space-y-4">
+                {[1, 2, 3].map(i => <Skeleton key={i} className="h-32 w-full rounded-[1.5rem]" />)}
               </div>
             ) : (announcements ?? []).map(ann => (
               <div
                 key={ann.id}
-                className="bg-card border border-card-border rounded-xl p-4 cursor-pointer hover:bg-muted transition-colors"
+                className="bg-card border border-card-border rounded-[1.5rem] p-5 cursor-pointer shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
                 onClick={() => setLocation(`/discover/${ann.id}`)}
                 data-testid={`card-announcement-${ann.id}`}
               >
-                <div className="flex items-start justify-between gap-3">
+                <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      {ann.isPinned && <Pin className="w-3 h-3 text-amber-600 flex-shrink-0" />}
-                      <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
-                        ann.type === "newsletter" ? "bg-blue-100 text-blue-700" : "bg-amber-100 text-amber-700"
+                    <div className="flex items-center gap-2 mb-2.5">
+                      {ann.isPinned && <Pin className="w-3.5 h-3.5 text-accent-foreground flex-shrink-0" />}
+                      <span className={`text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-md ${
+                        ann.type === "newsletter" ? "bg-blue-500/10 text-blue-700" : "bg-accent/20 text-accent-foreground"
                       }`}>
                         {ann.type === "newsletter" ? "Newsletter" : "Notice"}
                       </span>
                     </div>
-                    <p className="font-medium text-sm text-foreground line-clamp-2">{ann.title}</p>
-                    <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{ann.summary}</p>
-                    <p className="text-xs text-muted-foreground mt-1">{formatDate(ann.publishedAt)}</p>
+                    <p className="font-extrabold text-base text-foreground leading-snug line-clamp-2">{ann.title}</p>
+                    <p className="text-sm font-medium text-muted-foreground mt-1.5 line-clamp-2 leading-relaxed">{ann.summary}</p>
+                    <p className="text-[11px] font-bold text-muted-foreground/70 mt-3 uppercase tracking-wider">{formatDate(ann.publishedAt)}</p>
                   </div>
-                  <ChevronRight className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-1" />
                 </div>
               </div>
             ))
           ) : (
             promoLoading ? (
-              <div className="space-y-3">
-                {[1, 2, 3].map(i => <Skeleton key={i} className="h-24 w-full rounded-xl" />)}
+              <div className="space-y-4">
+                {[1, 2, 3].map(i => <Skeleton key={i} className="h-28 w-full rounded-[1.5rem]" />)}
               </div>
             ) : (promotions ?? []).map(promo => (
               <div
                 key={promo.id}
-                className="bg-card border border-card-border rounded-xl p-4 cursor-pointer hover:bg-muted transition-colors"
+                className="bg-card border border-card-border rounded-[1.5rem] p-5 cursor-pointer shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
                 onClick={() => setLocation(`/discover/${promo.id}`)}
                 data-testid={`card-promo-${promo.id}`}
               >
-                <div className="flex items-start gap-3">
-                  <div className="w-12 h-12 bg-accent/15 rounded-xl flex-shrink-0 flex items-center justify-center">
-                    <span className="text-accent font-bold text-lg">%</span>
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 bg-gradient-gold rounded-2xl flex-shrink-0 flex items-center justify-center shadow-inner">
+                    <span className="text-accent-foreground font-black text-2xl">%</span>
                   </div>
                   <div className="min-w-0 flex-1">
-                    <span className="text-xs font-medium px-2 py-0.5 bg-accent/10 text-accent rounded-full">{promo.category}</span>
-                    <p className="font-medium text-sm text-foreground mt-1 line-clamp-1">{promo.title}</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">{promo.partnerName}</p>
-                    {promo.validUntil && (
-                      <p className="text-xs text-muted-foreground mt-0.5">Valid until {formatDate(promo.validUntil)}</p>
-                    )}
+                    <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-1 bg-muted text-muted-foreground rounded-md mb-1.5 inline-block">{promo.category}</span>
+                    <p className="font-extrabold text-base text-foreground leading-tight line-clamp-1">{promo.title}</p>
+                    <p className="text-sm font-bold text-muted-foreground mt-1">{promo.partnerName}</p>
                   </div>
-                  <ChevronRight className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-1" />
+                  <ChevronRight className="w-5 h-5 text-muted-foreground/50 flex-shrink-0" />
                 </div>
               </div>
             ))
