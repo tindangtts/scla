@@ -10,8 +10,41 @@ function hashPassword(password: string): string {
   return crypto.createHash("sha256").update(password + "scla-salt").digest("hex");
 }
 
+async function seedStaffUsers() {
+  const existingStaff = await db.select().from(staffUsersTable).limit(1);
+  if (existingStaff.length > 0) return;
+
+  console.log("Seeding staff users...");
+  await db.insert(staffUsersTable).values([
+    {
+      name: "U Kyaw Zin",
+      email: "admin@starcity.com",
+      passwordHash: hashPassword("admin123"),
+      role: "admin" as const,
+      isActive: true,
+    },
+    {
+      name: "Ma Su Su",
+      email: "content@starcity.com",
+      passwordHash: hashPassword("content123"),
+      role: "content_manager" as const,
+      isActive: true,
+    },
+    {
+      name: "Ko Nay Lin",
+      email: "support@starcity.com",
+      passwordHash: hashPassword("support123"),
+      role: "ticket_handler" as const,
+      isActive: true,
+    },
+  ]);
+  console.log("Staff users seeded.");
+}
+
 async function seed() {
   console.log("Seeding database...");
+
+  await seedStaffUsers();
 
   const existingUsers = await db.select().from(usersTable).limit(1);
   if (existingUsers.length > 0) {
@@ -67,30 +100,6 @@ async function seed() {
     developmentName: "Estella",
     status: "pending",
   });
-
-  await db.insert(staffUsersTable).values([
-    {
-      name: "U Kyaw Zin",
-      email: "admin@starcity.com",
-      passwordHash: hashPassword("admin123"),
-      role: "admin" as const,
-      isActive: true,
-    },
-    {
-      name: "Ma Su Su",
-      email: "content@starcity.com",
-      passwordHash: hashPassword("content123"),
-      role: "content_manager" as const,
-      isActive: true,
-    },
-    {
-      name: "Ko Nay Lin",
-      email: "support@starcity.com",
-      passwordHash: hashPassword("support123"),
-      role: "ticket_handler" as const,
-      isActive: true,
-    },
-  ]);
 
   await db.insert(announcementsTable).values([
     {
