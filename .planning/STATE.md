@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Production-Ready
 status: verifying
-stopped_at: Completed 11-02-PLAN.md (rate limiting)
-last_updated: "2026-04-10T08:45:49.907Z"
+stopped_at: Completed 11-03-PLAN.md (security headers + CORS hardening)
+last_updated: "2026-04-10T08:45:56.753Z"
 last_activity: 2026-04-10
 progress:
   total_phases: 4
@@ -70,6 +70,8 @@ Recent decisions affecting current work:
 - [Phase 11]: Re-hash-on-login strategy enables zero-downtime migration from SHA256 to bcrypt without forced password resets
 - [Phase 11]: Admin JWT expiry reduced from 24 hours to 8 hours per security hardening requirements
 - [Phase 11]: express-rate-limit v8 used for per-IP auth rate limiting (5 req/min); in-memory store acceptable for single-instance Replit
+- [Phase 11]: helmet() placed before pinoHttp to ensure security headers apply even if logger throws
+- [Phase 11]: CORS tightened from open to allowlist: localhost:5173, localhost:3000, and ALLOWED_ORIGIN env var for Replit deployment
 
 ### Pending Todos
 
@@ -81,6 +83,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-10T08:45:39.642Z
-Stopped at: Completed 11-02-PLAN.md (rate limiting)
+Last session: 2026-04-10T08:45:56.750Z
+Stopped at: Completed 11-03-PLAN.md (security headers + CORS hardening)
 Resume file: None
