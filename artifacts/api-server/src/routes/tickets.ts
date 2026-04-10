@@ -1,16 +1,11 @@
 import { Router } from "express";
+import type { Request, Response } from "express";
 import { db } from "@workspace/db";
 import { ticketsTable } from "@workspace/db";
 import { eq, desc, sql } from "drizzle-orm";
-import * as jwt from "../lib/jwt.js";
+import { requireAuth, type AuthenticatedRequest } from "../lib/auth-middleware.js";
 
 const router = Router();
-
-function requireAuth(req: any, res: any) {
-  const authHeader = req.headers.authorization;
-  if (!authHeader?.startsWith("Bearer ")) return null;
-  return jwt.verify(authHeader.slice(7));
-}
 
 function mapTicket(t: typeof ticketsTable.$inferSelect) {
   return {
@@ -29,11 +24,10 @@ function mapTicket(t: typeof ticketsTable.$inferSelect) {
   };
 }
 
-router.get("/summary", async (req, res) => {
-  const payload = requireAuth(req, res);
-  if (!payload) return res.status(401).json({ error: "unauthorized" });
+router.get("/summary", requireAuth, async (req: Request, res: Response) => {
+  const { user } = req as AuthenticatedRequest;
 
-  const tickets = await db.select().from(ticketsTable).where(eq(ticketsTable.userId, payload.userId));
+  const tickets = await db.select().from(ticketsTable).where(eq(ticketsTable.userId, user.id));
   const now = new Date();
   const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
 
@@ -45,22 +39,20 @@ router.get("/summary", async (req, res) => {
   });
 });
 
-router.get("/", async (req, res) => {
-  const payload = requireAuth(req, res);
-  if (!payload) return res.status(401).json({ error: "unauthorized" });
+router.get("/", requireAuth, async (req: Request, res: Response) => {
+  const { user } = req as AuthenticatedRequest;
 
   const { status } = req.query as { status?: string };
   let tickets = await db.select().from(ticketsTable)
-    .where(eq(ticketsTable.userId, payload.userId))
+    .where(eq(ticketsTable.userId, user.id))
     .orderBy(desc(ticketsTable.createdAt));
 
   if (status) tickets = tickets.filter(t => t.status === status);
   return res.json(tickets.map(mapTicket));
 });
 
-router.post("/", async (req, res) => {
-  const payload = requireAuth(req, res);
-  if (!payload) return res.status(401).json({ error: "unauthorized" });
+router.post("/", requireAuth, async (req: Request, res: Response) => {
+  const { user } = req as AuthenticatedRequest;
 
   const { title, category, serviceType, unitNumber, description, attachmentUrl } = req.body;
   if (!title || !category || !serviceType || !description) {
@@ -74,7 +66,7 @@ router.post("/", async (req, res) => {
 
   const [ticket] = await db.insert(ticketsTable).values({
     ticketNumber,
-    userId: payload.userId,
+    userId: user.id,
     title,
     category,
     serviceType,
@@ -94,12 +86,10 @@ router.post("/", async (req, res) => {
   return res.status(201).json(mapTicket(ticket));
 });
 
-router.get("/:id", async (req, res) => {
-  const payload = requireAuth(req, res);
-  if (!payload) return res.status(401).json({ error: "unauthorized" });
-
+router.get("/:id", requireAuth, async (req: Request, res: Response) => {
+  const id = req.params.id as string;
   const [ticket] = await db.select().from(ticketsTable)
-    .where(eq(ticketsTable.id, req.params.id))
+    .where(eq(ticketsTable.id, id))
     .limit(1);
 
   if (!ticket) return res.status(404).json({ error: "not_found", message: "Ticket not found" });

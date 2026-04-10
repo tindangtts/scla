@@ -1,16 +1,11 @@
 import { Router } from "express";
+import type { Request, Response } from "express";
 import { db } from "@workspace/db";
 import { bookingsTable, facilitiesTable } from "@workspace/db";
 import { eq, desc, sql } from "drizzle-orm";
-import * as jwt from "../lib/jwt.js";
+import { requireAuth, type AuthenticatedRequest } from "../lib/auth-middleware.js";
 
 const router = Router();
-
-function requireAuth(req: any, res: any) {
-  const authHeader = req.headers.authorization;
-  if (!authHeader?.startsWith("Bearer ")) return null;
-  return jwt.verify(authHeader.slice(7));
-}
 
 function mapBooking(b: typeof bookingsTable.$inferSelect) {
   return {
@@ -30,22 +25,20 @@ function mapBooking(b: typeof bookingsTable.$inferSelect) {
   };
 }
 
-router.get("/", async (req, res) => {
-  const payload = requireAuth(req, res);
-  if (!payload) return res.status(401).json({ error: "unauthorized" });
+router.get("/", requireAuth, async (req: Request, res: Response) => {
+  const { user } = req as AuthenticatedRequest;
 
   const { status } = req.query as { status?: string };
   let bookings = await db.select().from(bookingsTable)
-    .where(eq(bookingsTable.userId, payload.userId))
+    .where(eq(bookingsTable.userId, user.id))
     .orderBy(desc(bookingsTable.date));
 
   if (status) bookings = bookings.filter(b => b.status === status);
   return res.json(bookings.map(mapBooking));
 });
 
-router.post("/", async (req, res) => {
-  const payload = requireAuth(req, res);
-  if (!payload) return res.status(401).json({ error: "unauthorized" });
+router.post("/", requireAuth, async (req: Request, res: Response) => {
+  const { user } = req as AuthenticatedRequest;
 
   const { facilityId, date, slotId, notes } = req.body;
   if (!facilityId || !date || !slotId) {
@@ -67,7 +60,7 @@ router.post("/", async (req, res) => {
 
   const [booking] = await db.insert(bookingsTable).values({
     bookingNumber,
-    userId: payload.userId,
+    userId: user.id,
     facilityId,
     facilityName: facility.name,
     facilityCategory: facility.category,
@@ -83,25 +76,21 @@ router.post("/", async (req, res) => {
   return res.status(201).json(mapBooking(booking));
 });
 
-router.get("/:id", async (req, res) => {
-  const payload = requireAuth(req, res);
-  if (!payload) return res.status(401).json({ error: "unauthorized" });
-
-  const [booking] = await db.select().from(bookingsTable).where(eq(bookingsTable.id, req.params.id)).limit(1);
+router.get("/:id", requireAuth, async (req: Request, res: Response) => {
+  const id = req.params.id as string;
+  const [booking] = await db.select().from(bookingsTable).where(eq(bookingsTable.id, id)).limit(1);
   if (!booking) return res.status(404).json({ error: "not_found", message: "Booking not found" });
   return res.json(mapBooking(booking));
 });
 
-router.post("/:id/cancel", async (req, res) => {
-  const payload = requireAuth(req, res);
-  if (!payload) return res.status(401).json({ error: "unauthorized" });
-
-  const [booking] = await db.select().from(bookingsTable).where(eq(bookingsTable.id, req.params.id)).limit(1);
+router.post("/:id/cancel", requireAuth, async (req: Request, res: Response) => {
+  const id = req.params.id as string;
+  const [booking] = await db.select().from(bookingsTable).where(eq(bookingsTable.id, id)).limit(1);
   if (!booking) return res.status(404).json({ error: "not_found", message: "Booking not found" });
 
   const [updated] = await db.update(bookingsTable)
     .set({ status: "cancelled" })
-    .where(eq(bookingsTable.id, req.params.id))
+    .where(eq(bookingsTable.id, id))
     .returning();
 
   return res.json(mapBooking(updated));
