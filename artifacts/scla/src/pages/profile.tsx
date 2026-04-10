@@ -2,12 +2,16 @@ import { useLocation } from "wouter";
 import { useAuth } from "@/hooks/use-auth";
 import { AppLayout } from "@/components/layout/app-layout";
 import { getStatusBadgeClass, getStatusLabel } from "@/lib/format";
-import { User, LogOut, ChevronRight, ArrowUpCircle, Wallet, Bell, MapPin, ShieldCheck, Mail, Phone } from "lucide-react";
+import { User, LogOut, ChevronRight, ArrowUpCircle, Wallet, Bell, MapPin, ShieldCheck, Mail, Phone, Moon, Globe2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTheme, type Theme } from "@/hooks/use-theme";
+import { useLanguage } from "@/hooks/use-language";
 
 export default function ProfilePage() {
   const [, setLocation] = useLocation();
   const { user, isAuthenticated, isResident, logout } = useAuth();
+  const { theme, setTheme } = useTheme();
+  const { language, setLanguage } = useLanguage();
 
   if (!isAuthenticated) {
     return (
@@ -157,6 +161,78 @@ export default function ProfilePage() {
                 <div>
                   <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Phone Number</p>
                   <p className="font-semibold text-sm text-foreground mt-0.5">{user?.phone}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* App Settings */}
+          <div className="bg-card border border-card-border rounded-[1.5rem] p-6 shadow-sm">
+            <div className="flex items-center gap-2 mb-4">
+              <Globe2 className="w-5 h-5 text-primary" />
+              <h3 className="font-extrabold text-base tracking-tight">App Settings</h3>
+            </div>
+            <div className="space-y-4">
+              {/* Language row */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-muted rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Globe2 className="w-4 h-4 text-muted-foreground" />
+                  </div>
+                  <span className="text-sm font-bold text-foreground">Language</span>
+                </div>
+                <div className="flex gap-1.5">
+                  <button
+                    onClick={() => setLanguage('en')}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors ${
+                      language === 'en'
+                        ? 'bg-primary text-primary-foreground'
+                        : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                    }`}
+                    data-testid="button-lang-en"
+                  >
+                    English
+                  </button>
+                  <button
+                    onClick={() => setLanguage('my')}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors ${
+                      language === 'my'
+                        ? 'bg-primary text-primary-foreground'
+                        : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                    }`}
+                    data-testid="button-lang-my"
+                  >
+                    မြန်မာ
+                  </button>
+                </div>
+              </div>
+              {/* Theme row */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-muted rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Moon className="w-4 h-4 text-muted-foreground" />
+                  </div>
+                  <span className="text-sm font-bold text-foreground">Theme</span>
+                </div>
+                <div className="flex gap-1.5">
+                  {([
+                    { value: 'light' as Theme, label: 'Light', testId: 'button-theme-light' },
+                    { value: 'system' as Theme, label: 'System', testId: 'button-theme-system' },
+                    { value: 'dark' as Theme, label: 'Dark', testId: 'button-theme-dark' },
+                  ] as const).map(({ value, label, testId }) => (
+                    <button
+                      key={value}
+                      onClick={() => setTheme(value)}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors ${
+                        theme === value
+                          ? 'bg-primary text-primary-foreground'
+                          : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                      }`}
+                      data-testid={testId}
+                    >
+                      {label}
+                    </button>
+                  ))}
                 </div>
               </div>
             </div>

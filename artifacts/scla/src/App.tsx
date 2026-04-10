@@ -1,8 +1,10 @@
+import './i18n';
 import { Switch, Route, Router as WouterRouter } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/hooks/use-auth";
+import { useTheme } from "@/hooks/use-theme";
 
 import NotFound from "@/pages/not-found";
 import LoginPage from "@/pages/login";
@@ -33,6 +35,11 @@ const queryClient = new QueryClient({
   },
 });
 
+function ThemeInitializer() {
+  useTheme(); // triggers the useEffect to apply dark class on mount
+  return null;
+}
+
 function Router() {
   return (
     <Switch>
@@ -62,6 +69,7 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
+      <ThemeInitializer />
       <TooltipProvider>
         <AuthProvider>
           <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
