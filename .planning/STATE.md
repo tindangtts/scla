@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Production-Ready
 status: executing
-stopped_at: "Completed 14-03-PLAN.md (offline support: cache-first SW + OfflineBanner)"
-last_updated: "2026-04-10T16:53:39.825Z"
+stopped_at: Completed 14-04-PLAN.md (photo attachment for maintenance tickets)
+last_updated: "2026-04-10T16:54:04.950Z"
 last_activity: 2026-04-10
 progress:
   total_phases: 5
   completed_phases: 3
   total_plans: 21
-  completed_plans: 16
+  completed_plans: 17
   percent: 14
 ---
 
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-04-10)
 ## Current Position
 
 Phase: 14 (ux-enhancements) — EXECUTING
-Plan: 3 of 7
+Plan: 4 of 7
 Status: Ready to execute
 Last activity: 2026-04-10
 
@@ -67,6 +67,8 @@ Progress: [██░░░░░░░░] ~14% (v1.0 complete, v2.0 not started
 | Phase 13 P06 | 2 | 2 tasks | 2 files |
 | Phase 13 P07 | 5 | 2 tasks | 3 files |
 | Phase 14 P03 | 8 | 2 tasks | 3 files |
+| Phase 14 P04 | 5 | 2 tasks | 2 files |
+| Phase 14 P05 | 5 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -107,6 +109,9 @@ Recent decisions affecting current work:
 - [Phase 13]: req.params.id cast as string in ticket-messages.ts to satisfy drizzle-orm eq() TypeScript overloads
 - [Phase 14]: Cache-first strategy for API GET routes returns stale data immediately and refreshes in background; CLEAR_API_CACHE message evicts stale cache on reconnect
 - [Phase 14]: Separate API_CACHE (scla-api-v1) isolates API responses from app-shell cache (scla-v1) for independent versioning
+- [Phase 14]: accept=image/* with capture=environment for mobile camera + gallery on a single hidden input
+- [Phase 14]: 5MB limit validated before FileReader conversion to avoid converting oversized files
+- [Phase 14]: recurringGroupId is nullable text (no FK) — matches existing codebase pattern; cancel-group cancels bookings on/after today only
 
 ### Roadmap Evolution
 
@@ -122,6 +127,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-10T16:53:32.257Z
-Stopped at: Completed 14-03-PLAN.md (offline support: cache-first SW + OfflineBanner)
+Last session: 2026-04-10T16:53:54.469Z
+Stopped at: Completed 14-04-PLAN.md (photo attachment for maintenance tickets)
 Resume file: None

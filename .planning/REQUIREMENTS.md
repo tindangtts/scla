@@ -168,7 +168,7 @@ All v1 requirements are already implemented (brownfield project). v2 requirement
 | ENH-01 | Phase 14 | Pending |
 | ENH-02 | Phase 14 | Pending |
 | ENH-03 | Phase 14 | Complete |
-| ENH-04 | Phase 14 | Pending |
+| ENH-04 | Phase 14 | Complete |
 | ENH-05 | Phase 14 | Pending |
 | QUAL-01 | Phase 15 | Complete |
 | QUAL-02 | Phase 15 | Complete |
