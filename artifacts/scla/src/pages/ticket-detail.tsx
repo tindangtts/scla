@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useParams, useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
 import { useGetTicket, getGetTicketQueryKey } from "@workspace/api-client-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AppLayout } from "@/components/layout/app-layout";
@@ -25,6 +26,7 @@ const categoryLabels: Record<string, string> = {
 export default function TicketDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [, setLocation] = useLocation();
+  const { t } = useTranslation();
 
   const { data: ticket, isLoading } = useGetTicket(id, {
     query: { queryKey: getGetTicketQueryKey(id) }

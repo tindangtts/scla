@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLocation, useParams } from "wouter";
+import { useTranslation } from "react-i18next";
 import { useGetInvoice, getGetInvoiceQueryKey, useInitiatePayment } from "@workspace/api-client-react";
 import { AppLayout } from "@/components/layout/app-layout";
 import { formatMMK, formatDate, getStatusBadgeClass, getStatusLabel } from "@/lib/format";
@@ -11,6 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 export default function BillDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [, setLocation] = useLocation();
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [paymentMethod, setPaymentMethod] = useState<"wavepay" | "kbzpay" | null>(null);
   const [agreed, setAgreed] = useState(false);

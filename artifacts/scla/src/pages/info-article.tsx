@@ -1,4 +1,5 @@
 import { useParams, useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
 import { useGetInfoArticle, getGetInfoArticleQueryKey } from "@workspace/api-client-react";
 import { AppLayout } from "@/components/layout/app-layout";
 import { formatDate } from "@/lib/format";
@@ -8,6 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 export default function InfoArticlePage() {
   const { id } = useParams<{ id: string }>();
   const [, setLocation] = useLocation();
+  const { t } = useTranslation();
 
   const { data: article, isLoading } = useGetInfoArticle(id, {
     query: { queryKey: getGetInfoArticleQueryKey(id) }
