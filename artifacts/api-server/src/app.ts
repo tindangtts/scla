@@ -1,4 +1,4 @@
-import express, { type Express } from "express";
+import express, { type Express, type Request, type Response, type NextFunction } from "express";
 import cors from "cors";
 import helmet from "helmet";
 import pinoHttp from "pino-http";
@@ -49,5 +49,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", router);
+
+// Global error handler — catches any error thrown or passed to next(err) in route handlers.
+// Must be the LAST app.use call (Express identifies 4-param middleware as error handlers).
+// Returns consistent JSON shape: { error, message } — per QUAL-04.
+app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+  const status = (err as any).status ?? (err as any).statusCode ?? 500;
+  if (status >= 500) {
+    logger.error({ err }, "Unhandled error");
+  }
+  res.status(status).json({
+    error: "internal_server_error",
+    message: status >= 500 ? "An unexpected error occurred" : err.message,
+  });
+});
 
 export default app;
