@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { db } from "@workspace/db";
 import { ticketsTable } from "@workspace/db";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, sql } from "drizzle-orm";
 import * as jwt from "../lib/jwt.js";
 
 const router = Router();
@@ -67,8 +67,10 @@ router.post("/", async (req, res) => {
     return res.status(400).json({ error: "validation_error", message: "Required fields missing" });
   }
 
-  const count = await db.select().from(ticketsTable).where(eq(ticketsTable.userId, payload.userId));
-  const ticketNumber = `SA-${String(count.length + 1).padStart(4, "0")}`;
+  const result = await db.execute(
+    sql`SELECT lpad(nextval('ticket_number_seq')::text, 4, '0') AS num`
+  );
+  const ticketNumber = `SA-${result.rows[0].num}`;
 
   const [ticket] = await db.insert(ticketsTable).values({
     ticketNumber,

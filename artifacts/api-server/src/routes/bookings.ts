@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { db } from "@workspace/db";
 import { bookingsTable, facilitiesTable } from "@workspace/db";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, sql } from "drizzle-orm";
 import * as jwt from "../lib/jwt.js";
 
 const router = Router();
@@ -60,8 +60,10 @@ router.post("/", async (req, res) => {
   const startTime = `${String(hour).padStart(2, "0")}:00`;
   const endTime = `${String(parseInt(hour) + 1).padStart(2, "0")}:00`;
 
-  const count = await db.select().from(bookingsTable).where(eq(bookingsTable.userId, payload.userId));
-  const bookingNumber = `BK-${String(count.length + 1).padStart(4, "0")}`;
+  const result = await db.execute(
+    sql`SELECT lpad(nextval('booking_number_seq')::text, 4, '0') AS num`
+  );
+  const bookingNumber = `BK-${result.rows[0].num}`;
 
   const [booking] = await db.insert(bookingsTable).values({
     bookingNumber,
