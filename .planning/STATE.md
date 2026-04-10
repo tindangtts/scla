@@ -73,6 +73,10 @@ Recent decisions affecting current work:
 - [Phase 11]: helmet() placed before pinoHttp to ensure security headers apply even if logger throws
 - [Phase 11]: CORS tightened from open to allowlist: localhost:5173, localhost:3000, and ALLOWED_ORIGIN env var for Replit deployment
 
+### Roadmap Evolution
+
+- Phase 15 added: API Hardening & Code Quality — fix auth gaps, race conditions, missing error handling, type safety issues (8 QUAL requirements from codebase audit)
+
 ### Pending Todos
 
 None yet.

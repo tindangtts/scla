@@ -91,7 +91,7 @@ Requirements mapped from existing codebase. All features below are already imple
 
 ## v2 Requirements
 
-Next milestone (v2.0 Production-Ready). Phases 11-14.
+Next milestone (v2.0 Production-Ready). Phases 11-15.
 
 ### Payment Integration
 
@@ -118,6 +118,17 @@ Next milestone (v2.0 Production-Ready). Phases 11-14.
 - **ENH-03**: Offline support with service worker
 - **ENH-04**: Image upload for ticket attachments (currently URL only)
 - **ENH-05**: Recurring facility bookings
+
+### API Hardening & Code Quality
+
+- **QUAL-01**: Add admin auth to upgrade-requests endpoints (GET list, POST approve, POST reject)
+- **QUAL-02**: Fix race conditions in booking/ticket number generation with atomic DB sequences
+- **QUAL-03**: Wrap multi-step upgrade operations in database transactions
+- **QUAL-04**: Add global Express error handler with consistent JSON error responses
+- **QUAL-05**: Refactor all routes to use shared auth middleware instead of inline JWT verification
+- **QUAL-06**: Fix float arithmetic in invoice calculations (use integer cents)
+- **QUAL-07**: Add proper TypeScript types to all route handlers (eliminate `any` types)
+- **QUAL-08**: Add password validation on admin staff creation (min 8 chars)
 
 ## Out of Scope
 
@@ -159,10 +170,18 @@ All v1 requirements are already implemented (brownfield project). v2 requirement
 | ENH-03 | Phase 14 | Pending |
 | ENH-04 | Phase 14 | Pending |
 | ENH-05 | Phase 14 | Pending |
+| QUAL-01 | Phase 15 | Pending |
+| QUAL-02 | Phase 15 | Pending |
+| QUAL-03 | Phase 15 | Pending |
+| QUAL-04 | Phase 15 | Pending |
+| QUAL-05 | Phase 15 | Pending |
+| QUAL-06 | Phase 15 | Pending |
+| QUAL-07 | Phase 15 | Pending |
+| QUAL-08 | Phase 15 | Pending |
 
 **Coverage:**
 - v1 requirements: 52 total — Mapped to existing: 52 ✓
-- v2 requirements: 14 total — Mapped to Phases 11-14: 14 ✓
+- v2 requirements: 22 total — Mapped to Phases 11-15: 22 ✓
 - Unmapped: 0 ✓
 
 ---

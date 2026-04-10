@@ -3,7 +3,7 @@
 ## Milestones
 
 - ✅ **v1.0 Foundation** - Phases 1-10 (existing brownfield baseline, shipped 2026-04-10)
-- 🚧 **v2.0 Production-Ready** - Phases 11-14 (in progress)
+- 🚧 **v2.0 Production-Ready** - Phases 11-15 (in progress)
 
 ## Phases
 
@@ -84,3 +84,19 @@ Plans:
 | 12. Real Payment Integration | v2.0 | 0/? | Not started | - |
 | 13. Communication & Notifications | v2.0 | 0/? | Not started | - |
 | 14. UX Enhancements | v2.0 | 0/? | Not started | - |
+| 15. API Hardening & Code Quality | v2.0 | 0/? | Not started | - |
+
+### Phase 15: API Hardening & Code Quality
+**Goal**: Fix critical auth gaps, race conditions, missing error handling, and type safety issues identified in the codebase audit
+**Depends on**: Phase 11
+**Requirements**: QUAL-01, QUAL-02, QUAL-03, QUAL-04, QUAL-05, QUAL-06, QUAL-07, QUAL-08
+**Success Criteria** (what must be TRUE):
+  1. GET /auth/upgrade-requests, POST approve, and POST reject all require admin authentication
+  2. Booking and ticket number generation uses atomic DB sequences (no race conditions)
+  3. Multi-step upgrade operations are wrapped in database transactions
+  4. A global Express error handler catches unhandled errors and returns consistent JSON responses
+  5. All route handlers use the shared auth middleware instead of inline JWT verification
+  6. Invoice amount calculations use integer arithmetic (cents) instead of float
+  7. All route handlers have proper TypeScript types (no `any` on req/res)
+  8. Admin staff creation validates password length >= 8 characters
+**Plans**: TBD
