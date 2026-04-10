@@ -1,19 +1,14 @@
 import { Router } from "express";
+import type { Request, Response } from "express";
 import { db } from "@workspace/db";
 import { invoicesTable, ticketsTable, announcementsTable, promotionsTable, notificationsTable } from "@workspace/db";
 import { eq, desc } from "drizzle-orm";
-import * as jwt from "../lib/jwt.js";
+import { optionalAuth, type AuthenticatedRequest } from "../lib/auth-middleware.js";
 
 const router = Router();
 
-function getAuth(req: any) {
-  const authHeader = req.headers.authorization;
-  if (!authHeader?.startsWith("Bearer ")) return null;
-  return jwt.verify(authHeader.slice(7));
-}
-
-router.get("/home-summary", async (req, res) => {
-  const payload = getAuth(req);
+router.get("/home-summary", optionalAuth, async (req: Request, res: Response) => {
+  const user = (req as AuthenticatedRequest).user ?? null;
 
   const [latestAnnouncement] = await db.select().from(announcementsTable)
     .orderBy(desc(announcementsTable.publishedAt)).limit(1);
@@ -21,7 +16,7 @@ router.get("/home-summary", async (req, res) => {
   const [recentPromotion] = await db.select().from(promotionsTable)
     .orderBy(desc(promotionsTable.validFrom)).limit(1);
 
-  if (!payload) {
+  if (!user) {
     return res.json({
       userType: "guest",
       outstandingBalance: null,
@@ -54,12 +49,12 @@ router.get("/home-summary", async (req, res) => {
     });
   }
 
-  const invoices = await db.select().from(invoicesTable).where(eq(invoicesTable.userId, payload.userId));
+  const invoices = await db.select().from(invoicesTable).where(eq(invoicesTable.userId, user.id));
   const unpaidInvoices = invoices.filter(i => i.status === "unpaid" || i.status === "partially_paid");
   const outstandingBalance = unpaidInvoices.reduce((sum, i) =>
     sum + parseFloat(i.totalAmount as string) - parseFloat(i.paidAmount as string), 0);
 
-  const tickets = await db.select().from(ticketsTable).where(eq(ticketsTable.userId, payload.userId));
+  const tickets = await db.select().from(ticketsTable).where(eq(ticketsTable.userId, user.id));
   const openTickets = tickets.filter(t => t.status === "open" || t.status === "in_progress");
 
   return res.json({
@@ -94,12 +89,12 @@ router.get("/home-summary", async (req, res) => {
   });
 });
 
-router.get("/notifications", async (req, res) => {
-  const payload = getAuth(req);
-  if (!payload) return res.json([]);
+router.get("/notifications", optionalAuth, async (req: Request, res: Response) => {
+  const user = (req as AuthenticatedRequest).user ?? null;
+  if (!user) return res.json([]);
 
   const notifications = await db.select().from(notificationsTable)
-    .where(eq(notificationsTable.userId, payload.userId))
+    .where(eq(notificationsTable.userId, user.id))
     .orderBy(desc(notificationsTable.createdAt))
     .limit(20);
 

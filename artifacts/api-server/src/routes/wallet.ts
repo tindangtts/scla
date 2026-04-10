@@ -1,18 +1,10 @@
 import { Router } from "express";
-import * as jwt from "../lib/jwt.js";
+import type { Request, Response } from "express";
+import { requireAuth } from "../lib/auth-middleware.js";
 
 const router = Router();
 
-function requireAuth(req: any, res: any) {
-  const authHeader = req.headers.authorization;
-  if (!authHeader?.startsWith("Bearer ")) return null;
-  return jwt.verify(authHeader.slice(7));
-}
-
-router.get("/wallet", async (req, res) => {
-  const payload = requireAuth(req, res);
-  if (!payload) return res.status(401).json({ error: "unauthorized" });
-
+router.get("/wallet", requireAuth, async (req: Request, res: Response) => {
   return res.json({
     balance: 1250000,
     transactions: [
@@ -23,10 +15,7 @@ router.get("/wallet", async (req, res) => {
   });
 });
 
-router.get("/deposit", async (req, res) => {
-  const payload = requireAuth(req, res);
-  if (!payload) return res.status(401).json({ error: "unauthorized" });
-
+router.get("/deposit", requireAuth, async (req: Request, res: Response) => {
   return res.json({
     balance: 5000000,
     transactions: [
