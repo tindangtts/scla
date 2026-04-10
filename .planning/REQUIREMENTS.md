@@ -162,9 +162,9 @@ All v1 requirements are already implemented (brownfield project). v2 requirement
 | PAY-01 | Phase 12 | Pending |
 | PAY-02 | Phase 12 | Pending |
 | PAY-03 | Phase 12 | Pending |
-| COMM-01 | Phase 13 | Pending |
-| COMM-02 | Phase 13 | Pending |
-| COMM-03 | Phase 13 | Pending |
+| COMM-01 | Phase 13 | Complete |
+| COMM-02 | Phase 13 | Complete |
+| COMM-03 | Phase 13 | Complete |
 | ENH-01 | Phase 14 | Pending |
 | ENH-02 | Phase 14 | Pending |
 | ENH-03 | Phase 14 | Pending |
