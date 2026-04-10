@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Production-Ready
 status: executing
-stopped_at: "Completed 13-02-PLAN.md (Web Push backend: push-service.ts, push router, ticket status trigger)"
-last_updated: "2026-04-10T16:16:57.106Z"
+stopped_at: "Completed 13-04-PLAN.md (ticket chat API: resident GET/POST + admin POST/GET endpoints)"
+last_updated: "2026-04-10T16:17:32.803Z"
 last_activity: 2026-04-10
 progress:
   total_phases: 5
   completed_phases: 2
   total_plans: 13
-  completed_plans: 9
+  completed_plans: 11
   percent: 14
 ---
 
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-04-10)
 ## Current Position
 
 Phase: 13 (communication-notifications) — EXECUTING
-Plan: 3 of 6
+Plan: 5 of 6
 Status: Ready to execute
 Last activity: 2026-04-10
 
@@ -61,6 +61,8 @@ Progress: [██░░░░░░░░] ~14% (v1.0 complete, v2.0 not started
 | Phase 15 P04 | 3 | 3 tasks | 6 files |
 | Phase 13 P01 | 5 | 2 tasks | 4 files |
 | Phase 13 P02 | 1 | 3 tasks | 6 files |
+| Phase 13 P03 | 8 | 2 tasks | 3 files |
+| Phase 13 P04 | 2 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -90,6 +92,10 @@ Recent decisions affecting current work:
 - [Phase 13]: Push delivery is non-throwing: sendPushToUser logs errors internally, push failures never break ticket/invoice update responses
 - [Phase 13]: Expired push subscriptions (HTTP 410) are auto-removed from DB inside sendPushToUser
 - [Phase 13]: Bill-due push deferred to a future plan requiring a scheduled job; VAPID public key served via GET /api/push/vapid-public-key
+- [Phase 13]: Resend SDK initialized lazily at module load — null if RESEND_API_KEY not set, mirroring push-service pattern
+- [Phase 13]: Email only triggered for completed/closed ticket status (push fires for any status change per D-07)
+- [Phase 13]: Dual router.use at /tickets: Express merges ticketsRouter and ticketMessagesRouter at same path without conflict
+- [Phase 13]: GET /admin/tickets/:id/messages added alongside POST for admin frontend chat thread rendering
 
 ### Roadmap Evolution
 
@@ -105,6 +111,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-10T16:16:57.104Z
-Stopped at: Completed 13-02-PLAN.md (Web Push backend: push-service.ts, push router, ticket status trigger)
+Last session: 2026-04-10T16:17:32.800Z
+Stopped at: Completed 13-04-PLAN.md (ticket chat API: resident GET/POST + admin POST/GET endpoints)
 Resume file: None
