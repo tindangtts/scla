@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest, formatDate } from "@/lib/api";
 import { AdminLayout } from "@/components/layout/admin-layout";
-import { Search, ChevronDown } from "lucide-react";
+import { Search, ChevronDown, Send } from "lucide-react";
 
 interface Ticket {
   id: string; ticketNumber: string; userId: string; title: string;
@@ -11,6 +11,15 @@ interface Ticket {
   updates: Array<{ id: string; message: string; author: string; authorType: string; createdAt: string }>;
   createdAt: string; updatedAt: string;
   user: { name: string; email: string };
+}
+
+interface ChatMessage {
+  id: string;
+  ticketId: string;
+  senderId: string;
+  senderType: "resident" | "staff";
+  content: string;
+  createdAt: string;
 }
 
 const statusColors: Record<string, string> = {
@@ -30,7 +39,12 @@ export default function TicketsPage() {
   const [staffResponse, setStaffResponse] = useState("");
   const [newStatus, setNewStatus] = useState("");
   const [assignedTo, setAssignedTo] = useState("");
+  const [chatInput, setChatInput] = useState("");
   const qc = useQueryClient();
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const adminToken = localStorage.getItem("adminToken") ?? "";
+  const API_BASE = import.meta.env.VITE_API_URL ?? "/api";
 
   const { data = [], isLoading } = useQuery({
     queryKey: ["admin-tickets", search, statusFilter],
@@ -53,11 +67,49 @@ export default function TicketsPage() {
     },
   });
 
+  const { data: chatMessages = [] } = useQuery<ChatMessage[]>({
+    queryKey: ["admin-ticket-messages", selected?.id],
+    queryFn: async () => {
+      if (!selected) return [];
+      const res = await fetch(`${API_BASE}/admin/tickets/${selected.id}/messages`, {
+        headers: { Authorization: `Bearer ${adminToken}` },
+      });
+      if (!res.ok) return [];
+      return res.json();
+    },
+    enabled: !!selected,
+    refetchInterval: 4000,
+  });
+
+  const sendChatMessage = useMutation({
+    mutationFn: async (content: string) => {
+      const res = await fetch(`${API_BASE}/admin/tickets/${selected!.id}/messages`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${adminToken}`,
+        },
+        body: JSON.stringify({ content }),
+      });
+      if (!res.ok) throw new Error("Failed to send message");
+      return res.json();
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["admin-ticket-messages", selected?.id] });
+      setChatInput("");
+    },
+  });
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chatMessages.length]);
+
   function openTicket(t: Ticket) {
     setSelected(t);
     setNewStatus(t.status);
     setAssignedTo(t.assignedTo ?? "");
     setStaffResponse("");
+    setChatInput("");
   }
 
   return (
@@ -156,6 +208,16 @@ export default function TicketsPage() {
               </div>
             </div>
 
+            <div className="p-3 border-b border-border">
+              <button
+                onClick={() => updateMutation.mutate({ id: selected.id, status: newStatus, assignedTo })}
+                disabled={updateMutation.isPending}
+                className="w-full py-1.5 bg-primary text-primary-foreground rounded-lg text-xs font-medium hover:bg-primary/90 disabled:opacity-60 transition-colors"
+              >
+                {updateMutation.isPending ? "Saving..." : "Save"}
+              </button>
+            </div>
+
             <div className="flex-1 overflow-y-auto p-4 space-y-3">
               <p className="text-xs font-medium text-muted-foreground">Updates ({selected.updates.length})</p>
               {selected.updates.map(u => (
@@ -169,19 +231,64 @@ export default function TicketsPage() {
               ))}
             </div>
 
-            <div className="p-4 border-t border-border">
-              <textarea
-                value={staffResponse} onChange={e => setStaffResponse(e.target.value)}
-                placeholder="Write a staff response..."
-                rows={2}
-                className="w-full px-3 py-2 border border-border rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-ring resize-none mb-2"
+            {/* Chat section */}
+            <div className="flex-1 overflow-y-auto p-4 min-h-0" style={{ maxHeight: "200px" }}>
+              <p className="text-xs font-medium text-muted-foreground mb-3">
+                Chat ({chatMessages.length})
+              </p>
+              {chatMessages.length === 0 ? (
+                <p className="text-xs text-muted-foreground text-center py-4">No chat messages yet.</p>
+              ) : (
+                <div className="space-y-3">
+                  {chatMessages.map((msg) => (
+                    <div
+                      key={msg.id}
+                      className={`p-3 rounded-lg text-sm ${
+                        msg.senderType === "staff"
+                          ? "bg-primary/5 border border-primary/10 ml-0 mr-8"
+                          : "bg-muted/40 ml-8 mr-0"
+                      }`}
+                      data-testid={`admin-chat-message-${msg.id}`}
+                    >
+                      <div className="flex items-center justify-between mb-1">
+                        <p className="text-xs font-semibold text-foreground">
+                          {msg.senderType === "staff" ? "You (Staff)" : "Resident"}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          {formatDate(msg.createdAt)}
+                        </p>
+                      </div>
+                      <p className="text-sm text-foreground">{msg.content}</p>
+                    </div>
+                  ))}
+                  <div ref={messagesEndRef} />
+                </div>
+              )}
+            </div>
+
+            {/* Chat input */}
+            <div className="p-4 border-t border-border flex gap-2">
+              <input
+                type="text"
+                value={chatInput}
+                onChange={(e) => setChatInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey && chatInput.trim()) {
+                    e.preventDefault();
+                    sendChatMessage.mutate(chatInput.trim());
+                  }
+                }}
+                placeholder="Reply to resident..."
+                className="flex-1 px-3 py-2 border border-border rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-ring"
+                data-testid="admin-input-chat"
               />
               <button
-                onClick={() => updateMutation.mutate({ id: selected.id, status: newStatus, assignedTo, staffResponse })}
-                disabled={updateMutation.isPending}
-                className="w-full py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 disabled:opacity-60 transition-colors"
+                onClick={() => chatInput.trim() && sendChatMessage.mutate(chatInput.trim())}
+                disabled={sendChatMessage.isPending || !chatInput.trim()}
+                className="px-3 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 disabled:opacity-50 transition-colors"
+                data-testid="admin-button-send-chat"
               >
-                {updateMutation.isPending ? "Saving..." : "Save & Respond"}
+                <Send className="w-4 h-4" />
               </button>
             </div>
           </div>
