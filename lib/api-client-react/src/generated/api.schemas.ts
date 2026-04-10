@@ -409,6 +409,7 @@ export interface Booking {
   paymentStatus: BookingPaymentStatus;
   notes?: string | null;
   createdAt: string;
+  recurringGroupId?: string | null;
 }
 
 export interface CreateBookingBody {
@@ -416,6 +417,7 @@ export interface CreateBookingBody {
   date: string;
   slotId: string;
   notes?: string | null;
+  recurring?: boolean;
 }
 
 export interface InfoCategory {

@@ -3,7 +3,7 @@ import { useParams, useLocation } from "wouter";
 import { useListFacilities, getListFacilitiesQueryKey, useGetFacilitySlots, getGetFacilitySlotsQueryKey, useCreateBooking, getListBookingsQueryKey } from "@workspace/api-client-react";
 import { AppLayout } from "@/components/layout/app-layout";
 import { formatMMK } from "@/lib/format";
-import { ChevronLeft, CheckCircle, Clock, Users, MapPin } from "lucide-react";
+import { ChevronLeft, CheckCircle, Clock, Users, MapPin, Repeat2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
@@ -19,6 +19,7 @@ export default function BookingDetailPage() {
   const [selectedDate, setSelectedDate] = useState(today);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
   const [confirmed, setConfirmed] = useState(false);
+  const [repeatWeekly, setRepeatWeekly] = useState(false);
 
   const { data: facilities } = useListFacilities({
     query: { queryKey: getListFacilitiesQueryKey() }
@@ -61,7 +62,12 @@ export default function BookingDetailPage() {
           </div>
           <h2 className="text-2xl font-black text-foreground tracking-tight">Booking Confirmed!</h2>
           <p className="text-muted-foreground text-sm font-medium mt-3 mb-8 leading-relaxed">
-            Your <span className="font-bold text-foreground">{facility?.name}</span> booking for <span className="font-bold text-foreground">{selectedDate}</span> at <span className="font-bold text-foreground">{selectedSlotData?.startTime}</span> has been confirmed.
+            Your <span className="font-bold text-foreground">{facility?.name}</span> booking for{' '}
+            <span className="font-bold text-foreground">{selectedDate}</span> at{' '}
+            <span className="font-bold text-foreground">{selectedSlotData?.startTime}</span> has been confirmed.
+            {repeatWeekly && (
+              <span className="block mt-2 text-primary font-bold">4 weekly bookings created.</span>
+            )}
           </p>
           <Button onClick={() => setLocation("/bookings")} className="w-full h-14 rounded-2xl text-base font-bold shadow-lg" data-testid="button-view-bookings">
             View My Bookings
@@ -184,9 +190,36 @@ export default function BookingDetailPage() {
                   <span className="font-black text-xl text-primary">{formatMMK(selectedSlotData.price)}</span>
                 </div>
               </div>
+              {/* Repeat Weekly Toggle */}
+              <button
+                type="button"
+                onClick={() => setRepeatWeekly(v => !v)}
+                className={`w-full flex items-center justify-between py-4 px-1 rounded-2xl transition-all ${
+                  repeatWeekly ? 'text-primary' : 'text-muted-foreground'
+                }`}
+                data-testid="toggle-repeat-weekly"
+              >
+                <div className="flex items-center gap-3">
+                  <Repeat2 className="w-5 h-5" />
+                  <div className="text-left">
+                    <p className="text-sm font-bold text-foreground">Repeat weekly (4 weeks)</p>
+                    <p className="text-xs font-medium text-muted-foreground mt-0.5">
+                      Creates 4 bookings on the same time slot
+                    </p>
+                  </div>
+                </div>
+                {/* Toggle pill */}
+                <div className={`w-12 h-6 rounded-full transition-colors relative flex-shrink-0 ${
+                  repeatWeekly ? 'bg-primary' : 'bg-muted'
+                }`}>
+                  <div className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow-sm transition-transform ${
+                    repeatWeekly ? 'translate-x-7' : 'translate-x-1'
+                  }`} />
+                </div>
+              </button>
               <Button
                 className="w-full mt-6 h-14 rounded-2xl text-base font-bold shadow-lg shadow-primary/20"
-                onClick={() => createMutation.mutate({ data: { facilityId, date: selectedDate, slotId: selectedSlot } })}
+                onClick={() => createMutation.mutate({ data: { facilityId, date: selectedDate, slotId: selectedSlot, recurring: repeatWeekly } })}
                 disabled={createMutation.isPending}
                 data-testid="button-confirm-booking"
               >
