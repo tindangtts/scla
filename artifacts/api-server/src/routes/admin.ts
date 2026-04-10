@@ -584,6 +584,7 @@ router.post("/staff", async (req, res) => {
   if (payload.role !== "admin") return res.status(403).json({ error: "admin only" });
   const { name, email, password, role } = req.body;
   if (!name || !email || !password || !role) return res.status(400).json({ error: "all fields required" });
+  if (password.length < 8) return res.status(400).json({ error: "validation_error", message: "Password must be at least 8 characters" });
   const [row] = await db.insert(staffUsersTable).values({
     name, email, passwordHash: await hashPasswordBcrypt(password), role, isActive: true,
   }).returning({ id: staffUsersTable.id, name: staffUsersTable.name, email: staffUsersTable.email, role: staffUsersTable.role });
