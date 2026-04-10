@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Production-Ready
-status: executing
-stopped_at: "Completed 14-07-PLAN.md (recurring booking UI: repeat-weekly toggle and Cancel All Future button)"
-last_updated: "2026-04-10T16:59:52.165Z"
+status: verifying
+stopped_at: Completed 14-06-PLAN.md (i18n wiring across all pages)
+last_updated: "2026-04-10T17:04:30.503Z"
 last_activity: 2026-04-10
 progress:
   total_phases: 5
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 21
-  completed_plans: 20
+  completed_plans: 21
   percent: 14
 ---
 
@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-04-10)
 
 Phase: 14 (ux-enhancements) — EXECUTING
 Plan: 7 of 7
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-04-10
 
 Progress: [██░░░░░░░░] ~14% (v1.0 complete, v2.0 not started)
@@ -72,6 +72,7 @@ Progress: [██░░░░░░░░] ~14% (v1.0 complete, v2.0 not started
 | Phase 14-ux-enhancements P02 | 133 | 2 tasks | 4 files |
 | Phase 14 P01 | 8 | 2 tasks | 8 files |
 | Phase 14-ux-enhancements P07 | 8 | 2 tasks | 3 files |
+| Phase 14-ux-enhancements P06 | 7 | 2 tasks | 11 files |
 
 ## Accumulated Context
 
@@ -120,6 +121,8 @@ Recent decisions affecting current work:
 - [Phase 14]: 107 flat dot-notation keys in en.json/my.json; language persisted to localStorage key scla_language
 - [Phase 14-ux-enhancements]: Toggle pill is plain <button> not shadcn Switch — matches existing codebase pattern of minimal primitives
 - [Phase 14-ux-enhancements]: cancelGroupMutation uses raw fetch (not generated hook) because cancel-group endpoint was added in 14-05 without regenerating client hooks
+- [Phase 14]: bottom-nav second item changed from Discover to Bills to match nav.bills locale key — en.json has no nav.discover key
+- [Phase 14]: STATUS_FILTERS arrays moved inside component scope so t() is accessible; loop variables named t renamed to tabKey to prevent shadowing useTranslation hook
 
 ### Roadmap Evolution
 
@@ -135,6 +138,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-10T16:59:52.163Z
-Stopped at: Completed 14-07-PLAN.md (recurring booking UI: repeat-weekly toggle and Cancel All Future button)
+Last session: 2026-04-10T17:04:30.501Z
+Stopped at: Completed 14-06-PLAN.md (i18n wiring across all pages)
 Resume file: None
