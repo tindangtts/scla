@@ -7,14 +7,11 @@ import {
 import { eq, desc, asc, count, and, gte, lte, like, or, sql } from "drizzle-orm";
 import * as jwt from "../lib/jwt.js";
 import * as crypto from "crypto";
+import { hashPasswordBcrypt, verifyPassword, isLegacyHash } from "../lib/password.js";
 
 const router = Router();
 
 const ADMIN_SECRET = process.env.SESSION_SECRET!; // guaranteed by jwt.ts startup check
-
-function hashPassword(password: string): string {
-  return crypto.createHash("sha256").update(password + "scla-salt").digest("hex");
-}
 
 interface AdminTokenPayload {
   staffId: string;
@@ -71,7 +68,17 @@ router.post("/auth/login", async (req, res) => {
 
   const [staff] = await db.select().from(staffUsersTable).where(eq(staffUsersTable.email, email)).limit(1);
   if (!staff || !staff.isActive) return res.status(401).json({ error: "invalid_credentials" });
-  if (staff.passwordHash !== hashPassword(password)) return res.status(401).json({ error: "invalid_credentials" });
+
+  const passwordValid = await verifyPassword(password, staff.passwordHash);
+  if (!passwordValid) return res.status(401).json({ error: "invalid_credentials" });
+
+  // Re-hash legacy SHA256 hashes on successful admin login (per D-02, D-03)
+  if (isLegacyHash(staff.passwordHash)) {
+    const newHash = await hashPasswordBcrypt(password);
+    await db.update(staffUsersTable)
+      .set({ passwordHash: newHash })
+      .where(eq(staffUsersTable.id, staff.id));
+  }
 
   const token = signAdmin({ staffId: staff.id, role: staff.role });
   return res.json({
@@ -577,7 +584,7 @@ router.post("/staff", async (req, res) => {
   const { name, email, password, role } = req.body;
   if (!name || !email || !password || !role) return res.status(400).json({ error: "all fields required" });
   const [row] = await db.insert(staffUsersTable).values({
-    name, email, passwordHash: hashPassword(password), role, isActive: true,
+    name, email, passwordHash: await hashPasswordBcrypt(password), role, isActive: true,
   }).returning({ id: staffUsersTable.id, name: staffUsersTable.name, email: staffUsersTable.email, role: staffUsersTable.role });
   return res.status(201).json(row);
 });

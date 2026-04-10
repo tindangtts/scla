@@ -4,11 +4,7 @@ import {
   invoicesTable, facilitiesTable, infoCategoriesTable, infoArticlesTable, notificationsTable,
   staffUsersTable, ticketsTable, upgradeRequestsTable, faqsTable
 } from "@workspace/db";
-import * as crypto from "crypto";
-
-function hashPassword(password: string): string {
-  return crypto.createHash("sha256").update(password + "scla-salt").digest("hex");
-}
+import { hashPasswordBcrypt } from "./lib/password.js";
 
 async function seedStaffUsers() {
   const existingStaff = await db.select().from(staffUsersTable).limit(1);
@@ -19,21 +15,21 @@ async function seedStaffUsers() {
     {
       name: "U Kyaw Zin",
       email: "admin@starcity.com",
-      passwordHash: hashPassword("admin123"),
+      passwordHash: await hashPasswordBcrypt("admin123"),
       role: "admin" as const,
       isActive: true,
     },
     {
       name: "Ma Su Su",
       email: "content@starcity.com",
-      passwordHash: hashPassword("content123"),
+      passwordHash: await hashPasswordBcrypt("content123"),
       role: "content_manager" as const,
       isActive: true,
     },
     {
       name: "Ko Nay Lin",
       email: "support@starcity.com",
-      passwordHash: hashPassword("support123"),
+      passwordHash: await hashPasswordBcrypt("support123"),
       role: "ticket_handler" as const,
       isActive: true,
     },
@@ -56,7 +52,7 @@ async function seed() {
     name: "Ko Zin Min",
     email: "demo@starcity.com",
     phone: "09-999-111-222",
-    passwordHash: hashPassword("password123"),
+    passwordHash: await hashPasswordBcrypt("password123"),
     userType: "guest",
     upgradeStatus: "none",
   }).returning();
@@ -65,7 +61,7 @@ async function seed() {
     name: "Ma Aye Aye",
     email: "resident@starcity.com",
     phone: "09-888-333-444",
-    passwordHash: hashPassword("password123"),
+    passwordHash: await hashPasswordBcrypt("password123"),
     userType: "resident",
     unitNumber: "A-12-03",
     residentId: "SC-2023-00142",
@@ -77,7 +73,7 @@ async function seed() {
     name: "Ko Aung Kyaw",
     email: "aung.kyaw@gmail.com",
     phone: "09-777-222-333",
-    passwordHash: hashPassword("password123"),
+    passwordHash: await hashPasswordBcrypt("password123"),
     userType: "guest",
     upgradeStatus: "pending",
   }).returning();
@@ -86,7 +82,7 @@ async function seed() {
     name: "Ma Thida Nwe",
     email: "thida.nwe@outlook.com",
     phone: "09-666-444-555",
-    passwordHash: hashPassword("password123"),
+    passwordHash: await hashPasswordBcrypt("password123"),
     userType: "guest",
     upgradeStatus: "none",
   }).returning();

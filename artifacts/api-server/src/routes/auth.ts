@@ -2,14 +2,10 @@ import { Router } from "express";
 import { db } from "@workspace/db";
 import { usersTable, upgradeRequestsTable } from "@workspace/db";
 import { eq } from "drizzle-orm";
-import * as crypto from "crypto";
 import * as jwt from "../lib/jwt.js";
+import { hashPasswordBcrypt, verifyPassword, isLegacyHash } from "../lib/password.js";
 
 const router = Router();
-
-function hashPassword(password: string): string {
-  return crypto.createHash("sha256").update(password + "scla-salt").digest("hex");
-}
 
 function userToPublic(user: typeof usersTable.$inferSelect) {
   return {
@@ -47,7 +43,7 @@ router.post("/register", async (req, res) => {
     name,
     email,
     phone,
-    passwordHash: hashPassword(password),
+    passwordHash: await hashPasswordBcrypt(password),
     userType: "guest",
     upgradeStatus: "none",
   }).returning();
@@ -69,8 +65,17 @@ router.post("/login", async (req, res) => {
     return res.status(401).json({ error: "invalid_credentials", message: "Invalid email or password" });
   }
 
-  if (user.passwordHash !== hashPassword(password)) {
+  const passwordValid = await verifyPassword(password, user.passwordHash);
+  if (!passwordValid) {
     return res.status(401).json({ error: "invalid_credentials", message: "Invalid email or password" });
+  }
+
+  // Re-hash legacy SHA256 passwords to bcrypt on successful login (per D-01, D-03)
+  if (isLegacyHash(user.passwordHash)) {
+    const newHash = await hashPasswordBcrypt(password);
+    await db.update(usersTable)
+      .set({ passwordHash: newHash })
+      .where(eq(usersTable.id, user.id));
   }
 
   const token = jwt.sign({ userId: user.id, userType: user.userType });
