@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useLocation } from "wouter";
 import { useCreateTicket, getListTicketsQueryKey, getGetTicketSummaryQueryKey } from "@workspace/api-client-react";
 import { useAuth } from "@/hooks/use-auth";
@@ -6,7 +6,7 @@ import { AppLayout } from "@/components/layout/app-layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ChevronLeft, HelpCircle } from "lucide-react";
+import { Camera, ChevronLeft, HelpCircle, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -44,7 +44,28 @@ export default function NewTicketPage() {
     serviceType: "",
     unitNumber: isResident ? user?.unitNumber ?? "" : "",
     description: "",
+    attachmentUrl: "",
   });
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // 5MB limit: 5 * 1024 * 1024 bytes
+    if (file.size > 5 * 1024 * 1024) {
+      toast({ title: "Image too large", description: "Maximum file size is 5MB.", variant: "destructive" });
+      e.target.value = "";
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setForm(f => ({ ...f, attachmentUrl: reader.result as string }));
+    };
+    reader.readAsDataURL(file);
+  };
 
   const createMutation = useCreateTicket({
     mutation: {
@@ -73,6 +94,7 @@ export default function NewTicketPage() {
         serviceType: form.serviceType,
         unitNumber: form.unitNumber || null,
         description: form.description,
+        attachmentUrl: form.attachmentUrl || null,
       }
     });
   };
@@ -174,6 +196,53 @@ export default function NewTicketPage() {
                 required
                 data-testid="input-description"
               />
+            </div>
+
+            {/* Photo attachment */}
+            <div className="space-y-3 pt-2 border-t border-border/50">
+              <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                Attach Photo <span className="font-normal normal-case">(optional, max 5MB)</span>
+              </Label>
+
+              {/* Hidden file input */}
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                capture="environment"
+                className="hidden"
+                onChange={handleFileChange}
+                data-testid="input-attachment"
+              />
+
+              {form.attachmentUrl ? (
+                <div className="relative rounded-2xl overflow-hidden border border-border bg-muted">
+                  <img
+                    src={form.attachmentUrl}
+                    alt="Attachment preview"
+                    className="w-full max-h-48 object-cover"
+                    data-testid="preview-attachment"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => { setForm(f => ({ ...f, attachmentUrl: "" })); if (fileInputRef.current) fileInputRef.current.value = ""; }}
+                    className="absolute top-2 right-2 p-1.5 bg-black/60 rounded-full text-white hover:bg-black/80 transition-colors"
+                    data-testid="button-remove-attachment"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="w-full flex items-center justify-center gap-3 py-5 rounded-2xl border-2 border-dashed border-border bg-muted/30 text-muted-foreground hover:border-primary/40 hover:text-primary transition-all"
+                  data-testid="button-attach-photo"
+                >
+                  <Camera className="w-5 h-5" />
+                  <span className="text-sm font-bold">Attach Photo</span>
+                </button>
+              )}
             </div>
           </div>
 
