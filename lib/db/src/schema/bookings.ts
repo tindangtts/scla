@@ -1,9 +1,17 @@
-import { pgTable, text, numeric, timestamp, pgEnum } from "drizzle-orm/pg-core";
+import { pgTable, text, numeric, timestamp, pgEnum, pgSequence } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod/v4";
 
 export const bookingStatusEnum = pgEnum("booking_status", ["upcoming", "completed", "cancelled"]);
 export const paymentStatusEnum = pgEnum("payment_status", ["pending", "paid", "refunded"]);
+
+export const bookingNumberSeq = pgSequence("booking_number_seq", {
+  startWith: 1,
+  increment: 1,
+  minValue: 1,
+  maxValue: 9999,
+  cycle: false,
+});
 
 export const bookingsTable = pgTable("bookings", {
   id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),

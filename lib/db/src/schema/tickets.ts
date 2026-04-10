@@ -1,6 +1,14 @@
-import { pgTable, text, timestamp, pgEnum, json } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, pgEnum, json, pgSequence } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod/v4";
+
+export const ticketNumberSeq = pgSequence("ticket_number_seq", {
+  startWith: 1,
+  increment: 1,
+  minValue: 1,
+  maxValue: 9999,
+  cycle: false,
+});
 
 export const ticketCategoryEnum = pgEnum("ticket_category", [
   "electricals", "plumbing", "housekeeping", "general_enquiry",
