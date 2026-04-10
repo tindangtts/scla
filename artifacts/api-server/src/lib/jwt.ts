@@ -1,6 +1,12 @@
 import * as crypto from "crypto";
 
-const SECRET = process.env.SESSION_SECRET ?? "scla-dev-secret-2026";
+const SECRET = process.env.SESSION_SECRET;
+if (!SECRET) {
+  throw new Error(
+    "SESSION_SECRET environment variable is required but not set. " +
+    "Set it to a random 32+ character string before starting the server."
+  );
+}
 
 function base64UrlEncode(str: string): string {
   return Buffer.from(str).toString("base64url");

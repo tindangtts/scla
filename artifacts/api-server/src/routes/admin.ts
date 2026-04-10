@@ -10,7 +10,7 @@ import * as crypto from "crypto";
 
 const router = Router();
 
-const ADMIN_SECRET = process.env.SESSION_SECRET ?? "scla-dev-secret-2026";
+const ADMIN_SECRET = process.env.SESSION_SECRET!; // guaranteed by jwt.ts startup check
 
 function hashPassword(password: string): string {
   return crypto.createHash("sha256").update(password + "scla-salt").digest("hex");
@@ -25,7 +25,7 @@ interface AdminTokenPayload {
 function signAdmin(payload: Omit<AdminTokenPayload, "exp">): string {
   const fullPayload: AdminTokenPayload = {
     ...payload,
-    exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24,
+    exp: Math.floor(Date.now() / 1000) + 60 * 60 * 8,   // 8 hours (per D-11)
   };
   const header = Buffer.from(JSON.stringify({ alg: "HS256", typ: "JWT", ctx: "admin" })).toString("base64url");
   const body = Buffer.from(JSON.stringify(fullPayload)).toString("base64url");
