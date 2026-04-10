@@ -30,6 +30,13 @@ Residents can manage their apartment lifecycle — bills, maintenance, bookings,
 - ✓ Rate limiting on auth endpoints (5 req/min/IP, 429 response) — Phase 11
 - ✓ Helmet security headers + CORS tightened to specific origins — Phase 11
 - ✓ JWT secret management hardened (no fallback, admin 8h expiry) — Phase 11
+- ✓ Admin auth on upgrade-request endpoints + DB transactions — Phase 15
+- ✓ Atomic PostgreSQL sequences for booking/ticket numbers — Phase 15
+- ✓ Global Express error handler with consistent JSON responses — Phase 15
+- ✓ Shared auth middleware across all routes (no inline JWT) — Phase 15
+- ✓ Integer arithmetic for invoice calculations (no float precision loss) — Phase 15
+- ✓ Proper TypeScript types on all route handlers — Phase 15
+- ✓ Password validation on admin staff creation — Phase 15
 
 ### Active
 
@@ -86,4 +93,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-10 after Phase 11 completion*
+*Last updated: 2026-04-10 after Phase 15 completion*
