@@ -84,7 +84,7 @@ Plans:
 | 12. Real Payment Integration | v2.0 | 0/? | Not started | - |
 | 13. Communication & Notifications | v2.0 | 0/? | Not started | - |
 | 14. UX Enhancements | v2.0 | 0/? | Not started | - |
-| 15. API Hardening & Code Quality | v2.0 | 0/? | Not started | - |
+| 15. API Hardening & Code Quality | v2.0 | 0/4 | Not started | - |
 
 ### Phase 15: API Hardening & Code Quality
 **Goal**: Fix critical auth gaps, race conditions, missing error handling, and type safety issues identified in the codebase audit
@@ -99,4 +99,10 @@ Plans:
   6. Invoice amount calculations use integer arithmetic (cents) instead of float
   7. All route handlers have proper TypeScript types (no `any` on req/res)
   8. Admin staff creation validates password length >= 8 characters
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 15-01-PLAN.md — Admin auth on upgrade-request endpoints + transactional approve/reject (QUAL-01, QUAL-03)
+- [ ] 15-02-PLAN.md — Global Express error handler + staff password validation (QUAL-04, QUAL-08)
+- [ ] 15-03-PLAN.md — Atomic DB sequences for booking and ticket number generation (QUAL-02)
+- [ ] 15-04-PLAN.md — Shared auth middleware refactor + integer invoice arithmetic + TypeScript types (QUAL-05, QUAL-06, QUAL-07)
