@@ -10,15 +10,16 @@ const ticketMessagesRouter = Router();
 // GET /api/tickets/:id/messages — returns all messages for a ticket the resident owns
 ticketMessagesRouter.get("/:id/messages", requireAuth, async (req: Request, res: Response) => {
   const { user } = req as AuthenticatedRequest;
+  const id = req.params.id as string;
 
-  const [ticket] = await db.select().from(ticketsTable).where(eq(ticketsTable.id, req.params.id));
+  const [ticket] = await db.select().from(ticketsTable).where(eq(ticketsTable.id, id));
   if (!ticket) return res.status(404).json({ error: "not_found" });
   if (ticket.userId !== user.id) return res.status(403).json({ error: "forbidden" });
 
   const messages = await db
     .select()
     .from(ticketMessagesTable)
-    .where(eq(ticketMessagesTable.ticketId, req.params.id))
+    .where(eq(ticketMessagesTable.ticketId, id))
     .orderBy(asc(ticketMessagesTable.createdAt));
 
   return res.json(messages);
@@ -27,8 +28,9 @@ ticketMessagesRouter.get("/:id/messages", requireAuth, async (req: Request, res:
 // POST /api/tickets/:id/messages — resident sends a message in the ticket chat thread
 ticketMessagesRouter.post("/:id/messages", requireAuth, async (req: Request, res: Response) => {
   const { user } = req as AuthenticatedRequest;
+  const id = req.params.id as string;
 
-  const [ticket] = await db.select().from(ticketsTable).where(eq(ticketsTable.id, req.params.id));
+  const [ticket] = await db.select().from(ticketsTable).where(eq(ticketsTable.id, id));
   if (!ticket) return res.status(404).json({ error: "not_found" });
   if (ticket.userId !== user.id) return res.status(403).json({ error: "forbidden" });
 
@@ -40,7 +42,7 @@ ticketMessagesRouter.post("/:id/messages", requireAuth, async (req: Request, res
   const [inserted] = await db
     .insert(ticketMessagesTable)
     .values({
-      ticketId: req.params.id,
+      ticketId: id,
       senderId: user.id,
       senderType: "resident",
       content: content.trim(),

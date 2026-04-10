@@ -2,7 +2,8 @@ import { Router } from "express";
 import { db } from "@workspace/db";
 import {
   staffUsersTable, usersTable, upgradeRequestsTable, announcementsTable,
-  promotionsTable, ticketsTable, facilitiesTable, bookingsTable, faqsTable
+  promotionsTable, ticketsTable, facilitiesTable, bookingsTable, faqsTable,
+  ticketMessagesTable
 } from "@workspace/db";
 import { eq, desc, asc, count, and, gte, lte, like, or, sql } from "drizzle-orm";
 import * as jwt from "../lib/jwt.js";
@@ -639,6 +640,39 @@ router.patch("/staff/:id", async (req, res) => {
     });
   if (!updated) return res.status(404).json({ error: "not_found" });
   return res.json(updated);
+});
+
+// ─── TICKET MESSAGES (admin) ─────────────────────────────────────────────────
+
+// POST /admin/tickets/:id/messages — staff sends a message in the ticket chat thread
+router.post("/tickets/:id/messages", async (req, res) => {
+  const payload = requireAdmin(req, res);
+  if (!payload) return;
+  const { content } = req.body as { content?: string };
+  if (!content || !content.trim()) {
+    return res.status(400).json({ error: "validation_error", message: "content is required" });
+  }
+  const [ticket] = await db.select().from(ticketsTable).where(eq(ticketsTable.id, req.params.id));
+  if (!ticket) return res.status(404).json({ error: "not_found" });
+  const [inserted] = await db.insert(ticketMessagesTable).values({
+    ticketId: req.params.id,
+    senderId: payload.staffId,
+    senderType: "staff",
+    content: content.trim(),
+  }).returning();
+  return res.status(201).json(inserted);
+});
+
+// GET /admin/tickets/:id/messages — retrieve all messages for a ticket (asc by createdAt)
+router.get("/tickets/:id/messages", async (req, res) => {
+  const payload = requireAdmin(req, res);
+  if (!payload) return;
+  const [ticket] = await db.select().from(ticketsTable).where(eq(ticketsTable.id, req.params.id));
+  if (!ticket) return res.status(404).json({ error: "not_found" });
+  const messages = await db.select().from(ticketMessagesTable)
+    .where(eq(ticketMessagesTable.ticketId, req.params.id))
+    .orderBy(asc(ticketMessagesTable.createdAt));
+  return res.json(messages);
 });
 
 export default router;
