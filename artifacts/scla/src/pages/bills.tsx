@@ -5,17 +5,20 @@ import { AppLayout } from "@/components/layout/app-layout";
 import { formatMMK, formatDate, getStatusBadgeClass, getStatusLabel } from "@/lib/format";
 import { ChevronRight, ChevronLeft, FileText } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useTranslation } from "react-i18next";
 
-const STATUS_FILTERS = [
-  { value: undefined, label: "All" },
-  { value: "unpaid", label: "Unpaid" },
-  { value: "partially_paid", label: "Partial" },
-  { value: "paid", label: "Paid" },
-];
 
 export default function BillsPage() {
   const [, setLocation] = useLocation();
+  const { t } = useTranslation();
   const [statusFilter, setStatusFilter] = useState<string | undefined>(undefined);
+
+  const STATUS_FILTERS = [
+    { value: undefined, label: "All" },
+    { value: "unpaid", label: t("bills.unpaid") },
+    { value: "partially_paid", label: "Partial" },
+    { value: "paid", label: t("bills.paid") },
+  ];
 
   const { data: summary } = useGetInvoiceSummary({
     query: { queryKey: getGetInvoiceSummaryQueryKey() }
@@ -42,7 +45,7 @@ export default function BillsPage() {
             <button onClick={() => setLocation("/")} className="p-2.5 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 transition-colors" data-testid="button-back">
               <ChevronLeft className="w-5 h-5 text-primary-foreground" />
             </button>
-            <h1 className="text-xl font-extrabold text-primary-foreground tracking-tight">Bill Payment</h1>
+            <h1 className="text-xl font-extrabold text-primary-foreground tracking-tight">{t("bills.title")}</h1>
           </div>
           
           {summary && (
@@ -89,7 +92,7 @@ export default function BillsPage() {
               <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
                 <FileText className="w-8 h-8 text-muted-foreground/50" />
               </div>
-              <p className="text-foreground font-bold text-lg">No invoices found</p>
+              <p className="text-foreground font-bold text-lg">{t("bills.noBills")}</p>
               <p className="text-muted-foreground font-medium text-sm mt-1">You're all caught up with your bills.</p>
             </div>
           ) : (

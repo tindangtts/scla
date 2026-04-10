@@ -5,9 +5,11 @@ import { AppLayout } from "@/components/layout/app-layout";
 import { formatDate } from "@/lib/format";
 import { ChevronRight, Pin, Megaphone, Tag } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useTranslation } from "react-i18next";
 
 export default function DiscoverPage() {
   const [, setLocation] = useLocation();
+  const { t } = useTranslation();
   const [tab, setTab] = useState<"announcements" | "offers">("announcements");
 
   const { data: announcements, isLoading: annLoading } = useListAnnouncements(
@@ -26,22 +28,22 @@ export default function DiscoverPage() {
         <div className="bg-gradient-teal px-5 pt-14 pb-8 rounded-b-[2.5rem] shadow-md relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 blur-3xl rounded-full" />
           
-          <h1 className="text-2xl font-black text-primary-foreground tracking-tight mb-5 relative z-10">Discover StarCity</h1>
+          <h1 className="text-2xl font-black text-primary-foreground tracking-tight mb-5 relative z-10">{t("discover.title")}</h1>
           
           <div className="flex gap-2 bg-black/20 p-1.5 rounded-2xl backdrop-blur-md relative z-10">
-            {(["announcements", "offers"] as const).map(t => (
+            {(["announcements", "offers"] as const).map(tabKey => (
               <button
-                key={t}
-                onClick={() => setTab(t)}
+                key={tabKey}
+                onClick={() => setTab(tabKey)}
                 className={`flex-1 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 ${
-                  tab === t 
-                    ? "bg-white text-primary shadow-md scale-[1.02]" 
+                  tab === tabKey
+                    ? "bg-white text-primary shadow-md scale-[1.02]"
                     : "text-white/80 hover:text-white hover:bg-white/10"
                 }`}
-                data-testid={`tab-${t}`}
+                data-testid={`tab-${tabKey}`}
               >
-                {t === "announcements" ? <Megaphone className="w-4 h-4" /> : <Tag className="w-4 h-4" />}
-                {t === "announcements" ? "Notices" : "Offers"}
+                {tabKey === "announcements" ? <Megaphone className="w-4 h-4" /> : <Tag className="w-4 h-4" />}
+                {tabKey === "announcements" ? t("discover.announcements") : t("discover.promotions")}
               </button>
             ))}
           </div>

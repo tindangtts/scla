@@ -8,11 +8,13 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useTranslation } from "react-i18next";
 
 export default function BookingDetailPage() {
   const { id: facilityId } = useParams<{ id: string }>();
   const [, setLocation] = useLocation();
   const { toast } = useToast();
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
 
   const today = new Date().toISOString().split("T")[0]!;
@@ -118,7 +120,7 @@ export default function BookingDetailPage() {
           <div>
             <div className="flex items-center gap-2 mb-4 px-1">
               <span className="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">1</span>
-              <h3 className="font-extrabold text-base tracking-tight">Select Date</h3>
+              <h3 className="font-extrabold text-base tracking-tight">{t("bookings.selectDate")}</h3>
             </div>
             <div className="flex gap-3 overflow-x-auto pb-2 no-scrollbar px-1">
               {dates.map(date => {
@@ -136,7 +138,7 @@ export default function BookingDetailPage() {
                     data-testid={`date-${date}`}
                   >
                     <span className={`text-[10px] font-bold uppercase tracking-widest ${selectedDate === date ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
-                      {isToday ? "Today" : d.toLocaleDateString("en-GB", { weekday: "short" })}
+                      {isToday ? t("bookings.today") : d.toLocaleDateString("en-GB", { weekday: "short" })}
                     </span>
                     <span className="text-2xl font-black mt-0.5">{d.getDate()}</span>
                     <span className={`text-[10px] font-bold uppercase tracking-widest ${selectedDate === date ? "text-primary-foreground/80" : "text-muted-foreground"}`}>{d.toLocaleDateString("en-GB", { month: "short" })}</span>
@@ -149,7 +151,7 @@ export default function BookingDetailPage() {
           <div>
             <div className="flex items-center gap-2 mb-4 px-1">
               <span className="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">2</span>
-              <h3 className="font-extrabold text-base tracking-tight">Select Time</h3>
+              <h3 className="font-extrabold text-base tracking-tight">{t("bookings.selectTime")}</h3>
             </div>
             {slotsLoading ? (
               <div className="grid grid-cols-3 gap-3">
@@ -181,12 +183,12 @@ export default function BookingDetailPage() {
 
           {selectedSlot && selectedSlotData && (
             <div className="bg-card border-2 border-primary/20 rounded-[1.5rem] p-6 shadow-lg shadow-primary/5 animate-in slide-in-from-bottom-4">
-              <p className="text-sm font-extrabold uppercase tracking-wider text-muted-foreground mb-4">Booking Summary</p>
+              <p className="text-sm font-extrabold uppercase tracking-wider text-muted-foreground mb-4">{t("bookings.summary")}</p>
               <div className="space-y-3 text-sm font-medium">
-                <div className="flex justify-between items-center"><span className="text-muted-foreground">Date</span><span className="font-bold bg-muted px-2 py-1 rounded-md">{selectedDate}</span></div>
-                <div className="flex justify-between items-center"><span className="text-muted-foreground">Time</span><span className="font-bold bg-muted px-2 py-1 rounded-md">{selectedSlotData.startTime} – {selectedSlotData.endTime}</span></div>
+                <div className="flex justify-between items-center"><span className="text-muted-foreground">{t("bookings.date")}</span><span className="font-bold bg-muted px-2 py-1 rounded-md">{selectedDate}</span></div>
+                <div className="flex justify-between items-center"><span className="text-muted-foreground">{t("bookings.time")}</span><span className="font-bold bg-muted px-2 py-1 rounded-md">{selectedSlotData.startTime} – {selectedSlotData.endTime}</span></div>
                 <div className="flex justify-between items-center pt-3 border-t border-border/50">
-                  <span className="font-extrabold text-foreground">Total</span>
+                  <span className="font-extrabold text-foreground">{t("bookings.total")}</span>
                   <span className="font-black text-xl text-primary">{formatMMK(selectedSlotData.price)}</span>
                 </div>
               </div>
@@ -202,7 +204,7 @@ export default function BookingDetailPage() {
                 <div className="flex items-center gap-3">
                   <Repeat2 className="w-5 h-5" />
                   <div className="text-left">
-                    <p className="text-sm font-bold text-foreground">Repeat weekly (4 weeks)</p>
+                    <p className="text-sm font-bold text-foreground">{t("bookings.repeatWeekly")}</p>
                     <p className="text-xs font-medium text-muted-foreground mt-0.5">
                       Creates 4 bookings on the same time slot
                     </p>
@@ -223,7 +225,7 @@ export default function BookingDetailPage() {
                 disabled={createMutation.isPending}
                 data-testid="button-confirm-booking"
               >
-                {createMutation.isPending ? "Confirming..." : "Confirm Booking"}
+                {createMutation.isPending ? t("bookings.confirming") : t("bookings.confirm")}
               </Button>
             </div>
           )}

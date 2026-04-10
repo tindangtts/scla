@@ -7,6 +7,7 @@ import { formatMMK } from "@/lib/format";
 import { ChevronRight, Calendar, Dumbbell, MapPin, Clock, Repeat2, Loader2 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "react-i18next";
 
 const FACILITY_ICONS: Record<string, string> = {
   swimming_pool: "Pool", tennis_court: "Tennis", basketball_court: "Basketball",
@@ -18,6 +19,7 @@ export default function BookingsPage() {
   const [tab, setTab] = useState<"facilities" | "mybookings">("facilities");
   const queryClient = useQueryClient();
   const { toast } = useToast();
+  const { t } = useTranslation();
   const API_BASE = import.meta.env.VITE_API_URL ?? "/api";
   const token = localStorage.getItem("token") ?? "";
 
@@ -54,22 +56,22 @@ export default function BookingsPage() {
         <div className="bg-gradient-teal px-5 pt-14 pb-8 rounded-b-[2.5rem] shadow-md relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 blur-3xl rounded-full" />
           
-          <h1 className="text-2xl font-black text-primary-foreground tracking-tight mb-5 relative z-10">SCSC Bookings</h1>
-          
+          <h1 className="text-2xl font-black text-primary-foreground tracking-tight mb-5 relative z-10">{t("bookings.title")}</h1>
+
           <div className="flex gap-2 bg-black/20 p-1.5 rounded-2xl backdrop-blur-md relative z-10">
-            {(["facilities", "mybookings"] as const).map(t => (
+            {(["facilities", "mybookings"] as const).map(tabKey => (
               <button
-                key={t}
-                onClick={() => setTab(t)}
+                key={tabKey}
+                onClick={() => setTab(tabKey)}
                 className={`flex-1 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 ${
-                  tab === t 
-                    ? "bg-white text-primary shadow-md scale-[1.02]" 
+                  tab === tabKey
+                    ? "bg-white text-primary shadow-md scale-[1.02]"
                     : "text-white/80 hover:text-white hover:bg-white/10"
                 }`}
-                data-testid={`tab-${t}`}
+                data-testid={`tab-${tabKey}`}
               >
-                {t === "facilities" ? <MapPin className="w-4 h-4" /> : <Calendar className="w-4 h-4" />}
-                {t === "facilities" ? "Facilities" : "My Bookings"}
+                {tabKey === "facilities" ? <MapPin className="w-4 h-4" /> : <Calendar className="w-4 h-4" />}
+                {tabKey === "facilities" ? t("bookings.facilities") : t("bookings.myBookings")}
               </button>
             ))}
           </div>
@@ -116,7 +118,7 @@ export default function BookingsPage() {
                 <div className="w-20 h-20 bg-muted rounded-full flex items-center justify-center mx-auto mb-5 shadow-inner">
                   <Calendar className="w-10 h-10 text-muted-foreground/50" />
                 </div>
-                <p className="font-extrabold text-xl text-foreground">No bookings yet</p>
+                <p className="font-extrabold text-xl text-foreground">{t("bookings.noBookings")}</p>
                 <p className="text-muted-foreground font-medium text-sm mt-2">Browse facilities to make your first booking.</p>
               </div>
             ) : (
@@ -165,7 +167,7 @@ export default function BookingsPage() {
                         ) : (
                           <Repeat2 className="w-3.5 h-3.5" />
                         )}
-                        Cancel All Future
+                        {t("bookings.cancelAllFuture")}
                       </button>
                     </div>
                   )}

@@ -5,17 +5,20 @@ import { AppLayout } from "@/components/layout/app-layout";
 import { formatDateTime, getStatusBadgeClass, getStatusLabel } from "@/lib/format";
 import { ChevronRight, Plus, Ticket, HelpCircle } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useTranslation } from "react-i18next";
 
-const STATUS_FILTERS = [
-  { value: undefined, label: "All" },
-  { value: "open", label: "Open" },
-  { value: "in_progress", label: "In Progress" },
-  { value: "completed", label: "Completed" },
-];
 
 export default function StarAssistPage() {
   const [, setLocation] = useLocation();
+  const { t } = useTranslation();
   const [statusFilter, setStatusFilter] = useState<string | undefined>(undefined);
+
+  const STATUS_FILTERS = [
+    { value: undefined, label: "All" },
+    { value: "open", label: t("common.status.open") },
+    { value: "in_progress", label: t("common.status.inProgress") },
+    { value: "completed", label: t("common.status.completed") },
+  ];
 
   const { data: summary } = useGetTicketSummary({
     query: { queryKey: getGetTicketSummaryQueryKey() }
@@ -41,7 +44,7 @@ export default function StarAssistPage() {
           <div className="relative z-10 flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
               <HelpCircle className="w-6 h-6 text-accent" />
-              <h1 className="text-xl font-extrabold text-primary-foreground tracking-tight">Star Assist</h1>
+              <h1 className="text-xl font-extrabold text-primary-foreground tracking-tight">{t("tickets.title")}</h1>
             </div>
             <button
               onClick={() => setLocation("/star-assist/new")}
@@ -49,16 +52,16 @@ export default function StarAssistPage() {
               data-testid="button-new-ticket"
             >
               <Plus className="w-4 h-4" />
-              New Ticket
+              {t("tickets.new")}
             </button>
           </div>
           
           {summary && (
             <div className="grid grid-cols-3 gap-3 relative z-10">
               {[
-                { label: "Open", value: summary.openCount, cls: "bg-white/10 text-white" },
-                { label: "In Progress", value: summary.inProgressCount, cls: "bg-white/10 text-white" },
-                { label: "Completed", value: summary.completedCount, cls: "bg-white/10 text-white" },
+                { label: t("common.status.open"), value: summary.openCount, cls: "bg-white/10 text-white" },
+                { label: t("common.status.inProgress"), value: summary.inProgressCount, cls: "bg-white/10 text-white" },
+                { label: t("common.status.completed"), value: summary.completedCount, cls: "bg-white/10 text-white" },
               ].map(s => (
                 <div key={s.label} className={`${s.cls} rounded-2xl p-3 text-center border border-white/10 backdrop-blur-sm`}>
                   <p className="text-2xl font-black tracking-tight">{s.value}</p>
@@ -96,7 +99,7 @@ export default function StarAssistPage() {
               <div className="w-20 h-20 bg-muted rounded-full flex items-center justify-center mx-auto mb-5 shadow-inner">
                 <Ticket className="w-10 h-10 text-muted-foreground/50" />
               </div>
-              <p className="font-extrabold text-xl text-foreground">No tickets yet</p>
+              <p className="font-extrabold text-xl text-foreground">{t("tickets.noTickets")}</p>
               <p className="text-muted-foreground font-medium text-sm mt-2 leading-relaxed max-w-[250px] mx-auto">Need help with your unit or have a general enquiry?</p>
               <button
                 onClick={() => setLocation("/star-assist/new")}

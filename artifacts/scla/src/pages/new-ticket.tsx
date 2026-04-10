@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Camera, ChevronLeft, HelpCircle, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 
 const CATEGORIES = [
   { value: "electricals", label: "Electricals" },
@@ -36,6 +37,7 @@ export default function NewTicketPage() {
   const [, setLocation] = useLocation();
   const { user, isResident } = useAuth();
   const { toast } = useToast();
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
 
   const [form, setForm] = useState({
@@ -110,14 +112,14 @@ export default function NewTicketPage() {
             <button onClick={() => setLocation("/star-assist")} className="p-2.5 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 transition-colors" data-testid="button-back">
               <ChevronLeft className="w-5 h-5 text-primary-foreground" />
             </button>
-            <h1 className="text-xl font-extrabold text-primary-foreground tracking-tight">Raise a Ticket</h1>
+            <h1 className="text-xl font-extrabold text-primary-foreground tracking-tight">{t("ticket.new.title")}</h1>
           </div>
         </div>
 
         <form onSubmit={handleSubmit} className="px-5 py-6 space-y-6 pb-12 -mt-4 relative z-20">
           <div className="bg-card rounded-[1.5rem] p-6 shadow-sm border border-card-border space-y-5">
             <div className="space-y-2">
-              <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Short Title</Label>
+              <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{t("ticket.new.shortTitle")}</Label>
               <Input
                 placeholder="E.g. Leaking pipe in master bathroom"
                 value={form.title}
@@ -129,7 +131,7 @@ export default function NewTicketPage() {
             </div>
 
             <div className="space-y-3">
-              <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Category</Label>
+              <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{t("ticket.new.category")}</Label>
               <div className="grid grid-cols-2 gap-2.5">
                 {CATEGORIES.map(cat => (
                   <button
@@ -151,7 +153,7 @@ export default function NewTicketPage() {
 
             {form.category && (
               <div className="space-y-3 pt-2 border-t border-border/50 animate-in fade-in slide-in-from-top-2">
-                <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Specific Issue</Label>
+                <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{t("ticket.new.serviceType")}</Label>
                 <div className="grid grid-cols-2 gap-2.5">
                   {serviceTypes.map(st => (
                     <button
@@ -174,7 +176,7 @@ export default function NewTicketPage() {
 
             {(isResident || form.category === "general_enquiry") && (
               <div className="space-y-2 pt-2 border-t border-border/50">
-                <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Unit Number {!isResident && "(optional)"}</Label>
+                <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{t("ticket.new.unit")} {!isResident && "(optional)"}</Label>
                 <Input
                   placeholder="e.g. A-12-03"
                   value={form.unitNumber}
@@ -187,7 +189,7 @@ export default function NewTicketPage() {
             )}
 
             <div className="space-y-2 pt-2 border-t border-border/50">
-              <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Description</Label>
+              <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{t("ticket.new.description")}</Label>
               <textarea
                 className="w-full min-h-[140px] p-4 text-sm font-medium border-transparent rounded-2xl bg-muted/50 resize-none focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary shadow-inner"
                 placeholder="Please describe your issue in detail..."
@@ -201,7 +203,7 @@ export default function NewTicketPage() {
             {/* Photo attachment */}
             <div className="space-y-3 pt-2 border-t border-border/50">
               <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                Attach Photo <span className="font-normal normal-case">(optional, max 5MB)</span>
+                {t("ticket.new.attachment")} <span className="font-normal normal-case">({t("ticket.new.attachmentHint")})</span>
               </Label>
 
               {/* Hidden file input */}
@@ -240,7 +242,7 @@ export default function NewTicketPage() {
                   data-testid="button-attach-photo"
                 >
                   <Camera className="w-5 h-5" />
-                  <span className="text-sm font-bold">Attach Photo</span>
+                  <span className="text-sm font-bold">{t("ticket.new.attachment")}</span>
                 </button>
               )}
             </div>
@@ -252,7 +254,7 @@ export default function NewTicketPage() {
             disabled={createMutation.isPending}
             data-testid="button-submit-ticket"
           >
-            {createMutation.isPending ? "Submitting..." : "Submit Ticket"}
+            {createMutation.isPending ? t("ticket.new.submitting") : t("ticket.new.submit")}
           </Button>
         </form>
       </div>

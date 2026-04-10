@@ -4,6 +4,7 @@ import { AppLayout } from "@/components/layout/app-layout";
 import { formatDateTime } from "@/lib/format";
 import { ChevronLeft, Bell, CreditCard, HelpCircle, Megaphone, Calendar } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useTranslation } from "react-i18next";
 
 const TYPE_ICONS = {
   ticket_update: HelpCircle,
@@ -23,6 +24,7 @@ const TYPE_COLORS = {
 
 export default function NotificationsPage() {
   const [, setLocation] = useLocation();
+  const { t } = useTranslation();
 
   const { data: notifications, isLoading } = useListNotifications({
     query: { queryKey: getListNotificationsQueryKey() }
@@ -37,7 +39,7 @@ export default function NotificationsPage() {
             <button onClick={() => setLocation("/")} className="p-2.5 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 transition-colors" data-testid="button-back">
               <ChevronLeft className="w-5 h-5 text-primary-foreground" />
             </button>
-            <h1 className="text-xl font-extrabold text-primary-foreground tracking-tight">Notifications</h1>
+            <h1 className="text-xl font-extrabold text-primary-foreground tracking-tight">{t("notifications.title")}</h1>
           </div>
         </div>
 
@@ -51,7 +53,7 @@ export default function NotificationsPage() {
               <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
                 <Bell className="w-8 h-8 text-muted-foreground/50" />
               </div>
-              <p className="font-extrabold text-lg text-foreground tracking-tight">No notifications</p>
+              <p className="font-extrabold text-lg text-foreground tracking-tight">{t("notifications.title")}</p>
               <p className="text-muted-foreground font-medium text-sm mt-1">You're all caught up.</p>
             </div>
           ) : (
