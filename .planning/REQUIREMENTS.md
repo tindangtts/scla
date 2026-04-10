@@ -91,7 +91,7 @@ Requirements mapped from existing codebase. All features below are already imple
 
 ## v2 Requirements
 
-Deferred to future release. Not in current roadmap.
+Next milestone (v2.0 Production-Ready). Phases 11-14.
 
 ### Payment Integration
 
@@ -131,7 +131,7 @@ Deferred to future release. Not in current roadmap.
 
 ## Traceability
 
-All v1 requirements are already implemented (brownfield project). Traceability maps to future phases for v2 work.
+All v1 requirements are already implemented (brownfield project). v2 requirements map to Phases 11-14.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
@@ -145,12 +145,26 @@ All v1 requirements are already implemented (brownfield project). Traceability m
 | NOTF-01 through NOTF-04 | Existing | Complete |
 | HOME-01 through HOME-03 | Existing | Complete |
 | ADMN-01 through ADMN-10 | Existing | Complete |
+| SEC-01 | Phase 11 | Pending |
+| SEC-02 | Phase 11 | Pending |
+| SEC-03 | Phase 11 | Pending |
+| PAY-01 | Phase 12 | Pending |
+| PAY-02 | Phase 12 | Pending |
+| PAY-03 | Phase 12 | Pending |
+| COMM-01 | Phase 13 | Pending |
+| COMM-02 | Phase 13 | Pending |
+| COMM-03 | Phase 13 | Pending |
+| ENH-01 | Phase 14 | Pending |
+| ENH-02 | Phase 14 | Pending |
+| ENH-03 | Phase 14 | Pending |
+| ENH-04 | Phase 14 | Pending |
+| ENH-05 | Phase 14 | Pending |
 
 **Coverage:**
-- v1 requirements: 52 total
-- Mapped to existing: 52
+- v1 requirements: 52 total — Mapped to existing: 52 ✓
+- v2 requirements: 14 total — Mapped to Phases 11-14: 14 ✓
 - Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-04-10*
-*Last updated: 2026-04-10 after codebase analysis*
+*Last updated: 2026-04-10 after v2.0 roadmap creation*
