@@ -170,14 +170,14 @@ All v1 requirements are already implemented (brownfield project). v2 requirement
 | ENH-03 | Phase 14 | Pending |
 | ENH-04 | Phase 14 | Pending |
 | ENH-05 | Phase 14 | Pending |
-| QUAL-01 | Phase 15 | Pending |
+| QUAL-01 | Phase 15 | Complete |
 | QUAL-02 | Phase 15 | Pending |
-| QUAL-03 | Phase 15 | Pending |
-| QUAL-04 | Phase 15 | Pending |
+| QUAL-03 | Phase 15 | Complete |
+| QUAL-04 | Phase 15 | Complete |
 | QUAL-05 | Phase 15 | Pending |
 | QUAL-06 | Phase 15 | Pending |
 | QUAL-07 | Phase 15 | Pending |
-| QUAL-08 | Phase 15 | Pending |
+| QUAL-08 | Phase 15 | Complete |
 
 **Coverage:**
 - v1 requirements: 52 total — Mapped to existing: 52 ✓
