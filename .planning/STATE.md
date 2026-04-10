@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Production-Ready
-status: executing
-stopped_at: Completed 15-03-PLAN.md (atomic sequence-based number generation)
-last_updated: "2026-04-10T13:03:12.213Z"
+status: verifying
+stopped_at: Completed 15-04-PLAN.md (shared auth middleware migration and float arithmetic fix)
+last_updated: "2026-04-10T13:08:11.954Z"
 last_activity: 2026-04-10
 progress:
   total_phases: 5
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 7
-  completed_plans: 6
+  completed_plans: 7
   percent: 14
 ---
 
@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-04-10)
 
 Phase: 15 (api-hardening-and-code-quality-fixes) — EXECUTING
 Plan: 4 of 4
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-04-10
 
 Progress: [██░░░░░░░░] ~14% (v1.0 complete, v2.0 not started)
@@ -58,6 +58,7 @@ Progress: [██░░░░░░░░] ~14% (v1.0 complete, v2.0 not started
 | Phase 15 P02 | 5 | 2 tasks | 2 files |
 | Phase 15 P01 | 10 | 2 tasks | 1 files |
 | Phase 15 P03 | 10 | 2 tasks | 5 files |
+| Phase 15 P04 | 3 | 3 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -80,6 +81,8 @@ Recent decisions affecting current work:
 - [Phase 15]: Copied verifyAdmin/requireAdmin verbatim from admin.ts to auth.ts to keep auth logic consistent without extracting shared middleware
 - [Phase 15]: db.select for upgrade request placed outside transaction (read-only); only the two UPDATE statements are wrapped in db.transaction for atomicity
 - [Phase 15]: Used result.rows[0].num for db.execute() since drizzle node-postgres returns pg QueryResult, not iterable array
+- [Phase 15]: AuthenticatedRequest type exported from auth-middleware.ts so route files can access req.user without any casts
+- [Phase 15]: home.ts uses optionalAuth middleware — unauthenticated guests receive partial response with null user fields
 
 ### Roadmap Evolution
 
@@ -95,6 +98,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-10T13:03:12.210Z
-Stopped at: Completed 15-03-PLAN.md (atomic sequence-based number generation)
+Last session: 2026-04-10T13:08:11.951Z
+Stopped at: Completed 15-04-PLAN.md (shared auth middleware migration and float arithmetic fix)
 Resume file: None

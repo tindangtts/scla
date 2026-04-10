@@ -174,9 +174,9 @@ All v1 requirements are already implemented (brownfield project). v2 requirement
 | QUAL-02 | Phase 15 | Complete |
 | QUAL-03 | Phase 15 | Complete |
 | QUAL-04 | Phase 15 | Complete |
-| QUAL-05 | Phase 15 | Pending |
-| QUAL-06 | Phase 15 | Pending |
-| QUAL-07 | Phase 15 | Pending |
+| QUAL-05 | Phase 15 | Complete |
+| QUAL-06 | Phase 15 | Complete |
+| QUAL-07 | Phase 15 | Complete |
 | QUAL-08 | Phase 15 | Complete |
 
 **Coverage:**
