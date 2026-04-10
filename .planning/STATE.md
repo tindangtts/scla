@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Production-Ready
-status: verifying
-stopped_at: Completed 15-04-PLAN.md (shared auth middleware migration and float arithmetic fix)
-last_updated: "2026-04-10T13:11:55.742Z"
+status: executing
+stopped_at: "Completed 13-01-PLAN.md (DB schemas: push_subscriptions, ticket_messages, emailNotifications column)"
+last_updated: "2026-04-10T16:13:20.276Z"
 last_activity: 2026-04-10
 progress:
   total_phases: 5
   completed_phases: 2
-  total_plans: 7
-  completed_plans: 7
+  total_plans: 13
+  completed_plans: 8
   percent: 14
 ---
 
@@ -21,13 +21,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-10)
 
 **Core value:** Residents can manage their apartment lifecycle — bills, maintenance, bookings, and community info — from a single mobile-first web app without visiting the management office.
-**Current focus:** Phase 15 — api-hardening-and-code-quality-fixes
+**Current focus:** Phase 13 — communication-notifications
 
 ## Current Position
 
-Phase: 15
-Plan: Not started
-Status: Phase complete — ready for verification
+Phase: 13 (communication-notifications) — EXECUTING
+Plan: 2 of 6
+Status: Ready to execute
 Last activity: 2026-04-10
 
 Progress: [██░░░░░░░░] ~14% (v1.0 complete, v2.0 not started)
@@ -59,6 +59,7 @@ Progress: [██░░░░░░░░] ~14% (v1.0 complete, v2.0 not started
 | Phase 15 P01 | 10 | 2 tasks | 1 files |
 | Phase 15 P03 | 10 | 2 tasks | 5 files |
 | Phase 15 P04 | 3 | 3 tasks | 6 files |
+| Phase 13 P01 | 5 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -83,6 +84,8 @@ Recent decisions affecting current work:
 - [Phase 15]: Used result.rows[0].num for db.execute() since drizzle node-postgres returns pg QueryResult, not iterable array
 - [Phase 15]: AuthenticatedRequest type exported from auth-middleware.ts so route files can access req.user without any casts
 - [Phase 15]: home.ts uses optionalAuth middleware — unauthenticated guests receive partial response with null user fields
+- [Phase 13]: No FK constraints in push_subscriptions/ticket_messages — matches existing codebase pattern (text IDs without .references())
+- [Phase 13]: emailNotifications defaults to true — opt-out model for email notifications
 
 ### Roadmap Evolution
 
@@ -98,6 +101,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-10T13:08:11.951Z
-Stopped at: Completed 15-04-PLAN.md (shared auth middleware migration and float arithmetic fix)
+Last session: 2026-04-10T16:13:20.270Z
+Stopped at: Completed 13-01-PLAN.md (DB schemas: push_subscriptions, ticket_messages, emailNotifications column)
 Resume file: None
