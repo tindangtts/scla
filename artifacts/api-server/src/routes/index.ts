@@ -11,6 +11,7 @@ import bookingsRouter from "./bookings";
 import infoRouter from "./info";
 import homeRouter from "./home";
 import adminRouter from "./admin";
+import pushRouter from "./push";
 
 const router: IRouter = Router();
 
@@ -25,6 +26,7 @@ router.use("/facilities", facilitiesRouter);
 router.use("/bookings", bookingsRouter);
 router.use(infoRouter);
 router.use(homeRouter);
+router.use("/push", pushRouter);
 router.use("/admin", adminRouter);
 
 export default router;
