@@ -38,10 +38,11 @@ Plans:
 - [x] 11-02-PLAN.md — rate limiting on auth endpoints (SEC-02)
 - [x] 11-03-PLAN.md — helmet security headers + CORS hardening (SEC-03)
 
-### Phase 12: Real Payment Integration
+### Phase 12: Real Payment Integration ⏭ DEFERRED
 **Goal**: Residents can complete bill payments through live WavePay and KBZPay gateways and receive downloadable receipts
 **Depends on**: Phase 11
 **Requirements**: PAY-01, PAY-02, PAY-03
+**Status**: Deferred — missing WavePay/KBZPay gateway API documentation and credentials
 **Success Criteria** (what must be TRUE):
   1. Resident can select WavePay at checkout and be redirected to the real WavePay payment page
   2. Resident can select KBZPay at checkout and be redirected to the real KBZPay payment page
@@ -96,7 +97,7 @@ Plans:
 |-------|-----------|----------------|--------|-----------|
 | 1-10. Foundation | v1.0 | -/- | Complete | 2026-04-10 |
 | 11. Security Hardening | v2.0 | 3/3 | Complete    | 2026-04-10 |
-| 12. Real Payment Integration | v2.0 | 0/? | Not started | - |
+| 12. Real Payment Integration | v2.0 | 0/? | Deferred | - |
 | 13. Communication & Notifications | v2.0 | 7/7 | Complete    | 2026-04-10 |
 | 14. UX Enhancements | v2.0 | 7/7 | Complete    | 2026-04-10 |
 | 15. API Hardening & Code Quality | v2.0 | 4/4 | Complete    | 2026-04-10 |

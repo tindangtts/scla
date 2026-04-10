@@ -93,7 +93,7 @@ Requirements mapped from existing codebase. All features below are already imple
 
 Next milestone (v2.0 Production-Ready). Phases 11-15.
 
-### Payment Integration
+### Payment Integration (DEFERRED — missing gateway documents)
 
 - **PAY-01**: Real WavePay payment integration with callback handling
 - **PAY-02**: Real KBZPay payment integration with callback handling
@@ -159,9 +159,9 @@ All v1 requirements are already implemented (brownfield project). v2 requirement
 | SEC-01 | Phase 11 | Complete |
 | SEC-02 | Phase 11 | Complete |
 | SEC-03 | Phase 11 | Complete |
-| PAY-01 | Phase 12 | Pending |
-| PAY-02 | Phase 12 | Pending |
-| PAY-03 | Phase 12 | Pending |
+| PAY-01 | Phase 12 | Deferred |
+| PAY-02 | Phase 12 | Deferred |
+| PAY-03 | Phase 12 | Deferred |
 | COMM-01 | Phase 13 | Complete |
 | COMM-02 | Phase 13 | Complete |
 | COMM-03 | Phase 13 | Complete |
