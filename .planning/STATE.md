@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Production-Ready
-status: executing
-stopped_at: Completed 17-01-PLAN.md (DB migration bootstrap)
-last_updated: "2026-04-10T18:27:27.451Z"
+status: verifying
+stopped_at: Completed 17-02-PLAN.md (bill-overdue scheduler)
+last_updated: "2026-04-10T18:30:42.066Z"
 last_activity: 2026-04-10
 progress:
   total_phases: 7
-  completed_phases: 5
+  completed_phases: 6
   total_plans: 25
-  completed_plans: 24
+  completed_plans: 25
   percent: 14
 ---
 
@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-04-10)
 
 Phase: 17 (scheduler-and-db-migration-bootstrap) — EXECUTING
 Plan: 2 of 2
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-04-10
 
 Progress: [██░░░░░░░░] ~14% (v1.0 complete, v2.0 not started)
@@ -76,6 +76,7 @@ Progress: [██░░░░░░░░] ~14% (v1.0 complete, v2.0 not started
 | Phase 16 P02 | 8 | 2 tasks | 3 files |
 | Phase 16 P01 | 4 | 2 tasks | 8 files |
 | Phase 17 P01 | 41 | 2 tasks | 2 files |
+| Phase 17 P02 | 107 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -129,6 +130,7 @@ Recent decisions affecting current work:
 - [Phase 16]: requireAdmin/verifyAdmin/AdminTokenPayload extracted to auth-middleware.ts as single source of truth; auth.ts /me and /upgrade use requireAuth middleware chain
 - [Phase 16]: Language/Theme/App Settings sections in profile.tsx not present at execution — hooks wired but those specific strings were not in file; left for separate settings component
 - [Phase 17]: No try/catch in applyMigrations — errors propagate to index.ts for intentional startup crash on migration failure
+- [Phase 17]: startScheduler called inside app.listen callback so scheduler starts only after HTTP server confirmed listening and DB migrations applied
 
 ### Roadmap Evolution
 
@@ -144,6 +146,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-10T18:27:27.449Z
-Stopped at: Completed 17-01-PLAN.md (DB migration bootstrap)
+Last session: 2026-04-10T18:30:42.062Z
+Stopped at: Completed 17-02-PLAN.md (bill-overdue scheduler)
 Resume file: None
