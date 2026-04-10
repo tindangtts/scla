@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Production-Ready
-status: executing
-stopped_at: Completed 11-01-PLAN.md (bcrypt migration)
-last_updated: "2026-04-10T08:42:26.481Z"
+status: verifying
+stopped_at: Completed 11-02-PLAN.md (rate limiting)
+last_updated: "2026-04-10T08:45:49.907Z"
 last_activity: 2026-04-10
 progress:
   total_phases: 4
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 3
-  completed_plans: 1
+  completed_plans: 3
   percent: 14
 ---
 
@@ -26,8 +26,8 @@ See: .planning/PROJECT.md (updated 2026-04-10)
 ## Current Position
 
 Phase: 11 (security-hardening) — EXECUTING
-Plan: 2 of 3
-Status: Ready to execute
+Plan: 3 of 3
+Status: Phase complete — ready for verification
 Last activity: 2026-04-10
 
 Progress: [██░░░░░░░░] ~14% (v1.0 complete, v2.0 not started)
@@ -53,6 +53,8 @@ Progress: [██░░░░░░░░] ~14% (v1.0 complete, v2.0 not started
 
 *Updated after each plan completion*
 | Phase 11 P01 | 20 | 3 tasks | 6 files |
+| Phase 11 P02 | 2 | 2 tasks | 5 files |
+| Phase 11 P03 | 5 | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -67,6 +69,7 @@ Recent decisions affecting current work:
 - [Phase 11]: bcryptjs chosen over node-bcrypt for pure-JS ESM compatibility on Replit (no native bindings)
 - [Phase 11]: Re-hash-on-login strategy enables zero-downtime migration from SHA256 to bcrypt without forced password resets
 - [Phase 11]: Admin JWT expiry reduced from 24 hours to 8 hours per security hardening requirements
+- [Phase 11]: express-rate-limit v8 used for per-IP auth rate limiting (5 req/min); in-memory store acceptable for single-instance Replit
 
 ### Pending Todos
 
@@ -78,6 +81,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-10T08:42:26.478Z
-Stopped at: Completed 11-01-PLAN.md (bcrypt migration)
+Last session: 2026-04-10T08:45:39.642Z
+Stopped at: Completed 11-02-PLAN.md (rate limiting)
 Resume file: None

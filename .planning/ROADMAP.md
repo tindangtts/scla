@@ -35,8 +35,8 @@ See REQUIREMENTS.md for full requirement list.
 
 Plans:
 - [x] 11-01-PLAN.md — bcrypt password migration + JWT secret hardening (SEC-01)
-- [ ] 11-02-PLAN.md — rate limiting on auth endpoints (SEC-02)
-- [ ] 11-03-PLAN.md — helmet security headers + CORS hardening (SEC-03)
+- [x] 11-02-PLAN.md — rate limiting on auth endpoints (SEC-02)
+- [x] 11-03-PLAN.md — helmet security headers + CORS hardening (SEC-03)
 
 ### Phase 12: Real Payment Integration
 **Goal**: Residents can complete bill payments through live WavePay and KBZPay gateways and receive downloadable receipts
@@ -80,7 +80,7 @@ Plans:
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
 | 1-10. Foundation | v1.0 | -/- | Complete | 2026-04-10 |
-| 11. Security Hardening | v2.0 | 1/3 | In Progress|  |
+| 11. Security Hardening | v2.0 | 3/3 | Complete   | 2026-04-10 |
 | 12. Real Payment Integration | v2.0 | 0/? | Not started | - |
 | 13. Communication & Notifications | v2.0 | 0/? | Not started | - |
 | 14. UX Enhancements | v2.0 | 0/? | Not started | - |
