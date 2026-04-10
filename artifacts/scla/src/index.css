@@ -148,6 +148,48 @@
   --destructive-border: hsl(from hsl(var(--destructive)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
 }
 
+.dark {
+  --background: 222 20% 10%;
+  --foreground: 220 15% 92%;
+  --border: 222 15% 22%;
+  --input: 222 15% 22%;
+  --ring: 185 62% 45%;
+
+  --card: 222 20% 14%;
+  --card-foreground: 220 15% 92%;
+  --card-border: 222 15% 22%;
+
+  --popover: 222 20% 14%;
+  --popover-foreground: 220 15% 92%;
+  --popover-border: 222 15% 22%;
+
+  /* Primary: keep teal — slightly lighter for dark backgrounds */
+  --primary: 185 62% 42%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 222 15% 20%;
+  --secondary-foreground: 220 15% 85%;
+
+  --muted: 222 15% 18%;
+  --muted-foreground: 220 10% 55%;
+
+  /* Accent: Warm Gold — unchanged */
+  --accent: 40 90% 50%;
+  --accent-foreground: 220 30% 10%;
+
+  --destructive: 350 70% 50%;
+  --destructive-foreground: 0 0% 100%;
+
+  --sidebar: 185 55% 25%;
+  --sidebar-foreground: 0 0% 100%;
+  --sidebar-border: 185 40% 18%;
+  --sidebar-primary: 40 90% 50%;
+  --sidebar-primary-foreground: 220 30% 10%;
+  --sidebar-accent: 185 45% 20%;
+  --sidebar-accent-foreground: 0 0% 95%;
+  --sidebar-ring: 40 90% 50%;
+}
+
 @layer base {
   * {
     @apply border-border;
