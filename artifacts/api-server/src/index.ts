@@ -1,6 +1,7 @@
 import app from "./app.js";
 import { logger } from "./lib/logger.js";
 import { applyMigrations } from "./lib/migration-runner.js";
+import { startScheduler } from "./lib/scheduler.js";
 
 const rawPort = process.env["PORT"];
 
@@ -24,6 +25,7 @@ applyMigrations()
         process.exit(1);
       }
       logger.info({ port }, "Server listening");
+      startScheduler();
     });
   })
   .catch((err) => {
