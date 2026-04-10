@@ -7,11 +7,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { ChevronLeft, ArrowRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function RegisterPage() {
   const [, setLocation] = useLocation();
   const { login } = useAuth();
   const { toast } = useToast();
+  const { t } = useTranslation();
   const [form, setForm] = useState({ name: "", email: "", phone: "", password: "" });
 
   const registerMutation = useRegisterUser({
@@ -50,7 +52,7 @@ export default function RegisterPage() {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="name" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Full name</Label>
+              <Label htmlFor="name" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{t("auth.name")}</Label>
               <Input
                 id="name"
                 placeholder="Ko Zin Min"
@@ -62,7 +64,7 @@ export default function RegisterPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Email address</Label>
+              <Label htmlFor="email" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{t("auth.email")}</Label>
               <Input
                 id="email"
                 type="email"
@@ -75,7 +77,7 @@ export default function RegisterPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="phone" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Phone number</Label>
+              <Label htmlFor="phone" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{t("auth.phone")}</Label>
               <Input
                 id="phone"
                 placeholder="09-XXXX-XXXX"
@@ -87,7 +89,7 @@ export default function RegisterPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Password</Label>
+              <Label htmlFor="password" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{t("auth.password")}</Label>
               <Input
                 id="password"
                 type="password"
@@ -107,15 +109,15 @@ export default function RegisterPage() {
               disabled={registerMutation.isPending}
               data-testid="button-register"
             >
-              {registerMutation.isPending ? "Creating account..." : "Create Guest Account"}
+              {registerMutation.isPending ? t("auth.registering") : t("auth.register")}
               {!registerMutation.isPending && <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />}
             </Button>
           </form>
 
           <p className="text-sm font-medium text-muted-foreground text-center mt-8">
-            Already have an account?{" "}
+            {t("auth.hasAccount")}{" "}
             <button className="text-primary font-bold hover:underline underline-offset-4" onClick={() => setLocation("/login")} data-testid="link-login">
-              Sign in
+              {t("auth.login")}
             </button>
           </p>
         </div>

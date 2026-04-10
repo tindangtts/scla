@@ -1,16 +1,18 @@
 import { Link, useLocation } from "wouter";
 import { Home, Compass, Calendar, HelpCircle, User } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 export function BottomNav() {
   const [location] = useLocation();
+  const { t } = useTranslation();
 
   const links = [
-    { href: "/", label: "Home", icon: Home },
-    { href: "/discover", label: "Discover", icon: Compass },
-    { href: "/bookings", label: "Bookings", icon: Calendar },
-    { href: "/star-assist", label: "Support", icon: HelpCircle },
-    { href: "/profile", label: "Profile", icon: User },
+    { href: "/", label: t("nav.home"), icon: Home },
+    { href: "/bills", label: t("nav.bills"), icon: Compass },
+    { href: "/bookings", label: t("nav.bookings"), icon: Calendar },
+    { href: "/star-assist", label: t("nav.assist"), icon: HelpCircle },
+    { href: "/profile", label: t("nav.profile"), icon: User },
   ];
 
   return (

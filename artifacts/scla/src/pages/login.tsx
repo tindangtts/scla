@@ -7,11 +7,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function LoginPage() {
   const [, setLocation] = useLocation();
   const { login } = useAuth();
   const { toast } = useToast();
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -50,7 +52,7 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Email address</Label>
+              <Label htmlFor="email" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{t("auth.email")}</Label>
               <Input
                 id="email"
                 type="email"
@@ -63,7 +65,7 @@ export default function LoginPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Password</Label>
+              <Label htmlFor="password" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{t("auth.password")}</Label>
               <Input
                 id="password"
                 type="password"
@@ -82,20 +84,20 @@ export default function LoginPage() {
               disabled={loginMutation.isPending}
               data-testid="button-login"
             >
-              {loginMutation.isPending ? "Signing in..." : "Sign In"}
+              {loginMutation.isPending ? t("auth.signingIn") : t("auth.login")}
               {!loginMutation.isPending && <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />}
             </Button>
           </form>
 
           <div className="mt-8 text-center space-y-4">
             <p className="text-sm text-muted-foreground font-medium">
-              Don't have an account?{" "}
+              {t("auth.noAccount")}{" "}
               <button
                 className="text-primary font-bold hover:underline underline-offset-4"
                 onClick={() => setLocation("/register")}
                 data-testid="link-register"
               >
-                Register now
+                {t("auth.register")}
               </button>
             </p>
             <div className="pt-6 border-t border-border/50">

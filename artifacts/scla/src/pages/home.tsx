@@ -7,10 +7,12 @@ import { AppLayout } from "@/components/layout/app-layout";
 import { formatMMK } from "@/lib/format";
 import { Bell, BellOff, CreditCard, HelpCircle, Dumbbell, BookOpen, Newspaper, ChevronRight, ArrowUpCircle, User } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useTranslation } from "react-i18next";
 
 export default function HomePage() {
   const [, setLocation] = useLocation();
   const { user, token, isResident, isAuthenticated } = useAuth();
+  const { t } = useTranslation();
 
   const { data: summary, isLoading: summaryLoading } = useGetHomeSummary({
     query: { queryKey: getGetHomeSummaryQueryKey() }
@@ -112,7 +114,7 @@ export default function HomePage() {
             >
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="text-sm text-muted-foreground font-bold uppercase tracking-wider">Outstanding Balance</p>
+                  <p className="text-sm text-muted-foreground font-bold uppercase tracking-wider">{t("bills.amount")}</p>
                   {summaryLoading ? (
                     <Skeleton className="h-10 w-40 mt-2" />
                   ) : (
@@ -135,7 +137,7 @@ export default function HomePage() {
                 className="mt-6 w-full bg-primary text-primary-foreground py-3.5 rounded-xl text-sm font-bold hover:bg-primary/90 transition-colors shadow-md shadow-primary/20 flex items-center justify-center gap-2 group"
                 data-testid="button-pay-bills"
               >
-                View & Pay Bills <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                {t("bills.pay")} <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </button>
             </div>
           ) : (
@@ -204,8 +206,8 @@ export default function HomePage() {
           {summary?.latestAnnouncement && (
             <div className="pt-2">
               <div className="flex items-center justify-between mb-3 px-1">
-                <h2 className="font-bold text-base text-foreground tracking-tight">Community Notices</h2>
-                <button className="text-sm text-primary font-bold hover:underline" onClick={() => setLocation("/discover")} data-testid="link-view-all-notices">View all</button>
+                <h2 className="font-bold text-base text-foreground tracking-tight">{t("discover.announcements")}</h2>
+                <button className="text-sm text-primary font-bold hover:underline" onClick={() => setLocation("/discover")} data-testid="link-view-all-notices">{t("common.viewAll")}</button>
               </div>
               <div
                 className="bg-card border-l-4 border-l-accent border border-card-border rounded-2xl p-5 cursor-pointer shadow-sm hover:shadow-md transition-shadow"
@@ -225,8 +227,8 @@ export default function HomePage() {
           {promotions && promotions.length > 0 && (
             <div className="pt-2">
               <div className="flex items-center justify-between mb-3 px-1">
-                <h2 className="font-bold text-base text-foreground tracking-tight">Offers for You</h2>
-                <button className="text-sm text-primary font-bold hover:underline" onClick={() => setLocation("/discover")} data-testid="link-view-all-offers">View all</button>
+                <h2 className="font-bold text-base text-foreground tracking-tight">{t("discover.promotions")}</h2>
+                <button className="text-sm text-primary font-bold hover:underline" onClick={() => setLocation("/discover")} data-testid="link-view-all-offers">{t("common.viewAll")}</button>
               </div>
               <div className="space-y-3">
                 {promotions.map((promo) => (
