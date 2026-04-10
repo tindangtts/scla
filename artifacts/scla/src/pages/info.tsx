@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
 import { useListInfoCategories, getListInfoCategoriesQueryKey, useListInfoArticles, getListInfoArticlesQueryKey } from "@workspace/api-client-react";
 import { AppLayout } from "@/components/layout/app-layout";
 import { formatDate } from "@/lib/format";
@@ -13,6 +14,7 @@ const ICON_MAP: Record<string, React.ElementType> = {
 
 export default function InfoPage() {
   const [, setLocation] = useLocation();
+  const { t } = useTranslation();
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
 
   const { data: categories, isLoading: catLoading } = useListInfoCategories({
@@ -34,7 +36,7 @@ export default function InfoPage() {
           
           <div className="relative z-10 flex items-center justify-between mb-2">
             <div>
-              <h1 className="text-2xl font-black text-primary-foreground tracking-tight">Info Centre</h1>
+              <h1 className="text-2xl font-black text-primary-foreground tracking-tight">{t("info.title")}</h1>
               <p className="text-primary-foreground/80 text-sm font-medium mt-1 leading-snug max-w-[280px]">Estate guidelines, contacts, and useful information.</p>
             </div>
             <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center backdrop-blur-md shadow-inner">

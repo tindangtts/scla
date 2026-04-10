@@ -1,4 +1,5 @@
 import { useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "@/hooks/use-auth";
 import { AppLayout } from "@/components/layout/app-layout";
 import { getStatusBadgeClass, getStatusLabel } from "@/lib/format";
@@ -9,6 +10,7 @@ import { useLanguage } from "@/hooks/use-language";
 
 export default function ProfilePage() {
   const [, setLocation] = useLocation();
+  const { t } = useTranslation();
   const { user, isAuthenticated, isResident, logout } = useAuth();
   const { theme, setTheme } = useTheme();
   const { language, setLanguage } = useLanguage();
@@ -20,15 +22,15 @@ export default function ProfilePage() {
           <div className="w-24 h-24 bg-primary/10 rounded-[2rem] flex items-center justify-center mb-6 shadow-inner rotate-3">
             <User className="w-10 h-10 text-primary -rotate-3" />
           </div>
-          <h2 className="text-2xl font-black text-foreground tracking-tight">Sign in to view your profile</h2>
+          <h2 className="text-2xl font-black text-foreground tracking-tight">{t("profile.signIn")}</h2>
           <p className="text-muted-foreground text-sm font-medium mt-3 mb-8 leading-relaxed max-w-[280px]">
             Access your account, track bookings, and manage your StarCity resident profile.
           </p>
           <Button className="w-full h-14 rounded-2xl text-base font-bold shadow-lg shadow-primary/20" onClick={() => setLocation("/login")} data-testid="button-login">
-            Sign In to Account
+            {t("profile.signInBtn")}
           </Button>
           <button className="mt-6 text-sm text-primary font-bold hover:underline underline-offset-4" onClick={() => setLocation("/register")} data-testid="link-register">
-            Create a guest account
+            {t("profile.createAccount")}
           </button>
         </div>
       </AppLayout>
@@ -71,19 +73,19 @@ export default function ProfilePage() {
             <div className="bg-card border border-card-border rounded-[1.5rem] p-6 shadow-lg shadow-primary/5">
               <div className="flex items-center gap-2 mb-4">
                 <MapPin className="w-5 h-5 text-primary" />
-                <h3 className="font-extrabold text-base tracking-tight">Unit Details</h3>
+                <h3 className="font-extrabold text-base tracking-tight">{t("profile.unitDetails")}</h3>
               </div>
               <div className="space-y-4 pt-2">
                 <div className="flex justify-between items-center pb-4 border-b border-border/50">
-                  <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">Development</span>
+                  <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">{t("profile.development")}</span>
                   <span className="font-bold text-sm bg-muted px-2.5 py-1 rounded-md">{user.developmentName}</span>
                 </div>
                 <div className="flex justify-between items-center pb-4 border-b border-border/50">
-                  <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">Unit Number</span>
+                  <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">{t("profile.unitNumber")}</span>
                   <span className="font-black text-primary text-base tracking-tight" data-testid="text-unit-number">{user.unitNumber}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">Resident ID</span>
+                  <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">{t("profile.residentId")}</span>
                   <span className="font-mono font-semibold text-xs text-muted-foreground">{user.residentId}</span>
                 </div>
               </div>
@@ -124,8 +126,8 @@ export default function ProfilePage() {
           {/* Quick links */}
           <div className="bg-card border border-card-border rounded-[1.5rem] shadow-sm overflow-hidden">
             {[
-              { icon: Bell, label: "Notifications", path: "/notifications", testId: "link-notifications" },
-              ...(isResident ? [{ icon: Wallet, label: "Wallet & Deposits", path: "/wallet", testId: "link-wallet" }] : []),
+              { icon: Bell, label: t("profile.notifications"), path: "/notifications", testId: "link-notifications" },
+              ...(isResident ? [{ icon: Wallet, label: t("profile.wallet"), path: "/wallet", testId: "link-wallet" }] : []),
             ].map(({ icon: Icon, label, path, testId }) => (
               <button
                 key={path}
@@ -143,14 +145,14 @@ export default function ProfilePage() {
           </div>
 
           <div className="bg-card border border-card-border rounded-[1.5rem] p-6 shadow-sm">
-            <h3 className="font-extrabold text-base tracking-tight mb-4">Contact Info</h3>
+            <h3 className="font-extrabold text-base tracking-tight mb-4">{t("profile.contactInfo")}</h3>
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-muted rounded-xl flex items-center justify-center flex-shrink-0">
                   <Mail className="w-4 h-4 text-muted-foreground" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Email Address</p>
+                  <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">{t("profile.email")}</p>
                   <p className="font-semibold text-sm text-foreground mt-0.5">{user?.email}</p>
                 </div>
               </div>
@@ -159,7 +161,7 @@ export default function ProfilePage() {
                   <Phone className="w-4 h-4 text-muted-foreground" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Phone Number</p>
+                  <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">{t("profile.phone")}</p>
                   <p className="font-semibold text-sm text-foreground mt-0.5">{user?.phone}</p>
                 </div>
               </div>
@@ -244,7 +246,7 @@ export default function ProfilePage() {
             data-testid="button-logout"
           >
             <LogOut className="w-5 h-5" />
-            Sign Out of Account
+            {t("profile.signOut")}
           </button>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import { useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
 import { useGetWallet, getGetWalletQueryKey, useGetDeposit, getGetDepositQueryKey } from "@workspace/api-client-react";
 import { AppLayout } from "@/components/layout/app-layout";
 import { formatMMK, formatDateTime } from "@/lib/format";
@@ -7,6 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function WalletPage() {
   const [, setLocation] = useLocation();
+  const { t } = useTranslation();
 
   const { data: wallet, isLoading: walletLoading } = useGetWallet({
     query: { queryKey: getGetWalletQueryKey() }
@@ -26,7 +28,7 @@ export default function WalletPage() {
             <button onClick={() => setLocation("/")} className="p-2.5 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 transition-colors" data-testid="button-back">
               <ChevronLeft className="w-5 h-5 text-primary-foreground" />
             </button>
-            <h1 className="text-xl font-extrabold text-primary-foreground tracking-tight">Wallet & Deposits</h1>
+            <h1 className="text-xl font-extrabold text-primary-foreground tracking-tight">{t("wallet.title")}</h1>
           </div>
           
           <div className="grid grid-cols-2 gap-4 relative z-10">

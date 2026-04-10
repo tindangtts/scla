@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
 import { useRequestResidentUpgrade } from "@workspace/api-client-react";
 import { AppLayout } from "@/components/layout/app-layout";
 import { Button } from "@/components/ui/button";
@@ -12,6 +13,7 @@ const DEVELOPMENTS = ["City Loft", "Estella", "ARA"];
 
 export default function UpgradePage() {
   const [, setLocation] = useLocation();
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({
@@ -59,7 +61,7 @@ export default function UpgradePage() {
             <button onClick={() => setLocation("/profile")} className="p-2.5 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 transition-colors" data-testid="button-back">
               <ChevronLeft className="w-5 h-5 text-primary-foreground" />
             </button>
-            <h1 className="text-xl font-extrabold text-primary-foreground tracking-tight">Upgrade Account</h1>
+            <h1 className="text-xl font-extrabold text-primary-foreground tracking-tight">{t("upgrade.title")}</h1>
           </div>
         </div>
 
