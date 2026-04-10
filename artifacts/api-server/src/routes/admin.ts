@@ -9,6 +9,9 @@ import * as jwt from "../lib/jwt.js";
 import * as crypto from "crypto";
 import { hashPasswordBcrypt, verifyPassword, isLegacyHash } from "../lib/password.js";
 import { authRateLimiter } from "../lib/rate-limiter.js";
+import { sendPushToUser } from "../lib/push-service.js";
+import { sendTicketStatusEmail } from "../lib/email-service.js";
+import { logger } from "../lib/logger.js";
 
 const router = Router();
 
@@ -432,6 +435,35 @@ router.patch("/tickets/:id", async (req, res) => {
 
   const [updated] = await db.update(ticketsTable).set(updates)
     .where(eq(ticketsTable.id, req.params.id)).returning();
+
+  // Fire push notification if status changed (per COMM-01)
+  if (status && status !== existing.status) {
+    const statusLabel: Record<string, string> = {
+      in_progress: "In Progress",
+      completed: "Completed",
+      closed: "Closed",
+    };
+    const label = statusLabel[status] ?? status;
+    try {
+      await sendPushToUser(existing.userId, {
+        title: "Ticket Update",
+        body: `Your ticket "${existing.title}" is now ${label}.`,
+        url: `/star-assist/${existing.id}`,
+      });
+    } catch (err) {
+      logger.error({ err }, "Failed to send push notification for ticket status change");
+    }
+
+    // Send email for completed/closed transitions only (per D-07)
+    if (status === "completed" || status === "closed") {
+      try {
+        await sendTicketStatusEmail(existing.userId, existing.ticketNumber, existing.title, status);
+      } catch (err) {
+        logger.error({ err }, "Failed to send email for ticket status change");
+      }
+    }
+  }
+
   return res.json(updated);
 });
 

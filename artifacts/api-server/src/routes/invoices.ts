@@ -113,4 +113,8 @@ router.post("/:id/pay", requireAuth, async (req: Request, res: Response) => {
   });
 });
 
+// TODO: Bill-due push notifications require a scheduled job (e.g. cron).
+// The sendPushToUser helper in push-service.ts is ready to call when triggered.
+// Invoices are managed by admin — no resident-facing due-date event endpoint exists in v1.
+
 export default router;
