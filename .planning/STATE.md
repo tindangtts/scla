@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Production-Ready
-status: executing
-stopped_at: "Completed 13-04-PLAN.md (ticket chat API: resident GET/POST + admin POST/GET endpoints)"
-last_updated: "2026-04-10T16:17:32.803Z"
+status: verifying
+stopped_at: "Completed 13-05-PLAN.md (push notification frontend: sw.js service worker, usePushNotifications hook, home page Enable Notifications banner)"
+last_updated: "2026-04-10T16:21:37.740Z"
 last_activity: 2026-04-10
 progress:
   total_phases: 5
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 13
-  completed_plans: 11
+  completed_plans: 13
   percent: 14
 ---
 
@@ -26,8 +26,8 @@ See: .planning/PROJECT.md (updated 2026-04-10)
 ## Current Position
 
 Phase: 13 (communication-notifications) — EXECUTING
-Plan: 5 of 6
-Status: Ready to execute
+Plan: 6 of 6
+Status: Phase complete — ready for verification
 Last activity: 2026-04-10
 
 Progress: [██░░░░░░░░] ~14% (v1.0 complete, v2.0 not started)
@@ -63,6 +63,8 @@ Progress: [██░░░░░░░░] ~14% (v1.0 complete, v2.0 not started
 | Phase 13 P02 | 1 | 3 tasks | 6 files |
 | Phase 13 P03 | 8 | 2 tasks | 3 files |
 | Phase 13 P04 | 2 | 2 tasks | 3 files |
+| Phase 13 P05 | 2 | 2 tasks | 3 files |
+| Phase 13 P06 | 2 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -96,6 +98,10 @@ Recent decisions affecting current work:
 - [Phase 13]: Email only triggered for completed/closed ticket status (push fires for any status change per D-07)
 - [Phase 13]: Dual router.use at /tickets: Express merges ticketsRouter and ticketMessagesRouter at same path without conflict
 - [Phase 13]: GET /admin/tickets/:id/messages added alongside POST for admin frontend chat thread rendering
+- [Phase 13]: Kept existing Updates section (ticket.updates JSON array) separate from new Chat section backed by ticket_messages table
+- [Phase 13]: Admin chat replaces staffResponse textarea with structured chat input; Save button retained for status/assignedTo only
+- [Phase 13]: BufferSource cast used for applicationServerKey Uint8Array in usePushNotifications — TypeScript strict PushSubscriptionOptionsInit requires explicit cast from Uint8Array<ArrayBufferLike> to BufferSource
+- [Phase 13]: Enable Notifications banner only shown to residents with supported push, permission not denied, and not yet subscribed — conditional rendering in home.tsx
 
 ### Roadmap Evolution
 
@@ -111,6 +117,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-10T16:17:32.800Z
-Stopped at: Completed 13-04-PLAN.md (ticket chat API: resident GET/POST + admin POST/GET endpoints)
+Last session: 2026-04-10T16:21:37.737Z
+Stopped at: Completed 13-05-PLAN.md (push notification frontend: sw.js service worker, usePushNotifications hook, home page Enable Notifications banner)
 Resume file: None
