@@ -106,7 +106,7 @@ Plans:
 | 14. UX Enhancements | v2.0 | 7/7 | Complete    | 2026-04-10 |
 | 15. API Hardening & Code Quality | v2.0 | 4/4 | Complete    | 2026-04-10 |
 | 16. i18n & Auth Middleware Cleanup | v2.0 | 2/2 | Complete    | 2026-04-10 |
-| 17. Scheduler & Migration Bootstrap | v2.0 | 0/2 | Not started | - |
+| 17. Scheduler & Migration Bootstrap | v2.0 | 1/2 | In Progress|  |
 
 ### Phase 15: API Hardening & Code Quality
 **Goal**: Fix critical auth gaps, race conditions, missing error handling, and type safety issues identified in the codebase audit
@@ -156,5 +156,5 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 17-01-PLAN.md — DB migration bootstrap: applyMigrations runs sequences SQL at startup (COMM-02)
+- [x] 17-01-PLAN.md — DB migration bootstrap: applyMigrations runs sequences SQL at startup (COMM-02)
 - [ ] 17-02-PLAN.md — Bill-overdue scheduler: setInterval job calls sendBillOverdueEmail + sendPushToUser (COMM-02)

@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Production-Ready
-status: verifying
-stopped_at: Completed 16-01-PLAN.md (i18n wiring on 8 remaining pages)
-last_updated: "2026-04-10T18:21:54.254Z"
+status: executing
+stopped_at: Completed 17-01-PLAN.md (DB migration bootstrap)
+last_updated: "2026-04-10T18:27:27.451Z"
 last_activity: 2026-04-10
 progress:
   total_phases: 7
   completed_phases: 5
-  total_plans: 23
-  completed_plans: 23
+  total_plans: 25
+  completed_plans: 24
   percent: 14
 ---
 
@@ -21,13 +21,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-10)
 
 **Core value:** Residents can manage their apartment lifecycle — bills, maintenance, bookings, and community info — from a single mobile-first web app without visiting the management office.
-**Current focus:** Phase 16 — i18n-completion-and-auth-middleware-cleanup
+**Current focus:** Phase 17 — scheduler-and-db-migration-bootstrap
 
 ## Current Position
 
-Phase: 17
-Plan: Not started
-Status: Phase complete — ready for verification
+Phase: 17 (scheduler-and-db-migration-bootstrap) — EXECUTING
+Plan: 2 of 2
+Status: Ready to execute
 Last activity: 2026-04-10
 
 Progress: [██░░░░░░░░] ~14% (v1.0 complete, v2.0 not started)
@@ -75,6 +75,7 @@ Progress: [██░░░░░░░░] ~14% (v1.0 complete, v2.0 not started
 | Phase 14-ux-enhancements P06 | 7 | 2 tasks | 11 files |
 | Phase 16 P02 | 8 | 2 tasks | 3 files |
 | Phase 16 P01 | 4 | 2 tasks | 8 files |
+| Phase 17 P01 | 41 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -127,6 +128,7 @@ Recent decisions affecting current work:
 - [Phase 14]: STATUS_FILTERS arrays moved inside component scope so t() is accessible; loop variables named t renamed to tabKey to prevent shadowing useTranslation hook
 - [Phase 16]: requireAdmin/verifyAdmin/AdminTokenPayload extracted to auth-middleware.ts as single source of truth; auth.ts /me and /upgrade use requireAuth middleware chain
 - [Phase 16]: Language/Theme/App Settings sections in profile.tsx not present at execution — hooks wired but those specific strings were not in file; left for separate settings component
+- [Phase 17]: No try/catch in applyMigrations — errors propagate to index.ts for intentional startup crash on migration failure
 
 ### Roadmap Evolution
 
@@ -142,6 +144,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-10T18:17:00.828Z
-Stopped at: Completed 16-01-PLAN.md (i18n wiring on 8 remaining pages)
+Last session: 2026-04-10T18:27:27.449Z
+Stopped at: Completed 17-01-PLAN.md (DB migration bootstrap)
 Resume file: None
