@@ -48,7 +48,11 @@ Plans:
   2. Resident can select KBZPay at checkout and be redirected to the real KBZPay payment page
   3. After a successful payment, the invoice status updates to paid without manual admin action
   4. Resident can download a PDF receipt for any paid invoice
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 16-01-PLAN.md — i18n wiring: useTranslation on 8 remaining pages (ENH-01)
+- [ ] 16-02-PLAN.md — auth middleware deduplication: requireAdmin extracted, /me + /upgrade migrated (QUAL-05)
 **UI hint**: yes
 
 ### Phase 13: Communication & Notifications
@@ -134,7 +138,11 @@ Plans:
   1. All resident-facing pages use useTranslation (profile, ticket-detail, wallet, upgrade, bill-detail, info, discover-detail, info-article)
   2. auth.ts /me and /upgrade use shared requireAuth middleware instead of inline jwt.verify
   3. requireAdmin is exported from auth-middleware.ts and used by both auth.ts and admin.ts (no duplication)
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 16-01-PLAN.md — i18n wiring: useTranslation on 8 remaining pages (ENH-01)
+- [ ] 16-02-PLAN.md — auth middleware deduplication: requireAdmin extracted, /me + /upgrade migrated (QUAL-05)
 
 ### Phase 17: Scheduler & DB Migration Bootstrap
 **Goal**: Add a bill-overdue email/push scheduler and auto-apply DB migrations at server startup
@@ -145,4 +153,8 @@ Plans:
   1. sendBillOverdueEmail is triggered automatically for invoices past due date
   2. PostgreSQL sequences (booking_number_seq, ticket_number_seq) are auto-created at server startup
   3. A lightweight scheduler runs periodic jobs (bill overdue check) without external cron dependency
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 16-01-PLAN.md — i18n wiring: useTranslation on 8 remaining pages (ENH-01)
+- [ ] 16-02-PLAN.md — auth middleware deduplication: requireAdmin extracted, /me + /upgrade migrated (QUAL-05)
