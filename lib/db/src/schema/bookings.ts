@@ -27,6 +27,7 @@ export const bookingsTable = pgTable("bookings", {
   status: bookingStatusEnum("status").notNull().default("upcoming"),
   paymentStatus: paymentStatusEnum("payment_status").notNull().default("pending"),
   notes: text("notes"),
+  recurringGroupId: text("recurring_group_id"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
