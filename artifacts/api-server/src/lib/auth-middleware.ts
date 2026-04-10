@@ -4,6 +4,14 @@ import { db } from "@workspace/db";
 import { usersTable } from "@workspace/db";
 import { eq } from "drizzle-orm";
 
+/**
+ * Typed request with authenticated user attached by requireAuth middleware.
+ * Import this in route files to avoid casting to `any`.
+ */
+export type AuthenticatedRequest = Request & {
+  user: typeof usersTable.$inferSelect;
+};
+
 export async function requireAuth(req: Request, res: Response, next: NextFunction) {
   const authHeader = req.headers.authorization;
   if (!authHeader?.startsWith("Bearer ")) {
