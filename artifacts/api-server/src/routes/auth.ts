@@ -5,46 +5,7 @@ import { eq } from "drizzle-orm";
 import * as jwt from "../lib/jwt.js";
 import { hashPasswordBcrypt, verifyPassword, isLegacyHash } from "../lib/password.js";
 import { authRateLimiter } from "../lib/rate-limiter.js";
-import * as crypto from "crypto";
-
-const ADMIN_SECRET = process.env.SESSION_SECRET!;
-
-interface AdminTokenPayload {
-  staffId: string;
-  role: string;
-  exp: number;
-}
-
-function verifyAdmin(token: string): AdminTokenPayload | null {
-  try {
-    const parts = token.split(".");
-    if (parts.length !== 3) return null;
-    const [header, body, sig] = parts;
-    const headerData = JSON.parse(Buffer.from(header, "base64url").toString());
-    if (headerData.ctx !== "admin") return null;
-    const expectedSig = crypto.createHmac("sha256", ADMIN_SECRET).update(`${header}.${body}`).digest("base64url");
-    if (sig !== expectedSig) return null;
-    const payload = JSON.parse(Buffer.from(body, "base64url").toString()) as AdminTokenPayload;
-    if (payload.exp < Math.floor(Date.now() / 1000)) return null;
-    return payload;
-  } catch {
-    return null;
-  }
-}
-
-function requireAdmin(req: any, res: any): AdminTokenPayload | null {
-  const authHeader = req.headers.authorization;
-  if (!authHeader?.startsWith("Bearer ")) {
-    res.status(401).json({ error: "unauthorized" });
-    return null;
-  }
-  const payload = verifyAdmin(authHeader.slice(7));
-  if (!payload) {
-    res.status(401).json({ error: "unauthorized" });
-    return null;
-  }
-  return payload;
-}
+import { requireAuth, requireAdmin, type AuthenticatedRequest } from "../lib/auth-middleware.js";
 
 const router = Router();
 
@@ -124,43 +85,13 @@ router.post("/login", authRateLimiter, async (req, res) => {
   return res.json({ token, user: userToPublic(user) });
 });
 
-router.get("/me", async (req, res) => {
-  const authHeader = req.headers.authorization;
-  if (!authHeader?.startsWith("Bearer ")) {
-    return res.status(401).json({ error: "unauthorized", message: "No token provided" });
-  }
-
-  const token = authHeader.slice(7);
-  const payload = jwt.verify(token);
-  if (!payload) {
-    return res.status(401).json({ error: "unauthorized", message: "Invalid token" });
-  }
-
-  const [user] = await db.select().from(usersTable).where(eq(usersTable.id, payload.userId)).limit(1);
-  if (!user) {
-    return res.status(404).json({ error: "not_found", message: "User not found" });
-  }
-
+router.get("/me", requireAuth, async (req, res) => {
+  const user = (req as AuthenticatedRequest).user;
   return res.json(userToPublic(user));
 });
 
-router.post("/upgrade", async (req, res) => {
-  const authHeader = req.headers.authorization;
-  if (!authHeader?.startsWith("Bearer ")) {
-    return res.status(401).json({ error: "unauthorized", message: "No token provided" });
-  }
-
-  const token = authHeader.slice(7);
-  const payload = jwt.verify(token);
-  if (!payload) {
-    return res.status(401).json({ error: "unauthorized", message: "Invalid token" });
-  }
-
-  const [user] = await db.select().from(usersTable).where(eq(usersTable.id, payload.userId)).limit(1);
-  if (!user) {
-    return res.status(404).json({ error: "not_found", message: "User not found" });
-  }
-
+router.post("/upgrade", requireAuth, async (req, res) => {
+  const user = (req as AuthenticatedRequest).user;
   const { unitNumber, residentId, developmentName } = req.body;
   if (!unitNumber || !residentId || !developmentName) {
     return res.status(400).json({ error: "validation_error", message: "All fields required" });

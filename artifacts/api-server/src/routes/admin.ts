@@ -13,16 +13,11 @@ import { authRateLimiter } from "../lib/rate-limiter.js";
 import { sendPushToUser } from "../lib/push-service.js";
 import { sendTicketStatusEmail } from "../lib/email-service.js";
 import { logger } from "../lib/logger.js";
+import { requireAdmin, type AdminTokenPayload } from "../lib/auth-middleware.js";
 
 const router = Router();
 
-const ADMIN_SECRET = process.env.SESSION_SECRET!; // guaranteed by jwt.ts startup check
-
-interface AdminTokenPayload {
-  staffId: string;
-  role: string;
-  exp: number;
-}
+const ADMIN_SECRET = process.env.SESSION_SECRET!; // guaranteed by jwt.ts startup check — used by signAdmin
 
 function signAdmin(payload: Omit<AdminTokenPayload, "exp">): string {
   const fullPayload: AdminTokenPayload = {
@@ -33,37 +28,6 @@ function signAdmin(payload: Omit<AdminTokenPayload, "exp">): string {
   const body = Buffer.from(JSON.stringify(fullPayload)).toString("base64url");
   const sig = crypto.createHmac("sha256", ADMIN_SECRET).update(`${header}.${body}`).digest("base64url");
   return `${header}.${body}.${sig}`;
-}
-
-function verifyAdmin(token: string): AdminTokenPayload | null {
-  try {
-    const parts = token.split(".");
-    if (parts.length !== 3) return null;
-    const [header, body, sig] = parts;
-    const headerData = JSON.parse(Buffer.from(header, "base64url").toString());
-    if (headerData.ctx !== "admin") return null;
-    const expectedSig = crypto.createHmac("sha256", ADMIN_SECRET).update(`${header}.${body}`).digest("base64url");
-    if (sig !== expectedSig) return null;
-    const payload = JSON.parse(Buffer.from(body, "base64url").toString()) as AdminTokenPayload;
-    if (payload.exp < Math.floor(Date.now() / 1000)) return null;
-    return payload;
-  } catch {
-    return null;
-  }
-}
-
-function requireAdmin(req: any, res: any): AdminTokenPayload | null {
-  const authHeader = req.headers.authorization;
-  if (!authHeader?.startsWith("Bearer ")) {
-    res.status(401).json({ error: "unauthorized" });
-    return null;
-  }
-  const payload = verifyAdmin(authHeader.slice(7));
-  if (!payload) {
-    res.status(401).json({ error: "unauthorized" });
-    return null;
-  }
-  return payload;
 }
 
 // POST /api/admin/auth/login
