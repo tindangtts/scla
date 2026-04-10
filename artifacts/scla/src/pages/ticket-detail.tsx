@@ -4,7 +4,7 @@ import { useGetTicket, getGetTicketQueryKey } from "@workspace/api-client-react"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AppLayout } from "@/components/layout/app-layout";
 import { formatDateTime, getStatusBadgeClass, getStatusLabel } from "@/lib/format";
-import { ChevronLeft, User, Shield, MessageSquare, Send } from "lucide-react";
+import { ChevronLeft, User, Shield, MessageSquare, Paperclip, Send } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface TicketMessage {
@@ -137,6 +137,23 @@ export default function TicketDetailPage() {
               <p className="text-sm font-medium text-foreground leading-relaxed">{ticket.description}</p>
             </div>
           </div>
+
+          {ticket.attachmentUrl && (
+            <div className="bg-card border border-card-border rounded-[1.5rem] p-5 shadow-sm space-y-3">
+              <div className="flex items-center gap-2">
+                <Paperclip className="w-4 h-4 text-primary" />
+                <h3 className="font-extrabold text-sm tracking-tight text-foreground">Attachment</h3>
+              </div>
+              <div className="rounded-2xl overflow-hidden border border-border">
+                <img
+                  src={ticket.attachmentUrl}
+                  alt="Ticket attachment"
+                  className="w-full max-h-64 object-cover"
+                  data-testid="ticket-attachment-image"
+                />
+              </div>
+            </div>
+          )}
 
           {/* Conversation history */}
           <div className="pt-2">
