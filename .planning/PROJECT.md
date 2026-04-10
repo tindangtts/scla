@@ -26,10 +26,14 @@ Residents can manage their apartment lifecycle — bills, maintenance, bookings,
 - ✓ Admin CRUD for users, announcements, promotions, FAQs, facilities, tickets, bookings, and staff — existing
 - ✓ Admin dashboard with KPI stats — existing
 - ✓ Database seeding with demo accounts and sample data — existing
+- ✓ bcrypt password hashing with transparent SHA256 migration on login — Phase 11
+- ✓ Rate limiting on auth endpoints (5 req/min/IP, 429 response) — Phase 11
+- ✓ Helmet security headers + CORS tightened to specific origins — Phase 11
+- ✓ JWT secret management hardened (no fallback, admin 8h expiry) — Phase 11
 
 ### Active
 
-(To be defined — this project initialization captures existing state)
+(To be defined for next phase)
 
 ### Out of Scope
 
@@ -82,4 +86,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-10 after initialization*
+*Last updated: 2026-04-10 after Phase 11 completion*
