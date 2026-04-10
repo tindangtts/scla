@@ -196,6 +196,8 @@ router.post("/upgrade", async (req, res) => {
 });
 
 router.get("/upgrade-requests", async (req, res) => {
+  const adminPayload = requireAdmin(req, res);
+  if (!adminPayload) return;
   const requests = await db.select().from(upgradeRequestsTable).orderBy(upgradeRequestsTable.submittedAt);
   return res.json(requests.map(r => ({
     id: r.id,
@@ -213,26 +215,36 @@ router.get("/upgrade-requests", async (req, res) => {
 });
 
 router.post("/upgrade-requests/:id/approve", async (req, res) => {
+  const adminPayload = requireAdmin(req, res);
+  if (!adminPayload) return;
+
   const { id } = req.params;
-  const [request] = await db.select().from(upgradeRequestsTable).where(eq(upgradeRequestsTable.id, id)).limit(1);
+  const [request] = await db.select()
+    .from(upgradeRequestsTable)
+    .where(eq(upgradeRequestsTable.id, id))
+    .limit(1);
   if (!request) {
     return res.status(404).json({ error: "not_found", message: "Request not found" });
   }
 
-  const [updated] = await db.update(upgradeRequestsTable)
-    .set({ status: "approved", reviewedAt: new Date() })
-    .where(eq(upgradeRequestsTable.id, id))
-    .returning();
+  const updated = await db.transaction(async (tx) => {
+    const [updatedRequest] = await tx.update(upgradeRequestsTable)
+      .set({ status: "approved", reviewedAt: new Date() })
+      .where(eq(upgradeRequestsTable.id, id))
+      .returning();
 
-  await db.update(usersTable)
-    .set({
-      userType: "resident",
-      upgradeStatus: "approved",
-      unitNumber: request.unitNumber,
-      residentId: request.residentId,
-      developmentName: request.developmentName,
-    })
-    .where(eq(usersTable.id, request.userId));
+    await tx.update(usersTable)
+      .set({
+        userType: "resident",
+        upgradeStatus: "approved",
+        unitNumber: request.unitNumber,
+        residentId: request.residentId,
+        developmentName: request.developmentName,
+      })
+      .where(eq(usersTable.id, request.userId));
+
+    return updatedRequest;
+  });
 
   return res.json({
     id: updated.id,
@@ -250,20 +262,30 @@ router.post("/upgrade-requests/:id/approve", async (req, res) => {
 });
 
 router.post("/upgrade-requests/:id/reject", async (req, res) => {
+  const adminPayload = requireAdmin(req, res);
+  if (!adminPayload) return;
+
   const { id } = req.params;
-  const [request] = await db.select().from(upgradeRequestsTable).where(eq(upgradeRequestsTable.id, id)).limit(1);
+  const [request] = await db.select()
+    .from(upgradeRequestsTable)
+    .where(eq(upgradeRequestsTable.id, id))
+    .limit(1);
   if (!request) {
     return res.status(404).json({ error: "not_found", message: "Request not found" });
   }
 
-  const [updated] = await db.update(upgradeRequestsTable)
-    .set({ status: "rejected", reviewedAt: new Date() })
-    .where(eq(upgradeRequestsTable.id, id))
-    .returning();
+  const updated = await db.transaction(async (tx) => {
+    const [updatedRequest] = await tx.update(upgradeRequestsTable)
+      .set({ status: "rejected", reviewedAt: new Date() })
+      .where(eq(upgradeRequestsTable.id, id))
+      .returning();
 
-  await db.update(usersTable)
-    .set({ upgradeStatus: "rejected" })
-    .where(eq(usersTable.id, request.userId));
+    await tx.update(usersTable)
+      .set({ upgradeStatus: "rejected" })
+      .where(eq(usersTable.id, request.userId));
+
+    return updatedRequest;
+  });
 
   return res.json({
     id: updated.id,
