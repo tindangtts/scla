@@ -31,7 +31,12 @@ See REQUIREMENTS.md for full requirement list.
   2. Repeated failed login attempts are blocked with a 429 response and a meaningful error message
   3. API requests without a valid CSRF token are rejected when required
   4. Existing resident sessions continue to work after the password hash migration
-**Plans**: TBD
+**Plans**: 3 plans
+
+Plans:
+- [ ] 11-01-PLAN.md — bcrypt password migration + JWT secret hardening (SEC-01)
+- [ ] 11-02-PLAN.md — rate limiting on auth endpoints (SEC-02)
+- [ ] 11-03-PLAN.md — helmet security headers + CORS hardening (SEC-03)
 
 ### Phase 12: Real Payment Integration
 **Goal**: Residents can complete bill payments through live WavePay and KBZPay gateways and receive downloadable receipts
@@ -75,7 +80,7 @@ See REQUIREMENTS.md for full requirement list.
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
 | 1-10. Foundation | v1.0 | -/- | Complete | 2026-04-10 |
-| 11. Security Hardening | v2.0 | 0/? | Not started | - |
+| 11. Security Hardening | v2.0 | 0/3 | In planning | - |
 | 12. Real Payment Integration | v2.0 | 0/? | Not started | - |
 | 13. Communication & Notifications | v2.0 | 0/? | Not started | - |
 | 14. UX Enhancements | v2.0 | 0/? | Not started | - |
