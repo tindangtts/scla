@@ -165,7 +165,7 @@ All v1 requirements are already implemented (brownfield project). v2 requirement
 | COMM-01 | Phase 13 | Complete |
 | COMM-02 | Phase 13 | Complete |
 | COMM-03 | Phase 13 | Complete |
-| ENH-01 | Phase 14 | Pending |
+| ENH-01 | Phase 14 | Complete |
 | ENH-02 | Phase 14 | Complete |
 | ENH-03 | Phase 14 | Complete |
 | ENH-04 | Phase 14 | Complete |
