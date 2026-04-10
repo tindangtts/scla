@@ -8,6 +8,7 @@ import { eq, desc, asc, count, and, gte, lte, like, or, sql } from "drizzle-orm"
 import * as jwt from "../lib/jwt.js";
 import * as crypto from "crypto";
 import { hashPasswordBcrypt, verifyPassword, isLegacyHash } from "../lib/password.js";
+import { authRateLimiter } from "../lib/rate-limiter.js";
 
 const router = Router();
 
@@ -62,7 +63,7 @@ function requireAdmin(req: any, res: any): AdminTokenPayload | null {
 }
 
 // POST /api/admin/auth/login
-router.post("/auth/login", async (req, res) => {
+router.post("/auth/login", authRateLimiter, async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) return res.status(400).json({ error: "email and password required" });
 

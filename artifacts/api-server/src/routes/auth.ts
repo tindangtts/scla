@@ -4,6 +4,7 @@ import { usersTable, upgradeRequestsTable } from "@workspace/db";
 import { eq } from "drizzle-orm";
 import * as jwt from "../lib/jwt.js";
 import { hashPasswordBcrypt, verifyPassword, isLegacyHash } from "../lib/password.js";
+import { authRateLimiter } from "../lib/rate-limiter.js";
 
 const router = Router();
 
@@ -23,7 +24,7 @@ function userToPublic(user: typeof usersTable.$inferSelect) {
   };
 }
 
-router.post("/register", async (req, res) => {
+router.post("/register", authRateLimiter, async (req, res) => {
   const { name, email, phone, password } = req.body;
 
   if (!name || !email || !phone || !password) {
@@ -53,7 +54,7 @@ router.post("/register", async (req, res) => {
   return res.status(201).json({ token, user: userToPublic(user) });
 });
 
-router.post("/login", async (req, res) => {
+router.post("/login", authRateLimiter, async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
