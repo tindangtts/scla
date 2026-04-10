@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Production-Ready
-status: verifying
-stopped_at: Completed 14-06-PLAN.md (i18n wiring across all pages)
-last_updated: "2026-04-10T17:08:12.389Z"
+status: executing
+stopped_at: Completed 16-02-PLAN.md (auth middleware extraction)
+last_updated: "2026-04-10T18:15:38.959Z"
 last_activity: 2026-04-10
 progress:
-  total_phases: 5
+  total_phases: 7
   completed_phases: 4
-  total_plans: 21
-  completed_plans: 21
+  total_plans: 23
+  completed_plans: 22
   percent: 14
 ---
 
@@ -21,13 +21,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-10)
 
 **Core value:** Residents can manage their apartment lifecycle — bills, maintenance, bookings, and community info — from a single mobile-first web app without visiting the management office.
-**Current focus:** Phase 14 — ux-enhancements
+**Current focus:** Phase 16 — i18n-completion-and-auth-middleware-cleanup
 
 ## Current Position
 
-Phase: 15
-Plan: Not started
-Status: Phase complete — ready for verification
+Phase: 16 (i18n-completion-and-auth-middleware-cleanup) — EXECUTING
+Plan: 2 of 2
+Status: Ready to execute
 Last activity: 2026-04-10
 
 Progress: [██░░░░░░░░] ~14% (v1.0 complete, v2.0 not started)
@@ -73,6 +73,7 @@ Progress: [██░░░░░░░░] ~14% (v1.0 complete, v2.0 not started
 | Phase 14 P01 | 8 | 2 tasks | 8 files |
 | Phase 14-ux-enhancements P07 | 8 | 2 tasks | 3 files |
 | Phase 14-ux-enhancements P06 | 7 | 2 tasks | 11 files |
+| Phase 16 P02 | 8 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -123,6 +124,7 @@ Recent decisions affecting current work:
 - [Phase 14-ux-enhancements]: cancelGroupMutation uses raw fetch (not generated hook) because cancel-group endpoint was added in 14-05 without regenerating client hooks
 - [Phase 14]: bottom-nav second item changed from Discover to Bills to match nav.bills locale key — en.json has no nav.discover key
 - [Phase 14]: STATUS_FILTERS arrays moved inside component scope so t() is accessible; loop variables named t renamed to tabKey to prevent shadowing useTranslation hook
+- [Phase 16]: requireAdmin/verifyAdmin/AdminTokenPayload extracted to auth-middleware.ts as single source of truth; auth.ts /me and /upgrade use requireAuth middleware chain
 
 ### Roadmap Evolution
 
@@ -138,6 +140,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-10T17:04:30.501Z
-Stopped at: Completed 14-06-PLAN.md (i18n wiring across all pages)
+Last session: 2026-04-10T18:15:38.956Z
+Stopped at: Completed 16-02-PLAN.md (auth middleware extraction)
 Resume file: None

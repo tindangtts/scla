@@ -52,7 +52,7 @@ Plans:
 
 Plans:
 - [ ] 16-01-PLAN.md — i18n wiring: useTranslation on 8 remaining pages (ENH-01)
-- [ ] 16-02-PLAN.md — auth middleware deduplication: requireAdmin extracted, /me + /upgrade migrated (QUAL-05)
+- [x] 16-02-PLAN.md — auth middleware deduplication: requireAdmin extracted, /me + /upgrade migrated (QUAL-05)
 **UI hint**: yes
 
 ### Phase 13: Communication & Notifications
@@ -105,7 +105,7 @@ Plans:
 | 13. Communication & Notifications | v2.0 | 7/7 | Complete    | 2026-04-10 |
 | 14. UX Enhancements | v2.0 | 7/7 | Complete    | 2026-04-10 |
 | 15. API Hardening & Code Quality | v2.0 | 4/4 | Complete    | 2026-04-10 |
-| 16. i18n & Auth Middleware Cleanup | v2.0 | 0/? | Not started | - |
+| 16. i18n & Auth Middleware Cleanup | v2.0 | 1/2 | In Progress|  |
 | 17. Scheduler & Migration Bootstrap | v2.0 | 0/? | Not started | - |
 
 ### Phase 15: API Hardening & Code Quality
