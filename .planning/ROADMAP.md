@@ -101,6 +101,8 @@ Plans:
 | 13. Communication & Notifications | v2.0 | 7/7 | Complete    | 2026-04-10 |
 | 14. UX Enhancements | v2.0 | 7/7 | Complete    | 2026-04-10 |
 | 15. API Hardening & Code Quality | v2.0 | 4/4 | Complete    | 2026-04-10 |
+| 16. i18n & Auth Middleware Cleanup | v2.0 | 0/? | Not started | - |
+| 17. Scheduler & Migration Bootstrap | v2.0 | 0/? | Not started | - |
 
 ### Phase 15: API Hardening & Code Quality
 **Goal**: Fix critical auth gaps, race conditions, missing error handling, and type safety issues identified in the codebase audit
@@ -122,3 +124,25 @@ Plans:
 - [x] 15-02-PLAN.md — Global Express error handler + staff password validation (QUAL-04, QUAL-08)
 - [x] 15-03-PLAN.md — Atomic DB sequences for booking and ticket number generation (QUAL-02)
 - [x] 15-04-PLAN.md — Shared auth middleware refactor + integer invoice arithmetic + TypeScript types (QUAL-05, QUAL-06, QUAL-07)
+
+### Phase 16: i18n Completion & Auth Middleware Cleanup
+**Goal**: Complete i18n wiring on remaining 8 pages and extract shared requireAdmin middleware to eliminate duplication
+**Depends on**: Phase 14, Phase 15
+**Requirements**: ENH-01, QUAL-05
+**Gap Closure**: Closes gaps from v2.0 audit
+**Success Criteria** (what must be TRUE):
+  1. All resident-facing pages use useTranslation (profile, ticket-detail, wallet, upgrade, bill-detail, info, discover-detail, info-article)
+  2. auth.ts /me and /upgrade use shared requireAuth middleware instead of inline jwt.verify
+  3. requireAdmin is exported from auth-middleware.ts and used by both auth.ts and admin.ts (no duplication)
+**Plans**: TBD
+
+### Phase 17: Scheduler & DB Migration Bootstrap
+**Goal**: Add a bill-overdue email/push scheduler and auto-apply DB migrations at server startup
+**Depends on**: Phase 13, Phase 15
+**Requirements**: COMM-02
+**Gap Closure**: Closes gaps from v2.0 audit
+**Success Criteria** (what must be TRUE):
+  1. sendBillOverdueEmail is triggered automatically for invoices past due date
+  2. PostgreSQL sequences (booking_number_seq, ticket_number_seq) are auto-created at server startup
+  3. A lightweight scheduler runs periodic jobs (bill overdue check) without external cron dependency
+**Plans**: TBD
