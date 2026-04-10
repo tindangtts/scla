@@ -145,7 +145,7 @@ All v1 requirements are already implemented (brownfield project). v2 requirement
 | NOTF-01 through NOTF-04 | Existing | Complete |
 | HOME-01 through HOME-03 | Existing | Complete |
 | ADMN-01 through ADMN-10 | Existing | Complete |
-| SEC-01 | Phase 11 | Pending |
+| SEC-01 | Phase 11 | Complete |
 | SEC-02 | Phase 11 | Pending |
 | SEC-03 | Phase 11 | Pending |
 | PAY-01 | Phase 12 | Pending |
