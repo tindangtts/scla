@@ -2,7 +2,7 @@
 
 ## What This Is
 
-A full-stack resident community management web application for StarCity Estate in Yangon, Myanmar, serving 9,000+ residents across three developments (City Loft, Estella, ARA). Provides residents with bill payments, maintenance ticketing, facility bookings, community announcements, and an admin portal for estate management staff.
+A production-grade resident community management web application for StarCity Estate in Yangon, Myanmar, serving 9,000+ residents across three developments (City Loft, Estella, ARA). Provides residents with bill management, maintenance ticketing with in-app chat, facility bookings (including recurring), push/email notifications, community announcements, and a comprehensive admin portal — all with Myanmar language support, dark mode, and offline access.
 
 ## Core Value
 
@@ -12,39 +12,46 @@ Residents can manage their apartment lifecycle — bills, maintenance, bookings,
 
 ### Validated
 
-- ✓ Guest and resident user registration/login with JWT authentication — existing
-- ✓ Guest-to-resident upgrade request workflow with admin approval — existing
-- ✓ Bill viewing with invoice line items, status filtering, and mock payment (WavePay/KBZPay) — existing
-- ✓ Star Assist maintenance ticket creation with 8 categories and staff response thread — existing
-- ✓ SCSC facility browsing with hourly slot booking and cancellation — existing
-- ✓ Discover page with announcements, newsletters, and partner promotions — existing
-- ✓ Wallet and security deposit balance viewing with transaction history — existing
-- ✓ Info Centre with categorized knowledge base articles — existing
-- ✓ Notification system with unread badges and related item linking — existing
-- ✓ Home dashboard with dynamic content by user type (guest vs resident) — existing
-- ✓ Admin portal with role-based access (admin, content manager, ticket handler, booking manager, user verifier) — existing
-- ✓ Admin CRUD for users, announcements, promotions, FAQs, facilities, tickets, bookings, and staff — existing
-- ✓ Admin dashboard with KPI stats — existing
-- ✓ Database seeding with demo accounts and sample data — existing
-- ✓ bcrypt password hashing with transparent SHA256 migration on login — Phase 11
-- ✓ Rate limiting on auth endpoints (5 req/min/IP, 429 response) — Phase 11
-- ✓ Helmet security headers + CORS tightened to specific origins — Phase 11
-- ✓ JWT secret management hardened (no fallback, admin 8h expiry) — Phase 11
-- ✓ Admin auth on upgrade-request endpoints + DB transactions — Phase 15
-- ✓ Atomic PostgreSQL sequences for booking/ticket numbers — Phase 15
-- ✓ Global Express error handler with consistent JSON responses — Phase 15
-- ✓ Shared auth middleware across all routes (no inline JWT) — Phase 15
-- ✓ Integer arithmetic for invoice calculations (no float precision loss) — Phase 15
-- ✓ Proper TypeScript types on all route handlers — Phase 15
-- ✓ Password validation on admin staff creation — Phase 15
-- ✓ Web Push notifications with service worker and VAPID keys — Phase 13
-- ✓ Transactional email via Resend with SCLA-branded templates — Phase 13
-- ✓ In-app chat embedded in ticket detail (resident + admin) with 4s polling — Phase 13
-- ✓ Multi-language support (English + Myanmar) with react-i18next — Phase 14
-- ✓ Dark mode with Tailwind dark: class strategy and system detection — Phase 14
-- ✓ Offline support with service worker cache-first for tickets/bookings — Phase 14
-- ✓ Photo attachment on tickets with camera/gallery and base64 storage — Phase 14
-- ✓ Recurring weekly bookings with bulk cancel — Phase 14
+<details>
+<summary>v1.0 Foundation (14 requirements)</summary>
+
+- ✓ Guest and resident user registration/login with JWT authentication — v1.0
+- ✓ Guest-to-resident upgrade request workflow with admin approval — v1.0
+- ✓ Bill viewing with invoice line items, status filtering, and mock payment — v1.0
+- ✓ Star Assist maintenance ticket creation with 8 categories — v1.0
+- ✓ SCSC facility browsing with hourly slot booking and cancellation — v1.0
+- ✓ Discover page with announcements, newsletters, and promotions — v1.0
+- ✓ Wallet and security deposit balance viewing — v1.0
+- ✓ Info Centre with categorized knowledge base articles — v1.0
+- ✓ Notification system with unread badges — v1.0
+- ✓ Home dashboard with dynamic content by user type — v1.0
+- ✓ Admin portal with role-based access control — v1.0
+- ✓ Admin CRUD for all content types — v1.0
+- ✓ Admin dashboard with KPI stats — v1.0
+- ✓ Database seeding with demo accounts — v1.0
+
+</details>
+
+- ✓ bcrypt password hashing with transparent SHA256 migration — v2.0 (Phase 11)
+- ✓ Rate limiting on auth endpoints (5 req/min/IP) — v2.0 (Phase 11)
+- ✓ Helmet security headers + CORS tightened — v2.0 (Phase 11)
+- ✓ JWT secret management hardened — v2.0 (Phase 11)
+- ✓ Web Push notifications with service worker — v2.0 (Phase 13)
+- ✓ Transactional email via Resend — v2.0 (Phase 13)
+- ✓ In-app chat embedded in ticket detail — v2.0 (Phase 13)
+- ✓ Multi-language support (English + Myanmar) — v2.0 (Phase 14)
+- ✓ Dark mode with system detection — v2.0 (Phase 14)
+- ✓ Offline support with cache-first — v2.0 (Phase 14)
+- ✓ Photo attachment on tickets — v2.0 (Phase 14)
+- ✓ Recurring weekly bookings with bulk cancel — v2.0 (Phase 14)
+- ✓ Admin auth on upgrade endpoints + DB transactions — v2.0 (Phase 15)
+- ✓ Atomic PostgreSQL sequences for booking/ticket numbers — v2.0 (Phase 15)
+- ✓ Global Express error handler — v2.0 (Phase 15)
+- ✓ Shared auth middleware (requireAuth + requireAdmin) — v2.0 (Phase 16)
+- ✓ Integer arithmetic for invoice calculations — v2.0 (Phase 15)
+- ✓ TypeScript types on all route handlers — v2.0 (Phase 15)
+- ✓ Bill-overdue email/push scheduler — v2.0 (Phase 17)
+- ✓ DB migration auto-apply at startup — v2.0 (Phase 17)
 
 ### Active
 
@@ -52,53 +59,63 @@ Residents can manage their apartment lifecycle — bills, maintenance, bookings,
 
 ### Out of Scope
 
-(To be defined based on next milestone goals)
+- Native mobile app — web-first approach, PWA works well
+- Real-time chat (WebSocket) — polling at 4s is sufficient for MVP
+- Video surveillance integration — separate system
+- OAuth/social login — custom JWT sufficient for estate residents
+- Multi-estate support — single estate deployment
+- Real WavePay/KBZPay payment — deferred (missing gateway documents)
 
 ## Context
 
-- **Tech stack**: React 19 + TypeScript + Vite (frontend), Express 5 + TypeScript (backend), PostgreSQL + Drizzle ORM (database), deployed on Replit
-- **Monorepo**: PNPM workspaces with artifacts (scla, admin, api-server, mockup-sandbox) and libs (db, api-client-react, api-zod, api-spec)
-- **UI framework**: Tailwind CSS 4 + Radix UI + Framer Motion, mobile-first design with bottom navigation
-- **Design system**: Primary Deep Teal (`hsl(185, 62%, 32%)`), Accent Warm Gold (`hsl(40, 80%, 52%)`)
-- **Auth**: Custom JWT (HS256) with separate user/admin tokens, SHA256 password hashing with salt
-- **API generation**: OpenAPI 3.1 spec with Orval-generated React hooks
-- **Three estates**: City Loft, Estella, ARA
-- **Demo accounts**: resident@starcity.com / demo@starcity.com / admin@starcity.com
+- **Shipped:** v2.0 Production-Ready on 2026-04-10
+- **Codebase:** ~36,000 LOC TypeScript across frontend, admin, and backend
+- **Tech stack**: React 19 + TypeScript + Vite, Express 5 + TypeScript, PostgreSQL + Drizzle ORM, Replit
+- **Monorepo**: PNPM workspaces (artifacts/scla, artifacts/admin, artifacts/api-server, lib/db)
+- **UI**: Tailwind CSS 4 + Radix UI, mobile-first, dark mode enabled
+- **i18n**: react-i18next with English + Myanmar (107 translation keys)
+- **Auth**: bcrypt + custom JWT (HS256), shared requireAuth/requireAdmin middleware
+- **Notifications**: Web Push (VAPID) + Resend email + in-app notifications
+- **User preference**: Supabase ecosystem for future migrations
 
 ## Constraints
 
-- **Platform**: Deployed on Replit — must stay compatible with Replit hosting
-- **Mobile-first**: UI optimized for mobile screens, bottom nav pattern
-- **Monorepo**: All changes must respect PNPM workspace structure
-- **Password security**: Currently using SHA256 with static salt (known limitation)
+- **Platform**: Deployed on Replit
+- **Mobile-first**: Bottom nav, touch-friendly
+- **Monorepo**: PNPM workspace structure
+- **Env vars required**: SESSION_SECRET, VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY, RESEND_API_KEY
 
 ## Key Decisions
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Custom JWT over OAuth | Simpler for v1, full control over auth flow | ✓ Good |
-| Drizzle ORM over Prisma | Type-safe, lightweight, better Replit compatibility | ✓ Good |
-| Wouter over React Router | Lightweight routing for mobile-first SPA | ✓ Good |
-| Express 5 over Hono/Fastify | Stable ecosystem, team familiarity | ✓ Good |
-| Monorepo with PNPM workspaces | Shared types and schemas across frontend/backend/admin | ✓ Good |
-| Mock payment integration | WavePay/KBZPay redirect stubs, real integration deferred | — Pending |
+| Custom JWT over OAuth | Simpler for v1, full control | ✓ Good |
+| Drizzle ORM over Prisma | Type-safe, lightweight, Replit compatible | ✓ Good |
+| Wouter over React Router | Lightweight for mobile SPA | ✓ Good |
+| Express 5 | Stable ecosystem | ✓ Good |
+| PNPM monorepo | Shared types across frontend/backend/admin | ✓ Good |
+| bcryptjs over node-bcrypt | Pure JS, no native bindings on Replit | ✓ Good |
+| Resend for email | Simple API, good developer experience | ✓ Good |
+| Polling (4s) over WebSocket for chat | Simpler, reliable, upgrade path to Supabase Realtime | ✓ Good |
+| Base64 image storage | MVP simplicity, upgrade to Supabase Storage later | — Pending |
+| Mock payment integration | WavePay/KBZPay deferred, missing gateway docs | — Pending |
 
 ## Evolution
 
 This document evolves at phase transitions and milestone boundaries.
 
-**After each phase transition** (via `/gsd:transition`):
+**After each phase transition:**
 1. Requirements invalidated? → Move to Out of Scope with reason
 2. Requirements validated? → Move to Validated with phase reference
 3. New requirements emerged? → Add to Active
 4. Decisions to log? → Add to Key Decisions
 5. "What This Is" still accurate? → Update if drifted
 
-**After each milestone** (via `/gsd:complete-milestone`):
+**After each milestone:**
 1. Full review of all sections
 2. Core Value check — still the right priority?
 3. Audit Out of Scope — reasons still valid?
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-10 after Phase 14 completion*
+*Last updated: 2026-04-10 after v2.0 milestone completion*
