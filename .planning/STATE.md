@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Production-Ready
 status: executing
-stopped_at: Completed 14-05-PLAN.md (recurring bookings schema + API)
-last_updated: "2026-04-10T16:54:08.964Z"
+stopped_at: "Completed 14-02-PLAN.md (dark mode: CSS variables, useTheme hook, ThemeInitializer, profile toggle)"
+last_updated: "2026-04-10T16:54:41.552Z"
 last_activity: 2026-04-10
 progress:
   total_phases: 5
   completed_phases: 3
   total_plans: 21
-  completed_plans: 17
+  completed_plans: 18
   percent: 14
 ---
 
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-04-10)
 ## Current Position
 
 Phase: 14 (ux-enhancements) — EXECUTING
-Plan: 4 of 7
+Plan: 5 of 7
 Status: Ready to execute
 Last activity: 2026-04-10
 
@@ -69,6 +69,7 @@ Progress: [██░░░░░░░░] ~14% (v1.0 complete, v2.0 not started
 | Phase 14 P03 | 8 | 2 tasks | 3 files |
 | Phase 14 P04 | 5 | 2 tasks | 2 files |
 | Phase 14 P05 | 5 | 2 tasks | 2 files |
+| Phase 14-ux-enhancements P02 | 133 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -112,6 +113,7 @@ Recent decisions affecting current work:
 - [Phase 14]: accept=image/* with capture=environment for mobile camera + gallery on a single hidden input
 - [Phase 14]: 5MB limit validated before FileReader conversion to avoid converting oversized files
 - [Phase 14]: recurringGroupId is nullable text (no FK) — matches existing codebase pattern; cancel-group cancels bookings on/after today only
+- [Phase 14-ux-enhancements]: useTheme hook reads localStorage scla_theme on init, falls back to system preference; ThemeInitializer placed as first QueryClientProvider child to apply dark class before render
 
 ### Roadmap Evolution
 
@@ -127,6 +129,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-10T16:54:08.961Z
-Stopped at: Completed 14-05-PLAN.md (recurring bookings schema + API)
+Last session: 2026-04-10T16:54:41.549Z
+Stopped at: Completed 14-02-PLAN.md (dark mode: CSS variables, useTheme hook, ThemeInitializer, profile toggle)
 Resume file: None
