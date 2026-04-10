@@ -84,8 +84,8 @@ Plans:
 Plans:
 - [ ] 14-01-PLAN.md — i18n foundation: react-i18next install, en.json + my.json, i18n.ts config, useLanguage hook, profile language toggle (ENH-01)
 - [ ] 14-02-PLAN.md — Dark mode: CSS dark variables, useTheme hook, App.tsx html-class injection, profile theme toggle (ENH-02)
-- [ ] 14-03-PLAN.md — Offline PWA: sw.js cache-first for API GET routes, OfflineBanner component in AppLayout (ENH-03)
-- [ ] 14-04-PLAN.md — Image upload: new-ticket file input + base64 + 5MB validation + preview; ticket-detail image display (ENH-04)
+- [x] 14-03-PLAN.md — Offline PWA: sw.js cache-first for API GET routes, OfflineBanner component in AppLayout (ENH-03)
+- [x] 14-04-PLAN.md — Image upload: new-ticket file input + base64 + 5MB validation + preview; ticket-detail image display (ENH-04)
 - [ ] 14-05-PLAN.md — Recurring bookings DB+API: recurringGroupId column, POST creates 4 bookings, cancel-group endpoint (ENH-05)
 - [ ] 14-06-PLAN.md — i18n page wiring: useTranslation applied to all pages and bottom-nav (ENH-01)
 - [ ] 14-07-PLAN.md — Recurring bookings UI: repeat-weekly toggle in booking-detail, Cancel All Future in bookings list (ENH-05)
@@ -98,7 +98,7 @@ Plans:
 | 11. Security Hardening | v2.0 | 3/3 | Complete    | 2026-04-10 |
 | 12. Real Payment Integration | v2.0 | 0/? | Not started | - |
 | 13. Communication & Notifications | v2.0 | 7/7 | Complete    | 2026-04-10 |
-| 14. UX Enhancements | v2.0 | 0/7 | Not started | - |
+| 14. UX Enhancements | v2.0 | 2/7 | In Progress|  |
 | 15. API Hardening & Code Quality | v2.0 | 4/4 | Complete    | 2026-04-10 |
 
 ### Phase 15: API Hardening & Code Quality

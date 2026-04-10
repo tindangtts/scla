@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Production-Ready
-status: verifying
-stopped_at: "Completed 13-07-PLAN.md (gap closure: ticket-messages router, index.ts re-wire, admin.ts endpoints restored)"
-last_updated: "2026-04-10T16:35:56.832Z"
+status: executing
+stopped_at: "Completed 14-03-PLAN.md (offline support: cache-first SW + OfflineBanner)"
+last_updated: "2026-04-10T16:53:39.825Z"
 last_activity: 2026-04-10
 progress:
   total_phases: 5
   completed_phases: 3
-  total_plans: 14
-  completed_plans: 14
+  total_plans: 21
+  completed_plans: 16
   percent: 14
 ---
 
@@ -21,13 +21,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-10)
 
 **Core value:** Residents can manage their apartment lifecycle — bills, maintenance, bookings, and community info — from a single mobile-first web app without visiting the management office.
-**Current focus:** Phase 13 — communication-notifications
+**Current focus:** Phase 14 — ux-enhancements
 
 ## Current Position
 
-Phase: 15
-Plan: Not started
-Status: Phase complete — ready for verification
+Phase: 14 (ux-enhancements) — EXECUTING
+Plan: 3 of 7
+Status: Ready to execute
 Last activity: 2026-04-10
 
 Progress: [██░░░░░░░░] ~14% (v1.0 complete, v2.0 not started)
@@ -66,6 +66,7 @@ Progress: [██░░░░░░░░] ~14% (v1.0 complete, v2.0 not started
 | Phase 13 P05 | 2 | 2 tasks | 3 files |
 | Phase 13 P06 | 2 | 2 tasks | 2 files |
 | Phase 13 P07 | 5 | 2 tasks | 3 files |
+| Phase 14 P03 | 8 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -104,6 +105,8 @@ Recent decisions affecting current work:
 - [Phase 13]: BufferSource cast used for applicationServerKey Uint8Array in usePushNotifications — TypeScript strict PushSubscriptionOptionsInit requires explicit cast from Uint8Array<ArrayBufferLike> to BufferSource
 - [Phase 13]: Enable Notifications banner only shown to residents with supported push, permission not denied, and not yet subscribed — conditional rendering in home.tsx
 - [Phase 13]: req.params.id cast as string in ticket-messages.ts to satisfy drizzle-orm eq() TypeScript overloads
+- [Phase 14]: Cache-first strategy for API GET routes returns stale data immediately and refreshes in background; CLEAR_API_CACHE message evicts stale cache on reconnect
+- [Phase 14]: Separate API_CACHE (scla-api-v1) isolates API responses from app-shell cache (scla-v1) for independent versioning
 
 ### Roadmap Evolution
 
@@ -119,6 +122,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-10T16:33:32.275Z
-Stopped at: Completed 13-07-PLAN.md (gap closure: ticket-messages router, index.ts re-wire, admin.ts endpoints restored)
+Last session: 2026-04-10T16:53:32.257Z
+Stopped at: Completed 14-03-PLAN.md (offline support: cache-first SW + OfflineBanner)
 Resume file: None
