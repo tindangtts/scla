@@ -37,6 +37,9 @@ Residents can manage their apartment lifecycle — bills, maintenance, bookings,
 - ✓ Integer arithmetic for invoice calculations (no float precision loss) — Phase 15
 - ✓ Proper TypeScript types on all route handlers — Phase 15
 - ✓ Password validation on admin staff creation — Phase 15
+- ✓ Web Push notifications with service worker and VAPID keys — Phase 13
+- ✓ Transactional email via Resend with SCLA-branded templates — Phase 13
+- ✓ In-app chat embedded in ticket detail (resident + admin) with 4s polling — Phase 13
 
 ### Active
 
@@ -93,4 +96,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-10 after Phase 15 completion*
+*Last updated: 2026-04-10 after Phase 13 completion*
