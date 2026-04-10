@@ -63,9 +63,9 @@ Plans:
 
 Plans:
 - [x] 13-01-PLAN.md — DB schemas: push_subscriptions, ticket_messages, emailNotifications column (COMM-01, COMM-02, COMM-03)
-- [ ] 13-02-PLAN.md — Push notification backend: web-push library, subscribe API, trigger on ticket status change (COMM-01)
-- [ ] 13-03-PLAN.md — Email notification backend: Resend integration, ticket completed/overdue email triggers (COMM-02)
-- [ ] 13-04-PLAN.md — Chat API: GET/POST messages endpoints for residents and admin staff (COMM-03)
+- [x] 13-02-PLAN.md — Push notification backend: web-push library, subscribe API, trigger on ticket status change (COMM-01)
+- [x] 13-03-PLAN.md — Email notification backend: Resend integration, ticket completed/overdue email triggers (COMM-02)
+- [x] 13-04-PLAN.md — Chat API: GET/POST messages endpoints for residents and admin staff (COMM-03)
 - [ ] 13-05-PLAN.md — Push subscription UI: service worker, usePushNotifications hook, home page prompt (COMM-01)
 - [ ] 13-06-PLAN.md — Chat UI: resident ticket-detail chat panel + admin ticket panel chat (COMM-03)
 
@@ -89,7 +89,7 @@ Plans:
 | 1-10. Foundation | v1.0 | -/- | Complete | 2026-04-10 |
 | 11. Security Hardening | v2.0 | 3/3 | Complete    | 2026-04-10 |
 | 12. Real Payment Integration | v2.0 | 0/? | Not started | - |
-| 13. Communication & Notifications | v2.0 | 1/6 | In Progress|  |
+| 13. Communication & Notifications | v2.0 | 4/6 | In Progress|  |
 | 14. UX Enhancements | v2.0 | 0/? | Not started | - |
 | 15. API Hardening & Code Quality | v2.0 | 4/4 | Complete    | 2026-04-10 |
 
