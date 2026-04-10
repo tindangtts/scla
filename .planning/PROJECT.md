@@ -40,10 +40,15 @@ Residents can manage their apartment lifecycle — bills, maintenance, bookings,
 - ✓ Web Push notifications with service worker and VAPID keys — Phase 13
 - ✓ Transactional email via Resend with SCLA-branded templates — Phase 13
 - ✓ In-app chat embedded in ticket detail (resident + admin) with 4s polling — Phase 13
+- ✓ Multi-language support (English + Myanmar) with react-i18next — Phase 14
+- ✓ Dark mode with Tailwind dark: class strategy and system detection — Phase 14
+- ✓ Offline support with service worker cache-first for tickets/bookings — Phase 14
+- ✓ Photo attachment on tickets with camera/gallery and base64 storage — Phase 14
+- ✓ Recurring weekly bookings with bulk cancel — Phase 14
 
 ### Active
 
-(To be defined for next phase)
+(To be defined for next milestone)
 
 ### Out of Scope
 
@@ -96,4 +101,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-10 after Phase 13 completion*
+*Last updated: 2026-04-10 after Phase 14 completion*
