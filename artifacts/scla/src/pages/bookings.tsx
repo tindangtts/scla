@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useListFacilities, getListFacilitiesQueryKey, useListBookings, getListBookingsQueryKey } from "@workspace/api-client-react";
 import { AppLayout } from "@/components/layout/app-layout";
 import { formatMMK } from "@/lib/format";
-import { ChevronRight, Calendar, Dumbbell, MapPin, Clock } from "lucide-react";
+import { ChevronRight, Calendar, Dumbbell, MapPin, Clock, Repeat2, Loader2 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useToast } from "@/hooks/use-toast";
 
 const FACILITY_ICONS: Record<string, string> = {
   swimming_pool: "Pool", tennis_court: "Tennis", basketball_court: "Basketball",
@@ -14,6 +16,28 @@ const FACILITY_ICONS: Record<string, string> = {
 export default function BookingsPage() {
   const [, setLocation] = useLocation();
   const [tab, setTab] = useState<"facilities" | "mybookings">("facilities");
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+  const API_BASE = import.meta.env.VITE_API_URL ?? "/api";
+  const token = localStorage.getItem("token") ?? "";
+
+  const cancelGroupMutation = useMutation({
+    mutationFn: async (bookingId: string) => {
+      const res = await fetch(`${API_BASE}/bookings/${bookingId}/cancel-group`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) throw new Error('Failed to cancel');
+      return res.json();
+    },
+    onSuccess: (data: { cancelled: number }) => {
+      queryClient.invalidateQueries({ queryKey: getListBookingsQueryKey({}) });
+      toast({ title: `${data.cancelled} booking${data.cancelled !== 1 ? 's' : ''} cancelled` });
+    },
+    onError: () => {
+      toast({ title: 'Failed to cancel bookings', variant: 'destructive' });
+    },
+  });
 
   const { data: facilities, isLoading: facLoading } = useListFacilities({
     query: { queryKey: getListFacilitiesQueryKey() }
@@ -104,12 +128,20 @@ export default function BookingsPage() {
                 >
                   <div className="flex items-start justify-between">
                     <div>
-                      <span className={`text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-md mb-3 inline-block ${
-                        booking.status === "upcoming" ? "bg-blue-500/10 text-blue-700" :
-                        booking.status === "completed" ? "bg-emerald-500/10 text-emerald-700" : "bg-muted text-muted-foreground"
-                      }`}>
-                        {booking.status}
-                      </span>
+                      <div className="flex items-center mb-3">
+                        <span className={`text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-md inline-block ${
+                          booking.status === "upcoming" ? "bg-blue-500/10 text-blue-700" :
+                          booking.status === "completed" ? "bg-emerald-500/10 text-emerald-700" : "bg-muted text-muted-foreground"
+                        }`}>
+                          {booking.status}
+                        </span>
+                        {booking.recurringGroupId && (
+                          <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider px-2 py-1 rounded-md bg-violet-500/10 text-violet-700 ml-2">
+                            <Repeat2 className="w-3 h-3" />
+                            Recurring
+                          </span>
+                        )}
+                      </div>
                       <p className="font-extrabold text-base text-foreground leading-tight">{booking.facilityName}</p>
                       <p className="text-sm font-bold text-muted-foreground mt-1.5 flex items-center gap-1.5">
                         <Calendar className="w-3.5 h-3.5" /> {booking.date} · {booking.startTime}–{booking.endTime}
@@ -120,6 +152,23 @@ export default function BookingsPage() {
                       <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-1">#{booking.bookingNumber}</p>
                     </div>
                   </div>
+                  {booking.recurringGroupId && booking.status === 'upcoming' && (
+                    <div className="mt-3 pt-3 border-t border-border/50">
+                      <button
+                        onClick={() => cancelGroupMutation.mutate(booking.id)}
+                        disabled={cancelGroupMutation.isPending}
+                        className="flex items-center gap-2 text-xs font-bold text-destructive hover:text-destructive/80 transition-colors disabled:opacity-50"
+                        data-testid={`button-cancel-group-${booking.id}`}
+                      >
+                        {cancelGroupMutation.isPending ? (
+                          <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                        ) : (
+                          <Repeat2 className="w-3.5 h-3.5" />
+                        )}
+                        Cancel All Future
+                      </button>
+                    </div>
+                  )}
                 </div>
               ))
             )
