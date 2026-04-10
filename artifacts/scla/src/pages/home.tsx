@@ -1,14 +1,16 @@
+import { useState } from "react";
 import { useLocation } from "wouter";
 import { useGetHomeSummary, getGetHomeSummaryQueryKey, useListPromotions, getListPromotionsQueryKey } from "@workspace/api-client-react";
 import { useAuth } from "@/hooks/use-auth";
+import { usePushNotifications } from "@/hooks/use-push-notifications";
 import { AppLayout } from "@/components/layout/app-layout";
 import { formatMMK } from "@/lib/format";
-import { Bell, CreditCard, HelpCircle, Dumbbell, BookOpen, Newspaper, ChevronRight, ArrowUpCircle, User } from "lucide-react";
+import { Bell, BellOff, CreditCard, HelpCircle, Dumbbell, BookOpen, Newspaper, ChevronRight, ArrowUpCircle, User } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function HomePage() {
   const [, setLocation] = useLocation();
-  const { user, isResident, isAuthenticated } = useAuth();
+  const { user, token, isResident, isAuthenticated } = useAuth();
 
   const { data: summary, isLoading: summaryLoading } = useGetHomeSummary({
     query: { queryKey: getGetHomeSummaryQueryKey() }
@@ -18,6 +20,25 @@ export default function HomePage() {
     { limit: 3 },
     { query: { queryKey: getListPromotionsQueryKey({ limit: 3 }) } }
   );
+
+  const { isSupported, permission, isSubscribed, subscribe, unsubscribe } = usePushNotifications();
+  const [pushLoading, setPushLoading] = useState(false);
+
+  async function handlePushToggle() {
+    if (!token) return;
+    setPushLoading(true);
+    try {
+      if (isSubscribed) {
+        await unsubscribe(token);
+      } else {
+        await subscribe(token);
+      }
+    } catch (err) {
+      console.error("Push notification toggle failed:", err);
+    } finally {
+      setPushLoading(false);
+    }
+  }
 
   const greeting = () => {
     const hour = new Date().getHours();
@@ -57,6 +78,29 @@ export default function HomePage() {
             </button>
           </div>
         </div>
+
+        {/* Push notification permission prompt — residents only, not denied, not yet subscribed */}
+        {user?.userType === "resident" && isSupported && permission !== "denied" && !isSubscribed && (
+          <div className="mx-5 -mt-4 relative z-20 mb-4">
+            <div className="bg-primary/5 border border-primary/20 rounded-[1.5rem] p-4 flex items-center gap-3 shadow-sm">
+              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <Bell className="w-5 h-5 text-primary" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-extrabold text-foreground leading-tight">Stay informed</p>
+                <p className="text-xs font-medium text-muted-foreground mt-0.5">Get alerts for ticket updates and bills</p>
+              </div>
+              <button
+                onClick={handlePushToggle}
+                disabled={pushLoading || permission === "loading"}
+                className="flex-shrink-0 px-3 py-1.5 bg-primary text-primary-foreground rounded-xl text-xs font-bold hover:bg-primary/90 disabled:opacity-60 transition-colors"
+                data-testid="button-enable-notifications"
+              >
+                {pushLoading ? "..." : "Enable"}
+              </button>
+            </div>
+          </div>
+        )}
 
         <div className="px-5 -mt-8 space-y-6 pb-8 relative z-20">
           {/* Primary action cards */}
