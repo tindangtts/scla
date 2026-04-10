@@ -4,7 +4,7 @@ milestone: v2.0
 milestone_name: Production-Ready
 status: verifying
 stopped_at: Completed 16-01-PLAN.md (i18n wiring on 8 remaining pages)
-last_updated: "2026-04-10T18:17:00.831Z"
+last_updated: "2026-04-10T18:21:54.254Z"
 last_activity: 2026-04-10
 progress:
   total_phases: 7
@@ -25,8 +25,8 @@ See: .planning/PROJECT.md (updated 2026-04-10)
 
 ## Current Position
 
-Phase: 16 (i18n-completion-and-auth-middleware-cleanup) — EXECUTING
-Plan: 2 of 2
+Phase: 17
+Plan: Not started
 Status: Phase complete — ready for verification
 Last activity: 2026-04-10
 
