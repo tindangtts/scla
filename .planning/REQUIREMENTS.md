@@ -63,9 +63,9 @@ Requirements for Next.js migration. Each maps to roadmap phases.
 
 ### Internationalization & UX
 
-- [ ] **UX-01**: Multi-language support (English + Myanmar) via next-intl or equivalent
-- [ ] **UX-02**: Dark mode with system detection and manual toggle
-- [ ] **UX-03**: Mobile-first responsive layout with bottom navigation (resident)
+- [x] **UX-01**: Multi-language support (English + Myanmar) via next-intl or equivalent
+- [x] **UX-02**: Dark mode with system detection and manual toggle
+- [x] **UX-03**: Mobile-first responsive layout with bottom navigation (resident)
 - [x] **UX-04**: PWA/offline support with cache-first strategy
 - [x] **UX-05**: Loading states and error boundaries for Server Components
 
@@ -144,9 +144,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | COMM-03 | Phase 29 | Complete |
 | COMM-04 | Phase 29 | Complete |
 | COMM-05 | Phase 29 | Complete |
-| UX-01 | Phase 30 | Pending |
-| UX-02 | Phase 30 | Pending |
-| UX-03 | Phase 30 | Pending |
+| UX-01 | Phase 30 | Complete |
+| UX-02 | Phase 30 | Complete |
+| UX-03 | Phase 30 | Complete |
 | UX-04 | Phase 30 | Complete |
 | UX-05 | Phase 30 | Complete |
 | TEST-01 | Phase 31 | Pending |

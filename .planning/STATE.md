@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v3.0
 milestone_name: Next.js Migration
-status: executing
-stopped_at: Completed 30-02-PLAN.md
-last_updated: "2026-04-11T18:31:07.130Z"
+status: verifying
+stopped_at: Completed 30-01-PLAN.md
+last_updated: "2026-04-11T18:33:24.692Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 8
-  completed_phases: 6
+  completed_phases: 7
   total_plans: 18
-  completed_plans: 17
+  completed_plans: 18
   percent: 0
 ---
 
@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-04-11)
 
 Phase: 30 (i18n-ux-polish) — EXECUTING
 Plan: 2 of 2
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-04-11
 
 Progress: [░░░░░░░░░░] 0% (v3.0 milestone)
@@ -83,6 +83,8 @@ Recent decisions affecting current work:
 - [Phase 29]: Cron endpoint default mode processes only yesterday's newly overdue invoices to prevent re-notification
 - [Phase 29]: Cross-process HTTP relay (localhost:3003) for WS broadcast instead of direct function import
 - [Phase 30]: Network-first caching for navigation with offline.html fallback, cache-first for static assets, API requests skip cache
+- [Phase 30]: Cookie-based locale detection (NEXT_LOCALE cookie) instead of URL path-based routing to avoid breaking existing routes
+- [Phase 30]: Server Components use getTranslations, Client Components use useTranslations for proper SSR/CSR i18n split
 
 ### Pending Todos
 
@@ -94,6 +96,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-11T18:31:07.127Z
-Stopped at: Completed 30-02-PLAN.md
+Last session: 2026-04-11T18:33:24.689Z
+Stopped at: Completed 30-01-PLAN.md
 Resume file: None
