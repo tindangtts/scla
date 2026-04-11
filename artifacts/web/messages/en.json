@@ -1,0 +1,143 @@
+{
+  "nav": {
+    "home": "Home",
+    "bills": "Bills",
+    "starAssist": "Star Assist",
+    "bookings": "Bookings",
+    "more": "More"
+  },
+  "header": {
+    "appName": "Star City Living",
+    "logout": "Logout"
+  },
+  "home": {
+    "welcome": "Welcome",
+    "quickActions": "Quick Actions",
+    "recentBills": "Recent Bills",
+    "activeTickets": "Active Tickets"
+  },
+  "bills": {
+    "title": "Bills",
+    "paid": "Paid",
+    "unpaid": "Unpaid",
+    "overdue": "Overdue",
+    "payNow": "Pay Now",
+    "amount": "Amount",
+    "dueDate": "Due Date"
+  },
+  "wallet": {
+    "title": "Wallet",
+    "balance": "Balance",
+    "transactions": "Transactions",
+    "topUp": "Top Up"
+  },
+  "tickets": {
+    "title": "Star Assist",
+    "new": "New Ticket",
+    "category": "Category",
+    "status": "Status",
+    "open": "Open",
+    "inProgress": "In Progress",
+    "resolved": "Resolved",
+    "closed": "Closed"
+  },
+  "bookings": {
+    "title": "Bookings",
+    "facilities": "Facilities",
+    "myBookings": "My Bookings",
+    "book": "Book",
+    "cancel": "Cancel",
+    "date": "Date",
+    "time": "Time"
+  },
+  "discover": {
+    "title": "Discover",
+    "announcements": "Announcements",
+    "promotions": "Promotions",
+    "newsletters": "Newsletters"
+  },
+  "info": {
+    "title": "Info Centre",
+    "search": "Search articles..."
+  },
+  "profile": {
+    "title": "Profile",
+    "edit": "Edit Profile",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "unit": "Unit"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "preferences": "Preferences",
+    "markRead": "Mark as read",
+    "noNotifications": "No notifications"
+  },
+  "auth": {
+    "login": "Sign In",
+    "register": "Create Account",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "name": "Full Name",
+    "phone": "Phone",
+    "forgotPassword": "Forgot Password?",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "signingIn": "Signing in...",
+    "creatingAccount": "Creating account...",
+    "registerLink": "Register",
+    "signInLink": "Sign in",
+    "staffSignIn": "Staff Sign In",
+    "adminPortal": "SCLA Admin Portal"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Retry",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "submit": "Submit",
+    "search": "Search",
+    "noResults": "No results found",
+    "viewAll": "View All"
+  },
+  "settings": {
+    "language": "Language",
+    "theme": "Theme",
+    "dark": "Dark",
+    "light": "Light",
+    "system": "System"
+  },
+  "admin": {
+    "dashboard": "Dashboard",
+    "users": "Users",
+    "upgradeRequests": "Upgrade Requests",
+    "tickets": "Tickets",
+    "facilities": "Facilities",
+    "content": "Content",
+    "staff": "Staff",
+    "auditLogs": "Audit Logs",
+    "wallets": "Wallets",
+    "signOut": "Sign Out"
+  },
+  "more": {
+    "title": "More",
+    "discover": "Discover",
+    "discoverDesc": "Announcements, newsletters & promotions",
+    "infoCentre": "Info Centre",
+    "infoCentreDesc": "Knowledge base & FAQs",
+    "notifications": "Notifications",
+    "notificationsDesc": "View your notifications",
+    "profile": "Profile",
+    "profileDesc": "View and edit your profile",
+    "wallet": "Wallet",
+    "walletDesc": "Balance and transactions",
+    "settings": "Settings",
+    "settingsDesc": "Language and theme preferences"
+  }
+}
