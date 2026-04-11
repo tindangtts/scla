@@ -159,10 +159,11 @@ Plans:
   3. Resident receives a browser push notification for bill overdue and ticket status updates
   4. Resident receives a transactional email via Resend for bill overdue events
   5. In-app notification bell shows an unread count badge that clears on viewing
-**Plans**: 2 plans
+**Plans**: 3 plans
 Plans:
-- [ ] 25-01-PLAN.md — Auth pages (login, register, admin login), Server Actions, middleware route protection
-- [ ] 25-02-PLAN.md — Guest upgrade workflow, admin approval, seed script Supabase Auth migration
+- [ ] 29-01-PLAN.md — WebSocket real-time chat on ticket pages with polling fallback
+- [ ] 29-02-PLAN.md — Push notifications (Web Push + service worker) and transactional email via Resend
+- [ ] 29-03-PLAN.md — In-app notification bell with unread badge and notification trigger wiring
 
 ### Phase 30: i18n & UX Polish
 **Goal**: The app renders correctly in both English and Myanmar, dark mode works with system detection and manual toggle, the mobile layout uses bottom navigation, the PWA installs and caches content offline, and all async pages show loading states
@@ -217,6 +218,6 @@ Plans:
 | 26. Resident Core | v3.0 | 2/2 | Complete    | 2026-04-11 |
 | 27. Resident Secondary | v3.0 | 2/2 | Complete    | 2026-04-11 |
 | 28. Admin Portal | v3.0 | 3/3 | Complete    | 2026-04-11 |
-| 29. Real-time & Communication | v3.0 | 0/TBD | Not started | - |
+| 29. Real-time & Communication | v3.0 | 0/3 | Not started | - |
 | 30. i18n & UX Polish | v3.0 | 0/TBD | Not started | - |
 | 31. Testing & CI | v3.0 | 0/TBD | Not started | - |
