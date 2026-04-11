@@ -109,8 +109,9 @@ Plans:
   5. Resident can view wallet transaction history and edit their profile details
 **Plans**: 2 plans
 Plans:
-- [x] 25-01-PLAN.md — Auth pages (login, register, admin login), Server Actions, middleware route protection
-- [ ] 25-02-PLAN.md — Guest upgrade workflow, admin approval, seed script Supabase Auth migration
+- [ ] 26-01-PLAN.md — Home dashboard, bills/invoices, wallet, profile, invoice payment
+- [ ] 26-02-PLAN.md — Star Assist maintenance tickets with photo attachment
+
 **UI hint**: yes
 
 ### Phase 27: Resident Secondary
