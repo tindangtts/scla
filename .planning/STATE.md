@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.1
 milestone_name: Quality & Infrastructure Gaps
-status: executing
-stopped_at: Completed 23-01-PLAN.md
-last_updated: "2026-04-11T08:29:42.478Z"
+status: verifying
+stopped_at: Completed 23-02-PLAN.md
+last_updated: "2026-04-11T08:35:20.573Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 6
-  completed_phases: 5
+  completed_phases: 6
   total_plans: 13
-  completed_plans: 12
+  completed_plans: 13
 ---
 
 # Project State
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-04-11)
 
 Phase: 23 (e2e-tests) — EXECUTING
 Plan: 2 of 2
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-04-11
 
 ```
@@ -65,6 +65,7 @@ v2.1 Progress: [░░░░░░░░░░░░░░░░░░░░░�
 | Phase 22-ci-cd-pipeline P01 | 5 | 2 tasks | 4 files |
 | Phase 22-ci-cd-pipeline P02 | 2 | 2 tasks | 2 files |
 | Phase 23-e2e-tests P01 | 2 | 2 tasks | 8 files |
+| Phase 23-e2e-tests P02 | 5 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -102,6 +103,7 @@ Recent decisions affecting current work:
 - [Phase 22]: pg_dump integrity check (file size + CREATE TABLE grep) catches silent pg_dump failures before artifact upload
 - [Phase 23-e2e-tests]: workers: 1 with fullyParallel: false — E2E tests share seeded DB state, sequential execution avoids race conditions
 - [Phase 23-e2e-tests]: Auth helper pattern (loginAsResident/loginAsGuest) in e2e/helpers/auth.ts — reusable by Plan 02 and beyond
+- [Phase 23-e2e-tests]: Bookings tabs are 'facilities' and 'mybookings' — cancel button only on recurring upcoming bookings, test uses toggle-repeat-weekly
 
 ### Roadmap Evolution
 
@@ -117,6 +119,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-11T08:29:42.476Z
-Stopped at: Completed 23-01-PLAN.md
+Last session: 2026-04-11T08:35:20.571Z
+Stopped at: Completed 23-02-PLAN.md
 Resume file: None

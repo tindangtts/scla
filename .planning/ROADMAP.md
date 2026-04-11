@@ -41,7 +41,7 @@ See `.planning/milestones/v2.0-ROADMAP.md` for full details.
 - [x] **Phase 20: Audit Logging & Wallet Transactions** — Admin action audit trail and wallet debit/credit workflows (completed 2026-04-11)
 - [x] **Phase 21: WebSocket Chat** — Replace 4s polling with real-time WebSocket messaging on ticket chat (completed 2026-04-11)
 - [x] **Phase 22: CI/CD Pipeline** — Automated lint, type-check, test, and deploy on push; daily DB backup (completed 2026-04-11)
-- [ ] **Phase 23: E2E Tests** — Browser-level test coverage for resident login, ticket creation, and facility booking
+- [x] **Phase 23: E2E Tests** — Browser-level test coverage for resident login, ticket creation, and facility booking (completed 2026-04-11)
 
 ## Phase Details
 
@@ -132,7 +132,7 @@ Plans:
 **Plans**: 2 plans
 Plans:
 - [x] 23-01-PLAN.md — Playwright setup + login and dashboard E2E test
-- [ ] 23-02-PLAN.md — Ticket/chat and booking/cancel E2E tests
+- [x] 23-02-PLAN.md — Ticket/chat and booking/cancel E2E tests
 
 ## Progress
 
@@ -151,4 +151,4 @@ Plans:
 | 20 | v2.1 | 3/3 | Complete    | 2026-04-11 |
 | 21 | v2.1 | 2/2 | Complete    | 2026-04-11 |
 | 22 | v2.1 | 2/2 | Complete    | 2026-04-11 |
-| 23 | v2.1 | 1/2 | In Progress|  |
+| 23 | v2.1 | 2/2 | Complete   | 2026-04-11 |
