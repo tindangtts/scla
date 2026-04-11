@@ -55,8 +55,8 @@ Requirements for Next.js migration. Each maps to roadmap phases.
 
 ### Real-time & Communication
 
-- [ ] **COMM-01**: WebSocket real-time chat on ticket detail page (resident and admin)
-- [ ] **COMM-02**: Polling fallback when WebSocket connection fails
+- [x] **COMM-01**: WebSocket real-time chat on ticket detail page (resident and admin)
+- [x] **COMM-02**: Polling fallback when WebSocket connection fails
 - [x] **COMM-03**: Web Push notifications with service worker
 - [x] **COMM-04**: Transactional email via Resend (bill overdue, ticket updates)
 - [ ] **COMM-05**: In-app notification system with unread badges
@@ -139,8 +139,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ADM-08 | Phase 28 | Complete |
 | ADM-09 | Phase 28 | Complete |
 | ADM-10 | Phase 28 | Complete |
-| COMM-01 | Phase 29 | Pending |
-| COMM-02 | Phase 29 | Pending |
+| COMM-01 | Phase 29 | Complete |
+| COMM-02 | Phase 29 | Complete |
 | COMM-03 | Phase 29 | Complete |
 | COMM-04 | Phase 29 | Complete |
 | COMM-05 | Phase 29 | Pending |
