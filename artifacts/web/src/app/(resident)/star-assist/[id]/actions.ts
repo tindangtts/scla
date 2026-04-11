@@ -49,6 +49,19 @@ export async function sendTicketMessage({
     })
     .returning();
 
+  // Broadcast to WebSocket clients (fire-and-forget, cross-process)
+  try {
+    const wsBroadcastUrl =
+      process.env.WS_BROADCAST_URL || "http://localhost:3003/broadcast";
+    fetch(wsBroadcastUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ticketId, message }),
+    }).catch(() => {});
+  } catch {
+    // Don't block action if WS server is unavailable
+  }
+
   // Fire-and-forget: notify assigned staff
   try {
     const ticketRows = await db
