@@ -1,4 +1,5 @@
 import { WebSocketServer, WebSocket } from "ws";
+import { createServer, type IncomingMessage, type ServerResponse } from "http";
 import type { TicketMessage } from "@workspace/db/schema";
 
 const rooms = new Map<string, Set<WebSocket>>();
@@ -71,5 +72,55 @@ export function startWsServer(port?: number): WebSocketServer {
   });
 
   console.log(`WebSocket server listening on port ${wsPort}`);
+
+  // Internal HTTP server for cross-process broadcast relay
+  const broadcastPort =
+    Number(process.env.WS_BROADCAST_PORT) || wsPort + 1;
+
+  const httpServer = createServer(
+    (req: IncomingMessage, res: ServerResponse) => {
+      if (req.method === "POST" && req.url === "/broadcast") {
+        let body = "";
+        req.on("data", (chunk: Buffer | string) => {
+          body += chunk.toString();
+        });
+        req.on("end", () => {
+          try {
+            const { ticketId, message } = JSON.parse(body) as {
+              ticketId?: string;
+              message?: TicketMessage;
+            };
+
+            if (!ticketId || !message) {
+              res.writeHead(400, { "Content-Type": "application/json" });
+              res.end(
+                JSON.stringify({
+                  error: "ticketId and message are required",
+                }),
+              );
+              return;
+            }
+
+            broadcastToTicket(ticketId, message);
+            res.writeHead(200, { "Content-Type": "application/json" });
+            res.end(JSON.stringify({ ok: true }));
+          } catch {
+            res.writeHead(400, { "Content-Type": "application/json" });
+            res.end(JSON.stringify({ error: "Invalid JSON" }));
+          }
+        });
+      } else {
+        res.writeHead(404);
+        res.end();
+      }
+    },
+  );
+
+  httpServer.listen(broadcastPort, "127.0.0.1", () => {
+    console.log(
+      `WS broadcast HTTP server listening on 127.0.0.1:${broadcastPort}`,
+    );
+  });
+
   return wss;
 }
