@@ -42,16 +42,16 @@ Requirements for Next.js migration. Each maps to roadmap phases.
 
 ### Admin Features
 
-- [ ] **ADM-01**: Admin can view dashboard with KPI stats
-- [ ] **ADM-02**: Admin can manage users (list, view detail, role assignment)
-- [ ] **ADM-03**: Admin can approve/reject resident upgrade requests
+- [x] **ADM-01**: Admin can view dashboard with KPI stats
+- [x] **ADM-02**: Admin can manage users (list, view detail, role assignment)
+- [x] **ADM-03**: Admin can approve/reject resident upgrade requests
 - [ ] **ADM-04**: Admin can manage maintenance tickets (status updates, assignment)
 - [ ] **ADM-05**: Admin can manage facilities and view bookings
 - [ ] **ADM-06**: Admin can manage content (announcements, promotions, newsletters, FAQs)
 - [ ] **ADM-07**: Admin can manage staff accounts
 - [ ] **ADM-08**: Admin can view audit logs with action/date filters
 - [ ] **ADM-09**: Admin can credit/debit resident wallets with audit trail
-- [ ] **ADM-10**: Admin layout with sidebar navigation (separate from resident bottom nav)
+- [x] **ADM-10**: Admin layout with sidebar navigation (separate from resident bottom nav)
 
 ### Real-time & Communication
 
@@ -129,16 +129,16 @@ Which phases cover which requirements. Updated during roadmap creation.
 | RES-07 | Phase 27 | Complete |
 | RES-08 | Phase 27 | Complete |
 | RES-09 | Phase 27 | Complete |
-| ADM-01 | Phase 28 | Pending |
-| ADM-02 | Phase 28 | Pending |
-| ADM-03 | Phase 28 | Pending |
+| ADM-01 | Phase 28 | Complete |
+| ADM-02 | Phase 28 | Complete |
+| ADM-03 | Phase 28 | Complete |
 | ADM-04 | Phase 28 | Pending |
 | ADM-05 | Phase 28 | Pending |
 | ADM-06 | Phase 28 | Pending |
 | ADM-07 | Phase 28 | Pending |
 | ADM-08 | Phase 28 | Pending |
 | ADM-09 | Phase 28 | Pending |
-| ADM-10 | Phase 28 | Pending |
+| ADM-10 | Phase 28 | Complete |
 | COMM-01 | Phase 29 | Pending |
 | COMM-02 | Phase 29 | Pending |
 | COMM-03 | Phase 29 | Pending |

@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v3.0
 milestone_name: Next.js Migration
-status: verifying
-stopped_at: Completed 27-02-PLAN.md
-last_updated: "2026-04-11T17:24:49.372Z"
+status: executing
+stopped_at: Completed 28-01-PLAN.md
+last_updated: "2026-04-11T17:36:14.626Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 8
   completed_phases: 4
-  total_plans: 8
-  completed_plans: 8
+  total_plans: 11
+  completed_plans: 9
   percent: 0
 ---
 
@@ -21,13 +21,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-11)
 
 **Core value:** Residents can manage their apartment lifecycle — bills, maintenance, bookings, and community info — from a single mobile-first web app without visiting the management office.
-**Current focus:** Phase 27 — resident-secondary
+**Current focus:** Phase 28 — admin-portal
 
 ## Current Position
 
-Phase: 28
-Plan: Not started
-Status: Phase complete — ready for verification
+Phase: 28 (admin-portal) — EXECUTING
+Plan: 2 of 3
+Status: Ready to execute
 Last activity: 2026-04-11
 
 Progress: [░░░░░░░░░░] 0% (v3.0 milestone)
@@ -70,6 +70,7 @@ Recent decisions affecting current work:
 - [Phase 26-resident-core]: Query helpers in src/lib/queries/ for reusable data fetching across pages
 - [Phase 27-01]: Member rate used for all residents (no member/non-member distinction yet)
 - [Phase 27-02]: Client component extraction for interactive mark-as-read buttons in server component notification pages
+- [Phase 28-admin-portal]: Admin query helpers follow src/lib/queries/admin-*.ts pattern, role assignment syncs both app DB and Supabase Auth
 
 ### Pending Todos
 
@@ -81,6 +82,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-11T17:21:27.598Z
-Stopped at: Completed 27-02-PLAN.md
+Last session: 2026-04-11T17:36:14.623Z
+Stopped at: Completed 28-01-PLAN.md
 Resume file: None

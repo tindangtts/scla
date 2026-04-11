@@ -144,7 +144,7 @@ Plans:
   5. Admin can credit or debit a resident wallet and see the action appear in audit logs with actor/date
 **Plans**: 3 plans
 Plans:
-- [ ] 28-01-PLAN.md — Dashboard KPIs, sidebar nav, user management, upgrade requests
+- [x] 28-01-PLAN.md — Dashboard KPIs, sidebar nav, user management, upgrade requests
 - [ ] 28-02-PLAN.md — Ticket management, facilities/bookings, content CRUD
 - [ ] 28-03-PLAN.md — Staff management, audit logs, wallet operations
 **UI hint**: yes
@@ -216,7 +216,7 @@ Plans:
 | 25. Authentication | v3.0 | 2/2 | Complete    | 2026-04-11 |
 | 26. Resident Core | v3.0 | 2/2 | Complete    | 2026-04-11 |
 | 27. Resident Secondary | v3.0 | 2/2 | Complete    | 2026-04-11 |
-| 28. Admin Portal | v3.0 | 0/3 | Planning | - |
+| 28. Admin Portal | v3.0 | 1/3 | In Progress|  |
 | 29. Real-time & Communication | v3.0 | 0/TBD | Not started | - |
 | 30. i18n & UX Polish | v3.0 | 0/TBD | Not started | - |
 | 31. Testing & CI | v3.0 | 0/TBD | Not started | - |
