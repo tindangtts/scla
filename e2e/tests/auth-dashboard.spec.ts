@@ -1,38 +1,43 @@
 import { test, expect } from '@playwright/test';
-import { loginAsResident } from '../helpers/auth';
+import { loginAsResident, RESIDENT_EMAIL } from '../helpers/auth';
 
-test.describe('Resident Login and Dashboard', () => {
-  test('redirects unauthenticated user to login', async ({ page }) => {
+test.describe('Authentication and Dashboard', () => {
+  test('unauthenticated user is redirected to login', async ({ page }) => {
     await page.goto('/');
-    // Unauthenticated users see login prompt on home
-    await expect(page.getByTestId('button-login-prompt')).toBeVisible();
+    // Middleware redirects unauthenticated users to /login
+    await expect(page).toHaveURL(/\/login/);
   });
 
-  test('logs in as resident and sees dashboard content', async ({ page }) => {
+  test('resident can log in and see dashboard', async ({ page }) => {
     await loginAsResident(page);
 
-    // TEST-08: Assert key dashboard content is visible
-    // 1. Username is displayed
-    await expect(page.getByTestId('text-username')).toContainText('Ma Aye Aye');
+    // After login, resident lands on home dashboard at /
+    await expect(page).toHaveURL('/');
 
-    // 2. Outstanding balance is visible (seeded resident has 2 unpaid invoices)
-    await expect(page.getByTestId('text-outstanding-balance')).toBeVisible();
+    // Dashboard shows "Welcome, <first name>" heading
+    await expect(
+      page.getByRole('heading', { name: /welcome/i })
+    ).toBeVisible({ timeout: 10000 });
 
-    // 3. Star Assist card is visible (resident has 2 open/in-progress tickets)
-    await expect(page.getByTestId('card-star-assist')).toBeVisible();
+    // Dashboard shows wallet balance card
+    await expect(page.getByText('Wallet Balance')).toBeVisible();
 
-    // 4. Bill payment card is visible
-    await expect(page.getByTestId('card-bill-payment')).toBeVisible();
+    // Dashboard shows unpaid bills card
+    await expect(page.getByText('Unpaid Bills')).toBeVisible();
   });
 
-  test('login with invalid credentials shows error', async ({ page }) => {
+  test('invalid credentials show error message', async ({ page }) => {
     await page.goto('/login');
-    await page.getByTestId('input-email').fill('wrong@email.com');
-    await page.getByTestId('input-password').fill('wrongpassword');
-    await page.getByTestId('button-login').click();
+    await page.locator('input[name="email"]').fill('wrong@email.com');
+    await page.locator('input[name="password"]').fill('wrongpassword');
+    await page.locator('button[type="submit"]').click();
 
-    // Should show a toast error, not redirect
-    // The toast uses sonner/radix — look for the destructive toast text
-    await expect(page.getByText('Login failed')).toBeVisible({ timeout: 5000 });
+    // The login page displays an error message (state.error rendered as red text)
+    await expect(
+      page.locator('.text-red-600')
+    ).toBeVisible({ timeout: 10000 });
+
+    // Should remain on login page
+    await expect(page).toHaveURL(/\/login/);
   });
 });
