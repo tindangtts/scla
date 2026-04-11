@@ -14,6 +14,7 @@ import TicketsPage from "@/pages/tickets";
 import FacilitiesPage from "@/pages/facilities";
 import FaqsPage from "@/pages/faqs";
 import StaffPage from "@/pages/staff";
+import AuditLogsPage from "@/pages/audit-logs";
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: 1 } },
@@ -56,6 +57,7 @@ function Router() {
         <Route path="/facilities" component={FacilitiesPage} />
         <Route path="/faqs" component={FaqsPage} />
         <Route path="/staff" component={StaffPage} />
+        <Route path="/audit-logs" component={AuditLogsPage} />
         <Route path="/">
           <Redirect to="/dashboard" />
         </Route>

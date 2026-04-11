@@ -2,7 +2,7 @@ import { Link, useLocation } from "wouter";
 import { useAdminAuth } from "@/hooks/use-admin-auth";
 import {
   LayoutDashboard, Users, ShieldCheck, FileText, Ticket,
-  Dumbbell, HelpCircle, UserCog, LogOut, ChevronRight, Building2
+  Dumbbell, HelpCircle, UserCog, LogOut, ChevronRight, Building2, ScrollText
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -15,6 +15,7 @@ const navItems = [
   { label: "Facilities", icon: Dumbbell, href: "/facilities" },
   { label: "FAQs", icon: HelpCircle, href: "/faqs" },
   { label: "Staff", icon: UserCog, href: "/staff" },
+  { label: "Audit Logs", icon: ScrollText, href: "/audit-logs" },
 ];
 
 function NavItem({ item }: { item: typeof navItems[0] }) {
