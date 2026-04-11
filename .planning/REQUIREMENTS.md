@@ -9,9 +9,9 @@ Requirements for Next.js migration. Each maps to roadmap phases.
 
 ### Foundation
 
-- [ ] **FOUND-01**: Next.js 15 App Router project initialized with TypeScript, Tailwind CSS 4, and Radix UI
-- [ ] **FOUND-02**: Supabase client configured with environment variables (NEXT_PUBLIC_SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY)
-- [ ] **FOUND-03**: Drizzle ORM integrated with Supabase PostgreSQL (reuse existing schema from lib/db)
+- [x] **FOUND-01**: Next.js 15 App Router project initialized with TypeScript, Tailwind CSS 4, and Radix UI
+- [x] **FOUND-02**: Supabase client configured with environment variables (NEXT_PUBLIC_SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY)
+- [x] **FOUND-03**: Drizzle ORM integrated with Supabase PostgreSQL (reuse existing schema from lib/db)
 - [ ] **FOUND-04**: PNPM workspace restructured for Next.js monolith (remove artifacts/scla, artifacts/admin, artifacts/api-server)
 - [ ] **FOUND-05**: Shared UI component library (shadcn/ui or existing Radix components) available across resident and admin layouts
 
@@ -105,9 +105,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FOUND-01 | Phase 24 | Pending |
-| FOUND-02 | Phase 24 | Pending |
-| FOUND-03 | Phase 24 | Pending |
+| FOUND-01 | Phase 24 | Complete |
+| FOUND-02 | Phase 24 | Complete |
+| FOUND-03 | Phase 24 | Complete |
 | FOUND-04 | Phase 24 | Pending |
 | FOUND-05 | Phase 24 | Pending |
 | AUTH-01 | Phase 25 | Pending |

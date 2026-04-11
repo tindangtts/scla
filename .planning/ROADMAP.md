@@ -78,7 +78,7 @@ See `.planning/milestones/v2.1-ROADMAP.md` for full details.
   5. The old artifacts/scla, artifacts/admin, artifacts/api-server directories are removed from the workspace
 **Plans**: 2 plans
 Plans:
-- [ ] 24-01-PLAN.md — Next.js 15 scaffold with Supabase client, Drizzle ORM, route groups
+- [x] 24-01-PLAN.md — Next.js 15 scaffold with Supabase client, Drizzle ORM, route groups
 - [ ] 24-02-PLAN.md — shadcn/ui components, seed script port, old artifacts removal
 **UI hint**: yes
 
@@ -187,7 +187,7 @@ Plans:
 | 21 | v2.1 | 2/2 | Complete | 2026-04-11 |
 | 22 | v2.1 | 2/2 | Complete | 2026-04-11 |
 | 23 | v2.1 | 2/2 | Complete | 2026-04-11 |
-| 24. Foundation | v3.0 | 0/2 | Planning | - |
+| 24. Foundation | v3.0 | 1/2 | In Progress|  |
 | 25. Authentication | v3.0 | 0/TBD | Not started | - |
 | 26. Resident Core | v3.0 | 0/TBD | Not started | - |
 | 27. Resident Secondary | v3.0 | 0/TBD | Not started | - |
