@@ -219,5 +219,5 @@ Plans:
 | 27. Resident Secondary | v3.0 | 2/2 | Complete    | 2026-04-11 |
 | 28. Admin Portal | v3.0 | 3/3 | Complete    | 2026-04-11 |
 | 29. Real-time & Communication | v3.0 | 5/5 | Complete    | 2026-04-11 |
-| 30. i18n & UX Polish | v3.0 | 2/2 | Complete   | 2026-04-11 |
+| 30. i18n & UX Polish | v3.0 | 2/2 | Complete    | 2026-04-11 |
 | 31. Testing & CI | v3.0 | 0/TBD | Not started | - |
