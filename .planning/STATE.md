@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.1
 milestone_name: Quality & Infrastructure Gaps
-status: verifying
-stopped_at: Completed 20-03-PLAN.md
-last_updated: "2026-04-11T07:46:55.778Z"
+status: executing
+stopped_at: Completed 21-01-PLAN.md
+last_updated: "2026-04-11T08:00:56.982Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 6
   completed_phases: 3
-  total_plans: 7
-  completed_plans: 7
+  total_plans: 9
+  completed_plans: 8
 ---
 
 # Project State
@@ -20,13 +20,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-11)
 
 **Core value:** Residents can manage their apartment lifecycle — bills, maintenance, bookings, and community info — from a single mobile-first web app without visiting the management office.
-**Current focus:** Phase 20 — audit-logging-wallet-transactions
+**Current focus:** Phase 21 — websocket-chat
 
 ## Current Position
 
-Phase: 21
-Plan: Not started
-Status: Phase complete — ready for verification
+Phase: 21 (websocket-chat) — EXECUTING
+Plan: 2 of 2
+Status: Ready to execute
 Last activity: 2026-04-11
 
 ```
@@ -60,6 +60,7 @@ v2.1 Progress: [░░░░░░░░░░░░░░░░░░░░░�
 | Phase 20-audit-logging-wallet-transactions P01 | 10 | 2 tasks | 5 files |
 | Phase 20-audit-logging-wallet-transactions P02 | 18 | 2 tasks | 3 files |
 | Phase 20-audit-logging-wallet-transactions P03 | 12 | 3 tasks | 4 files |
+| Phase 21-websocket-chat P01 | 12 | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -87,6 +88,8 @@ Recent decisions affecting current work:
 - [Phase 20-audit-logging-wallet-transactions]: Admin wallet adjust supports category=deposit for security deposit management (WALLET-04)
 - [Phase 20]: Pending filter state pattern — inputs accumulate changes, Search button commits to queryKey to avoid query-on-keystroke
 - [Phase 20]: Client-side type filtering for wallet — avoids refetch on each chip click
+- [Phase 21]: WS is receive-only for clients — REST POST is the authoritative write path
+- [Phase 21]: verifyAdminToken duplicated in ws-server.ts (not exported from auth-middleware) — acceptable per plan guidance
 
 ### Roadmap Evolution
 
@@ -102,6 +105,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-11T07:38:27.511Z
-Stopped at: Completed 20-03-PLAN.md
+Last session: 2026-04-11T08:00:56.980Z
+Stopped at: Completed 21-01-PLAN.md
 Resume file: None
