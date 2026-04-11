@@ -1,5 +1,18 @@
 import { requireAdmin } from "@/lib/auth";
 import { adminLogout } from "./logout-action";
+import Link from "next/link";
+
+const navItems = [
+  { label: "Dashboard", href: "/admin/dashboard" },
+  { label: "Users", href: "/admin/users" },
+  { label: "Upgrade Requests", href: "/admin/upgrade-requests" },
+  { label: "Tickets", href: "/admin/tickets" },
+  { label: "Facilities", href: "/admin/facilities" },
+  { label: "Content", href: "/admin/content" },
+  { label: "Staff", href: "/admin/staff" },
+  { label: "Audit Logs", href: "/admin/audit-logs" },
+  { label: "Wallets", href: "/admin/wallets" },
+];
 
 export default async function AdminLayout({
   children,
@@ -20,42 +33,15 @@ export default async function AdminLayout({
         </div>
 
         <nav className="flex flex-col gap-2 flex-1">
-          <a
-            href="/admin/dashboard"
-            className="px-3 py-2 rounded hover:bg-gray-700"
-          >
-            Dashboard
-          </a>
-          <a
-            href="/admin/users"
-            className="px-3 py-2 rounded hover:bg-gray-700"
-          >
-            Users
-          </a>
-          <a
-            href="/admin/tickets"
-            className="px-3 py-2 rounded hover:bg-gray-700"
-          >
-            Tickets
-          </a>
-          <a
-            href="/admin/facilities"
-            className="px-3 py-2 rounded hover:bg-gray-700"
-          >
-            Facilities
-          </a>
-          <a
-            href="/admin/content"
-            className="px-3 py-2 rounded hover:bg-gray-700"
-          >
-            Content
-          </a>
-          <a
-            href="/admin/audit-logs"
-            className="px-3 py-2 rounded hover:bg-gray-700"
-          >
-            Audit Logs
-          </a>
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="px-3 py-2 rounded hover:bg-gray-700"
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
 
         <form action={adminLogout} className="mt-4">
