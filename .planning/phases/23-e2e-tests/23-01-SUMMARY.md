@@ -129,6 +129,10 @@ pnpm --filter @workspace/e2e test
 - `playwright.config.ts` webServer config is established — Plan 02 tests reuse the same config without changes
 - All data-testid selectors confirmed against actual source files (login.tsx, home.tsx)
 
+## Self-Check: PASSED
+
+All created files verified to exist. All task commits (6485909, 2f7e043) confirmed present in git log.
+
 ---
 *Phase: 23-e2e-tests*
 *Completed: 2026-04-11*
