@@ -1,10 +1,22 @@
 # Milestones
 
-## v3.0 Next.js Migration (In Progress)
+## v3.0 Next.js Migration (Shipped: 2026-04-11)
 
-**Phases:** 24-31 (8 phases)
+**Phases completed:** 8 phases (24-31), 19 plans, 88 commits
 **Goal:** Migrate entire SCLA stack from separate React SPAs + Express to unified Next.js 15 App Router with Supabase Auth
-**Requirements:** 49 total
+**Requirements:** 49 total (all satisfied)
+
+**Key accomplishments:**
+
+- Next.js 15 App Router monolith replacing 3 separate apps (scla, admin, api-server)
+- Supabase Auth (email/password) replacing custom JWT with cookie-based sessions
+- Resident portal: home dashboard, bills/payment, wallet, tickets, bookings, discover, info centre, notifications, profile
+- Admin portal: KPI dashboard, user management, ticket/facility/content management, staff, audit logs, wallet operations
+- WebSocket real-time chat with HTTP broadcast bridge and polling fallback
+- Push notifications (VAPID), transactional email (Resend), in-app notification bell
+- i18n (English + Myanmar via next-intl), dark mode (next-themes), PWA with offline support
+- 36 unit/integration tests (Vitest), 8 Playwright E2E tests, GitHub Actions CI pipeline
+- shadcn/ui component library, loading skeletons, error boundaries across all routes
 
 ---
 
