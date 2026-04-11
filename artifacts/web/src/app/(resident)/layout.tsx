@@ -1,5 +1,6 @@
 import { requireAuth } from "@/lib/auth";
 import { logout } from "./logout-action";
+import PushPrompt from "@/components/push-prompt";
 
 export default async function ResidentLayout({
   children,
@@ -26,6 +27,8 @@ export default async function ResidentLayout({
           </form>
         </div>
       </header>
+
+      <PushPrompt />
 
       <main className="flex-1 pb-16">{children}</main>
 
