@@ -5,7 +5,11 @@ import {
   staffUsersTable, ticketsTable, upgradeRequestsTable, faqsTable, bookingsTable
 } from "@workspace/db";
 import { eq } from "drizzle-orm";
-import { hashPasswordBcrypt } from "./lib/password.js";
+import bcrypt from "bcryptjs";
+
+async function hashPasswordBcrypt(password: string): Promise<string> {
+  return bcrypt.hash(password, 10);
+}
 
 // Deterministic seed IDs so downstream inserts reference fixed UUIDs every run
 const SEED_IDS = {

@@ -4,11 +4,13 @@
   "license": "MIT",
   "scripts": {
     "preinstall": "sh -c 'rm -f package-lock.json yarn.lock; case \"$npm_config_user_agent\" in pnpm/*) ;; *) echo \"Use pnpm instead\" >&2; exit 1 ;; esac'",
-    "build": "pnpm run typecheck && pnpm -r --if-present run build",
+    "dev": "pnpm --filter @workspace/web dev",
+    "build": "pnpm --filter @workspace/web build",
+    "seed": "pnpm --filter @workspace/scripts seed",
     "typecheck:libs": "tsc --build",
-    "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck",
-    "format:check": "prettier --check \"artifacts/**/*.{ts,tsx}\" \"lib/**/*.ts\" \"scripts/**/*.ts\"",
-    "format": "prettier --write \"artifacts/**/*.{ts,tsx}\" \"lib/**/*.ts\" \"scripts/**/*.ts\"",
+    "typecheck": "pnpm run typecheck:libs && pnpm --filter @workspace/web typecheck",
+    "format:check": "prettier --check \"artifacts/web/**/*.{ts,tsx}\" \"lib/**/*.ts\" \"scripts/**/*.ts\"",
+    "format": "prettier --write \"artifacts/web/**/*.{ts,tsx}\" \"lib/**/*.ts\" \"scripts/**/*.ts\"",
     "test:ci": "pnpm -r --if-present run test"
   },
   "private": true,
