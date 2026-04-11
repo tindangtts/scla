@@ -59,7 +59,7 @@ See `.planning/milestones/v2.1-ROADMAP.md` for full details.
 - [x] **Phase 25: Authentication** — Supabase Auth replacing custom JWT, middleware, registration/login/session (completed 2026-04-11)
 - [x] **Phase 26: Resident Core** — Home, bills, wallet, maintenance tickets, profile (completed 2026-04-11)
 - [x] **Phase 27: Resident Secondary** — Facilities/bookings, Discover, Info Centre, notifications (completed 2026-04-11)
-- [ ] **Phase 28: Admin Portal** — Dashboard, user management, content management, audit logs, wallet operations
+- [x] **Phase 28: Admin Portal** — Dashboard, user management, content management, audit logs, wallet operations (completed 2026-04-11)
 - [ ] **Phase 29: Real-time & Communication** — WebSocket chat, push notifications, email, in-app notifications
 - [ ] **Phase 30: i18n & UX Polish** — Myanmar/English i18n, dark mode, PWA, mobile layout, loading states
 - [ ] **Phase 31: Testing & CI** — Unit tests, integration tests, E2E tests, CI/CD pipeline
@@ -146,7 +146,7 @@ Plans:
 Plans:
 - [x] 28-01-PLAN.md — Dashboard KPIs, sidebar nav, user management, upgrade requests
 - [x] 28-02-PLAN.md — Ticket management, facilities/bookings, content CRUD
-- [ ] 28-03-PLAN.md — Staff management, audit logs, wallet operations
+- [x] 28-03-PLAN.md — Staff management, audit logs, wallet operations
 **UI hint**: yes
 
 ### Phase 29: Real-time & Communication
@@ -216,7 +216,7 @@ Plans:
 | 25. Authentication | v3.0 | 2/2 | Complete    | 2026-04-11 |
 | 26. Resident Core | v3.0 | 2/2 | Complete    | 2026-04-11 |
 | 27. Resident Secondary | v3.0 | 2/2 | Complete    | 2026-04-11 |
-| 28. Admin Portal | v3.0 | 2/3 | In Progress|  |
+| 28. Admin Portal | v3.0 | 3/3 | Complete   | 2026-04-11 |
 | 29. Real-time & Communication | v3.0 | 0/TBD | Not started | - |
 | 30. i18n & UX Polish | v3.0 | 0/TBD | Not started | - |
 | 31. Testing & CI | v3.0 | 0/TBD | Not started | - |
