@@ -4,7 +4,7 @@ milestone: v3.0
 milestone_name: Next.js Migration
 status: verifying
 stopped_at: Completed 31-01-PLAN.md
-last_updated: "2026-04-11T18:48:07.639Z"
+last_updated: "2026-04-11T18:50:50.058Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 8
@@ -25,8 +25,8 @@ See: .planning/PROJECT.md (updated 2026-04-11)
 
 ## Current Position
 
-Phase: 31 (testing-ci) — EXECUTING
-Plan: 2 of 2
+Phase: 31
+Plan: Not started
 Status: Phase complete — ready for verification
 Last activity: 2026-04-11
 
