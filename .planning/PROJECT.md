@@ -73,13 +73,36 @@ Residents can manage their apartment lifecycle — bills, maintenance, bookings,
 
 ### Active
 
-(To be defined for next milestone)
+<!-- v3.0 Next.js Migration -->
+
+- [ ] Migrate resident app (artifacts/scla) to Next.js App Router with Server Components
+- [ ] Migrate admin portal (artifacts/admin) to Next.js with role-based routing
+- [ ] Replace Express API (artifacts/api-server) with Next.js API routes / Server Actions
+- [ ] Replace custom JWT auth with Supabase Auth (email/password)
+- [ ] Supabase Auth middleware for route protection (resident vs admin roles)
+- [ ] Preserve all existing functionality: bills, tickets, bookings, wallet, notifications, chat
+- [ ] Migrate i18n (English + Myanmar) to next-intl or equivalent
+- [ ] Migrate dark mode and PWA/offline support to Next.js
+- [ ] Migrate WebSocket real-time chat to Next.js architecture
+- [ ] Migrate E2E and integration tests to Next.js test infrastructure
+
+## Current Milestone: v3.0 Next.js Migration
+
+**Goal:** Migrate the entire SCLA stack from separate React SPAs + Express backend into a unified Next.js application with Supabase Auth, preserving all v2.1 functionality.
+
+**Target features:**
+- Unified Next.js App Router replacing 3 separate apps
+- Server Components + Server Actions replacing Express REST + client fetching
+- Supabase Auth replacing custom JWT
+- Middleware-based route protection (resident vs admin)
+- Preserved functionality: bills, tickets, bookings, wallet, chat, notifications, admin
+- Incremental migration with feature parity validation
 
 ### Out of Scope
 
 - Native mobile app — web-first approach, PWA works well
 - Video surveillance integration — separate system
-- OAuth/social login — custom JWT sufficient for estate residents
+- ~~OAuth/social login~~ — Now using Supabase Auth (email/password only, no social providers yet)
 - Multi-estate support — single estate deployment
 - Real WavePay/KBZPay payment — deferred (missing gateway documents)
 
@@ -88,15 +111,16 @@ Residents can manage their apartment lifecycle — bills, maintenance, bookings,
 - **Shipped:** v2.1 Quality & Infrastructure Gaps on 2026-04-11
 - **Codebase:** ~38,000 LOC TypeScript across frontend, admin, backend, and tests
 - **Test coverage:** 95+ unit/integration tests (Vitest), 3 E2E test suites (Playwright)
-- **Tech stack**: React 19 + TypeScript + Vite, Express 5 + TypeScript, PostgreSQL + Drizzle ORM, Replit
-- **Monorepo**: PNPM workspaces (artifacts/scla, artifacts/admin, artifacts/api-server, lib/db, e2e)
+- **Pre-migration stack**: React 19 + Vite (2 SPAs) + Express 5 + Drizzle ORM + PostgreSQL
+- **Migration target**: Next.js 15 + App Router + Supabase Auth + Drizzle ORM + PostgreSQL (Supabase)
+- **Monorepo**: PNPM workspaces — migrating from multi-app to unified Next.js
 - **UI**: Tailwind CSS 4 + Radix UI, mobile-first, dark mode enabled
-- **i18n**: react-i18next with English + Myanmar (107 translation keys)
-- **Auth**: bcrypt + custom JWT (HS256), shared requireAuth/requireAdmin middleware
+- **i18n**: react-i18next → next-intl (English + Myanmar, 107 translation keys)
+- **Auth**: custom JWT → Supabase Auth (email/password)
 - **Notifications**: Web Push (VAPID) + Resend email + in-app notifications
 - **Real-time**: WebSocket (ws) for ticket chat, polling fallback
 - **CI/CD**: GitHub Actions (lint + typecheck + test + deploy), daily DB backup
-- **User preference**: Supabase ecosystem for future migrations
+- **Branch**: `migrate-nextjs` — active migration branch
 
 ## Constraints
 
@@ -122,6 +146,8 @@ Residents can manage their apartment lifecycle — bills, maintenance, bookings,
 | Prettier for lint (no ESLint) | Sufficient for formatting, lightweight | ✓ Good |
 | Base64 image storage | MVP simplicity, upgrade to Supabase Storage later | — Pending |
 | Mock payment integration | WavePay/KBZPay deferred, missing gateway docs | — Pending |
+| Next.js over continuing Vite+Express | Unified SSR, Server Components, Supabase ecosystem alignment | — Pending |
+| Supabase Auth over custom JWT | Managed auth, row-level security, session management | — Pending |
 
 ## Evolution
 
@@ -141,4 +167,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-11 after v2.1 milestone completion*
+*Last updated: 2026-04-11 after v3.0 milestone start*
