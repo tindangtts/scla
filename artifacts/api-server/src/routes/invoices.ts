@@ -1,11 +1,19 @@
 import { Router } from "express";
-import type { Request, Response } from "express";
 import { db } from "@workspace/db";
-import { invoicesTable } from "@workspace/db";
-import { eq, and, desc } from "drizzle-orm";
-import { requireAuth, type AuthenticatedRequest } from "../lib/auth-middleware.js";
+import { invoicesTable, walletTransactionsTable } from "@workspace/db";
+import { eq, and, desc, sql } from "drizzle-orm";
+import * as jwt from "../lib/jwt.js";
 
 const router = Router();
+
+function requireResident(req: any, res: any) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader?.startsWith("Bearer ")) {
+    return null;
+  }
+  const token = authHeader.slice(7);
+  return jwt.verify(token);
+}
 
 function mapInvoice(i: typeof invoicesTable.$inferSelect) {
   return {
@@ -24,23 +32,22 @@ function mapInvoice(i: typeof invoicesTable.$inferSelect) {
   };
 }
 
-router.get("/summary", requireAuth, async (req: Request, res: Response) => {
-  const { user } = req as AuthenticatedRequest;
+router.get("/summary", async (req, res) => {
+  const payload = requireResident(req, res);
+  if (!payload) return res.status(401).json({ error: "unauthorized", message: "Authentication required" });
 
-  const invoices = await db.select().from(invoicesTable).where(eq(invoicesTable.userId, user.id));
+  const invoices = await db.select().from(invoicesTable).where(eq(invoicesTable.userId, payload.userId));
   const unpaid = invoices.filter(i => i.status === "unpaid");
   const partial = invoices.filter(i => i.status === "partially_paid");
 
-  const totalOutstandingCents = [...unpaid, ...partial].reduce((sum, i) => {
-    return sum + Math.round(parseFloat(i.totalAmount as string) * 100) - Math.round(parseFloat(i.paidAmount as string) * 100);
+  const totalOutstanding = [...unpaid, ...partial].reduce((sum, i) => {
+    return sum + parseFloat(i.totalAmount as string) - parseFloat(i.paidAmount as string);
   }, 0);
-  const totalOutstanding = totalOutstandingCents / 100;
 
   const now = new Date();
   const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
   const thisMonth = invoices.filter(i => i.month === currentMonth);
-  const totalThisMonthCents = thisMonth.reduce((sum, i) => sum + Math.round(parseFloat(i.totalAmount as string) * 100), 0);
-  const totalThisMonth = totalThisMonthCents / 100;
+  const totalThisMonth = thisMonth.reduce((sum, i) => sum + parseFloat(i.totalAmount as string), 0);
 
   const paid = invoices.filter(i => i.status === "paid").sort((a, b) =>
     new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime()
@@ -56,13 +63,14 @@ router.get("/summary", requireAuth, async (req: Request, res: Response) => {
   });
 });
 
-router.get("/", requireAuth, async (req: Request, res: Response) => {
-  const { user } = req as AuthenticatedRequest;
+router.get("/", async (req, res) => {
+  const payload = requireResident(req, res);
+  if (!payload) return res.status(401).json({ error: "unauthorized", message: "Authentication required" });
 
   const { status, month } = req.query as { status?: string; month?: string };
 
   let invoices = await db.select().from(invoicesTable)
-    .where(eq(invoicesTable.userId, user.id))
+    .where(eq(invoicesTable.userId, payload.userId))
     .orderBy(desc(invoicesTable.dueDate));
 
   if (status) invoices = invoices.filter(i => i.status === status);
@@ -71,50 +79,87 @@ router.get("/", requireAuth, async (req: Request, res: Response) => {
   return res.json(invoices.map(mapInvoice));
 });
 
-router.get("/:id", requireAuth, async (req: Request, res: Response) => {
-  const { user } = req as AuthenticatedRequest;
-  const id = req.params.id as string;
+router.get("/:id", async (req, res) => {
+  const payload = requireResident(req, res);
+  if (!payload) return res.status(401).json({ error: "unauthorized", message: "Authentication required" });
 
   const [invoice] = await db.select().from(invoicesTable)
-    .where(and(eq(invoicesTable.id, id), eq(invoicesTable.userId, user.id)))
+    .where(and(eq(invoicesTable.id, req.params.id), eq(invoicesTable.userId, payload.userId)))
     .limit(1);
 
   if (!invoice) return res.status(404).json({ error: "not_found", message: "Invoice not found" });
   return res.json(mapInvoice(invoice));
 });
 
-router.post("/:id/pay", requireAuth, async (req: Request, res: Response) => {
-  const { user } = req as AuthenticatedRequest;
+router.post("/:id/pay", async (req, res) => {
+  const payload = requireResident(req, res);
+  if (!payload) return res.status(401).json({ error: "unauthorized", message: "Authentication required" });
 
-  const { paymentMethod, invoiceIds } = req.body;
-  if (!paymentMethod || !invoiceIds?.length) {
-    return res.status(400).json({ error: "validation_error", message: "Payment method and invoice IDs required" });
+  // Get the invoice by id + userId
+  const [invoice] = await db.select().from(invoicesTable)
+    .where(and(eq(invoicesTable.id, req.params.id), eq(invoicesTable.userId, payload.userId)))
+    .limit(1);
+
+  if (!invoice) return res.status(404).json({ error: "not_found", message: "Invoice not found" });
+  if (invoice.status === "paid") return res.status(400).json({ error: "already_paid", message: "Invoice is already paid" });
+
+  // Compute outstanding amount using integer cents to avoid floating point issues
+  const totalCents = Math.round(parseFloat(invoice.totalAmount as string) * 100);
+  const paidCents = Math.round(parseFloat(invoice.paidAmount as string) * 100);
+  const outstandingCents = totalCents - paidCents;
+  const outstanding = outstandingCents / 100;
+
+  if (outstanding <= 0) {
+    return res.status(400).json({ error: "already_paid", message: "Invoice has no outstanding balance" });
   }
 
-  const invoices = await db.select().from(invoicesTable)
-    .where(eq(invoicesTable.userId, user.id));
+  // Compute current wallet balance using SUM query
+  const [balanceResult] = await db
+    .select({
+      balance: sql<string>`COALESCE(SUM(CASE WHEN ${walletTransactionsTable.type} = 'credit' THEN ${walletTransactionsTable.amount} ELSE -${walletTransactionsTable.amount} END), 0)`,
+    })
+    .from(walletTransactionsTable)
+    .where(and(
+      eq(walletTransactionsTable.userId, payload.userId),
+      eq(walletTransactionsTable.category, "wallet")
+    ));
 
-  const selectedInvoices = invoices.filter(i => invoiceIds.includes(i.id));
-  const totalAmountCents = selectedInvoices.reduce((sum, i) =>
-    sum + Math.round(parseFloat(i.totalAmount as string) * 100) - Math.round(parseFloat(i.paidAmount as string) * 100), 0);
-  const totalAmount = totalAmountCents / 100;
+  const walletBalance = parseFloat(balanceResult.balance);
 
-  const sessionId = crypto.randomUUID();
-  const redirectUrl = paymentMethod === "wavepay"
-    ? `https://wavepay.com/pay?session=${sessionId}&amount=${totalAmount}`
-    : `https://kbzpay.com/pay?session=${sessionId}&amount=${totalAmount}`;
+  if (walletBalance < outstanding) {
+    return res.status(400).json({
+      error: "insufficient_balance",
+      message: "Wallet balance insufficient",
+      walletBalance,
+      outstanding,
+    });
+  }
+
+  // Atomic transaction: insert debit + update invoice
+  await db.transaction(async (tx) => {
+    await tx.insert(walletTransactionsTable).values({
+      userId: payload.userId,
+      type: "debit",
+      amount: String(outstanding),
+      description: "Bill payment - " + invoice.invoiceNumber,
+      reference: invoice.id,
+      category: "wallet",
+    });
+
+    await tx.update(invoicesTable)
+      .set({ paidAmount: invoice.totalAmount, status: "paid" })
+      .where(eq(invoicesTable.id, invoice.id));
+  });
 
   return res.json({
-    sessionId,
-    paymentMethod,
-    totalAmount,
-    redirectUrl,
-    status: "pending",
+    success: true,
+    invoice: {
+      id: invoice.id,
+      invoiceNumber: invoice.invoiceNumber,
+      status: "paid",
+      paidAmount: parseFloat(invoice.totalAmount as string),
+    },
   });
 });
-
-// TODO: Bill-due push notifications require a scheduled job (e.g. cron).
-// The sendPushToUser helper in push-service.ts is ready to call when triggered.
-// Invoices are managed by admin — no resident-facing due-date event endpoint exists in v1.
 
 export default router;

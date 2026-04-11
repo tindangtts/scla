@@ -3,7 +3,7 @@ import { db } from "@workspace/db";
 import {
   staffUsersTable, usersTable, upgradeRequestsTable, announcementsTable,
   promotionsTable, ticketsTable, facilitiesTable, bookingsTable, faqsTable,
-  auditLogsTable
+  auditLogsTable, walletTransactionsTable
 } from "@workspace/db";
 import { eq, desc, asc, count, and, gte, lte, like, or, sql } from "drizzle-orm";
 import * as jwt from "../lib/jwt.js";
@@ -681,6 +681,82 @@ router.get("/audit-logs", async (req, res) => {
     .where(whereClause);
 
   return res.json({ logs, total, page: pageNum, limit: limitNum });
+});
+
+// ─── WALLET ADJUST ────────────────────────────────────────────────────────────
+
+router.post("/wallet/:userId/adjust", async (req, res) => {
+  const payload = requireAdmin(req, res);
+  if (!payload) return;
+
+  const { amount, type, reason, category = "wallet" } = req.body;
+
+  // Validation
+  if (!amount || typeof amount !== "number" || amount <= 0) {
+    return res.status(400).json({ error: "validation_error", message: "amount must be a positive number" });
+  }
+  if (type !== "credit" && type !== "debit") {
+    return res.status(400).json({ error: "validation_error", message: "type must be 'credit' or 'debit'" });
+  }
+  if (!reason || typeof reason !== "string" || reason.trim() === "") {
+    return res.status(400).json({ error: "validation_error", message: "reason is required" });
+  }
+  if (category !== "wallet" && category !== "deposit") {
+    return res.status(400).json({ error: "validation_error", message: "category must be 'wallet' or 'deposit'" });
+  }
+
+  const userId = req.params.userId;
+
+  // For debit: check current balance >= amount
+  if (type === "debit") {
+    const [balanceResult] = await db
+      .select({
+        balance: sql<string>`COALESCE(SUM(CASE WHEN ${walletTransactionsTable.type} = 'credit' THEN ${walletTransactionsTable.amount} ELSE -${walletTransactionsTable.amount} END), 0)`,
+      })
+      .from(walletTransactionsTable)
+      .where(and(
+        eq(walletTransactionsTable.userId, userId),
+        eq(walletTransactionsTable.category, category)
+      ));
+
+    const currentBalance = parseFloat(balanceResult.balance);
+    if (currentBalance < amount) {
+      return res.status(400).json({
+        error: "insufficient_balance",
+        message: "Wallet balance insufficient for this deduction",
+        currentBalance,
+        requested: amount,
+      });
+    }
+  }
+
+  // Insert the adjustment transaction
+  const description = type === "debit"
+    ? "Admin adjustment - deduction"
+    : "Admin adjustment - credit";
+
+  const [inserted] = await db.insert(walletTransactionsTable).values({
+    userId,
+    type,
+    amount: String(amount),
+    description,
+    reference: null,
+    category,
+    reason: reason.trim(),
+  }).returning();
+
+  // Audit log the adjustment
+  const staffEmail = await getStaffEmail(payload.staffId);
+  await auditLog({
+    actorId: payload.staffId,
+    actorEmail: staffEmail,
+    action: "wallet_adjust",
+    targetType: "wallet",
+    targetId: userId,
+    metadata: { amount, type, reason: reason.trim(), category },
+  });
+
+  return res.status(201).json(inserted);
 });
 
 export default router;
