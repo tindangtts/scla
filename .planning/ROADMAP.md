@@ -69,7 +69,10 @@ Plans:
   2. Bill integration tests (list, detail, summary, pay) assert that a seeded resident sees the correct invoices and that the pay endpoint updates status
   3. Ticket integration tests (create, list, detail, messages) assert that ticket creation returns a unique SA-XXXX number and that message threads append correctly
   4. Booking integration tests (slots, create, list, cancel) assert that a slot becomes unavailable after booking and that cancellation frees it
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 19-01-PLAN.md — Supertest setup + auth and invoice integration tests
+- [ ] 19-02-PLAN.md — Ticket and booking integration tests
 
 ### Phase 20: Audit Logging & Wallet Transactions
 **Goal**: Admin actions are traceable and wallet balances reflect real payment activity
@@ -131,7 +134,7 @@ Plans:
 | 16 | v2.0 | 2/2 | Complete | 2026-04-10 |
 | 17 | v2.0 | 2/2 | Complete | 2026-04-10 |
 | 18 | v2.1 | 2/2 | Complete    | 2026-04-11 |
-| 19 | v2.1 | 0/TBD | Not started | — |
+| 19 | v2.1 | 0/2 | Not started | — |
 | 20 | v2.1 | 0/TBD | Not started | — |
 | 21 | v2.1 | 0/TBD | Not started | — |
 | 22 | v2.1 | 0/TBD | Not started | — |
