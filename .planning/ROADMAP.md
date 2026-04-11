@@ -178,7 +178,7 @@ Plans:
 **Plans**: 2 plans
 Plans:
 - [ ] 30-01-PLAN.md — i18n (English/Myanmar), dark mode toggle, responsive bottom nav
-- [ ] 30-02-PLAN.md — PWA manifest, service worker caching, loading skeletons, error boundaries
+- [x] 30-02-PLAN.md — PWA manifest, service worker caching, loading skeletons, error boundaries
 **UI hint**: yes
 
 ### Phase 31: Testing & CI
@@ -219,5 +219,5 @@ Plans:
 | 27. Resident Secondary | v3.0 | 2/2 | Complete    | 2026-04-11 |
 | 28. Admin Portal | v3.0 | 3/3 | Complete    | 2026-04-11 |
 | 29. Real-time & Communication | v3.0 | 5/5 | Complete    | 2026-04-11 |
-| 30. i18n & UX Polish | v3.0 | 0/2 | Not started | - |
+| 30. i18n & UX Polish | v3.0 | 1/2 | In Progress|  |
 | 31. Testing & CI | v3.0 | 0/TBD | Not started | - |

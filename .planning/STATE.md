@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v3.0
 milestone_name: Next.js Migration
-status: verifying
-stopped_at: Completed 29-04-PLAN.md
-last_updated: "2026-04-11T18:19:01.869Z"
+status: executing
+stopped_at: Completed 30-02-PLAN.md
+last_updated: "2026-04-11T18:31:07.130Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 8
   completed_phases: 6
-  total_plans: 16
-  completed_plans: 16
+  total_plans: 18
+  completed_plans: 17
   percent: 0
 ---
 
@@ -21,13 +21,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-11)
 
 **Core value:** Residents can manage their apartment lifecycle — bills, maintenance, bookings, and community info — from a single mobile-first web app without visiting the management office.
-**Current focus:** Phase 29 — real-time-communication
+**Current focus:** Phase 30 — i18n-ux-polish
 
 ## Current Position
 
-Phase: 30
-Plan: Not started
-Status: Phase complete — ready for verification
+Phase: 30 (i18n-ux-polish) — EXECUTING
+Plan: 2 of 2
+Status: Ready to execute
 Last activity: 2026-04-11
 
 Progress: [░░░░░░░░░░] 0% (v3.0 milestone)
@@ -82,6 +82,7 @@ Recent decisions affecting current work:
 - [Phase 29]: Fire-and-forget pattern with .catch for all notification triggers to avoid blocking primary actions
 - [Phase 29]: Cron endpoint default mode processes only yesterday's newly overdue invoices to prevent re-notification
 - [Phase 29]: Cross-process HTTP relay (localhost:3003) for WS broadcast instead of direct function import
+- [Phase 30]: Network-first caching for navigation with offline.html fallback, cache-first for static assets, API requests skip cache
 
 ### Pending Todos
 
@@ -93,6 +94,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-11T18:15:17.662Z
-Stopped at: Completed 29-04-PLAN.md
+Last session: 2026-04-11T18:31:07.127Z
+Stopped at: Completed 30-02-PLAN.md
 Resume file: None
