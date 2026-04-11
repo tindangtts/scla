@@ -100,7 +100,10 @@ Plans:
   1. A message sent by a resident on the ticket detail page appears for the admin (and vice versa) without any page refresh or visible delay
   2. If the WebSocket connection is lost (network drop, server restart), the chat UI falls back to polling and continues to function
   3. No existing polling-based chat functionality regresses — existing message history still loads on ticket open
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 21-01-PLAN.md — WS server with JWT auth, room management, admin message REST endpoints, broadcast wiring
+- [ ] 21-02-PLAN.md — Frontend useTicketChat hook with WS + polling fallback, UI integration for both apps
 **UI hint**: yes
 
 ### Phase 22: CI/CD Pipeline
@@ -140,6 +143,6 @@ Plans:
 | 18 | v2.1 | 2/2 | Complete    | 2026-04-11 |
 | 19 | v2.1 | 2/2 | Complete    | 2026-04-11 |
 | 20 | v2.1 | 3/3 | Complete    | 2026-04-11 |
-| 21 | v2.1 | 0/TBD | Not started | — |
+| 21 | v2.1 | 0/2 | Not started | — |
 | 22 | v2.1 | 0/TBD | Not started | — |
 | 23 | v2.1 | 0/TBD | Not started | — |
