@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
+import TicketChat from "./ticket-chat";
 
 export const dynamic = "force-dynamic";
 
@@ -152,39 +153,8 @@ export default async function TicketDetailPage({
         </Card>
       )}
 
-      {/* Messages (ticket_messages table) */}
-      {messages.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">Messages</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            {messages.map((msg) => (
-              <div key={msg.id} className="border-b pb-3 last:border-0">
-                <div className="flex items-center justify-between text-sm">
-                  <Badge
-                    variant={
-                      msg.senderType === "staff" ? "secondary" : "outline"
-                    }
-                    className="text-xs"
-                  >
-                    {msg.senderType === "staff" ? "Staff" : "Resident"}
-                  </Badge>
-                  <span className="text-muted-foreground text-xs">
-                    {new Date(msg.createdAt).toLocaleString()}
-                  </span>
-                </div>
-                <p className="text-sm mt-1">{msg.content}</p>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Placeholder for Phase 29 real-time chat */}
-      <p className="text-sm text-muted-foreground text-center py-2">
-        Real-time chat coming soon
-      </p>
+      {/* Real-time chat */}
+      <TicketChat ticketId={ticket.id} initialMessages={messages} />
     </div>
   );
 }

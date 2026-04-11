@@ -1,5 +1,6 @@
 import { requireAdmin } from "@/lib/auth";
 import { getTicketById, getStaffMembers } from "@/lib/queries/admin-tickets";
+import { getTicketMessages } from "@/lib/queries/tickets";
 import { notFound } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -11,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { updateTicketStatus, assignTicket } from "./actions";
+import TicketChat from "./ticket-chat";
 
 export const dynamic = "force-dynamic";
 
@@ -57,6 +59,7 @@ export default async function AdminTicketDetailPage({
   }
 
   const staffMembers = await getStaffMembers();
+  const messages = await getTicketMessages(ticket.id);
 
   return (
     <div className="max-w-3xl space-y-6">
@@ -214,6 +217,9 @@ export default async function AdminTicketDetailPage({
           </form>
         </CardContent>
       </Card>
+
+      {/* Real-time chat */}
+      <TicketChat ticketId={ticket.id} initialMessages={messages} />
     </div>
   );
 }
