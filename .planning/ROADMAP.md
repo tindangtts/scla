@@ -62,7 +62,7 @@ See `.planning/milestones/v2.1-ROADMAP.md` for full details.
 - [x] **Phase 28: Admin Portal** — Dashboard, user management, content management, audit logs, wallet operations (completed 2026-04-11)
 - [x] **Phase 29: Real-time & Communication** — WebSocket chat, push notifications, email, in-app notifications (completed 2026-04-11)
 - [x] **Phase 30: i18n & UX Polish** — Myanmar/English i18n, dark mode, PWA, mobile layout, loading states (completed 2026-04-11)
-- [ ] **Phase 31: Testing & CI** — Unit tests, integration tests, E2E tests, CI/CD pipeline
+- [x] **Phase 31: Testing & CI** — Unit tests, integration tests, E2E tests, CI/CD pipeline (completed 2026-04-11)
 
 ## Phase Details
 
@@ -192,7 +192,7 @@ Plans:
   4. GitHub Actions CI runs lint, typecheck, unit tests, and integration tests on every push/PR to main
 **Plans**: 2 plans
 Plans:
-- [ ] 31-01-PLAN.md — Vitest setup, unit tests for auth/notification/push helpers, API route integration tests
+- [x] 31-01-PLAN.md — Vitest setup, unit tests for auth/notification/push helpers, API route integration tests
 - [x] 31-02-PLAN.md — Playwright E2E tests for Next.js, GitHub Actions CI pipeline
 
 ## Progress
@@ -220,4 +220,4 @@ Plans:
 | 28. Admin Portal | v3.0 | 3/3 | Complete    | 2026-04-11 |
 | 29. Real-time & Communication | v3.0 | 5/5 | Complete    | 2026-04-11 |
 | 30. i18n & UX Polish | v3.0 | 2/2 | Complete    | 2026-04-11 |
-| 31. Testing & CI | v3.0 | 1/2 | In Progress|  |
+| 31. Testing & CI | v3.0 | 2/2 | Complete   | 2026-04-11 |

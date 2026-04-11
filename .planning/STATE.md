@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v3.0
 milestone_name: Next.js Migration
-status: executing
-stopped_at: Completed 31-02-PLAN.md
-last_updated: "2026-04-11T18:46:49.877Z"
+status: verifying
+stopped_at: Completed 31-01-PLAN.md
+last_updated: "2026-04-11T18:48:07.639Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 8
-  completed_phases: 7
+  completed_phases: 8
   total_plans: 20
-  completed_plans: 19
+  completed_plans: 20
   percent: 0
 ---
 
@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-04-11)
 
 Phase: 31 (testing-ci) — EXECUTING
 Plan: 2 of 2
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-04-11
 
 Progress: [░░░░░░░░░░] 0% (v3.0 milestone)
@@ -87,6 +87,7 @@ Recent decisions affecting current work:
 - [Phase 30]: Server Components use getTranslations, Client Components use useTranslations for proper SSR/CSR i18n split
 - [Phase 31-02]: E2E tests use native form selectors instead of data-testid for Next.js Server Actions forms
 - [Phase 31-02]: E2E tests excluded from CI workflow (require running Next.js server + Supabase DB)
+- [Phase 31-testing-ci]: Vitest with node environment for server-side test suite; mock chain pattern for Drizzle ORM queries
 
 ### Pending Todos
 
@@ -98,6 +99,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-11T18:46:49.875Z
-Stopped at: Completed 31-02-PLAN.md
+Last session: 2026-04-11T18:48:07.636Z
+Stopped at: Completed 31-01-PLAN.md
 Resume file: None
