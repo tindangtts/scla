@@ -85,7 +85,11 @@ Plans:
   4. Paying a bill deducts the invoice amount from the resident's wallet balance and records a debit transaction with the invoice reference
   5. Admin can manually credit or debit a wallet with a required reason, and the adjustment appears in the resident's transaction history
   6. Security deposit deductions appear in the deposit transaction list with a reason attached
-**Plans**: TBD
+**Plans**: 3 plans
+Plans:
+- [ ] 20-01-PLAN.md — Schema definitions + audit middleware + admin audit logging
+- [ ] 20-02-PLAN.md — Wallet API routes + invoice pay rewrite + admin wallet adjust
+- [ ] 20-03-PLAN.md — Admin audit log page + resident wallet page UI updates
 **UI hint**: yes
 
 ### Phase 21: WebSocket Chat
@@ -135,7 +139,7 @@ Plans:
 | 17 | v2.0 | 2/2 | Complete | 2026-04-10 |
 | 18 | v2.1 | 2/2 | Complete    | 2026-04-11 |
 | 19 | v2.1 | 2/2 | Complete    | 2026-04-11 |
-| 20 | v2.1 | 0/TBD | Not started | — |
+| 20 | v2.1 | 0/3 | Not started | — |
 | 21 | v2.1 | 0/TBD | Not started | — |
 | 22 | v2.1 | 0/TBD | Not started | — |
 | 23 | v2.1 | 0/TBD | Not started | — |
