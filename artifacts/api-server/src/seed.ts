@@ -2,17 +2,75 @@ import { db } from "@workspace/db";
 import {
   usersTable, announcementsTable, promotionsTable,
   invoicesTable, facilitiesTable, infoCategoriesTable, infoArticlesTable, notificationsTable,
-  staffUsersTable, ticketsTable, upgradeRequestsTable, faqsTable
+  staffUsersTable, ticketsTable, upgradeRequestsTable, faqsTable, bookingsTable
 } from "@workspace/db";
+import { eq } from "drizzle-orm";
 import { hashPasswordBcrypt } from "./lib/password.js";
 
-async function seedStaffUsers() {
-  const existingStaff = await db.select().from(staffUsersTable).limit(1);
-  if (existingStaff.length > 0) return;
+// Deterministic seed IDs so downstream inserts reference fixed UUIDs every run
+const SEED_IDS = {
+  guestUser: "00000000-0000-4000-8000-000000000001",
+  residentUser: "00000000-0000-4000-8000-000000000002",
+  guestUser2: "00000000-0000-4000-8000-000000000003",
+  guestUser3: "00000000-0000-4000-8000-000000000004",
+  adminStaff: "00000000-0000-4000-8000-000000000101",
+  contentStaff: "00000000-0000-4000-8000-000000000102",
+  supportStaff: "00000000-0000-4000-8000-000000000103",
+} as const;
 
+async function seedUsers() {
+  console.log("Seeding users...");
+  // onConflictDoNothing targets the unique email constraint — safe to re-run
+  await db.insert(usersTable).values([
+    {
+      id: SEED_IDS.guestUser,
+      name: "Ko Zin Min",
+      email: "demo@starcity.com",
+      phone: "09-999-111-222",
+      passwordHash: await hashPasswordBcrypt("password123"),
+      userType: "guest",
+      upgradeStatus: "none",
+    },
+    {
+      id: SEED_IDS.residentUser,
+      name: "Ma Aye Aye",
+      email: "resident@starcity.com",
+      phone: "09-888-333-444",
+      passwordHash: await hashPasswordBcrypt("password123"),
+      userType: "resident",
+      unitNumber: "A-12-03",
+      residentId: "SC-2023-00142",
+      developmentName: "City Loft",
+      upgradeStatus: "approved",
+    },
+    {
+      id: SEED_IDS.guestUser2,
+      name: "Ko Aung Kyaw",
+      email: "aung.kyaw@gmail.com",
+      phone: "09-777-222-333",
+      passwordHash: await hashPasswordBcrypt("password123"),
+      userType: "guest",
+      upgradeStatus: "pending",
+    },
+    {
+      id: SEED_IDS.guestUser3,
+      name: "Ma Thida Nwe",
+      email: "thida.nwe@outlook.com",
+      phone: "09-666-444-555",
+      passwordHash: await hashPasswordBcrypt("password123"),
+      userType: "guest",
+      upgradeStatus: "none",
+    },
+  ]).onConflictDoNothing({ target: usersTable.email });
+  console.log("Users seeded.");
+}
+
+async function seedStaffUsers() {
   console.log("Seeding staff users...");
+  // onConflictDoNothing targets the unique email constraint — safe to re-run
   await db.insert(staffUsersTable).values([
     {
+      id: SEED_IDS.adminStaff,
       name: "U Kyaw Zin",
       email: "admin@starcity.com",
       passwordHash: await hashPasswordBcrypt("admin123"),
@@ -20,6 +78,7 @@ async function seedStaffUsers() {
       isActive: true,
     },
     {
+      id: SEED_IDS.contentStaff,
       name: "Ma Su Su",
       email: "content@starcity.com",
       passwordHash: await hashPasswordBcrypt("content123"),
@@ -27,76 +86,37 @@ async function seedStaffUsers() {
       isActive: true,
     },
     {
+      id: SEED_IDS.supportStaff,
       name: "Ko Nay Lin",
       email: "support@starcity.com",
       passwordHash: await hashPasswordBcrypt("support123"),
       role: "ticket_handler" as const,
       isActive: true,
     },
-  ]);
+  ]).onConflictDoNothing({ target: staffUsersTable.email });
   console.log("Staff users seeded.");
 }
 
-async function seed() {
-  console.log("Seeding database...");
-
-  await seedStaffUsers();
-
-  const existingUsers = await db.select().from(usersTable).limit(1);
-  if (existingUsers.length > 0) {
-    console.log("Database already seeded, skipping.");
-    return;
-  }
-
-  const [guestUser] = await db.insert(usersTable).values({
-    name: "Ko Zin Min",
-    email: "demo@starcity.com",
-    phone: "09-999-111-222",
-    passwordHash: await hashPasswordBcrypt("password123"),
-    userType: "guest",
-    upgradeStatus: "none",
-  }).returning();
-
-  const [residentUser] = await db.insert(usersTable).values({
-    name: "Ma Aye Aye",
-    email: "resident@starcity.com",
-    phone: "09-888-333-444",
-    passwordHash: await hashPasswordBcrypt("password123"),
-    userType: "resident",
-    unitNumber: "A-12-03",
-    residentId: "SC-2023-00142",
-    developmentName: "City Loft",
-    upgradeStatus: "approved",
-  }).returning();
-
-  const [guestUser2] = await db.insert(usersTable).values({
-    name: "Ko Aung Kyaw",
-    email: "aung.kyaw@gmail.com",
-    phone: "09-777-222-333",
-    passwordHash: await hashPasswordBcrypt("password123"),
-    userType: "guest",
-    upgradeStatus: "pending",
-  }).returning();
-
-  const [guestUser3] = await db.insert(usersTable).values({
-    name: "Ma Thida Nwe",
-    email: "thida.nwe@outlook.com",
-    phone: "09-666-444-555",
-    passwordHash: await hashPasswordBcrypt("password123"),
-    userType: "guest",
-    upgradeStatus: "none",
-  }).returning();
-
+async function seedUpgradeRequests() {
+  const existing = await db.select().from(upgradeRequestsTable).limit(1);
+  if (existing.length > 0) return;
+  console.log("Seeding upgrade requests...");
   await db.insert(upgradeRequestsTable).values({
-    userId: guestUser2.id,
-    userName: guestUser2.name,
-    userEmail: guestUser2.email,
+    userId: SEED_IDS.guestUser2,
+    userName: "Ko Aung Kyaw",
+    userEmail: "aung.kyaw@gmail.com",
     unitNumber: "B-05-12",
     residentId: "SC-2024-00389",
     developmentName: "Estella",
     status: "pending",
   });
+  console.log("Upgrade requests seeded.");
+}
 
+async function seedAnnouncements() {
+  const existing = await db.select().from(announcementsTable).limit(1);
+  if (existing.length > 0) return;
+  console.log("Seeding announcements...");
   await db.insert(announcementsTable).values([
     {
       title: "Scheduled Water Supply Interruption — 12 April 2026",
@@ -143,7 +163,13 @@ async function seed() {
       publishedAt: new Date("2026-04-10T09:00:00Z"),
     },
   ]);
+  console.log("Announcements seeded.");
+}
 
+async function seedPromotions() {
+  const existing = await db.select().from(promotionsTable).limit(1);
+  if (existing.length > 0) return;
+  console.log("Seeding promotions...");
   await db.insert(promotionsTable).values([
     {
       title: "20% Off All Coffee at The Roost Cafe",
@@ -173,11 +199,18 @@ async function seed() {
       isActive: true,
     },
   ]);
+  console.log("Promotions seeded.");
+}
 
+async function seedInvoices() {
+  const existing = await db.select().from(invoicesTable).limit(1);
+  if (existing.length > 0) return;
+  console.log("Seeding invoices...");
+  // onConflictDoNothing guards against PK collisions (belt-and-suspenders with count check above)
   await db.insert(invoicesTable).values([
     {
       invoiceNumber: "INV-2026-04-001",
-      userId: residentUser.id,
+      userId: SEED_IDS.residentUser,
       unitNumber: "A-12-03",
       category: "Service Charge",
       description: "Monthly Service Charge — April 2026",
@@ -195,7 +228,7 @@ async function seed() {
     },
     {
       invoiceNumber: "INV-2026-04-002",
-      userId: residentUser.id,
+      userId: SEED_IDS.residentUser,
       unitNumber: "A-12-03",
       category: "Utility",
       description: "Electricity Bill — March 2026",
@@ -213,7 +246,7 @@ async function seed() {
     },
     {
       invoiceNumber: "INV-2026-03-001",
-      userId: residentUser.id,
+      userId: SEED_IDS.residentUser,
       unitNumber: "A-12-03",
       category: "Service Charge",
       description: "Monthly Service Charge — March 2026",
@@ -231,7 +264,7 @@ async function seed() {
     },
     {
       invoiceNumber: "INV-2026-03-002",
-      userId: residentUser.id,
+      userId: SEED_IDS.residentUser,
       unitNumber: "A-12-03",
       category: "Utility",
       description: "Electricity Bill — February 2026",
@@ -247,8 +280,15 @@ async function seed() {
         { id: "li12", description: "Administration Fee", quantity: 1, unitPrice: 20500, amount: 20500 },
       ],
     },
-  ]);
+  ]).onConflictDoNothing();
+  console.log("Invoices seeded.");
+}
 
+async function seedFacilities() {
+  const existing = await db.select().from(facilitiesTable).limit(1);
+  if (existing.length > 0) return;
+  console.log("Seeding facilities...");
+  // onConflictDoNothing guards against PK collisions (belt-and-suspenders with count check above)
   await db.insert(facilitiesTable).values([
     {
       name: "Olympic Swimming Pool",
@@ -305,12 +345,19 @@ async function seed() {
       maxCapacity: 80,
       isAvailable: true,
     },
-  ]);
+  ]).onConflictDoNothing();
+  console.log("Facilities seeded.");
+}
 
+async function seedTickets() {
+  const existing = await db.select().from(ticketsTable).limit(1);
+  if (existing.length > 0) return;
+  console.log("Seeding tickets...");
+  // onConflictDoNothing guards against PK collisions (belt-and-suspenders with count check above)
   await db.insert(ticketsTable).values([
     {
       ticketNumber: "SA-0001",
-      userId: residentUser.id,
+      userId: SEED_IDS.residentUser,
       title: "Air conditioning not working in bedroom",
       category: "air_conditioning" as const,
       serviceType: "Repair",
@@ -323,7 +370,7 @@ async function seed() {
     },
     {
       ticketNumber: "SA-0002",
-      userId: residentUser.id,
+      userId: SEED_IDS.residentUser,
       title: "Water leak from ceiling in bathroom",
       category: "plumbing" as const,
       serviceType: "Emergency Repair",
@@ -334,7 +381,7 @@ async function seed() {
     },
     {
       ticketNumber: "SA-0003",
-      userId: guestUser.id,
+      userId: SEED_IDS.guestUser,
       title: "General inquiry about SCSC membership",
       category: "general_enquiry" as const,
       serviceType: "Information Request",
@@ -345,8 +392,77 @@ async function seed() {
         { id: "u2", message: "Thank you for your enquiry. SCSC membership fees are: Individual 150,000 MMK/month, Family 250,000 MMK/month. All facilities included. Please visit the sports centre reception to sign up.", author: "StarCity Support", authorType: "staff", createdAt: "2026-04-07T14:00:00Z" },
       ],
     },
-  ]);
+  ]).onConflictDoNothing();
+  console.log("Tickets seeded.");
+}
 
+async function seedBookings() {
+  const existing = await db.select().from(bookingsTable).limit(1);
+  if (existing.length > 0) return;
+  console.log("Seeding bookings...");
+
+  // Look up facility IDs by name from the seeded facilities
+  const [pool] = await db.select().from(facilitiesTable).where(eq(facilitiesTable.name, "Olympic Swimming Pool")).limit(1);
+  const [tennis] = await db.select().from(facilitiesTable).where(eq(facilitiesTable.name, "Tennis Court A")).limit(1);
+  const [gym] = await db.select().from(facilitiesTable).where(eq(facilitiesTable.name, "Fully Equipped Gymnasium")).limit(1);
+
+  if (!pool || !tennis || !gym) {
+    console.warn("Facilities not found — skipping bookings seed. Run seed again after facilities are created.");
+    return;
+  }
+
+  // onConflictDoNothing guards against PK collisions (belt-and-suspenders with count check above)
+  await db.insert(bookingsTable).values([
+    {
+      bookingNumber: "BK-0001",
+      userId: SEED_IDS.residentUser,
+      facilityId: pool.id,
+      facilityName: pool.name,
+      facilityCategory: pool.category,
+      date: "2026-04-20",
+      startTime: "08:00",
+      endTime: "09:00",
+      totalAmount: "15000",
+      status: "upcoming" as const,
+      paymentStatus: "paid" as const,
+      notes: "Morning lap swim session",
+    },
+    {
+      bookingNumber: "BK-0002",
+      userId: SEED_IDS.residentUser,
+      facilityId: tennis.id,
+      facilityName: tennis.name,
+      facilityCategory: tennis.category,
+      date: "2026-04-05",
+      startTime: "07:00",
+      endTime: "08:00",
+      totalAmount: "8000",
+      status: "completed" as const,
+      paymentStatus: "paid" as const,
+      notes: null,
+    },
+    {
+      bookingNumber: "BK-0003",
+      userId: SEED_IDS.residentUser,
+      facilityId: gym.id,
+      facilityName: gym.name,
+      facilityCategory: gym.category,
+      date: "2026-04-12",
+      startTime: "06:00",
+      endTime: "07:00",
+      totalAmount: "5000",
+      status: "cancelled" as const,
+      paymentStatus: "refunded" as const,
+      notes: "Cancelled due to pool maintenance day",
+    },
+  ]).onConflictDoNothing();
+  console.log("Bookings seeded.");
+}
+
+async function seedInfoCategories() {
+  const existing = await db.select().from(infoCategoriesTable).limit(1);
+  if (existing.length > 0) return;
+  console.log("Seeding info categories...");
   await db.insert(infoCategoriesTable).values([
     { name: "Estate Rules & Guidelines", icon: "file-text", description: "Community guidelines, by-laws, and estate regulations for all residents.", articleCount: 5 },
     { name: "Utilities & Services", icon: "zap", description: "Information about electricity, water, internet, and waste management services.", articleCount: 4 },
@@ -355,9 +471,18 @@ async function seed() {
     { name: "Facilities Guide", icon: "dumbbell", description: "How to use and book StarCity Sports Centre facilities.", articleCount: 6 },
     { name: "Payment & Billing", icon: "credit-card", description: "Understanding your invoices, payment methods, and billing queries.", articleCount: 4 },
   ]);
+  console.log("Info categories seeded.");
+}
 
+async function seedInfoArticles() {
+  const existing = await db.select().from(infoArticlesTable).limit(1);
+  if (existing.length > 0) return;
+  console.log("Seeding info articles...");
   const [cat1] = await db.select().from(infoCategoriesTable).limit(1);
-
+  if (!cat1) {
+    console.warn("Info categories not found — skipping info articles seed.");
+    return;
+  }
   await db.insert(infoArticlesTable).values([
     {
       title: "Community Rules and Quiet Hours",
@@ -368,7 +493,13 @@ async function seed() {
       publishedAt: new Date("2026-01-01T00:00:00Z"),
     },
   ]);
+  console.log("Info articles seeded.");
+}
 
+async function seedFaqs() {
+  const existing = await db.select().from(faqsTable).limit(1);
+  if (existing.length > 0) return;
+  console.log("Seeding FAQs...");
   await db.insert(faqsTable).values([
     { question: "How do I pay my monthly service charge?", answer: "You can pay through the Bill Payment section in the app using WavePay or KBZPay. Navigate to Bills, select the invoice, and choose your preferred payment method.", category: "Billing & Payments", isPublished: true, sortOrder: 1 },
     { question: "How do I book a facility at SCSC?", answer: "Go to the Bookings section from the home screen. Select the facility, choose a date and time slot, confirm the booking details, and proceed with payment.", category: "Facilities", isPublished: true, sortOrder: 2 },
@@ -376,10 +507,16 @@ async function seed() {
     { question: "What is my Resident ID?", answer: "Your Resident ID is a unique identifier assigned by the estate management office when you registered as a resident. It is printed on your resident welcome letter. Contact the management office if you have lost it.", category: "Account", isPublished: true, sortOrder: 4 },
     { question: "How do I raise a maintenance request?", answer: "Use the Star Assist feature from the home screen. Select a category (e.g. Electricals, Plumbing), describe the issue, and submit. Our team will respond within 24 hours.", category: "Star Assist", isPublished: true, sortOrder: 5 },
   ]);
+  console.log("FAQs seeded.");
+}
 
+async function seedNotifications() {
+  const existing = await db.select().from(notificationsTable).limit(1);
+  if (existing.length > 0) return;
+  console.log("Seeding notifications...");
   await db.insert(notificationsTable).values([
     {
-      userId: residentUser.id,
+      userId: SEED_IDS.residentUser,
       title: "Invoice Due Soon",
       body: "Your April 2026 service charge invoice (INV-2026-04-001) of 285,000 MMK is due on 15 April.",
       type: "announcement" as const,
@@ -387,7 +524,7 @@ async function seed() {
       relatedId: null,
     },
     {
-      userId: residentUser.id,
+      userId: SEED_IDS.residentUser,
       title: "Water Supply Interruption",
       body: "Scheduled water interruption on 12 April from 8AM to 12PM in City Loft Blocks A, B, C.",
       type: "announcement" as const,
@@ -395,8 +532,27 @@ async function seed() {
       relatedId: null,
     },
   ]);
+  console.log("Notifications seeded.");
+}
 
-  console.log("Seeding complete!");
+async function seed() {
+  console.log("Seeding database...");
+
+  await seedStaffUsers();
+  await seedUsers();
+  await seedUpgradeRequests();
+  await seedAnnouncements();
+  await seedPromotions();
+  await seedInvoices();
+  await seedFacilities();
+  await seedTickets();
+  await seedBookings();
+  await seedInfoCategories();
+  await seedInfoArticles();
+  await seedFaqs();
+  await seedNotifications();
+
+  console.log("\nSeeding complete!");
   console.log("Demo accounts:");
   console.log("  Guest:    demo@starcity.com / password123");
   console.log("  Resident: resident@starcity.com / password123");
