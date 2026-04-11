@@ -151,7 +151,7 @@ Milestone v2.1: Quality & Infrastructure Gaps
 - [x] **TEST-05**: Unit tests cover auth middleware (JWT verification, role checks)
 - [x] **TEST-06**: Unit tests cover scheduler logic (bill-overdue detection, notification triggers)
 - [x] **TEST-07**: Unit tests cover password hashing (bcrypt, SHA256 migration path)
-- [ ] **TEST-08**: E2E tests cover resident login and home dashboard flow
+- [x] **TEST-08**: E2E tests cover resident login and home dashboard flow
 - [ ] **TEST-09**: E2E tests cover ticket creation and chat flow
 - [ ] **TEST-10**: E2E tests cover facility booking and cancellation flow
 

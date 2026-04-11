@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.1
 milestone_name: Quality & Infrastructure Gaps
-status: verifying
-stopped_at: Completed 22-02-PLAN.md
-last_updated: "2026-04-11T08:18:41.109Z"
+status: executing
+stopped_at: Completed 23-01-PLAN.md
+last_updated: "2026-04-11T08:29:42.478Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 6
   completed_phases: 5
-  total_plans: 11
-  completed_plans: 11
+  total_plans: 13
+  completed_plans: 12
 ---
 
 # Project State
@@ -20,13 +20,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-11)
 
 **Core value:** Residents can manage their apartment lifecycle — bills, maintenance, bookings, and community info — from a single mobile-first web app without visiting the management office.
-**Current focus:** Phase 22 — ci-cd-pipeline
+**Current focus:** Phase 23 — e2e-tests
 
 ## Current Position
 
-Phase: 23
-Plan: Not started
-Status: Phase complete — ready for verification
+Phase: 23 (e2e-tests) — EXECUTING
+Plan: 2 of 2
+Status: Ready to execute
 Last activity: 2026-04-11
 
 ```
@@ -64,6 +64,7 @@ v2.1 Progress: [░░░░░░░░░░░░░░░░░░░░░�
 | Phase 21-websocket-chat P02 | 8 | 2 tasks | 4 files |
 | Phase 22-ci-cd-pipeline P01 | 5 | 2 tasks | 4 files |
 | Phase 22-ci-cd-pipeline P02 | 2 | 2 tasks | 2 files |
+| Phase 23-e2e-tests P01 | 2 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -99,6 +100,8 @@ Recent decisions affecting current work:
 - [Phase 22]: Branch protection for CICD-02 documented in workflow comments as a manual GitHub UI step
 - [Phase 22]: 30-day GitHub artifact retention eliminates need for external backup storage (S3/GCS)
 - [Phase 22]: pg_dump integrity check (file size + CREATE TABLE grep) catches silent pg_dump failures before artifact upload
+- [Phase 23-e2e-tests]: workers: 1 with fullyParallel: false — E2E tests share seeded DB state, sequential execution avoids race conditions
+- [Phase 23-e2e-tests]: Auth helper pattern (loginAsResident/loginAsGuest) in e2e/helpers/auth.ts — reusable by Plan 02 and beyond
 
 ### Roadmap Evolution
 
@@ -114,6 +117,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-11T08:16:04.983Z
-Stopped at: Completed 22-02-PLAN.md
+Last session: 2026-04-11T08:29:42.476Z
+Stopped at: Completed 23-01-PLAN.md
 Resume file: None
