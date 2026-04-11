@@ -209,7 +209,7 @@ Plans:
 | 22 | v2.1 | 2/2 | Complete | 2026-04-11 |
 | 23 | v2.1 | 2/2 | Complete | 2026-04-11 |
 | 24. Foundation | v3.0 | 2/2 | Complete    | 2026-04-11 |
-| 25. Authentication | v3.0 | 2/2 | Complete   | 2026-04-11 |
+| 25. Authentication | v3.0 | 2/2 | Complete    | 2026-04-11 |
 | 26. Resident Core | v3.0 | 0/TBD | Not started | - |
 | 27. Resident Secondary | v3.0 | 0/TBD | Not started | - |
 | 28. Admin Portal | v3.0 | 0/TBD | Not started | - |
