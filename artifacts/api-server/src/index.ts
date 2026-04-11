@@ -2,6 +2,7 @@ import app from "./app.js";
 import { logger } from "./lib/logger.js";
 import { applyMigrations } from "./lib/migration-runner.js";
 import { startScheduler } from "./lib/scheduler.js";
+import { setupWebSocket } from "./lib/ws-server.js";
 
 const rawPort = process.env["PORT"];
 
@@ -19,13 +20,14 @@ if (Number.isNaN(port) || port <= 0) {
 
 applyMigrations()
   .then(() => {
-    app.listen(port, (err) => {
-      if (err) {
-        logger.error({ err }, "Error listening on port");
-        process.exit(1);
-      }
+    const server = app.listen(port, () => {
       logger.info({ port }, "Server listening");
+      setupWebSocket(server);
       startScheduler();
+    });
+    server.on("error", (err) => {
+      logger.error({ err }, "Error listening on port");
+      process.exit(1);
     });
   })
   .catch((err) => {
