@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v3.0
 milestone_name: Next.js Migration
 status: verifying
-stopped_at: Completed 29-03-PLAN.md
-last_updated: "2026-04-11T18:03:36.481Z"
+stopped_at: Completed 29-05-PLAN.md
+last_updated: "2026-04-11T18:14:23.023Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 8
-  completed_phases: 6
-  total_plans: 14
-  completed_plans: 14
+  completed_phases: 5
+  total_plans: 16
+  completed_plans: 15
   percent: 0
 ---
 
@@ -80,6 +80,7 @@ Recent decisions affecting current work:
 - [Phase 29]: Standalone WS server on port 3002 separate from Next.js; REST API for persistence, WS for broadcast only
 - [Phase 29]: 30s polling for notification bell unread count (simpler than WebSocket subscription for badge)
 - [Phase 29]: Fire-and-forget pattern with .catch for all notification triggers to avoid blocking primary actions
+- [Phase 29]: Cron endpoint default mode processes only yesterday's newly overdue invoices to prevent re-notification
 
 ### Pending Todos
 
@@ -91,6 +92,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-11T18:03:36.479Z
-Stopped at: Completed 29-03-PLAN.md
+Last session: 2026-04-11T18:14:23.021Z
+Stopped at: Completed 29-05-PLAN.md
 Resume file: None
