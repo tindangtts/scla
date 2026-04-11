@@ -3,12 +3,13 @@ import { db } from "@workspace/db";
 import {
   staffUsersTable, usersTable, upgradeRequestsTable, announcementsTable,
   promotionsTable, ticketsTable, facilitiesTable, bookingsTable, faqsTable,
-  auditLogsTable, walletTransactionsTable
+  auditLogsTable, walletTransactionsTable, ticketMessagesTable
 } from "@workspace/db";
 import { eq, desc, asc, count, and, gte, lte, like, or, sql } from "drizzle-orm";
 import * as jwt from "../lib/jwt.js";
 import * as crypto from "crypto";
 import { auditLog } from "../lib/audit-middleware.js";
+import { broadcastToTicket } from "../lib/ws-server.js";
 
 const router = Router();
 
@@ -442,6 +443,34 @@ router.patch("/tickets/:id", async (req, res) => {
   const [updated] = await db.update(ticketsTable).set(updates)
     .where(eq(ticketsTable.id, req.params.id)).returning();
   return res.json(updated);
+});
+
+// GET /admin/tickets/:id/messages — staff reads chat messages for any ticket
+router.get("/tickets/:id/messages", async (req, res) => {
+  const payload = requireAdmin(req, res);
+  if (!payload) return;
+  const messages = await db.select().from(ticketMessagesTable)
+    .where(eq(ticketMessagesTable.ticketId, req.params.id))
+    .orderBy(asc(ticketMessagesTable.createdAt));
+  return res.json(messages);
+});
+
+// POST /admin/tickets/:id/messages — staff sends a chat message
+router.post("/tickets/:id/messages", async (req, res) => {
+  const payload = requireAdmin(req, res);
+  if (!payload) return;
+  const { content } = req.body;
+  if (!content || !content.trim()) {
+    return res.status(400).json({ error: "validation_error", message: "content is required" });
+  }
+  const [inserted] = await db.insert(ticketMessagesTable).values({
+    ticketId: req.params.id,
+    senderId: payload.staffId,
+    senderType: "staff",
+    content: content.trim(),
+  }).returning();
+  broadcastToTicket(req.params.id, inserted);
+  return res.status(201).json(inserted);
 });
 
 // ─── FACILITIES & BOOKINGS ────────────────────────────────────────────────────

@@ -4,6 +4,7 @@ import { db } from "@workspace/db";
 import { ticketsTable, ticketMessagesTable } from "@workspace/db";
 import { eq, asc } from "drizzle-orm";
 import { requireAuth, type AuthenticatedRequest } from "../lib/auth-middleware.js";
+import { broadcastToTicket } from "../lib/ws-server.js";
 
 const ticketMessagesRouter = Router();
 
@@ -49,6 +50,7 @@ ticketMessagesRouter.post("/:id/messages", requireAuth, async (req: Request, res
     })
     .returning();
 
+  broadcastToTicket(id, inserted);
   return res.status(201).json(inserted);
 });
 
