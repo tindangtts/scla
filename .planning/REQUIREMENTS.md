@@ -29,8 +29,8 @@ Requirements for Next.js migration. Each maps to roadmap phases.
 
 - [ ] **RES-01**: User can view home dashboard with dynamic content by user type (guest/resident)
 - [ ] **RES-02**: User can view bills with invoice line items, status filtering, and payment via wallet
-- [ ] **RES-03**: User can create and view Star Assist maintenance tickets with 8 categories
-- [ ] **RES-04**: User can attach photos to maintenance tickets
+- [x] **RES-03**: User can create and view Star Assist maintenance tickets with 8 categories
+- [x] **RES-04**: User can attach photos to maintenance tickets
 - [ ] **RES-05**: User can browse SCSC facilities and book hourly slots (including recurring weekly)
 - [ ] **RES-06**: User can cancel bookings (including bulk cancel for recurring)
 - [ ] **RES-07**: User can view Discover page with announcements, newsletters, and promotions
@@ -119,8 +119,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AUTH-07 | Phase 25 | Complete |
 | RES-01 | Phase 26 | Pending |
 | RES-02 | Phase 26 | Pending |
-| RES-03 | Phase 26 | Pending |
-| RES-04 | Phase 26 | Pending |
+| RES-03 | Phase 26 | Complete |
+| RES-04 | Phase 26 | Complete |
 | RES-10 | Phase 26 | Pending |
 | RES-11 | Phase 26 | Pending |
 | RES-12 | Phase 26 | Pending |

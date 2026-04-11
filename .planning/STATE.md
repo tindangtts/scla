@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v3.0
 milestone_name: Next.js Migration
-status: verifying
-stopped_at: Completed 25-02-PLAN.md
-last_updated: "2026-04-11T16:54:41.915Z"
+status: executing
+stopped_at: Completed 26-02-PLAN.md
+last_updated: "2026-04-11T17:05:36.524Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 8
   completed_phases: 2
-  total_plans: 4
-  completed_plans: 4
+  total_plans: 6
+  completed_plans: 5
   percent: 0
 ---
 
@@ -21,13 +21,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-11)
 
 **Core value:** Residents can manage their apartment lifecycle — bills, maintenance, bookings, and community info — from a single mobile-first web app without visiting the management office.
-**Current focus:** Phase 25 — authentication
+**Current focus:** Phase 26 — resident-core
 
 ## Current Position
 
-Phase: 26
-Plan: Not started
-Status: Phase complete — ready for verification
+Phase: 26 (resident-core) — EXECUTING
+Plan: 2 of 2
+Status: Ready to execute
 Last activity: 2026-04-11
 
 Progress: [░░░░░░░░░░] 0% (v3.0 milestone)
@@ -66,6 +66,7 @@ Recent decisions affecting current work:
 - [Phase 25-authentication]: Registration syncs to both Supabase Auth and app DB with bcryptjs for dual-source consistency
 - [Phase 25]: Admin approval updates both app DB and Supabase Auth user_metadata for dual-source consistency
 - [Phase 25]: Seed script conditionally seeds Supabase Auth users when env vars present, skips gracefully otherwise
+- [Phase 26-resident-core]: Base64 data URL for ticket photo storage (consistent with v2.1 pattern, Supabase Storage upgrade deferred)
 
 ### Pending Todos
 
@@ -77,6 +78,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-11T16:50:46.064Z
-Stopped at: Completed 25-02-PLAN.md
+Last session: 2026-04-11T17:05:36.521Z
+Stopped at: Completed 26-02-PLAN.md
 Resume file: None
