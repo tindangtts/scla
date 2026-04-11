@@ -2,20 +2,11 @@ import { useState, useRef, useEffect } from "react";
 import { useParams, useLocation } from "wouter";
 import { useTranslation } from "react-i18next";
 import { useGetTicket, getGetTicketQueryKey } from "@workspace/api-client-react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AppLayout } from "@/components/layout/app-layout";
 import { formatDateTime, getStatusBadgeClass, getStatusLabel } from "@/lib/format";
 import { ChevronLeft, User, Shield, MessageSquare, Paperclip, Send } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-
-interface TicketMessage {
-  id: string;
-  ticketId: string;
-  senderId: string;
-  senderType: "resident" | "staff";
-  content: string;
-  createdAt: string;
-}
+import { useTicketChat } from "@/hooks/use-ticket-chat";
 
 const categoryLabels: Record<string, string> = {
   electricals: "Electricals", plumbing: "Plumbing", housekeeping: "Housekeeping",
@@ -32,48 +23,30 @@ export default function TicketDetailPage() {
     query: { queryKey: getGetTicketQueryKey(id) }
   });
 
-  const qc = useQueryClient();
   const token = localStorage.getItem("token") ?? "";
   const API_BASE = import.meta.env.VITE_API_URL ?? "/api";
   const [chatInput, setChatInput] = useState("");
+  const [isSending, setIsSending] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const { data: messages = [] } = useQuery<TicketMessage[]>({
-    queryKey: ["ticket-messages", id],
-    queryFn: async () => {
-      const res = await fetch(`${API_BASE}/tickets/${id}/messages`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!res.ok) return [];
-      return res.json();
-    },
-    refetchInterval: 4000,
-    enabled: !!id && !!token,
-  });
-
-  const sendMessage = useMutation({
-    mutationFn: async (content: string) => {
-      const res = await fetch(`${API_BASE}/tickets/${id}/messages`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ content }),
-      });
-      if (!res.ok) throw new Error("Failed to send message");
-      return res.json();
-    },
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ["ticket-messages", id] });
-      setChatInput("");
-    },
-  });
+  const { messages, isConnected, sendMessage: sendChatMessage } = useTicketChat(id, token, "resident", API_BASE);
 
   // Auto-scroll to bottom when messages arrive
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages.length]);
+
+  async function handleSend() {
+    const content = chatInput.trim();
+    if (!content || isSending) return;
+    setIsSending(true);
+    try {
+      await sendChatMessage(content);
+      setChatInput("");
+    } finally {
+      setIsSending(false);
+    }
+  }
 
   if (isLoading) {
     return (
@@ -209,6 +182,10 @@ export default function TicketDetailPage() {
             <div className="flex items-center gap-2 mb-4 px-1">
               <MessageSquare className="w-5 h-5 text-primary" />
               <h3 className="font-extrabold text-base tracking-tight">Chat with Support</h3>
+              <span
+                className={`w-2 h-2 rounded-full inline-block ml-1 ${isConnected ? "bg-green-500" : "bg-red-400"}`}
+                title={isConnected ? "Live (WebSocket)" : "Polling fallback"}
+              />
             </div>
 
             {/* Message thread */}
@@ -261,7 +238,7 @@ export default function TicketDetailPage() {
                   onKeyDown={(e) => {
                     if (e.key === "Enter" && !e.shiftKey && chatInput.trim()) {
                       e.preventDefault();
-                      sendMessage.mutate(chatInput.trim());
+                      handleSend();
                     }
                   }}
                   placeholder="Message support team..."
@@ -269,8 +246,8 @@ export default function TicketDetailPage() {
                   data-testid="input-chat-message"
                 />
                 <button
-                  onClick={() => chatInput.trim() && sendMessage.mutate(chatInput.trim())}
-                  disabled={sendMessage.isPending || !chatInput.trim()}
+                  onClick={handleSend}
+                  disabled={isSending || !chatInput.trim()}
                   className="w-10 h-10 bg-primary text-primary-foreground rounded-xl flex items-center justify-center hover:bg-primary/90 disabled:opacity-50 transition-colors flex-shrink-0"
                   data-testid="button-send-chat"
                 >

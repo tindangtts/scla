@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest, formatDate } from "@/lib/api";
 import { AdminLayout } from "@/components/layout/admin-layout";
 import { Search, ChevronDown, Send } from "lucide-react";
+import { useTicketChat } from "@/hooks/use-ticket-chat";
 
 interface Ticket {
   id: string; ticketNumber: string; userId: string; title: string;
@@ -11,15 +12,6 @@ interface Ticket {
   updates: Array<{ id: string; message: string; author: string; authorType: string; createdAt: string }>;
   createdAt: string; updatedAt: string;
   user: { name: string; email: string };
-}
-
-interface ChatMessage {
-  id: string;
-  ticketId: string;
-  senderId: string;
-  senderType: "resident" | "staff";
-  content: string;
-  createdAt: string;
 }
 
 const statusColors: Record<string, string> = {
@@ -40,6 +32,7 @@ export default function TicketsPage() {
   const [newStatus, setNewStatus] = useState("");
   const [assignedTo, setAssignedTo] = useState("");
   const [chatInput, setChatInput] = useState("");
+  const [isSending, setIsSending] = useState(false);
   const qc = useQueryClient();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -67,42 +60,25 @@ export default function TicketsPage() {
     },
   });
 
-  const { data: chatMessages = [] } = useQuery<ChatMessage[]>({
-    queryKey: ["admin-ticket-messages", selected?.id],
-    queryFn: async () => {
-      if (!selected) return [];
-      const res = await fetch(`${API_BASE}/admin/tickets/${selected.id}/messages`, {
-        headers: { Authorization: `Bearer ${adminToken}` },
-      });
-      if (!res.ok) return [];
-      return res.json();
-    },
-    enabled: !!selected,
-    refetchInterval: 4000,
-  });
-
-  const sendChatMessage = useMutation({
-    mutationFn: async (content: string) => {
-      const res = await fetch(`${API_BASE}/admin/tickets/${selected!.id}/messages`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${adminToken}`,
-        },
-        body: JSON.stringify({ content }),
-      });
-      if (!res.ok) throw new Error("Failed to send message");
-      return res.json();
-    },
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ["admin-ticket-messages", selected?.id] });
-      setChatInput("");
-    },
-  });
+  const { messages: chatMessages, isConnected: chatConnected, sendMessage: sendChat } = useTicketChat(
+    selected?.id, adminToken, "staff", API_BASE
+  );
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chatMessages.length]);
+
+  async function handleSendChat() {
+    const content = chatInput.trim();
+    if (!content || isSending) return;
+    setIsSending(true);
+    try {
+      await sendChat(content);
+      setChatInput("");
+    } finally {
+      setIsSending(false);
+    }
+  }
 
   function openTicket(t: Ticket) {
     setSelected(t);
@@ -233,9 +209,15 @@ export default function TicketsPage() {
 
             {/* Chat section */}
             <div className="flex-1 overflow-y-auto p-4 min-h-0" style={{ maxHeight: "200px" }}>
-              <p className="text-xs font-medium text-muted-foreground mb-3">
-                Chat ({chatMessages.length})
-              </p>
+              <div className="flex items-center gap-2 mb-3">
+                <p className="text-xs font-medium text-muted-foreground">
+                  Chat ({chatMessages.length})
+                </p>
+                <span
+                  className={`w-2 h-2 rounded-full inline-block ${chatConnected ? "bg-green-500" : "bg-red-400"}`}
+                  title={chatConnected ? "Live (WebSocket)" : "Polling fallback"}
+                />
+              </div>
               {chatMessages.length === 0 ? (
                 <p className="text-xs text-muted-foreground text-center py-4">No chat messages yet.</p>
               ) : (
@@ -275,7 +257,7 @@ export default function TicketsPage() {
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && !e.shiftKey && chatInput.trim()) {
                     e.preventDefault();
-                    sendChatMessage.mutate(chatInput.trim());
+                    handleSendChat();
                   }
                 }}
                 placeholder="Reply to resident..."
@@ -283,8 +265,8 @@ export default function TicketsPage() {
                 data-testid="admin-input-chat"
               />
               <button
-                onClick={() => chatInput.trim() && sendChatMessage.mutate(chatInput.trim())}
-                disabled={sendChatMessage.isPending || !chatInput.trim()}
+                onClick={handleSendChat}
+                disabled={isSending || !chatInput.trim()}
                 className="px-3 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 disabled:opacity-50 transition-colors"
                 data-testid="admin-button-send-chat"
               >
