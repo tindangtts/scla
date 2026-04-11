@@ -1,0 +1,50 @@
+"use server";
+
+import { revalidatePath } from "next/cache";
+import { requireAdmin } from "@/lib/auth";
+import { db } from "@/lib/db";
+import { ticketsTable } from "@workspace/db/schema";
+import { eq } from "drizzle-orm";
+
+export async function updateTicketStatus(formData: FormData) {
+  await requireAdmin();
+
+  const ticketId = formData.get("ticketId") as string;
+  const newStatus = formData.get("status") as string;
+
+  if (!ticketId || !newStatus) return;
+
+  const validStatuses = ["open", "in_progress", "completed", "closed"] as const;
+  if (!validStatuses.includes(newStatus as (typeof validStatuses)[number])) return;
+
+  await db
+    .update(ticketsTable)
+    .set({
+      status: newStatus as (typeof validStatuses)[number],
+      updatedAt: new Date(),
+    })
+    .where(eq(ticketsTable.id, ticketId));
+
+  revalidatePath(`/admin/tickets/${ticketId}`);
+  revalidatePath("/admin/tickets");
+}
+
+export async function assignTicket(formData: FormData) {
+  await requireAdmin();
+
+  const ticketId = formData.get("ticketId") as string;
+  const staffId = formData.get("staffId") as string;
+
+  if (!ticketId || !staffId) return;
+
+  await db
+    .update(ticketsTable)
+    .set({
+      assignedTo: staffId,
+      updatedAt: new Date(),
+    })
+    .where(eq(ticketsTable.id, ticketId));
+
+  revalidatePath(`/admin/tickets/${ticketId}`);
+  revalidatePath("/admin/tickets");
+}
