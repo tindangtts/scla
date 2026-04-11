@@ -51,7 +51,7 @@ See `.planning/milestones/v2.1-ROADMAP.md` for full details.
 
 </details>
 
-### 🚧 v3.0 Next.js Migration (In Progress)
+### v3.0 Next.js Migration (In Progress)
 
 **Milestone Goal:** Migrate the entire SCLA stack from separate React SPAs + Express backend into a unified Next.js 15 App Router application with Supabase Auth, preserving all v2.1 functionality.
 
@@ -192,8 +192,8 @@ Plans:
   4. GitHub Actions CI runs lint, typecheck, unit tests, and integration tests on every push/PR to main
 **Plans**: 2 plans
 Plans:
-- [ ] 30-01-PLAN.md — i18n (English/Myanmar), dark mode toggle, responsive bottom nav
-- [x] 30-02-PLAN.md — PWA manifest, service worker caching, loading skeletons, error boundaries
+- [ ] 31-01-PLAN.md — Vitest setup, unit tests for auth/notification/push helpers, API route integration tests
+- [ ] 31-02-PLAN.md — Playwright E2E tests for Next.js, GitHub Actions CI pipeline
 
 ## Progress
 
@@ -220,4 +220,4 @@ Plans:
 | 28. Admin Portal | v3.0 | 3/3 | Complete    | 2026-04-11 |
 | 29. Real-time & Communication | v3.0 | 5/5 | Complete    | 2026-04-11 |
 | 30. i18n & UX Polish | v3.0 | 2/2 | Complete    | 2026-04-11 |
-| 31. Testing & CI | v3.0 | 0/TBD | Not started | - |
+| 31. Testing & CI | v3.0 | 0/2 | Not started | - |
