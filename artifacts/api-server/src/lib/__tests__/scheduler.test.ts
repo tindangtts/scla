@@ -46,7 +46,7 @@ import { db } from "@workspace/db";
 function setOverdueInvoices(invoices: unknown[]) {
   const mockWhere = vi.fn().mockResolvedValue(invoices);
   const mockFrom = vi.fn(() => ({ where: mockWhere }));
-  vi.mocked(db.select).mockReturnValue({ from: mockFrom } as ReturnType<typeof db.select>);
+  vi.mocked(db.select).mockReturnValue({ from: mockFrom } as unknown as ReturnType<typeof db.select>);
 }
 
 // ─── Test invoice factory ─────────────────────────────────────────────────────

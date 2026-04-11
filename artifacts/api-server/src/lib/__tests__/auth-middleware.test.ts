@@ -28,7 +28,7 @@ const TEST_SECRET = "test-secret-at-least-32-characters-long-for-hmac";
 
 // ─── Helper: build a mock Express Request ────────────────────────────────────
 function mockReq(headers: Record<string, string> = {}): Partial<Request> {
-  return { headers } as Partial<Request>;
+  return { headers } as unknown as Partial<Request>;
 }
 
 // ─── Helper: build a mock Express Response ────────────────────────────────────
@@ -39,7 +39,7 @@ function mockRes(): Partial<Response> & { statusCode: number; body: unknown } {
     status(code) { this.statusCode = code; return this; },
     json(data) { this.body = data; return this; },
   };
-  return res as Partial<Response> & { statusCode: number; body: unknown };
+  return res as unknown as Partial<Response> & { statusCode: number; body: unknown };
 }
 
 // ─── Helper: build a valid resident JWT ─────────────────────────────────────
@@ -75,7 +75,7 @@ function setDbResult(result: unknown[]) {
   const mockLimit = vi.fn().mockResolvedValue(result);
   const mockWhere = vi.fn(() => ({ limit: mockLimit }));
   const mockFrom = vi.fn(() => ({ where: mockWhere }));
-  vi.mocked(db.select).mockReturnValue({ from: mockFrom } as ReturnType<typeof db.select>);
+  vi.mocked(db.select).mockReturnValue({ from: mockFrom } as unknown as ReturnType<typeof db.select>);
 }
 
 describe("auth-middleware", () => {
