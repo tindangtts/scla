@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v3.0
 milestone_name: Next.js Migration
-status: verifying
-stopped_at: Completed 28-03-PLAN.md
-last_updated: "2026-04-11T17:46:32.915Z"
+status: executing
+stopped_at: Completed 29-02-PLAN.md
+last_updated: "2026-04-11T17:59:28.967Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 8
   completed_phases: 5
-  total_plans: 11
-  completed_plans: 11
+  total_plans: 14
+  completed_plans: 13
   percent: 0
 ---
 
@@ -21,13 +21,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-11)
 
 **Core value:** Residents can manage their apartment lifecycle — bills, maintenance, bookings, and community info — from a single mobile-first web app without visiting the management office.
-**Current focus:** Phase 28 — admin-portal
+**Current focus:** Phase 29 — real-time-communication
 
 ## Current Position
 
-Phase: 29
-Plan: Not started
-Status: Phase complete — ready for verification
+Phase: 29 (real-time-communication) — EXECUTING
+Plan: 3 of 3
+Status: Ready to execute
 Last activity: 2026-04-11
 
 Progress: [░░░░░░░░░░] 0% (v3.0 milestone)
@@ -75,6 +75,9 @@ Recent decisions affecting current work:
 - [Phase 28]: All content mutations create audit log entries with actor tracking via requireAdmin()
 - [Phase 28]: Staff creation hashes password with bcryptjs and creates Supabase Auth user with staff metadata
 - [Phase 28]: Wallet adjustments insert both wallet_transaction and audit_log in same server action for traceability
+- [Phase 29-02]: Graceful degradation: push and email skip silently when VAPID/RESEND keys not configured
+- [Phase 29-02]: Unified notification triggers: single function creates in-app record + push + email with fire-and-forget pattern
+- [Phase 29]: Standalone WS server on port 3002 separate from Next.js; REST API for persistence, WS for broadcast only
 
 ### Pending Todos
 
@@ -86,6 +89,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-11T17:43:30.326Z
-Stopped at: Completed 28-03-PLAN.md
+Last session: 2026-04-11T17:59:22.706Z
+Stopped at: Completed 29-02-PLAN.md
 Resume file: None
