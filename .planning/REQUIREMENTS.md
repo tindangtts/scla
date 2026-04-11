@@ -174,7 +174,7 @@ Milestone v2.1: Quality & Infrastructure Gaps
 
 - [x] **RT-01**: Ticket chat uses WebSocket instead of 4s polling
 - [x] **RT-02**: Chat messages delivered in real-time to both resident and staff
-- [ ] **RT-03**: WebSocket gracefully falls back to polling if connection fails
+- [x] **RT-03**: WebSocket gracefully falls back to polling if connection fails
 
 ### Developer Experience
 

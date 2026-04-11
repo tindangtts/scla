@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.1
 milestone_name: Quality & Infrastructure Gaps
-status: executing
-stopped_at: Completed 21-01-PLAN.md
-last_updated: "2026-04-11T08:00:56.982Z"
+status: verifying
+stopped_at: Completed 21-02-PLAN.md
+last_updated: "2026-04-11T08:05:13.208Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 6
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 9
-  completed_plans: 8
+  completed_plans: 9
 ---
 
 # Project State
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-04-11)
 
 Phase: 21 (websocket-chat) — EXECUTING
 Plan: 2 of 2
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-04-11
 
 ```
@@ -61,6 +61,7 @@ v2.1 Progress: [░░░░░░░░░░░░░░░░░░░░░�
 | Phase 20-audit-logging-wallet-transactions P02 | 18 | 2 tasks | 3 files |
 | Phase 20-audit-logging-wallet-transactions P03 | 12 | 3 tasks | 4 files |
 | Phase 21-websocket-chat P01 | 12 | 2 tasks | 6 files |
+| Phase 21-websocket-chat P02 | 8 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -90,6 +91,8 @@ Recent decisions affecting current work:
 - [Phase 20]: Client-side type filtering for wallet — avoids refetch on each chip click
 - [Phase 21]: WS is receive-only for clients — REST POST is the authoritative write path
 - [Phase 21]: verifyAdminToken duplicated in ws-server.ts (not exported from auth-middleware) — acceptable per plan guidance
+- [Phase 21-websocket-chat]: useTicketChat hook duplicated across scla and admin apps (not shared via workspace package) — pragmatic for ~160 lines, avoids workspace config overhead
+- [Phase 21-websocket-chat]: WS connection indicator dot (green/red) added to both chat UIs to show live vs polling fallback state
 
 ### Roadmap Evolution
 
@@ -105,6 +108,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-11T08:00:56.980Z
-Stopped at: Completed 21-01-PLAN.md
+Last session: 2026-04-11T08:05:13.205Z
+Stopped at: Completed 21-02-PLAN.md
 Resume file: None
