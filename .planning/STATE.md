@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v2.1
 milestone_name: Quality & Infrastructure Gaps
 status: verifying
-stopped_at: Completed 22-01-PLAN.md
-last_updated: "2026-04-11T08:15:52.250Z"
+stopped_at: Completed 22-02-PLAN.md
+last_updated: "2026-04-11T08:16:04.986Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 6
@@ -63,6 +63,7 @@ v2.1 Progress: [░░░░░░░░░░░░░░░░░░░░░�
 | Phase 21-websocket-chat P01 | 12 | 2 tasks | 6 files |
 | Phase 21-websocket-chat P02 | 8 | 2 tasks | 4 files |
 | Phase 22-ci-cd-pipeline P01 | 5 | 2 tasks | 4 files |
+| Phase 22-ci-cd-pipeline P02 | 2 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -96,6 +97,8 @@ Recent decisions affecting current work:
 - [Phase 21-websocket-chat]: WS connection indicator dot (green/red) added to both chat UIs to show live vs polling fallback state
 - [Phase 22]: deploy job uses continue-on-error: true so missing REPLIT_DEPLOY_HOOK_URL secret does not break CI
 - [Phase 22]: Branch protection for CICD-02 documented in workflow comments as a manual GitHub UI step
+- [Phase 22]: 30-day GitHub artifact retention eliminates need for external backup storage (S3/GCS)
+- [Phase 22]: pg_dump integrity check (file size + CREATE TABLE grep) catches silent pg_dump failures before artifact upload
 
 ### Roadmap Evolution
 
@@ -111,6 +114,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-11T08:15:45.028Z
-Stopped at: Completed 22-01-PLAN.md
+Last session: 2026-04-11T08:16:04.983Z
+Stopped at: Completed 22-02-PLAN.md
 Resume file: None

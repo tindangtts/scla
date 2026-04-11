@@ -160,8 +160,8 @@ Milestone v2.1: Quality & Infrastructure Gaps
 - [x] **CICD-01**: GitHub Actions CI runs lint, type-check, and tests on push/PR
 - [x] **CICD-02**: CI fails on type errors or test failures, blocks merge
 - [x] **CICD-03**: Automated deploy to Replit triggered on merge to main
-- [ ] **CICD-04**: Scheduled PostgreSQL backup automation (daily)
-- [ ] **CICD-05**: Documented backup restore procedure with verification steps
+- [x] **CICD-04**: Scheduled PostgreSQL backup automation (daily)
+- [x] **CICD-05**: Documented backup restore procedure with verification steps
 
 ### Audit & Logging
 

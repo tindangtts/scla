@@ -131,8 +131,8 @@ Plans:
   3. An E2E test books a facility slot, asserts the booking appears in the bookings list, then cancels it and asserts the status updates to cancelled
 **Plans**: 2 plans
 Plans:
-- [ ] 22-01-PLAN.md — GitHub Actions CI/CD pipeline with lint, typecheck, test, and deploy
-- [ ] 22-02-PLAN.md — Daily PostgreSQL backup automation and restore runbook
+- [x] 22-01-PLAN.md — GitHub Actions CI/CD pipeline with lint, typecheck, test, and deploy
+- [x] 22-02-PLAN.md — Daily PostgreSQL backup automation and restore runbook
 
 ## Progress
 
