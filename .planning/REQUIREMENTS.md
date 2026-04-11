@@ -219,19 +219,21 @@ Milestone v2.1: Quality & Infrastructure Gaps
 | QUAL-01 through QUAL-08 | Phase 15-16 | Complete |
 | SCHED-01, SCHED-02 | Phase 17 | Complete |
 | PAY-01 through PAY-03 | — | Deferred |
-| TEST-01 through TEST-10 | TBD | Pending |
-| CICD-01 through CICD-05 | TBD | Pending |
-| AUDIT-01 through AUDIT-04 | TBD | Pending |
-| RT-01 through RT-03 | TBD | Pending |
-| DX-01 through DX-03 | TBD | Pending |
-| WALLET-01 through WALLET-04 | TBD | Pending |
+| DX-01, DX-02, DX-03 | Phase 18 | Pending |
+| TEST-05, TEST-06, TEST-07 | Phase 18 | Pending |
+| TEST-01, TEST-02, TEST-03, TEST-04 | Phase 19 | Pending |
+| AUDIT-01, AUDIT-02, AUDIT-03, AUDIT-04 | Phase 20 | Pending |
+| WALLET-01, WALLET-02, WALLET-03, WALLET-04 | Phase 20 | Pending |
+| RT-01, RT-02, RT-03 | Phase 21 | Pending |
+| CICD-01, CICD-02, CICD-03, CICD-04, CICD-05 | Phase 22 | Pending |
+| TEST-08, TEST-09, TEST-10 | Phase 23 | Pending |
 
 **Coverage:**
 - v1 requirements: 52 total — Complete ✓
 - v2.0 requirements: 22 total — Complete ✓ (PAY-01-03 deferred)
-- v2.1 requirements: 29 total — Pending (to be mapped by roadmap)
-- Unmapped: 29 (awaiting roadmap)
+- v2.1 requirements: 29 total — Mapped ✓ (Phases 18-23, all pending)
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-10*
-*Last updated: 2026-04-11 after v2.1 milestone requirements*
+*Last updated: 2026-04-11 after v2.1 roadmap — all 29 requirements mapped*
