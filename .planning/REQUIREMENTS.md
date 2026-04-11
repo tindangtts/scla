@@ -12,8 +12,8 @@ Requirements for Next.js migration. Each maps to roadmap phases.
 - [x] **FOUND-01**: Next.js 15 App Router project initialized with TypeScript, Tailwind CSS 4, and Radix UI
 - [x] **FOUND-02**: Supabase client configured with environment variables (NEXT_PUBLIC_SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY)
 - [x] **FOUND-03**: Drizzle ORM integrated with Supabase PostgreSQL (reuse existing schema from lib/db)
-- [ ] **FOUND-04**: PNPM workspace restructured for Next.js monolith (remove artifacts/scla, artifacts/admin, artifacts/api-server)
-- [ ] **FOUND-05**: Shared UI component library (shadcn/ui or existing Radix components) available across resident and admin layouts
+- [x] **FOUND-04**: PNPM workspace restructured for Next.js monolith (remove artifacts/scla, artifacts/admin, artifacts/api-server)
+- [x] **FOUND-05**: Shared UI component library (shadcn/ui or existing Radix components) available across resident and admin layouts
 
 ### Authentication
 
@@ -75,7 +75,7 @@ Requirements for Next.js migration. Each maps to roadmap phases.
 - [ ] **TEST-02**: API route integration tests covering auth, bills, tickets, bookings
 - [ ] **TEST-03**: E2E tests migrated to Playwright against Next.js dev server
 - [ ] **TEST-04**: CI/CD pipeline updated for Next.js build, lint, typecheck, test
-- [ ] **TEST-05**: Database seed script works with Next.js development workflow
+- [x] **TEST-05**: Database seed script works with Next.js development workflow
 
 ## Future Requirements
 
@@ -108,8 +108,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | FOUND-01 | Phase 24 | Complete |
 | FOUND-02 | Phase 24 | Complete |
 | FOUND-03 | Phase 24 | Complete |
-| FOUND-04 | Phase 24 | Pending |
-| FOUND-05 | Phase 24 | Pending |
+| FOUND-04 | Phase 24 | Complete |
+| FOUND-05 | Phase 24 | Complete |
 | AUTH-01 | Phase 25 | Pending |
 | AUTH-02 | Phase 25 | Pending |
 | AUTH-03 | Phase 25 | Pending |
@@ -153,7 +153,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | TEST-02 | Phase 31 | Pending |
 | TEST-03 | Phase 31 | Pending |
 | TEST-04 | Phase 31 | Pending |
-| TEST-05 | Phase 24 | Pending |
+| TEST-05 | Phase 24 | Complete |
 
 **Coverage:**
 - v3.0 requirements: 49 total (note: original count of 45 was incorrect; actual count is 49)
