@@ -27,8 +27,8 @@ Requirements for Next.js migration. Each maps to roadmap phases.
 
 ### Resident Features
 
-- [ ] **RES-01**: User can view home dashboard with dynamic content by user type (guest/resident)
-- [ ] **RES-02**: User can view bills with invoice line items, status filtering, and payment via wallet
+- [x] **RES-01**: User can view home dashboard with dynamic content by user type (guest/resident)
+- [x] **RES-02**: User can view bills with invoice line items, status filtering, and payment via wallet
 - [x] **RES-03**: User can create and view Star Assist maintenance tickets with 8 categories
 - [x] **RES-04**: User can attach photos to maintenance tickets
 - [ ] **RES-05**: User can browse SCSC facilities and book hourly slots (including recurring weekly)
@@ -36,9 +36,9 @@ Requirements for Next.js migration. Each maps to roadmap phases.
 - [ ] **RES-07**: User can view Discover page with announcements, newsletters, and promotions
 - [ ] **RES-08**: User can view Info Centre with categorized knowledge base articles
 - [ ] **RES-09**: User can view and manage notification preferences
-- [ ] **RES-10**: User can view wallet balance and transaction history
-- [ ] **RES-11**: User can view and edit profile
-- [ ] **RES-12**: User can pay invoices from wallet balance
+- [x] **RES-10**: User can view wallet balance and transaction history
+- [x] **RES-11**: User can view and edit profile
+- [x] **RES-12**: User can pay invoices from wallet balance
 
 ### Admin Features
 
@@ -117,13 +117,13 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AUTH-05 | Phase 25 | Complete |
 | AUTH-06 | Phase 25 | Complete |
 | AUTH-07 | Phase 25 | Complete |
-| RES-01 | Phase 26 | Pending |
-| RES-02 | Phase 26 | Pending |
+| RES-01 | Phase 26 | Complete |
+| RES-02 | Phase 26 | Complete |
 | RES-03 | Phase 26 | Complete |
 | RES-04 | Phase 26 | Complete |
-| RES-10 | Phase 26 | Pending |
-| RES-11 | Phase 26 | Pending |
-| RES-12 | Phase 26 | Pending |
+| RES-10 | Phase 26 | Complete |
+| RES-11 | Phase 26 | Complete |
+| RES-12 | Phase 26 | Complete |
 | RES-05 | Phase 27 | Pending |
 | RES-06 | Phase 27 | Pending |
 | RES-07 | Phase 27 | Pending |

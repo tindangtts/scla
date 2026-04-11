@@ -57,7 +57,7 @@ See `.planning/milestones/v2.1-ROADMAP.md` for full details.
 
 - [x] **Phase 24: Foundation** — Next.js project scaffolding, Supabase client, Drizzle integration, workspace restructure (completed 2026-04-11)
 - [x] **Phase 25: Authentication** — Supabase Auth replacing custom JWT, middleware, registration/login/session (completed 2026-04-11)
-- [ ] **Phase 26: Resident Core** — Home, bills, wallet, maintenance tickets, profile
+- [x] **Phase 26: Resident Core** — Home, bills, wallet, maintenance tickets, profile (completed 2026-04-11)
 - [ ] **Phase 27: Resident Secondary** — Facilities/bookings, Discover, Info Centre, notifications
 - [ ] **Phase 28: Admin Portal** — Dashboard, user management, content management, audit logs, wallet operations
 - [ ] **Phase 29: Real-time & Communication** — WebSocket chat, push notifications, email, in-app notifications
@@ -109,7 +109,7 @@ Plans:
   5. Resident can view wallet transaction history and edit their profile details
 **Plans**: 2 plans
 Plans:
-- [ ] 26-01-PLAN.md — Home dashboard, bills/invoices, wallet, profile, invoice payment
+- [x] 26-01-PLAN.md — Home dashboard, bills/invoices, wallet, profile, invoice payment
 - [x] 26-02-PLAN.md — Star Assist maintenance tickets with photo attachment
 
 **UI hint**: yes
@@ -211,7 +211,7 @@ Plans:
 | 23 | v2.1 | 2/2 | Complete | 2026-04-11 |
 | 24. Foundation | v3.0 | 2/2 | Complete    | 2026-04-11 |
 | 25. Authentication | v3.0 | 2/2 | Complete    | 2026-04-11 |
-| 26. Resident Core | v3.0 | 1/2 | In Progress|  |
+| 26. Resident Core | v3.0 | 2/2 | Complete   | 2026-04-11 |
 | 27. Resident Secondary | v3.0 | 0/TBD | Not started | - |
 | 28. Admin Portal | v3.0 | 0/TBD | Not started | - |
 | 29. Real-time & Communication | v3.0 | 0/TBD | Not started | - |
