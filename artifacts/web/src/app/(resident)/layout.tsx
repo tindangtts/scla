@@ -1,6 +1,7 @@
 import { requireAuth } from "@/lib/auth";
 import { logout } from "./logout-action";
 import PushPrompt from "@/components/push-prompt";
+import NotificationBell from "@/components/notification-bell";
 
 export default async function ResidentLayout({
   children,
@@ -17,6 +18,7 @@ export default async function ResidentLayout({
         <h1 className="text-lg font-semibold">Star City Living</h1>
         <div className="flex items-center gap-3">
           <span className="text-sm truncate max-w-[120px]">{displayName}</span>
+          <NotificationBell />
           <form action={logout}>
             <button
               type="submit"
