@@ -134,7 +134,7 @@ Plans:
 | 16 | v2.0 | 2/2 | Complete | 2026-04-10 |
 | 17 | v2.0 | 2/2 | Complete | 2026-04-10 |
 | 18 | v2.1 | 2/2 | Complete    | 2026-04-11 |
-| 19 | v2.1 | 2/2 | Complete   | 2026-04-11 |
+| 19 | v2.1 | 2/2 | Complete    | 2026-04-11 |
 | 20 | v2.1 | 0/TBD | Not started | — |
 | 21 | v2.1 | 0/TBD | Not started | — |
 | 22 | v2.1 | 0/TBD | Not started | — |
