@@ -15,9 +15,7 @@ const router = Router();
 
 const ADMIN_SECRET = process.env.SESSION_SECRET ?? "scla-dev-secret-2026";
 
-function hashPassword(password: string): string {
-  return crypto.createHash("sha256").update(password + "scla-salt").digest("hex");
-}
+import { verifyPassword } from "../lib/password.js";
 
 interface AdminTokenPayload {
   staffId: string;
@@ -79,7 +77,8 @@ router.post("/auth/login", async (req, res) => {
 
   const [staff] = await db.select().from(staffUsersTable).where(eq(staffUsersTable.email, email)).limit(1);
   if (!staff || !staff.isActive) return res.status(401).json({ error: "invalid_credentials" });
-  if (staff.passwordHash !== hashPassword(password)) return res.status(401).json({ error: "invalid_credentials" });
+  const passwordValid = await verifyPassword(password, staff.passwordHash);
+  if (!passwordValid) return res.status(401).json({ error: "invalid_credentials" });
 
   const token = signAdmin({ staffId: staff.id, role: staff.role });
   return res.json({
