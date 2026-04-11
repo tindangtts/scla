@@ -76,7 +76,10 @@ See `.planning/milestones/v2.1-ROADMAP.md` for full details.
   3. Shared UI components (Radix/shadcn) render correctly in both resident and admin route groups
   4. The seed script populates demo accounts and can be run against the Next.js dev environment
   5. The old artifacts/scla, artifacts/admin, artifacts/api-server directories are removed from the workspace
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 24-01-PLAN.md — Next.js 15 scaffold with Supabase client, Drizzle ORM, route groups
+- [ ] 24-02-PLAN.md — shadcn/ui components, seed script port, old artifacts removal
 **UI hint**: yes
 
 ### Phase 25: Authentication
@@ -184,7 +187,7 @@ See `.planning/milestones/v2.1-ROADMAP.md` for full details.
 | 21 | v2.1 | 2/2 | Complete | 2026-04-11 |
 | 22 | v2.1 | 2/2 | Complete | 2026-04-11 |
 | 23 | v2.1 | 2/2 | Complete | 2026-04-11 |
-| 24. Foundation | v3.0 | 0/TBD | Not started | - |
+| 24. Foundation | v3.0 | 0/2 | Planning | - |
 | 25. Authentication | v3.0 | 0/TBD | Not started | - |
 | 26. Resident Core | v3.0 | 0/TBD | Not started | - |
 | 27. Resident Secondary | v3.0 | 0/TBD | Not started | - |
