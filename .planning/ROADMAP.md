@@ -116,7 +116,10 @@ Plans:
   3. Merging to main triggers an automated deploy to Replit without manual steps
   4. A daily scheduled job creates a PostgreSQL backup and stores it in a retrievable location
   5. A runbook documents how to restore from a backup and includes a verification step confirming data integrity after restore
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 22-01-PLAN.md — GitHub Actions CI/CD pipeline with lint, typecheck, test, and deploy
+- [ ] 22-02-PLAN.md — Daily PostgreSQL backup automation and restore runbook
 
 ### Phase 23: E2E Tests
 **Goal**: Critical resident workflows are verified end-to-end in a real browser, catching UI and integration regressions
@@ -126,7 +129,10 @@ Plans:
   1. An E2E test logs in as a seeded resident, lands on the home dashboard, and asserts key content (balance, open tickets) is visible
   2. An E2E test creates a new maintenance ticket, opens the ticket detail, sends a chat message, and asserts it appears in the thread
   3. An E2E test books a facility slot, asserts the booking appears in the bookings list, then cancels it and asserts the status updates to cancelled
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 22-01-PLAN.md — GitHub Actions CI/CD pipeline with lint, typecheck, test, and deploy
+- [ ] 22-02-PLAN.md — Daily PostgreSQL backup automation and restore runbook
 
 ## Progress
 
@@ -144,5 +150,5 @@ Plans:
 | 19 | v2.1 | 2/2 | Complete    | 2026-04-11 |
 | 20 | v2.1 | 3/3 | Complete    | 2026-04-11 |
 | 21 | v2.1 | 2/2 | Complete    | 2026-04-11 |
-| 22 | v2.1 | 0/TBD | Not started | — |
+| 22 | v2.1 | 0/2 | Planned | — |
 | 23 | v2.1 | 0/TBD | Not started | — |
