@@ -2,7 +2,7 @@
 
 ## What This Is
 
-A production-grade resident community management web application for StarCity Estate in Yangon, Myanmar, serving 9,000+ residents across three developments (City Loft, Estella, ARA). Provides residents with bill management, maintenance ticketing with in-app chat, facility bookings (including recurring), push/email notifications, community announcements, and a comprehensive admin portal — all with Myanmar language support, dark mode, and offline access.
+A production-grade resident community management web application for StarCity Estate in Yangon, Myanmar, serving 9,000+ residents across three developments (City Loft, Estella, ARA). Provides residents with bill management (with wallet-based payment), maintenance ticketing with real-time WebSocket chat, facility bookings (including recurring), push/email notifications, community announcements, audit-logged admin portal, and comprehensive test coverage — all with Myanmar language support, dark mode, offline access, and CI/CD automation.
 
 ## Core Value
 
@@ -32,6 +32,9 @@ Residents can manage their apartment lifecycle — bills, maintenance, bookings,
 
 </details>
 
+<details>
+<summary>v2.0 Production-Ready (20 requirements)</summary>
+
 - ✓ bcrypt password hashing with transparent SHA256 migration — v2.0 (Phase 11)
 - ✓ Rate limiting on auth endpoints (5 req/min/IP) — v2.0 (Phase 11)
 - ✓ Helmet security headers + CORS tightened — v2.0 (Phase 11)
@@ -53,25 +56,28 @@ Residents can manage their apartment lifecycle — bills, maintenance, bookings,
 - ✓ Bill-overdue email/push scheduler — v2.0 (Phase 17)
 - ✓ DB migration auto-apply at startup — v2.0 (Phase 17)
 
+</details>
+
+- ✓ Idempotent seed script with all entity types — v2.1 (Phase 18)
+- ✓ Unit tests for auth middleware, scheduler, password hashing (23 tests) — v2.1 (Phase 18)
+- ✓ API integration tests for auth, bills, tickets, bookings (72 tests) — v2.1 (Phase 19)
+- ✓ Audit logging for admin actions (upgrade, booking cancel, staff, wallet) — v2.1 (Phase 20)
+- ✓ Wallet transaction workflows with computed balance — v2.1 (Phase 20)
+- ✓ Invoice payment deducts from wallet balance — v2.1 (Phase 20)
+- ✓ Admin wallet credit/debit adjustment — v2.1 (Phase 20)
+- ✓ WebSocket real-time chat replacing 4s polling — v2.1 (Phase 21)
+- ✓ Polling fallback on WebSocket failure — v2.1 (Phase 21)
+- ✓ GitHub Actions CI/CD (lint, typecheck, test, deploy) — v2.1 (Phase 22)
+- ✓ Daily PostgreSQL backup with restore runbook — v2.1 (Phase 22)
+- ✓ Playwright E2E tests for login, tickets, bookings — v2.1 (Phase 23)
+
 ### Active
 
-#### Current Milestone: v2.1 Quality & Infrastructure Gaps
-
-**Goal:** Close engineering quality gaps — automated testing, CI/CD, audit logging, real-time chat, and developer experience improvements.
-
-**Target features:**
-- Automated test suite (API integration + critical UI flows)
-- CI/CD pipeline (lint, type-check, tests on push)
-- Audit logging for admin actions
-- Data seeding scripts for dev/demo
-- WebSocket chat for ticket messaging
-- Backup/recovery automation
-- Wallet transaction workflows
+(To be defined for next milestone)
 
 ### Out of Scope
 
 - Native mobile app — web-first approach, PWA works well
-- Real-time chat (WebSocket) — polling at 4s is sufficient for MVP
 - Video surveillance integration — separate system
 - OAuth/social login — custom JWT sufficient for estate residents
 - Multi-estate support — single estate deployment
@@ -79,14 +85,17 @@ Residents can manage their apartment lifecycle — bills, maintenance, bookings,
 
 ## Context
 
-- **Shipped:** v2.0 Production-Ready on 2026-04-10
-- **Codebase:** ~36,000 LOC TypeScript across frontend, admin, and backend
+- **Shipped:** v2.1 Quality & Infrastructure Gaps on 2026-04-11
+- **Codebase:** ~38,000 LOC TypeScript across frontend, admin, backend, and tests
+- **Test coverage:** 95+ unit/integration tests (Vitest), 3 E2E test suites (Playwright)
 - **Tech stack**: React 19 + TypeScript + Vite, Express 5 + TypeScript, PostgreSQL + Drizzle ORM, Replit
-- **Monorepo**: PNPM workspaces (artifacts/scla, artifacts/admin, artifacts/api-server, lib/db)
+- **Monorepo**: PNPM workspaces (artifacts/scla, artifacts/admin, artifacts/api-server, lib/db, e2e)
 - **UI**: Tailwind CSS 4 + Radix UI, mobile-first, dark mode enabled
 - **i18n**: react-i18next with English + Myanmar (107 translation keys)
 - **Auth**: bcrypt + custom JWT (HS256), shared requireAuth/requireAdmin middleware
 - **Notifications**: Web Push (VAPID) + Resend email + in-app notifications
+- **Real-time**: WebSocket (ws) for ticket chat, polling fallback
+- **CI/CD**: GitHub Actions (lint + typecheck + test + deploy), daily DB backup
 - **User preference**: Supabase ecosystem for future migrations
 
 ## Constraints
@@ -107,7 +116,10 @@ Residents can manage their apartment lifecycle — bills, maintenance, bookings,
 | PNPM monorepo | Shared types across frontend/backend/admin | ✓ Good |
 | bcryptjs over node-bcrypt | Pure JS, no native bindings on Replit | ✓ Good |
 | Resend for email | Simple API, good developer experience | ✓ Good |
-| Polling (4s) over WebSocket for chat | Simpler, reliable, upgrade path to Supabase Realtime | ✓ Good |
+| ws over Socket.IO for WebSocket | Lightweight, no framework overhead | ✓ Good |
+| Vitest for testing | Aligns with Vite ecosystem | ✓ Good |
+| Computed wallet balance (SUM) | No stored balance field, always consistent | ✓ Good |
+| Prettier for lint (no ESLint) | Sufficient for formatting, lightweight | ✓ Good |
 | Base64 image storage | MVP simplicity, upgrade to Supabase Storage later | — Pending |
 | Mock payment integration | WavePay/KBZPay deferred, missing gateway docs | — Pending |
 
@@ -129,4 +141,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-11 after v2.1 milestone start*
+*Last updated: 2026-04-11 after v2.1 milestone completion*
