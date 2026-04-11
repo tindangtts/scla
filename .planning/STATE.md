@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v3.0
 milestone_name: Next.js Migration
-status: executing
-stopped_at: Completed 29-01-PLAN.md
-last_updated: "2026-04-11T17:59:30.269Z"
+status: verifying
+stopped_at: Completed 29-03-PLAN.md
+last_updated: "2026-04-11T18:03:36.481Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 8
-  completed_phases: 5
+  completed_phases: 6
   total_plans: 14
-  completed_plans: 13
+  completed_plans: 14
   percent: 0
 ---
 
@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-04-11)
 
 Phase: 29 (real-time-communication) — EXECUTING
 Plan: 3 of 3
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-04-11
 
 Progress: [░░░░░░░░░░] 0% (v3.0 milestone)
@@ -78,6 +78,8 @@ Recent decisions affecting current work:
 - [Phase 29-02]: Graceful degradation: push and email skip silently when VAPID/RESEND keys not configured
 - [Phase 29-02]: Unified notification triggers: single function creates in-app record + push + email with fire-and-forget pattern
 - [Phase 29]: Standalone WS server on port 3002 separate from Next.js; REST API for persistence, WS for broadcast only
+- [Phase 29]: 30s polling for notification bell unread count (simpler than WebSocket subscription for badge)
+- [Phase 29]: Fire-and-forget pattern with .catch for all notification triggers to avoid blocking primary actions
 
 ### Pending Todos
 
@@ -89,6 +91,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-11T17:59:30.266Z
-Stopped at: Completed 29-01-PLAN.md
+Last session: 2026-04-11T18:03:36.479Z
+Stopped at: Completed 29-03-PLAN.md
 Resume file: None

@@ -60,7 +60,7 @@ See `.planning/milestones/v2.1-ROADMAP.md` for full details.
 - [x] **Phase 26: Resident Core** — Home, bills, wallet, maintenance tickets, profile (completed 2026-04-11)
 - [x] **Phase 27: Resident Secondary** — Facilities/bookings, Discover, Info Centre, notifications (completed 2026-04-11)
 - [x] **Phase 28: Admin Portal** — Dashboard, user management, content management, audit logs, wallet operations (completed 2026-04-11)
-- [ ] **Phase 29: Real-time & Communication** — WebSocket chat, push notifications, email, in-app notifications
+- [x] **Phase 29: Real-time & Communication** — WebSocket chat, push notifications, email, in-app notifications (completed 2026-04-11)
 - [ ] **Phase 30: i18n & UX Polish** — Myanmar/English i18n, dark mode, PWA, mobile layout, loading states
 - [ ] **Phase 31: Testing & CI** — Unit tests, integration tests, E2E tests, CI/CD pipeline
 
@@ -163,7 +163,7 @@ Plans:
 Plans:
 - [x] 29-01-PLAN.md — WebSocket real-time chat on ticket pages with polling fallback
 - [x] 29-02-PLAN.md — Push notifications (Web Push + service worker) and transactional email via Resend
-- [ ] 29-03-PLAN.md — In-app notification bell with unread badge and notification trigger wiring
+- [x] 29-03-PLAN.md — In-app notification bell with unread badge and notification trigger wiring
 
 ### Phase 30: i18n & UX Polish
 **Goal**: The app renders correctly in both English and Myanmar, dark mode works with system detection and manual toggle, the mobile layout uses bottom navigation, the PWA installs and caches content offline, and all async pages show loading states
@@ -218,6 +218,6 @@ Plans:
 | 26. Resident Core | v3.0 | 2/2 | Complete    | 2026-04-11 |
 | 27. Resident Secondary | v3.0 | 2/2 | Complete    | 2026-04-11 |
 | 28. Admin Portal | v3.0 | 3/3 | Complete    | 2026-04-11 |
-| 29. Real-time & Communication | v3.0 | 2/3 | In Progress|  |
+| 29. Real-time & Communication | v3.0 | 3/3 | Complete   | 2026-04-11 |
 | 30. i18n & UX Polish | v3.0 | 0/TBD | Not started | - |
 | 31. Testing & CI | v3.0 | 0/TBD | Not started | - |
