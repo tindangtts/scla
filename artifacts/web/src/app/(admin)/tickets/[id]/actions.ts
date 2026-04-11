@@ -5,6 +5,7 @@ import { requireAdmin } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { ticketsTable } from "@workspace/db/schema";
 import { eq } from "drizzle-orm";
+import { notifyTicketUpdate } from "@/lib/notifications";
 
 export async function updateTicketStatus(formData: FormData) {
   await requireAdmin();
@@ -24,6 +25,25 @@ export async function updateTicketStatus(formData: FormData) {
       updatedAt: new Date(),
     })
     .where(eq(ticketsTable.id, ticketId));
+
+  // Fire-and-forget: notify the resident of the status change
+  try {
+    const ticketRows = await db
+      .select({
+        userId: ticketsTable.userId,
+        ticketNumber: ticketsTable.ticketNumber,
+      })
+      .from(ticketsTable)
+      .where(eq(ticketsTable.id, ticketId))
+      .limit(1);
+
+    if (ticketRows.length > 0) {
+      const ticket = ticketRows[0];
+      notifyTicketUpdate(ticket.userId, ticketId, ticket.ticketNumber, newStatus).catch(() => {});
+    }
+  } catch {
+    // Don't block the action on notification errors
+  }
 
   revalidatePath(`/admin/tickets/${ticketId}`);
   revalidatePath("/admin/tickets");

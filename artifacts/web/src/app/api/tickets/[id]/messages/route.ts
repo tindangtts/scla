@@ -8,6 +8,7 @@ import {
   staffUsersTable,
 } from "@workspace/db/schema";
 import { eq, asc } from "drizzle-orm";
+import { notifyNewMessage } from "@/lib/notifications";
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -135,6 +136,30 @@ export async function POST(
       content: body.content.trim(),
     })
     .returning();
+
+  // Fire-and-forget: notify the other party
+  try {
+    const ticketRows = await db
+      .select({
+        userId: ticketsTable.userId,
+        assignedTo: ticketsTable.assignedTo,
+        ticketNumber: ticketsTable.ticketNumber,
+      })
+      .from(ticketsTable)
+      .where(eq(ticketsTable.id, ticketId))
+      .limit(1);
+
+    if (ticketRows.length > 0) {
+      const ticket = ticketRows[0];
+      if (senderType === "resident" && ticket.assignedTo) {
+        notifyNewMessage(ticket.assignedTo, ticketId, ticket.ticketNumber).catch(() => {});
+      } else if (senderType === "staff") {
+        notifyNewMessage(ticket.userId, ticketId, ticket.ticketNumber).catch(() => {});
+      }
+    }
+  } catch {
+    // Don't block the response on notification errors
+  }
 
   return NextResponse.json(message, { status: 201 });
 }
