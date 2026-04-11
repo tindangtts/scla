@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.1
 milestone_name: Quality & Infrastructure Gaps
-status: verifying
-stopped_at: Completed 18-01-PLAN.md
-last_updated: "2026-04-11T06:22:54.907Z"
+status: executing
+stopped_at: Completed 19-01-PLAN.md
+last_updated: "2026-04-11T06:58:51.931Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 6
   completed_phases: 1
-  total_plans: 2
-  completed_plans: 2
+  total_plans: 4
+  completed_plans: 3
 ---
 
 # Project State
@@ -20,13 +20,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-11)
 
 **Core value:** Residents can manage their apartment lifecycle — bills, maintenance, bookings, and community info — from a single mobile-first web app without visiting the management office.
-**Current focus:** Phase 18 — developer-foundation
+**Current focus:** Phase 19 — api-integration-tests
 
 ## Current Position
 
-Phase: 19
-Plan: Not started
-Status: Phase complete — ready for verification
+Phase: 19 (api-integration-tests) — EXECUTING
+Plan: 2 of 2
+Status: Ready to execute
 Last activity: 2026-04-11
 
 ```
@@ -55,6 +55,7 @@ v2.1 Progress: [░░░░░░░░░░░░░░░░░░░░░�
 *Updated after each plan completion*
 | Phase 18 P02 | 6 minutes | 2 tasks | 8 files |
 | Phase 18 P01 | 15 | 1 tasks | 1 files |
+| Phase 19 P01 | 12 | 3 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -71,6 +72,9 @@ Recent decisions affecting current work:
 - [Phase 18]: Export checkBillOverdue from scheduler.ts to enable direct unit testing
 - [Phase 18]: onConflictDoNothing with email target only for tables with DB-level unique constraints; count-first for all others
 - [Phase 18]: Deterministic SEED_IDS UUIDs eliminate .returning() dependency across seed inserts
+- [Phase 19]: Use inline vi.fn() in vi.mock factories (not outer variables) to avoid hoisting ReferenceError
+- [Phase 19]: Thenable mock chain (Promise.resolve with extra methods) handles mixed Drizzle .where()/.limit() and .where()/.orderBy() query shapes
+- [Phase 19]: Token-based auth in integration tests (not mocking requireAuth) for more realistic coverage
 
 ### Roadmap Evolution
 
@@ -86,6 +90,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-11T06:17:46.281Z
-Stopped at: Completed 18-01-PLAN.md
+Last session: 2026-04-11T06:58:51.928Z
+Stopped at: Completed 19-01-PLAN.md
 Resume file: None

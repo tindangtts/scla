@@ -71,7 +71,7 @@ Plans:
   4. Booking integration tests (slots, create, list, cancel) assert that a slot becomes unavailable after booking and that cancellation frees it
 **Plans**: 2 plans
 Plans:
-- [ ] 19-01-PLAN.md — Supertest setup + auth and invoice integration tests
+- [x] 19-01-PLAN.md — Supertest setup + auth and invoice integration tests
 - [ ] 19-02-PLAN.md — Ticket and booking integration tests
 
 ### Phase 20: Audit Logging & Wallet Transactions
@@ -134,7 +134,7 @@ Plans:
 | 16 | v2.0 | 2/2 | Complete | 2026-04-10 |
 | 17 | v2.0 | 2/2 | Complete | 2026-04-10 |
 | 18 | v2.1 | 2/2 | Complete    | 2026-04-11 |
-| 19 | v2.1 | 0/2 | Not started | — |
+| 19 | v2.1 | 1/2 | In Progress|  |
 | 20 | v2.1 | 0/TBD | Not started | — |
 | 21 | v2.1 | 0/TBD | Not started | — |
 | 22 | v2.1 | 0/TBD | Not started | — |
