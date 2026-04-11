@@ -2,16 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.1
 milestone_name: Quality & Infrastructure Gaps
-status: ready
-stopped_at: Phase 18 — Developer Foundation (not yet started)
-last_updated: "2026-04-11"
+status: executing
+stopped_at: Completed 18-02-PLAN.md
+last_updated: "2026-04-11T06:17:10.468Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 6
   completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
-  percent: 0
+  total_plans: 2
+  completed_plans: 1
 ---
 
 # Project State
@@ -21,14 +20,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-11)
 
 **Core value:** Residents can manage their apartment lifecycle — bills, maintenance, bookings, and community info — from a single mobile-first web app without visiting the management office.
-**Current focus:** v2.1 — Quality & Infrastructure Gaps (Phase 18 next)
+**Current focus:** Phase 18 — developer-foundation
 
 ## Current Position
 
-Phase: 18 — Developer Foundation
-Plan: —
-Status: Not started
-Last activity: 2026-04-11 — Roadmap created for v2.1
+Phase: 18 (developer-foundation) — EXECUTING
+Plan: 2 of 2
+Status: Ready to execute
+Last activity: 2026-04-11
 
 ```
 v2.1 Progress: [░░░░░░░░░░░░░░░░░░░░░░░░] 0% (0/6 phases)
@@ -54,6 +53,7 @@ v2.1 Progress: [░░░░░░░░░░░░░░░░░░░░░�
 | 23 — E2E Tests | 0 | — | — |
 
 *Updated after each plan completion*
+| Phase 18 P02 | 6 minutes | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -66,6 +66,8 @@ Recent decisions affecting current work:
 - [v2.1]: Real payment integration (WavePay/KBZPay) remains deferred — missing gateway documents
 - [v2.1]: DX + unit tests merged into Phase 18 (coarse granularity — both are developer infrastructure with no conflict)
 - [v2.1]: AUDIT + WALLET merged into Phase 20 (both are data-layer features with no interdependency)
+- [Phase 18]: Use inline vi.fn() in vi.mock factories to avoid hoisting ReferenceError
+- [Phase 18]: Export checkBillOverdue from scheduler.ts to enable direct unit testing
 
 ### Roadmap Evolution
 
@@ -81,6 +83,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-11
-Stopped at: Roadmap created — Phase 18 ready to plan
+Last session: 2026-04-11T06:17:10.464Z
+Stopped at: Completed 18-02-PLAN.md
 Resume file: None

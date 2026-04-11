@@ -58,7 +58,7 @@ See `.planning/milestones/v2.0-ROADMAP.md` for full details.
 **Plans**: 2 plans
 Plans:
 - [ ] 18-01-PLAN.md — Idempotent seed script with all entity types including bookings
-- [ ] 18-02-PLAN.md — Vitest setup + unit tests for password, auth middleware, and scheduler
+- [x] 18-02-PLAN.md — Vitest setup + unit tests for password, auth middleware, and scheduler
 
 ### Phase 19: API Integration Tests
 **Goal**: Every critical API route has an automated test that catches regressions before merge
@@ -130,7 +130,7 @@ Plans:
 | 15 | v2.0 | 4/4 | Complete | 2026-04-10 |
 | 16 | v2.0 | 2/2 | Complete | 2026-04-10 |
 | 17 | v2.0 | 2/2 | Complete | 2026-04-10 |
-| 18 | v2.1 | 0/2 | Not started | — |
+| 18 | v2.1 | 1/2 | In Progress|  |
 | 19 | v2.1 | 0/TBD | Not started | — |
 | 20 | v2.1 | 0/TBD | Not started | — |
 | 21 | v2.1 | 0/TBD | Not started | — |
