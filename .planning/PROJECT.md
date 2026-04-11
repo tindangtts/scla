@@ -55,7 +55,18 @@ Residents can manage their apartment lifecycle — bills, maintenance, bookings,
 
 ### Active
 
-(To be defined for next milestone)
+#### Current Milestone: v2.1 Quality & Infrastructure Gaps
+
+**Goal:** Close engineering quality gaps — automated testing, CI/CD, audit logging, real-time chat, and developer experience improvements.
+
+**Target features:**
+- Automated test suite (API integration + critical UI flows)
+- CI/CD pipeline (lint, type-check, tests on push)
+- Audit logging for admin actions
+- Data seeding scripts for dev/demo
+- WebSocket chat for ticket messaging
+- Backup/recovery automation
+- Wallet transaction workflows
 
 ### Out of Scope
 
@@ -118,4 +129,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-10 after v2.0 milestone completion*
+*Last updated: 2026-04-11 after v2.1 milestone start*
