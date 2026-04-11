@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.1
 milestone_name: Quality & Infrastructure Gaps
-status: executing
-stopped_at: Completed 18-02-PLAN.md
-last_updated: "2026-04-11T06:17:10.468Z"
+status: verifying
+stopped_at: Completed 18-01-PLAN.md
+last_updated: "2026-04-11T06:17:46.284Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 6
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 2
-  completed_plans: 1
+  completed_plans: 2
 ---
 
 # Project State
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-04-11)
 
 Phase: 18 (developer-foundation) — EXECUTING
 Plan: 2 of 2
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-04-11
 
 ```
@@ -54,6 +54,7 @@ v2.1 Progress: [░░░░░░░░░░░░░░░░░░░░░�
 
 *Updated after each plan completion*
 | Phase 18 P02 | 6 minutes | 2 tasks | 8 files |
+| Phase 18 P01 | 15 | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -68,6 +69,8 @@ Recent decisions affecting current work:
 - [v2.1]: AUDIT + WALLET merged into Phase 20 (both are data-layer features with no interdependency)
 - [Phase 18]: Use inline vi.fn() in vi.mock factories to avoid hoisting ReferenceError
 - [Phase 18]: Export checkBillOverdue from scheduler.ts to enable direct unit testing
+- [Phase 18]: onConflictDoNothing with email target only for tables with DB-level unique constraints; count-first for all others
+- [Phase 18]: Deterministic SEED_IDS UUIDs eliminate .returning() dependency across seed inserts
 
 ### Roadmap Evolution
 
@@ -83,6 +86,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-11T06:17:10.464Z
-Stopped at: Completed 18-02-PLAN.md
+Last session: 2026-04-11T06:17:46.281Z
+Stopped at: Completed 18-01-PLAN.md
 Resume file: None

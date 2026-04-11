@@ -36,7 +36,7 @@ See `.planning/milestones/v2.0-ROADMAP.md` for full details.
 
 ### v2.1 Quality & Infrastructure Gaps
 
-- [ ] **Phase 18: Developer Foundation** — Idempotent seed data and unit test coverage for auth, scheduler, and password logic
+- [x] **Phase 18: Developer Foundation** — Idempotent seed data and unit test coverage for auth, scheduler, and password logic (completed 2026-04-11)
 - [ ] **Phase 19: API Integration Tests** — Full route-level test coverage across auth, bills, tickets, and bookings
 - [ ] **Phase 20: Audit Logging & Wallet Transactions** — Admin action audit trail and wallet debit/credit workflows
 - [ ] **Phase 21: WebSocket Chat** — Replace 4s polling with real-time WebSocket messaging on ticket chat
@@ -57,7 +57,7 @@ See `.planning/milestones/v2.0-ROADMAP.md` for full details.
   5. Unit tests for password hashing confirm bcrypt round-trip and SHA256 migration path both resolve correctly
 **Plans**: 2 plans
 Plans:
-- [ ] 18-01-PLAN.md — Idempotent seed script with all entity types including bookings
+- [x] 18-01-PLAN.md — Idempotent seed script with all entity types including bookings
 - [x] 18-02-PLAN.md — Vitest setup + unit tests for password, auth middleware, and scheduler
 
 ### Phase 19: API Integration Tests
@@ -130,7 +130,7 @@ Plans:
 | 15 | v2.0 | 4/4 | Complete | 2026-04-10 |
 | 16 | v2.0 | 2/2 | Complete | 2026-04-10 |
 | 17 | v2.0 | 2/2 | Complete | 2026-04-10 |
-| 18 | v2.1 | 1/2 | In Progress|  |
+| 18 | v2.1 | 2/2 | Complete   | 2026-04-11 |
 | 19 | v2.1 | 0/TBD | Not started | — |
 | 20 | v2.1 | 0/TBD | Not started | — |
 | 21 | v2.1 | 0/TBD | Not started | — |

@@ -178,9 +178,9 @@ Milestone v2.1: Quality & Infrastructure Gaps
 
 ### Developer Experience
 
-- [ ] **DX-01**: Seed script creates demo residents, guests, and staff accounts
-- [ ] **DX-02**: Seed script populates invoices, tickets, bookings, and announcements
-- [ ] **DX-03**: Seed script is idempotent (safe to re-run)
+- [x] **DX-01**: Seed script creates demo residents, guests, and staff accounts
+- [x] **DX-02**: Seed script populates invoices, tickets, bookings, and announcements
+- [x] **DX-03**: Seed script is idempotent (safe to re-run)
 
 ### Wallet & Transactions
 
