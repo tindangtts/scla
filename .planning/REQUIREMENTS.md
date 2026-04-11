@@ -91,7 +91,46 @@ Requirements mapped from existing codebase. All features below are already imple
 
 ## v2 Requirements
 
-Next milestone (v2.0 Production-Ready). Phases 11-15.
+<details>
+<summary>v2.0 Production-Ready (All Complete)</summary>
+
+### Security Improvements
+
+- [x] **SEC-01**: Migrate from SHA256 to bcrypt/argon2 password hashing — Phase 11
+- [x] **SEC-02**: Add rate limiting to authentication endpoints — Phase 11
+- [x] **SEC-03**: Add CSRF protection — Phase 11
+
+### Communication
+
+- [x] **COMM-01**: Push notifications via web push or Firebase — Phase 13
+- [x] **COMM-02**: Email notifications for critical events (bill due, ticket update) — Phase 13
+- [x] **COMM-03**: In-app chat between resident and maintenance staff — Phase 13
+
+### Enhanced Features
+
+- [x] **ENH-01**: Multi-language support (English, Myanmar) — Phase 14
+- [x] **ENH-02**: Dark mode theme toggle — Phase 14
+- [x] **ENH-03**: Offline support with service worker — Phase 14
+- [x] **ENH-04**: Image upload for ticket attachments (currently URL only) — Phase 14
+- [x] **ENH-05**: Recurring facility bookings — Phase 14
+
+### API Hardening & Code Quality
+
+- [x] **QUAL-01**: Add admin auth to upgrade-requests endpoints — Phase 15
+- [x] **QUAL-02**: Fix race conditions in booking/ticket number generation — Phase 15
+- [x] **QUAL-03**: Wrap multi-step upgrade operations in database transactions — Phase 15
+- [x] **QUAL-04**: Add global Express error handler — Phase 15
+- [x] **QUAL-05**: Refactor all routes to use shared auth middleware — Phase 16
+- [x] **QUAL-06**: Fix float arithmetic in invoice calculations — Phase 15
+- [x] **QUAL-07**: Add proper TypeScript types to all route handlers — Phase 15
+- [x] **QUAL-08**: Add password validation on admin staff creation — Phase 15
+
+### Scheduler & Migration
+
+- [x] **SCHED-01**: Bill-overdue email/push scheduler — Phase 17
+- [x] **SCHED-02**: DB migration auto-apply at startup — Phase 17
+
+</details>
 
 ### Payment Integration (DEFERRED — missing gateway documents)
 
@@ -99,50 +138,68 @@ Next milestone (v2.0 Production-Ready). Phases 11-15.
 - **PAY-02**: Real KBZPay payment integration with callback handling
 - **PAY-03**: Payment receipt generation and download
 
-### Security Improvements
+## v2.1 Requirements
 
-- **SEC-01**: Migrate from SHA256 to bcrypt/argon2 password hashing
-- **SEC-02**: Add rate limiting to authentication endpoints
-- **SEC-03**: Add CSRF protection
+Milestone v2.1: Quality & Infrastructure Gaps
 
-### Communication
+### Testing
 
-- **COMM-01**: Push notifications via web push or Firebase
-- **COMM-02**: Email notifications for critical events (bill due, ticket update)
-- **COMM-03**: In-app chat between resident and maintenance staff
+- [ ] **TEST-01**: API integration tests cover auth endpoints (register, login, me, upgrade)
+- [ ] **TEST-02**: API integration tests cover bill endpoints (list, detail, summary, pay)
+- [ ] **TEST-03**: API integration tests cover ticket endpoints (create, list, detail, messages)
+- [ ] **TEST-04**: API integration tests cover booking endpoints (create, list, cancel, slots)
+- [ ] **TEST-05**: Unit tests cover auth middleware (JWT verification, role checks)
+- [ ] **TEST-06**: Unit tests cover scheduler logic (bill-overdue detection, notification triggers)
+- [ ] **TEST-07**: Unit tests cover password hashing (bcrypt, SHA256 migration path)
+- [ ] **TEST-08**: E2E tests cover resident login and home dashboard flow
+- [ ] **TEST-09**: E2E tests cover ticket creation and chat flow
+- [ ] **TEST-10**: E2E tests cover facility booking and cancellation flow
 
-### Enhanced Features
+### CI/CD & DevOps
 
-- **ENH-01**: Multi-language support (English, Myanmar)
-- **ENH-02**: Dark mode theme toggle
-- **ENH-03**: Offline support with service worker
-- **ENH-04**: Image upload for ticket attachments (currently URL only)
-- **ENH-05**: Recurring facility bookings
+- [ ] **CICD-01**: GitHub Actions CI runs lint, type-check, and tests on push/PR
+- [ ] **CICD-02**: CI fails on type errors or test failures, blocks merge
+- [ ] **CICD-03**: Automated deploy to Replit triggered on merge to main
+- [ ] **CICD-04**: Scheduled PostgreSQL backup automation (daily)
+- [ ] **CICD-05**: Documented backup restore procedure with verification steps
 
-### API Hardening & Code Quality
+### Audit & Logging
 
-- **QUAL-01**: Add admin auth to upgrade-requests endpoints (GET list, POST approve, POST reject)
-- **QUAL-02**: Fix race conditions in booking/ticket number generation with atomic DB sequences
-- **QUAL-03**: Wrap multi-step upgrade operations in database transactions
-- **QUAL-04**: Add global Express error handler with consistent JSON error responses
-- **QUAL-05**: Refactor all routes to use shared auth middleware instead of inline JWT verification
-- **QUAL-06**: Fix float arithmetic in invoice calculations (use integer cents)
-- **QUAL-07**: Add proper TypeScript types to all route handlers (eliminate `any` types)
-- **QUAL-08**: Add password validation on admin staff creation (min 8 chars)
+- [ ] **AUDIT-01**: Admin actions logged to audit_logs table (who, what, when, target)
+- [ ] **AUDIT-02**: Upgrade approvals/rejections create audit trail
+- [ ] **AUDIT-03**: Booking cancellations by admin create audit trail
+- [ ] **AUDIT-04**: Staff account changes (create, deactivate) create audit trail
+
+### Real-time Communication
+
+- [ ] **RT-01**: Ticket chat uses WebSocket instead of 4s polling
+- [ ] **RT-02**: Chat messages delivered in real-time to both resident and staff
+- [ ] **RT-03**: WebSocket gracefully falls back to polling if connection fails
+
+### Developer Experience
+
+- [ ] **DX-01**: Seed script creates demo residents, guests, and staff accounts
+- [ ] **DX-02**: Seed script populates invoices, tickets, bookings, and announcements
+- [ ] **DX-03**: Seed script is idempotent (safe to re-run)
+
+### Wallet & Transactions
+
+- [ ] **WALLET-01**: Resident can view wallet transaction history with filters
+- [ ] **WALLET-02**: Bill payment deducts from wallet balance
+- [ ] **WALLET-03**: Admin can credit/debit wallet with reason (manual adjustment)
+- [ ] **WALLET-04**: Security deposit deductions logged with reason
 
 ## Out of Scope
 
 | Feature | Reason |
 |---------|--------|
 | Native mobile app | Web-first approach, PWA possible later |
-| Real-time chat | High complexity, not core to resident management |
 | Video surveillance integration | Separate system, security concerns |
 | OAuth/social login | Custom JWT sufficient for estate residents |
 | Multi-estate support | Single estate deployment, not multi-tenant |
+| Real WavePay/KBZPay payment | Deferred — missing gateway documents |
 
 ## Traceability
-
-All v1 requirements are already implemented (brownfield project). v2 requirements map to Phases 11-14.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
@@ -156,34 +213,25 @@ All v1 requirements are already implemented (brownfield project). v2 requirement
 | NOTF-01 through NOTF-04 | Existing | Complete |
 | HOME-01 through HOME-03 | Existing | Complete |
 | ADMN-01 through ADMN-10 | Existing | Complete |
-| SEC-01 | Phase 11 | Complete |
-| SEC-02 | Phase 11 | Complete |
-| SEC-03 | Phase 11 | Complete |
-| PAY-01 | Phase 12 | Deferred |
-| PAY-02 | Phase 12 | Deferred |
-| PAY-03 | Phase 12 | Deferred |
-| COMM-01 | Phase 13 | Complete |
-| COMM-02 | Phase 13 | Complete |
-| COMM-03 | Phase 13 | Complete |
-| ENH-01 | Phase 14 | Complete |
-| ENH-02 | Phase 14 | Complete |
-| ENH-03 | Phase 14 | Complete |
-| ENH-04 | Phase 14 | Complete |
-| ENH-05 | Phase 14 | Complete |
-| QUAL-01 | Phase 15 | Complete |
-| QUAL-02 | Phase 15 | Complete |
-| QUAL-03 | Phase 15 | Complete |
-| QUAL-04 | Phase 15 | Complete |
-| QUAL-05 | Phase 15 | Complete |
-| QUAL-06 | Phase 15 | Complete |
-| QUAL-07 | Phase 15 | Complete |
-| QUAL-08 | Phase 15 | Complete |
+| SEC-01 through SEC-03 | Phase 11 | Complete |
+| COMM-01 through COMM-03 | Phase 13 | Complete |
+| ENH-01 through ENH-05 | Phase 14 | Complete |
+| QUAL-01 through QUAL-08 | Phase 15-16 | Complete |
+| SCHED-01, SCHED-02 | Phase 17 | Complete |
+| PAY-01 through PAY-03 | — | Deferred |
+| TEST-01 through TEST-10 | TBD | Pending |
+| CICD-01 through CICD-05 | TBD | Pending |
+| AUDIT-01 through AUDIT-04 | TBD | Pending |
+| RT-01 through RT-03 | TBD | Pending |
+| DX-01 through DX-03 | TBD | Pending |
+| WALLET-01 through WALLET-04 | TBD | Pending |
 
 **Coverage:**
-- v1 requirements: 52 total — Mapped to existing: 52 ✓
-- v2 requirements: 22 total — Mapped to Phases 11-15: 22 ✓
-- Unmapped: 0 ✓
+- v1 requirements: 52 total — Complete ✓
+- v2.0 requirements: 22 total — Complete ✓ (PAY-01-03 deferred)
+- v2.1 requirements: 29 total — Pending (to be mapped by roadmap)
+- Unmapped: 29 (awaiting roadmap)
 
 ---
 *Requirements defined: 2026-04-10*
-*Last updated: 2026-04-10 after v2.0 roadmap creation*
+*Last updated: 2026-04-11 after v2.1 milestone requirements*
