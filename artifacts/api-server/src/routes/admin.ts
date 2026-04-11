@@ -15,7 +15,7 @@ const router = Router();
 
 const ADMIN_SECRET = process.env.SESSION_SECRET ?? "scla-dev-secret-2026";
 
-import { verifyPassword } from "../lib/password.js";
+import { verifyPassword, hashPasswordBcrypt } from "../lib/password.js";
 
 interface AdminTokenPayload {
   staffId: string;
@@ -633,7 +633,7 @@ router.post("/staff", async (req, res) => {
   const { name, email, password, role } = req.body;
   if (!name || !email || !password || !role) return res.status(400).json({ error: "all fields required" });
   const [row] = await db.insert(staffUsersTable).values({
-    name, email, passwordHash: hashPassword(password), role, isActive: true,
+    name, email, passwordHash: await hashPasswordBcrypt(password), role, isActive: true,
   }).returning({ id: staffUsersTable.id, name: staffUsersTable.name, email: staffUsersTable.email, role: staffUsersTable.role });
 
   const staffEmail = await getStaffEmail(payload.staffId);
