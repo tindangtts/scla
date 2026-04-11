@@ -94,7 +94,7 @@ Plans:
   5. A guest user can submit an upgrade request and the admin approval workflow completes end-to-end
 **Plans**: 2 plans
 Plans:
-- [ ] 25-01-PLAN.md — Auth pages (login, register, admin login), Server Actions, middleware route protection
+- [x] 25-01-PLAN.md — Auth pages (login, register, admin login), Server Actions, middleware route protection
 - [ ] 25-02-PLAN.md — Guest upgrade workflow, admin approval, seed script Supabase Auth migration
 
 ### Phase 26: Resident Core
@@ -209,7 +209,7 @@ Plans:
 | 22 | v2.1 | 2/2 | Complete | 2026-04-11 |
 | 23 | v2.1 | 2/2 | Complete | 2026-04-11 |
 | 24. Foundation | v3.0 | 2/2 | Complete    | 2026-04-11 |
-| 25. Authentication | v3.0 | 0/2 | Not started | - |
+| 25. Authentication | v3.0 | 1/2 | In Progress|  |
 | 26. Resident Core | v3.0 | 0/TBD | Not started | - |
 | 27. Resident Secondary | v3.0 | 0/TBD | Not started | - |
 | 28. Admin Portal | v3.0 | 0/TBD | Not started | - |

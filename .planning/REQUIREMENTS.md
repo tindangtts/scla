@@ -17,13 +17,13 @@ Requirements for Next.js migration. Each maps to roadmap phases.
 
 ### Authentication
 
-- [ ] **AUTH-01**: User can register with email and password via Supabase Auth
-- [ ] **AUTH-02**: User can log in and receive Supabase session (replacing custom JWT)
-- [ ] **AUTH-03**: Supabase Auth middleware protects resident routes (redirect to login if unauthenticated)
-- [ ] **AUTH-04**: Supabase Auth middleware protects admin routes (redirect to admin login if not admin role)
+- [x] **AUTH-01**: User can register with email and password via Supabase Auth
+- [x] **AUTH-02**: User can log in and receive Supabase session (replacing custom JWT)
+- [x] **AUTH-03**: Supabase Auth middleware protects resident routes (redirect to login if unauthenticated)
+- [x] **AUTH-04**: Supabase Auth middleware protects admin routes (redirect to admin login if not admin role)
 - [ ] **AUTH-05**: Guest user can request upgrade to resident with admin approval workflow
 - [ ] **AUTH-06**: Existing user data migrated to Supabase Auth (email/password accounts preserved)
-- [ ] **AUTH-07**: Session persists across browser refresh via Supabase cookie-based sessions
+- [x] **AUTH-07**: Session persists across browser refresh via Supabase cookie-based sessions
 
 ### Resident Features
 
@@ -110,13 +110,13 @@ Which phases cover which requirements. Updated during roadmap creation.
 | FOUND-03 | Phase 24 | Complete |
 | FOUND-04 | Phase 24 | Complete |
 | FOUND-05 | Phase 24 | Complete |
-| AUTH-01 | Phase 25 | Pending |
-| AUTH-02 | Phase 25 | Pending |
-| AUTH-03 | Phase 25 | Pending |
-| AUTH-04 | Phase 25 | Pending |
+| AUTH-01 | Phase 25 | Complete |
+| AUTH-02 | Phase 25 | Complete |
+| AUTH-03 | Phase 25 | Complete |
+| AUTH-04 | Phase 25 | Complete |
 | AUTH-05 | Phase 25 | Pending |
 | AUTH-06 | Phase 25 | Pending |
-| AUTH-07 | Phase 25 | Pending |
+| AUTH-07 | Phase 25 | Complete |
 | RES-01 | Phase 26 | Pending |
 | RES-02 | Phase 26 | Pending |
 | RES-03 | Phase 26 | Pending |

@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v3.0
 milestone_name: Next.js Migration
-status: verifying
-stopped_at: Completed 24-02-PLAN.md
-last_updated: "2026-04-11T16:29:37.405Z"
+status: executing
+stopped_at: Completed 25-01-PLAN.md
+last_updated: "2026-04-11T16:41:29.608Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 8
   completed_phases: 1
-  total_plans: 2
-  completed_plans: 2
+  total_plans: 4
+  completed_plans: 3
   percent: 0
 ---
 
@@ -21,13 +21,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-11)
 
 **Core value:** Residents can manage their apartment lifecycle — bills, maintenance, bookings, and community info — from a single mobile-first web app without visiting the management office.
-**Current focus:** Phase 24 — foundation
+**Current focus:** Phase 25 — authentication
 
 ## Current Position
 
-Phase: 25
-Plan: Not started
-Status: Phase complete — ready for verification
+Phase: 25 (authentication) — EXECUTING
+Plan: 2 of 2
+Status: Ready to execute
 Last activity: 2026-04-11
 
 Progress: [░░░░░░░░░░] 0% (v3.0 milestone)
@@ -62,6 +62,8 @@ Recent decisions affecting current work:
 - [Phase 24-foundation]: force-dynamic export on DB-querying pages to prevent static generation during build
 - [Phase 24]: shadcn/ui new-york style with neutral base color and Tailwind CSS 4 @theme inline for CSS variable theming
 - [Phase 24]: Seed script decoupled to scripts/ workspace with inline bcryptjs (10 rounds)
+- [Phase 25-authentication]: Inline Supabase client in middleware for route protection instead of updateSession helper
+- [Phase 25-authentication]: Registration syncs to both Supabase Auth and app DB with bcryptjs for dual-source consistency
 
 ### Pending Todos
 
@@ -73,6 +75,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-11T16:26:24.922Z
-Stopped at: Completed 24-02-PLAN.md
+Last session: 2026-04-11T16:41:29.603Z
+Stopped at: Completed 25-01-PLAN.md
 Resume file: None
