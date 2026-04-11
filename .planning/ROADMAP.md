@@ -37,7 +37,7 @@ See `.planning/milestones/v2.0-ROADMAP.md` for full details.
 ### v2.1 Quality & Infrastructure Gaps
 
 - [x] **Phase 18: Developer Foundation** — Idempotent seed data and unit test coverage for auth, scheduler, and password logic (completed 2026-04-11)
-- [ ] **Phase 19: API Integration Tests** — Full route-level test coverage across auth, bills, tickets, and bookings
+- [x] **Phase 19: API Integration Tests** — Full route-level test coverage across auth, bills, tickets, and bookings (completed 2026-04-11)
 - [ ] **Phase 20: Audit Logging & Wallet Transactions** — Admin action audit trail and wallet debit/credit workflows
 - [ ] **Phase 21: WebSocket Chat** — Replace 4s polling with real-time WebSocket messaging on ticket chat
 - [ ] **Phase 22: CI/CD Pipeline** — Automated lint, type-check, test, and deploy on push; daily DB backup
@@ -72,7 +72,7 @@ Plans:
 **Plans**: 2 plans
 Plans:
 - [x] 19-01-PLAN.md — Supertest setup + auth and invoice integration tests
-- [ ] 19-02-PLAN.md — Ticket and booking integration tests
+- [x] 19-02-PLAN.md — Ticket and booking integration tests
 
 ### Phase 20: Audit Logging & Wallet Transactions
 **Goal**: Admin actions are traceable and wallet balances reflect real payment activity
@@ -134,7 +134,7 @@ Plans:
 | 16 | v2.0 | 2/2 | Complete | 2026-04-10 |
 | 17 | v2.0 | 2/2 | Complete | 2026-04-10 |
 | 18 | v2.1 | 2/2 | Complete    | 2026-04-11 |
-| 19 | v2.1 | 1/2 | In Progress|  |
+| 19 | v2.1 | 2/2 | Complete   | 2026-04-11 |
 | 20 | v2.1 | 0/TBD | Not started | — |
 | 21 | v2.1 | 0/TBD | Not started | — |
 | 22 | v2.1 | 0/TBD | Not started | — |

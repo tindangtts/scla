@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.1
 milestone_name: Quality & Infrastructure Gaps
-status: executing
-stopped_at: Completed 19-01-PLAN.md
-last_updated: "2026-04-11T06:58:51.931Z"
+status: verifying
+stopped_at: Completed 19-02-PLAN.md
+last_updated: "2026-04-11T07:04:10.187Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 6
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 4
-  completed_plans: 3
+  completed_plans: 4
 ---
 
 # Project State
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-04-11)
 
 Phase: 19 (api-integration-tests) — EXECUTING
 Plan: 2 of 2
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-04-11
 
 ```
@@ -56,6 +56,7 @@ v2.1 Progress: [░░░░░░░░░░░░░░░░░░░░░�
 | Phase 18 P02 | 6 minutes | 2 tasks | 8 files |
 | Phase 18 P01 | 15 | 1 tasks | 1 files |
 | Phase 19 P01 | 12 | 3 tasks | 5 files |
+| Phase 19 P02 | 15 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -75,6 +76,8 @@ Recent decisions affecting current work:
 - [Phase 19]: Use inline vi.fn() in vi.mock factories (not outer variables) to avoid hoisting ReferenceError
 - [Phase 19]: Thenable mock chain (Promise.resolve with extra methods) handles mixed Drizzle .where()/.limit() and .where()/.orderBy() query shapes
 - [Phase 19]: Token-based auth in integration tests (not mocking requireAuth) for more realistic coverage
+- [Phase 19]: Facility route mocks use thenable from() (Promise + .where()) since GET /api/facilities awaits db.select().from() directly without .where()
+- [Phase 19]: Per-test inline select mock for ticket message 403 ownership tests (not global setupMocks)
 
 ### Roadmap Evolution
 
@@ -90,6 +93,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-11T06:58:51.928Z
-Stopped at: Completed 19-01-PLAN.md
+Last session: 2026-04-11T07:04:10.185Z
+Stopped at: Completed 19-02-PLAN.md
 Resume file: None

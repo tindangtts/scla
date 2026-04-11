@@ -146,8 +146,8 @@ Milestone v2.1: Quality & Infrastructure Gaps
 
 - [x] **TEST-01**: API integration tests cover auth endpoints (register, login, me, upgrade)
 - [x] **TEST-02**: API integration tests cover bill endpoints (list, detail, summary, pay)
-- [ ] **TEST-03**: API integration tests cover ticket endpoints (create, list, detail, messages)
-- [ ] **TEST-04**: API integration tests cover booking endpoints (create, list, cancel, slots)
+- [x] **TEST-03**: API integration tests cover ticket endpoints (create, list, detail, messages)
+- [x] **TEST-04**: API integration tests cover booking endpoints (create, list, cancel, slots)
 - [x] **TEST-05**: Unit tests cover auth middleware (JWT verification, role checks)
 - [x] **TEST-06**: Unit tests cover scheduler logic (bill-overdue detection, notification triggers)
 - [x] **TEST-07**: Unit tests cover password hashing (bcrypt, SHA256 migration path)
