@@ -7,7 +7,7 @@ import { logger } from "./logger.js";
 
 const INTERVAL_MS = 24 * 60 * 60 * 1000; // 24 hours
 
-async function checkBillOverdue(): Promise<void> {
+export async function checkBillOverdue(): Promise<void> {
   const today = new Date().toISOString().slice(0, 10); // "YYYY-MM-DD"
 
   const overdueInvoices = await db
