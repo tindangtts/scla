@@ -40,7 +40,7 @@ See `.planning/milestones/v2.0-ROADMAP.md` for full details.
 - [x] **Phase 19: API Integration Tests** — Full route-level test coverage across auth, bills, tickets, and bookings (completed 2026-04-11)
 - [x] **Phase 20: Audit Logging & Wallet Transactions** — Admin action audit trail and wallet debit/credit workflows (completed 2026-04-11)
 - [x] **Phase 21: WebSocket Chat** — Replace 4s polling with real-time WebSocket messaging on ticket chat (completed 2026-04-11)
-- [ ] **Phase 22: CI/CD Pipeline** — Automated lint, type-check, test, and deploy on push; daily DB backup
+- [x] **Phase 22: CI/CD Pipeline** — Automated lint, type-check, test, and deploy on push; daily DB backup (completed 2026-04-11)
 - [ ] **Phase 23: E2E Tests** — Browser-level test coverage for resident login, ticket creation, and facility booking
 
 ## Phase Details
@@ -118,8 +118,8 @@ Plans:
   5. A runbook documents how to restore from a backup and includes a verification step confirming data integrity after restore
 **Plans**: 2 plans
 Plans:
-- [ ] 22-01-PLAN.md — GitHub Actions CI/CD pipeline with lint, typecheck, test, and deploy
-- [ ] 22-02-PLAN.md — Daily PostgreSQL backup automation and restore runbook
+- [x] 22-01-PLAN.md — GitHub Actions CI/CD pipeline with lint, typecheck, test, and deploy
+- [x] 22-02-PLAN.md — Daily PostgreSQL backup automation and restore runbook
 
 ### Phase 23: E2E Tests
 **Goal**: Critical resident workflows are verified end-to-end in a real browser, catching UI and integration regressions
@@ -150,5 +150,5 @@ Plans:
 | 19 | v2.1 | 2/2 | Complete    | 2026-04-11 |
 | 20 | v2.1 | 3/3 | Complete    | 2026-04-11 |
 | 21 | v2.1 | 2/2 | Complete    | 2026-04-11 |
-| 22 | v2.1 | 0/2 | Planned | — |
+| 22 | v2.1 | 2/2 | Complete   | 2026-04-11 |
 | 23 | v2.1 | 0/TBD | Not started | — |

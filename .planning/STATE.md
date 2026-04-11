@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v2.1
 milestone_name: Quality & Infrastructure Gaps
 status: verifying
-stopped_at: Completed 21-02-PLAN.md
-last_updated: "2026-04-11T08:08:56.018Z"
+stopped_at: Completed 22-01-PLAN.md
+last_updated: "2026-04-11T08:15:52.250Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 6
-  completed_phases: 4
-  total_plans: 9
-  completed_plans: 9
+  completed_phases: 5
+  total_plans: 11
+  completed_plans: 11
 ---
 
 # Project State
@@ -20,12 +20,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-11)
 
 **Core value:** Residents can manage their apartment lifecycle — bills, maintenance, bookings, and community info — from a single mobile-first web app without visiting the management office.
-**Current focus:** Phase 21 — websocket-chat
+**Current focus:** Phase 22 — ci-cd-pipeline
 
 ## Current Position
 
-Phase: 22
-Plan: Not started
+Phase: 22 (ci-cd-pipeline) — EXECUTING
+Plan: 2 of 2
 Status: Phase complete — ready for verification
 Last activity: 2026-04-11
 
@@ -62,6 +62,7 @@ v2.1 Progress: [░░░░░░░░░░░░░░░░░░░░░�
 | Phase 20-audit-logging-wallet-transactions P03 | 12 | 3 tasks | 4 files |
 | Phase 21-websocket-chat P01 | 12 | 2 tasks | 6 files |
 | Phase 21-websocket-chat P02 | 8 | 2 tasks | 4 files |
+| Phase 22-ci-cd-pipeline P01 | 5 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -93,6 +94,8 @@ Recent decisions affecting current work:
 - [Phase 21]: verifyAdminToken duplicated in ws-server.ts (not exported from auth-middleware) — acceptable per plan guidance
 - [Phase 21-websocket-chat]: useTicketChat hook duplicated across scla and admin apps (not shared via workspace package) — pragmatic for ~160 lines, avoids workspace config overhead
 - [Phase 21-websocket-chat]: WS connection indicator dot (green/red) added to both chat UIs to show live vs polling fallback state
+- [Phase 22]: deploy job uses continue-on-error: true so missing REPLIT_DEPLOY_HOOK_URL secret does not break CI
+- [Phase 22]: Branch protection for CICD-02 documented in workflow comments as a manual GitHub UI step
 
 ### Roadmap Evolution
 
@@ -108,6 +111,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-11T08:05:13.205Z
-Stopped at: Completed 21-02-PLAN.md
+Last session: 2026-04-11T08:15:45.028Z
+Stopped at: Completed 22-01-PLAN.md
 Resume file: None
