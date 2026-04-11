@@ -1,4 +1,4 @@
-import { pgTable, text, numeric, integer, boolean, pgEnum, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, text, numeric, integer, boolean, pgEnum, timestamp, uuid, time, index } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod/v4";
 
@@ -8,19 +8,22 @@ export const facilityCategoryEnum = pgEnum("facility_category", [
 ]);
 
 export const facilitiesTable = pgTable("facilities", {
-  id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
+  id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").notNull(),
   description: text("description").notNull(),
   imageUrl: text("image_url"),
   category: facilityCategoryEnum("category").notNull(),
   memberRate: numeric("member_rate", { precision: 12, scale: 2 }).notNull(),
   nonMemberRate: numeric("non_member_rate", { precision: 12, scale: 2 }).notNull(),
-  openingTime: text("opening_time").notNull(),
-  closingTime: text("closing_time").notNull(),
+  openingTime: time("opening_time").notNull(),
+  closingTime: time("closing_time").notNull(),
   maxCapacity: integer("max_capacity").notNull(),
   isAvailable: boolean("is_available").notNull().default(true),
   createdAt: timestamp("created_at").notNull().defaultNow(),
-});
+}, (table) => [
+  index("idx_facilities_category").on(table.category),
+  index("idx_facilities_is_available").on(table.isAvailable),
+]);
 
 export const insertFacilitySchema = createInsertSchema(facilitiesTable).omit({
   id: true,

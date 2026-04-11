@@ -1,35 +1,74 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
+// Module-level state for mock results - mutated by setupMocks()
+// vi.mock factories run in isolation, so they capture these by reference through the closure
+const mockState = {
+  invoices: [] as unknown[],
+  wallet: [{ balance: "500000" }] as unknown[],
+};
+
+// Sentinel objects used as table identity markers
+const TABLE_INVOICES = Symbol.for("invoicesTable");
+const TABLE_WALLET = Symbol.for("walletTable");
+
 // Mock @workspace/db before any imports that pull it in.
-// vi.mock is hoisted to the top at runtime — use inline vi.fn() to avoid ReferenceError.
-vi.mock("@workspace/db", () => ({
-  db: {
-    select: vi.fn(() => ({
-      from: vi.fn(() => ({
-        where: vi.fn(() => ({
-          limit: vi.fn().mockResolvedValue([]),
-          orderBy: vi.fn().mockResolvedValue([]),
+// vi.mock is hoisted — must use inline factories only.
+vi.mock("@workspace/db", () => {
+  const invoicesMarker = Symbol.for("invoicesTable");
+  const walletMarker = Symbol.for("walletTable");
+
+  const invoicesTable: any = { id: "id", userId: "userId", dueDate: "dueDate", __marker: invoicesMarker };
+  const walletTransactionsTable: any = { id: "id", userId: "userId", type: "type", amount: "amount", category: "category", __marker: walletMarker };
+
+  return {
+    db: {
+      select: vi.fn((..._args: any[]) => ({
+        from: vi.fn((table: any) => {
+          // Determine result based on which table is being queried
+          const isWallet = table?.__marker === walletMarker;
+          const getResult = () => isWallet ? mockState.wallet : mockState.invoices;
+
+          const mockLimit = vi.fn(() => Promise.resolve(getResult()));
+          const mockOrderBy = vi.fn(() => Promise.resolve(getResult()));
+          const mockWhere = vi.fn(() => {
+            const whereResult: any = Promise.resolve(getResult());
+            whereResult.limit = mockLimit;
+            whereResult.orderBy = mockOrderBy;
+            return whereResult;
+          });
+          return {
+            where: mockWhere,
+            orderBy: mockOrderBy,
+          };
+        }),
+      })),
+      insert: vi.fn(() => ({
+        values: vi.fn(() => ({
+          returning: vi.fn().mockResolvedValue([]),
         })),
-        orderBy: vi.fn().mockResolvedValue([]),
       })),
-    })),
-    insert: vi.fn(() => ({
-      values: vi.fn(() => ({
-        returning: vi.fn().mockResolvedValue([]),
+      update: vi.fn(() => ({
+        set: vi.fn(() => ({
+          where: vi.fn().mockResolvedValue([]),
+        })),
       })),
-    })),
-    update: vi.fn(() => ({
-      set: vi.fn(() => ({
-        where: vi.fn().mockResolvedValue([]),
-      })),
-    })),
-  },
-  usersTable: { id: "id", email: "email", userId: "userId" },
-  invoicesTable: { id: "id", userId: "userId", dueDate: "dueDate" },
-  eq: vi.fn((col: unknown, val: unknown) => ({ col, val })),
-  and: vi.fn((...args: unknown[]) => args),
-  desc: vi.fn((col: unknown) => col),
-}));
+      transaction: vi.fn(async (fn: any) => {
+        const tx = {
+          insert: vi.fn(() => ({ values: vi.fn().mockResolvedValue([]) })),
+          update: vi.fn(() => ({ set: vi.fn(() => ({ where: vi.fn().mockResolvedValue([]) })) })),
+        };
+        return fn(tx);
+      }),
+    },
+    usersTable: { id: "id", email: "email", userId: "userId" },
+    invoicesTable,
+    walletTransactionsTable,
+    eq: vi.fn((col: unknown, val: unknown) => ({ col, val })),
+    and: vi.fn((...args: unknown[]) => args),
+    desc: vi.fn((col: unknown) => col),
+    sql: vi.fn(),
+  };
+});
 
 // Mock rate limiter for auth middleware path
 vi.mock("../lib/rate-limiter.js", () => ({
@@ -45,27 +84,11 @@ vi.mock("../lib/password.js", () => ({
 
 import supertest from "supertest";
 import app from "../app.js";
-import { db } from "@workspace/db";
 import { createTestToken, authHeader, SEED_IDS } from "./helpers.js";
 
 const request = supertest(app);
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
-
-const MOCK_RESIDENT_USER = {
-  id: SEED_IDS.residentUser,
-  name: "Resident User",
-  email: "resident@starcity.com",
-  phone: "+9509111222",
-  passwordHash: "hashed-password",
-  userType: "resident",
-  unitNumber: "A-12-03",
-  residentId: "SC-001",
-  estateId: "estate-1",
-  developmentName: "City Loft",
-  upgradeStatus: "approved",
-  createdAt: new Date("2026-01-01T00:00:00Z"),
-};
 
 const MOCK_INVOICES = [
   {
@@ -106,44 +129,12 @@ const MOCK_INVOICES = [
   },
 ];
 
-// ─── Helper: configure mock chain for db.select ───────────────────────────────
-
-/**
- * Set up the db.select mock to return different results based on what's being queried.
- * The auth middleware does a users lookup (with .limit(1)), and invoice routes do
- * invoice lookups (summary: no limit, list: orderBy, detail: with .limit(1), pay: no limit).
- *
- * Call order per request:
- *   1st db.select() call → auth middleware user lookup → returns [MOCK_RESIDENT_USER]
- *   2nd db.select() call → invoice route query → returns invoiceResult
- */
-function setupMocks(invoiceResult: unknown[] = MOCK_INVOICES) {
-  let callCount = 0;
-
-  vi.mocked(db.select).mockImplementation(() => {
-    callCount++;
-    const isFirstCall = callCount === 1;
-    const result = isFirstCall ? [MOCK_RESIDENT_USER] : invoiceResult;
-
-    // All query shapes the invoice routes use:
-    // - .from(t).where(eq(...)) → summary, pay (awaited directly as array)
-    // - .from(t).where(eq(...)).orderBy(...) → list endpoint
-    // - .from(t).where(and(...)).limit(1) → detail endpoint
-    const mockOrderBy = vi.fn().mockResolvedValue(result);
-    const mockLimit = vi.fn().mockResolvedValue(result);
-    const mockWhere = vi.fn(() => {
-      // Return a thenable that also supports .limit() and .orderBy()
-      const whereResult: any = Promise.resolve(result);
-      whereResult.limit = mockLimit;
-      whereResult.orderBy = mockOrderBy;
-      return whereResult;
-    });
-    const mockFrom = vi.fn(() => ({
-      where: mockWhere,
-      orderBy: vi.fn().mockResolvedValue(result),
-    }));
-    return { from: mockFrom } as unknown as ReturnType<typeof db.select>;
-  });
+function setupMocks(
+  invoices: unknown[] = MOCK_INVOICES,
+  wallet: unknown[] = [{ balance: "500000" }],
+) {
+  mockState.invoices = invoices;
+  mockState.wallet = wallet;
 }
 
 // ─── Tests ────────────────────────────────────────────────────────────────────
@@ -213,7 +204,6 @@ describe("GET /api/invoices/summary", () => {
   });
 
   it("totalOutstanding correctly sums unpaid invoice amounts", async () => {
-    // MOCK_INVOICES: inv-1 is unpaid (285000), inv-2 is paid (0 outstanding)
     const res = await request.get("/api/invoices/summary").set(authHeader(residentToken()));
     expect(res.status).toBe(200);
     expect(res.body.unpaidCount).toBe(1);
@@ -231,7 +221,7 @@ describe("GET /api/invoices/:id", () => {
   });
 
   it("returns 404 for non-existent invoice", async () => {
-    setupMocks([]); // invoice not found
+    setupMocks([]);
     const token = residentToken();
     const res = await request.get("/api/invoices/nonexistent-id").set(authHeader(token));
     expect(res.status).toBe(404);
@@ -253,61 +243,62 @@ describe("GET /api/invoices/:id", () => {
 describe("POST /api/invoices/:id/pay", () => {
   const residentToken = () => createTestToken(SEED_IDS.residentUser, "resident");
 
-  beforeEach(() => {
-    setupMocks();
-  });
-
   it("returns 401 without auth token", async () => {
     const res = await request
       .post("/api/invoices/inv-1/pay")
-      .send({ paymentMethod: "wavepay", invoiceIds: ["inv-1"] });
+      .send({});
     expect(res.status).toBe(401);
   });
 
-  it("returns 400 when paymentMethod is missing", async () => {
+  it("returns 404 when invoice does not exist", async () => {
+    setupMocks([]);
     const token = residentToken();
     const res = await request
       .post("/api/invoices/inv-1/pay")
       .set(authHeader(token))
-      .send({ invoiceIds: ["inv-1"] });
-    expect(res.status).toBe(400);
-    expect(res.body.error).toBe("validation_error");
+      .send({});
+    expect(res.status).toBe(404);
+    expect(res.body.error).toBe("not_found");
   });
 
-  it("returns 400 when invoiceIds is missing or empty", async () => {
+  it("returns 400 when invoice is already paid", async () => {
+    setupMocks([MOCK_INVOICES[1]]);
     const token = residentToken();
     const res = await request
-      .post("/api/invoices/inv-1/pay")
+      .post("/api/invoices/inv-2/pay")
       .set(authHeader(token))
-      .send({ paymentMethod: "wavepay", invoiceIds: [] });
+      .send({});
     expect(res.status).toBe(400);
-    expect(res.body.error).toBe("validation_error");
+    expect(res.body.error).toBe("already_paid");
   });
 
-  it("returns 200 with payment session on valid request", async () => {
+  it("returns 400 when wallet balance is insufficient", async () => {
+    setupMocks([MOCK_INVOICES[0]], [{ balance: "0" }]);
     const token = residentToken();
     const res = await request
       .post("/api/invoices/inv-1/pay")
       .set(authHeader(token))
-      .send({ paymentMethod: "wavepay", invoiceIds: ["inv-1"] });
+      .send({});
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe("insufficient_balance");
+    expect(res.body.walletBalance).toBe(0);
+    expect(res.body.outstanding).toBe(285000);
+  });
+
+  it("returns 200 with success on valid wallet payment", async () => {
+    setupMocks([MOCK_INVOICES[0]], [{ balance: "500000" }]);
+    const token = residentToken();
+    const res = await request
+      .post("/api/invoices/inv-1/pay")
+      .set(authHeader(token))
+      .send({});
     expect(res.status).toBe(200);
-    expect(res.body).toMatchObject({
-      sessionId: expect.any(String),
-      paymentMethod: "wavepay",
-      totalAmount: expect.any(Number),
-      redirectUrl: expect.stringContaining("wavepay.com"),
-      status: "pending",
+    expect(res.body.success).toBe(true);
+    expect(res.body.invoice).toMatchObject({
+      id: "inv-1",
+      invoiceNumber: "INV-2026-04-001",
+      status: "paid",
+      paidAmount: 285000,
     });
-  });
-
-  it("returns 200 with kbzpay redirect URL when using kbzpay method", async () => {
-    const token = residentToken();
-    const res = await request
-      .post("/api/invoices/inv-1/pay")
-      .set(authHeader(token))
-      .send({ paymentMethod: "kbzpay", invoiceIds: ["inv-1"] });
-    expect(res.status).toBe(200);
-    expect(res.body.redirectUrl).toContain("kbzpay.com");
-    expect(res.body.status).toBe("pending");
   });
 });

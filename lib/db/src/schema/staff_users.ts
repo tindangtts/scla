@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, boolean, pgEnum } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, boolean, pgEnum, uuid, index } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod/v4";
 
@@ -11,7 +11,7 @@ export const staffRoleEnum = pgEnum("staff_role", [
 ]);
 
 export const staffUsersTable = pgTable("staff_users", {
-  id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
+  id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
   passwordHash: text("password_hash").notNull(),
@@ -19,7 +19,10 @@ export const staffUsersTable = pgTable("staff_users", {
   isActive: boolean("is_active").notNull().default(true),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
-});
+}, (table) => [
+  index("idx_staff_users_role").on(table.role),
+  index("idx_staff_users_is_active").on(table.isActive),
+]);
 
 export const insertStaffUserSchema = createInsertSchema(staffUsersTable).omit({
   id: true,

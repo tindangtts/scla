@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, boolean, pgEnum, json } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, boolean, pgEnum, json, uuid, index } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod/v4";
 
@@ -6,7 +6,7 @@ export const announcementTypeEnum = pgEnum("announcement_type", ["announcement",
 export const announcementAudienceEnum = pgEnum("announcement_audience", ["all", "residents_only", "guests_only"]);
 
 export const announcementsTable = pgTable("announcements", {
-  id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
+  id: uuid("id").defaultRandom().primaryKey(),
   title: text("title").notNull(),
   content: text("content").notNull(),
   summary: text("summary").notNull(),
@@ -18,7 +18,12 @@ export const announcementsTable = pgTable("announcements", {
   targetAudience: announcementAudienceEnum("target_audience").notNull().default("all"),
   tags: json("tags").$type<string[]>().default([]),
   createdAt: timestamp("created_at").notNull().defaultNow(),
-});
+}, (table) => [
+  index("idx_announcements_type").on(table.type),
+  index("idx_announcements_is_draft").on(table.isDraft),
+  index("idx_announcements_published_at").on(table.publishedAt),
+  index("idx_announcements_target_audience").on(table.targetAudience),
+]);
 
 export const insertAnnouncementSchema = createInsertSchema(announcementsTable).omit({
   id: true,

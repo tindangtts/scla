@@ -14,3 +14,4 @@ export * from "./push_subscriptions";
 export * from "./ticket_messages";
 export * from "./audit_logs";
 export * from "./wallet_transactions";
+export * from "./relations";
