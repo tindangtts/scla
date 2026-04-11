@@ -1,5 +1,13 @@
 # Milestones
 
+## v3.0 Next.js Migration (In Progress)
+
+**Phases:** 24-31 (8 phases)
+**Goal:** Migrate entire SCLA stack from separate React SPAs + Express to unified Next.js 15 App Router with Supabase Auth
+**Requirements:** 49 total
+
+---
+
 ## v2.1 Quality & Infrastructure Gaps (Shipped: 2026-04-11)
 
 **Phases completed:** 6 phases, 13 plans, 15 tasks
