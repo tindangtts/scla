@@ -92,7 +92,10 @@ Plans:
   3. Unauthenticated requests to resident routes redirect to the login page
   4. Non-admin accounts hitting admin routes are redirected to the admin login page
   5. A guest user can submit an upgrade request and the admin approval workflow completes end-to-end
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 25-01-PLAN.md — Auth pages (login, register, admin login), Server Actions, middleware route protection
+- [ ] 25-02-PLAN.md — Guest upgrade workflow, admin approval, seed script Supabase Auth migration
 
 ### Phase 26: Resident Core
 **Goal**: Authenticated residents can manage their apartment finances and maintenance — viewing bills, paying invoices, managing wallet, creating and tracking maintenance tickets, and editing their profile — all via Server Components
@@ -104,7 +107,10 @@ Plans:
   3. Resident can pay an invoice and see wallet balance decrease accordingly
   4. Resident can create a maintenance ticket in any of the 8 categories and attach a photo
   5. Resident can view wallet transaction history and edit their profile details
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 25-01-PLAN.md — Auth pages (login, register, admin login), Server Actions, middleware route protection
+- [ ] 25-02-PLAN.md — Guest upgrade workflow, admin approval, seed script Supabase Auth migration
 **UI hint**: yes
 
 ### Phase 27: Resident Secondary
@@ -117,7 +123,10 @@ Plans:
   3. Resident can view the Discover page showing announcements, newsletters, and promotions
   4. Resident can browse Info Centre articles by category
   5. Resident can view notification list and manage notification preferences
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 25-01-PLAN.md — Auth pages (login, register, admin login), Server Actions, middleware route protection
+- [ ] 25-02-PLAN.md — Guest upgrade workflow, admin approval, seed script Supabase Auth migration
 **UI hint**: yes
 
 ### Phase 28: Admin Portal
@@ -130,7 +139,10 @@ Plans:
   3. Admin can approve or reject a resident upgrade request
   4. Admin can update maintenance ticket status and manage facility bookings
   5. Admin can credit or debit a resident wallet and see the action appear in audit logs with actor/date
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 25-01-PLAN.md — Auth pages (login, register, admin login), Server Actions, middleware route protection
+- [ ] 25-02-PLAN.md — Guest upgrade workflow, admin approval, seed script Supabase Auth migration
 **UI hint**: yes
 
 ### Phase 29: Real-time & Communication
@@ -143,7 +155,10 @@ Plans:
   3. Resident receives a browser push notification for bill overdue and ticket status updates
   4. Resident receives a transactional email via Resend for bill overdue events
   5. In-app notification bell shows an unread count badge that clears on viewing
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 25-01-PLAN.md — Auth pages (login, register, admin login), Server Actions, middleware route protection
+- [ ] 25-02-PLAN.md — Guest upgrade workflow, admin approval, seed script Supabase Auth migration
 
 ### Phase 30: i18n & UX Polish
 **Goal**: The app renders correctly in both English and Myanmar, dark mode works with system detection and manual toggle, the mobile layout uses bottom navigation, the PWA installs and caches content offline, and all async pages show loading states
@@ -155,7 +170,10 @@ Plans:
   3. Resident app displays a bottom navigation bar on mobile viewports
   4. The app can be installed as a PWA and core pages load while offline
   5. Every Server Component page shows a skeleton or spinner during data fetch, and error boundaries catch failures gracefully
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 25-01-PLAN.md — Auth pages (login, register, admin login), Server Actions, middleware route protection
+- [ ] 25-02-PLAN.md — Guest upgrade workflow, admin approval, seed script Supabase Auth migration
 **UI hint**: yes
 
 ### Phase 31: Testing & CI
@@ -167,7 +185,10 @@ Plans:
   2. API route integration tests covering auth, bills, tickets, and bookings pass against a test database
   3. Playwright E2E tests for login, ticket creation, and facility booking pass against the Next.js dev server
   4. GitHub Actions CI runs lint, typecheck, unit tests, and integration tests on every push/PR to main
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 25-01-PLAN.md — Auth pages (login, register, admin login), Server Actions, middleware route protection
+- [ ] 25-02-PLAN.md — Guest upgrade workflow, admin approval, seed script Supabase Auth migration
 
 ## Progress
 
@@ -188,7 +209,7 @@ Plans:
 | 22 | v2.1 | 2/2 | Complete | 2026-04-11 |
 | 23 | v2.1 | 2/2 | Complete | 2026-04-11 |
 | 24. Foundation | v3.0 | 2/2 | Complete    | 2026-04-11 |
-| 25. Authentication | v3.0 | 0/TBD | Not started | - |
+| 25. Authentication | v3.0 | 0/2 | Not started | - |
 | 26. Resident Core | v3.0 | 0/TBD | Not started | - |
 | 27. Resident Secondary | v3.0 | 0/TBD | Not started | - |
 | 28. Admin Portal | v3.0 | 0/TBD | Not started | - |
