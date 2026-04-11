@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.1
 milestone_name: Quality & Infrastructure Gaps
-status: verifying
-stopped_at: Completed 19-02-PLAN.md
-last_updated: "2026-04-11T07:07:17.045Z"
+status: executing
+stopped_at: Completed 20-01-PLAN.md
+last_updated: "2026-04-11T07:28:48.243Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 6
   completed_phases: 2
-  total_plans: 4
-  completed_plans: 4
+  total_plans: 7
+  completed_plans: 5
 ---
 
 # Project State
@@ -20,13 +20,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-11)
 
 **Core value:** Residents can manage their apartment lifecycle — bills, maintenance, bookings, and community info — from a single mobile-first web app without visiting the management office.
-**Current focus:** Phase 19 — api-integration-tests
+**Current focus:** Phase 20 — audit-logging-wallet-transactions
 
 ## Current Position
 
-Phase: 20
-Plan: Not started
-Status: Phase complete — ready for verification
+Phase: 20 (audit-logging-wallet-transactions) — EXECUTING
+Plan: 2 of 3
+Status: Ready to execute
 Last activity: 2026-04-11
 
 ```
@@ -57,6 +57,7 @@ v2.1 Progress: [░░░░░░░░░░░░░░░░░░░░░�
 | Phase 18 P01 | 15 | 1 tasks | 1 files |
 | Phase 19 P01 | 12 | 3 tasks | 5 files |
 | Phase 19 P02 | 15 | 2 tasks | 2 files |
+| Phase 20-audit-logging-wallet-transactions P01 | 10 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -78,6 +79,8 @@ Recent decisions affecting current work:
 - [Phase 19]: Token-based auth in integration tests (not mocking requireAuth) for more realistic coverage
 - [Phase 19]: Facility route mocks use thenable from() (Promise + .where()) since GET /api/facilities awaits db.select().from() directly without .where()
 - [Phase 19]: Per-test inline select mock for ticket message 403 ownership tests (not global setupMocks)
+- [Phase 20]: auditLog() wraps db.insert in try/catch — audit failures are non-blocking by design
+- [Phase 20]: getStaffEmail() helper pattern in admin.ts for one-time per-handler staff email lookup
 
 ### Roadmap Evolution
 
@@ -93,6 +96,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-11T07:04:10.185Z
-Stopped at: Completed 19-02-PLAN.md
+Last session: 2026-04-11T07:28:48.240Z
+Stopped at: Completed 20-01-PLAN.md
 Resume file: None

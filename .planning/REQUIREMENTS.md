@@ -165,10 +165,10 @@ Milestone v2.1: Quality & Infrastructure Gaps
 
 ### Audit & Logging
 
-- [ ] **AUDIT-01**: Admin actions logged to audit_logs table (who, what, when, target)
-- [ ] **AUDIT-02**: Upgrade approvals/rejections create audit trail
-- [ ] **AUDIT-03**: Booking cancellations by admin create audit trail
-- [ ] **AUDIT-04**: Staff account changes (create, deactivate) create audit trail
+- [x] **AUDIT-01**: Admin actions logged to audit_logs table (who, what, when, target)
+- [x] **AUDIT-02**: Upgrade approvals/rejections create audit trail
+- [x] **AUDIT-03**: Booking cancellations by admin create audit trail
+- [x] **AUDIT-04**: Staff account changes (create, deactivate) create audit trail
 
 ### Real-time Communication
 
