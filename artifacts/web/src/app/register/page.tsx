@@ -12,9 +12,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { useTranslations } from "next-intl";
 
 export default function RegisterPage() {
   const [state, formAction, isPending] = useActionState(register, {});
+  const t = useTranslations("auth");
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
@@ -25,12 +27,12 @@ export default function RegisterPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Create Account</CardTitle>
+            <CardTitle>{t("register")}</CardTitle>
           </CardHeader>
           <CardContent>
             <form action={formAction} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="name">Full Name</Label>
+                <Label htmlFor="name">{t("name")}</Label>
                 <Input
                   id="name"
                   name="name"
@@ -41,7 +43,7 @@ export default function RegisterPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{t("email")}</Label>
                 <Input
                   id="email"
                   name="email"
@@ -52,7 +54,7 @@ export default function RegisterPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="phone">Phone</Label>
+                <Label htmlFor="phone">{t("phone")}</Label>
                 <Input
                   id="phone"
                   name="phone"
@@ -63,7 +65,7 @@ export default function RegisterPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">{t("password")}</Label>
                 <Input
                   id="password"
                   name="password"
@@ -74,7 +76,7 @@ export default function RegisterPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="confirmPassword">Confirm Password</Label>
+                <Label htmlFor="confirmPassword">{t("confirmPassword")}</Label>
                 <Input
                   id="confirmPassword"
                   name="confirmPassword"
@@ -89,14 +91,14 @@ export default function RegisterPage() {
               )}
 
               <Button type="submit" className="w-full" disabled={isPending}>
-                {isPending ? "Creating account..." : "Create Account"}
+                {isPending ? t("creatingAccount") : t("register")}
               </Button>
             </form>
 
             <p className="text-sm text-center mt-4 text-muted-foreground">
-              Already have an account?{" "}
+              {t("hasAccount")}{" "}
               <Link href="/login" className="text-primary hover:underline">
-                Sign in
+                {t("signInLink")}
               </Link>
             </p>
           </CardContent>

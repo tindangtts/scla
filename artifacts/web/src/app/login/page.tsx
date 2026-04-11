@@ -12,9 +12,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { useTranslations } from "next-intl";
 
 export default function LoginPage() {
   const [state, formAction, isPending] = useActionState(login, {});
+  const t = useTranslations("auth");
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
@@ -25,12 +27,12 @@ export default function LoginPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Sign In</CardTitle>
+            <CardTitle>{t("login")}</CardTitle>
           </CardHeader>
           <CardContent>
             <form action={formAction} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{t("email")}</Label>
                 <Input
                   id="email"
                   name="email"
@@ -41,7 +43,7 @@ export default function LoginPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">{t("password")}</Label>
                 <Input
                   id="password"
                   name="password"
@@ -56,14 +58,14 @@ export default function LoginPage() {
               )}
 
               <Button type="submit" className="w-full" disabled={isPending}>
-                {isPending ? "Signing in..." : "Sign In"}
+                {isPending ? t("signingIn") : t("login")}
               </Button>
             </form>
 
             <p className="text-sm text-center mt-4 text-muted-foreground">
-              Don&apos;t have an account?{" "}
+              {t("noAccount")}{" "}
               <Link href="/register" className="text-primary hover:underline">
-                Register
+                {t("registerLink")}
               </Link>
             </p>
           </CardContent>

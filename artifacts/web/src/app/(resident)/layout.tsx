@@ -2,6 +2,9 @@ import { requireAuth } from "@/lib/auth";
 import { logout } from "./logout-action";
 import PushPrompt from "@/components/push-prompt";
 import NotificationBell from "@/components/notification-bell";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { LocaleSwitcher } from "@/components/locale-switcher";
+import { getTranslations } from "next-intl/server";
 
 export default async function ResidentLayout({
   children,
@@ -9,22 +12,26 @@ export default async function ResidentLayout({
   children: React.ReactNode;
 }) {
   const user = await requireAuth();
+  const t = await getTranslations("nav");
+  const th = await getTranslations("header");
   const displayName =
     user.user_metadata?.name || user.email?.split("@")[0] || "User";
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="bg-blue-600 text-white px-4 py-3 flex items-center justify-between">
-        <h1 className="text-lg font-semibold">Star City Living</h1>
-        <div className="flex items-center gap-3">
+      <header className="bg-blue-600 dark:bg-blue-900 text-white px-4 py-3 flex items-center justify-between">
+        <h1 className="text-lg font-semibold">{th("appName")}</h1>
+        <div className="flex items-center gap-2">
           <span className="text-sm truncate max-w-[120px]">{displayName}</span>
+          <LocaleSwitcher />
+          <ThemeToggle />
           <NotificationBell />
           <form action={logout}>
             <button
               type="submit"
-              className="text-xs bg-blue-700 hover:bg-blue-800 px-2 py-1 rounded"
+              className="text-xs bg-blue-700 hover:bg-blue-800 dark:bg-blue-800 dark:hover:bg-blue-700 px-2 py-1 rounded"
             >
-              Logout
+              {th("logout")}
             </button>
           </form>
         </div>
@@ -32,23 +39,23 @@ export default async function ResidentLayout({
 
       <PushPrompt />
 
-      <main className="flex-1 pb-16">{children}</main>
+      <main className="flex-1 pb-16 lg:pb-0">{children}</main>
 
-      <nav className="fixed bottom-0 w-full bg-white border-t flex justify-around py-2 text-xs text-gray-600">
+      <nav className="fixed bottom-0 w-full bg-white dark:bg-gray-900 border-t dark:border-gray-700 flex justify-around py-2 text-xs text-gray-600 dark:text-gray-300 lg:hidden">
         <a href="/" className="flex flex-col items-center gap-1">
-          <span>Home</span>
+          <span>{t("home")}</span>
         </a>
         <a href="/bills" className="flex flex-col items-center gap-1">
-          <span>Bills</span>
+          <span>{t("bills")}</span>
         </a>
         <a href="/star-assist" className="flex flex-col items-center gap-1">
-          <span>Star Assist</span>
+          <span>{t("starAssist")}</span>
         </a>
         <a href="/bookings" className="flex flex-col items-center gap-1">
-          <span>Bookings</span>
+          <span>{t("bookings")}</span>
         </a>
         <a href="/more" className="flex flex-col items-center gap-1">
-          <span>More</span>
+          <span>{t("more")}</span>
         </a>
       </nav>
     </div>
