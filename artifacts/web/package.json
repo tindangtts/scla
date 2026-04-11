@@ -24,8 +24,11 @@
     "pg": "^8.20.0",
     "react": "catalog:",
     "react-dom": "catalog:",
+    "resend": "^6.10.0",
     "tailwind-merge": "catalog:",
-    "tailwindcss": "catalog:"
+    "tailwindcss": "catalog:",
+    "web-push": "^3.6.7",
+    "ws": "^8.20.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -34,6 +37,8 @@
     "@types/pg": "^8.18.0",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
+    "@types/web-push": "^3.6.4",
+    "@types/ws": "^8.18.1",
     "postcss": "^8",
     "typescript": "~5.9.2"
   }
