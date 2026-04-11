@@ -88,7 +88,7 @@ Plans:
 **Plans**: 3 plans
 Plans:
 - [x] 20-01-PLAN.md — Schema definitions + audit middleware + admin audit logging
-- [ ] 20-02-PLAN.md — Wallet API routes + invoice pay rewrite + admin wallet adjust
+- [x] 20-02-PLAN.md — Wallet API routes + invoice pay rewrite + admin wallet adjust
 - [ ] 20-03-PLAN.md — Admin audit log page + resident wallet page UI updates
 **UI hint**: yes
 
@@ -139,7 +139,7 @@ Plans:
 | 17 | v2.0 | 2/2 | Complete | 2026-04-10 |
 | 18 | v2.1 | 2/2 | Complete    | 2026-04-11 |
 | 19 | v2.1 | 2/2 | Complete    | 2026-04-11 |
-| 20 | v2.1 | 1/3 | In Progress|  |
+| 20 | v2.1 | 2/3 | In Progress|  |
 | 21 | v2.1 | 0/TBD | Not started | — |
 | 22 | v2.1 | 0/TBD | Not started | — |
 | 23 | v2.1 | 0/TBD | Not started | — |

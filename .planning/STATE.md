@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v2.1
 milestone_name: Quality & Infrastructure Gaps
 status: executing
-stopped_at: Completed 20-01-PLAN.md
-last_updated: "2026-04-11T07:28:48.243Z"
+stopped_at: Completed 20-02-PLAN.md
+last_updated: "2026-04-11T07:33:30.205Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 6
   completed_phases: 2
   total_plans: 7
-  completed_plans: 5
+  completed_plans: 6
 ---
 
 # Project State
@@ -25,7 +25,7 @@ See: .planning/PROJECT.md (updated 2026-04-11)
 ## Current Position
 
 Phase: 20 (audit-logging-wallet-transactions) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 Status: Ready to execute
 Last activity: 2026-04-11
 
@@ -58,6 +58,7 @@ v2.1 Progress: [░░░░░░░░░░░░░░░░░░░░░�
 | Phase 19 P01 | 12 | 3 tasks | 5 files |
 | Phase 19 P02 | 15 | 2 tasks | 2 files |
 | Phase 20-audit-logging-wallet-transactions P01 | 10 | 2 tasks | 5 files |
+| Phase 20-audit-logging-wallet-transactions P02 | 18 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -81,6 +82,8 @@ Recent decisions affecting current work:
 - [Phase 19]: Per-test inline select mock for ticket message 403 ownership tests (not global setupMocks)
 - [Phase 20]: auditLog() wraps db.insert in try/catch — audit failures are non-blocking by design
 - [Phase 20]: getStaffEmail() helper pattern in admin.ts for one-time per-handler staff email lookup
+- [Phase 20-audit-logging-wallet-transactions]: Wallet balance computed on-demand via SQL SUM — no cached balance column, always accurate
+- [Phase 20-audit-logging-wallet-transactions]: Admin wallet adjust supports category=deposit for security deposit management (WALLET-04)
 
 ### Roadmap Evolution
 
@@ -96,6 +99,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-11T07:28:48.240Z
-Stopped at: Completed 20-01-PLAN.md
+Last session: 2026-04-11T07:33:30.202Z
+Stopped at: Completed 20-02-PLAN.md
 Resume file: None

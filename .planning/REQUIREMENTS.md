@@ -184,10 +184,10 @@ Milestone v2.1: Quality & Infrastructure Gaps
 
 ### Wallet & Transactions
 
-- [ ] **WALLET-01**: Resident can view wallet transaction history with filters
-- [ ] **WALLET-02**: Bill payment deducts from wallet balance
-- [ ] **WALLET-03**: Admin can credit/debit wallet with reason (manual adjustment)
-- [ ] **WALLET-04**: Security deposit deductions logged with reason
+- [x] **WALLET-01**: Resident can view wallet transaction history with filters
+- [x] **WALLET-02**: Bill payment deducts from wallet balance
+- [x] **WALLET-03**: Admin can credit/debit wallet with reason (manual adjustment)
+- [x] **WALLET-04**: Security deposit deductions logged with reason
 
 ## Out of Scope
 
