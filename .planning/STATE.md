@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v3.0
 milestone_name: Next.js Migration
-status: verifying
-stopped_at: Completed 30-01-PLAN.md
-last_updated: "2026-04-11T18:36:40.773Z"
+status: executing
+stopped_at: Completed 31-02-PLAN.md
+last_updated: "2026-04-11T18:46:49.877Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 8
   completed_phases: 7
-  total_plans: 18
-  completed_plans: 18
+  total_plans: 20
+  completed_plans: 19
   percent: 0
 ---
 
@@ -21,13 +21,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-11)
 
 **Core value:** Residents can manage their apartment lifecycle — bills, maintenance, bookings, and community info — from a single mobile-first web app without visiting the management office.
-**Current focus:** Phase 30 — i18n-ux-polish
+**Current focus:** Phase 31 — testing-ci
 
 ## Current Position
 
-Phase: 31
-Plan: Not started
-Status: Phase complete — ready for verification
+Phase: 31 (testing-ci) — EXECUTING
+Plan: 2 of 2
+Status: Ready to execute
 Last activity: 2026-04-11
 
 Progress: [░░░░░░░░░░] 0% (v3.0 milestone)
@@ -85,6 +85,8 @@ Recent decisions affecting current work:
 - [Phase 30]: Network-first caching for navigation with offline.html fallback, cache-first for static assets, API requests skip cache
 - [Phase 30]: Cookie-based locale detection (NEXT_LOCALE cookie) instead of URL path-based routing to avoid breaking existing routes
 - [Phase 30]: Server Components use getTranslations, Client Components use useTranslations for proper SSR/CSR i18n split
+- [Phase 31-02]: E2E tests use native form selectors instead of data-testid for Next.js Server Actions forms
+- [Phase 31-02]: E2E tests excluded from CI workflow (require running Next.js server + Supabase DB)
 
 ### Pending Todos
 
@@ -96,6 +98,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-11T18:33:24.689Z
-Stopped at: Completed 30-01-PLAN.md
+Last session: 2026-04-11T18:46:49.875Z
+Stopped at: Completed 31-02-PLAN.md
 Resume file: None

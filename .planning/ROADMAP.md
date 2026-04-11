@@ -193,7 +193,7 @@ Plans:
 **Plans**: 2 plans
 Plans:
 - [ ] 31-01-PLAN.md — Vitest setup, unit tests for auth/notification/push helpers, API route integration tests
-- [ ] 31-02-PLAN.md — Playwright E2E tests for Next.js, GitHub Actions CI pipeline
+- [x] 31-02-PLAN.md — Playwright E2E tests for Next.js, GitHub Actions CI pipeline
 
 ## Progress
 
@@ -220,4 +220,4 @@ Plans:
 | 28. Admin Portal | v3.0 | 3/3 | Complete    | 2026-04-11 |
 | 29. Real-time & Communication | v3.0 | 5/5 | Complete    | 2026-04-11 |
 | 30. i18n & UX Polish | v3.0 | 2/2 | Complete    | 2026-04-11 |
-| 31. Testing & CI | v3.0 | 0/2 | Not started | - |
+| 31. Testing & CI | v3.0 | 1/2 | In Progress|  |

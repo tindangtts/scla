@@ -73,8 +73,8 @@ Requirements for Next.js migration. Each maps to roadmap phases.
 
 - [ ] **TEST-01**: Unit tests migrated to Next.js test infrastructure (Vitest or Jest)
 - [ ] **TEST-02**: API route integration tests covering auth, bills, tickets, bookings
-- [ ] **TEST-03**: E2E tests migrated to Playwright against Next.js dev server
-- [ ] **TEST-04**: CI/CD pipeline updated for Next.js build, lint, typecheck, test
+- [x] **TEST-03**: E2E tests migrated to Playwright against Next.js dev server
+- [x] **TEST-04**: CI/CD pipeline updated for Next.js build, lint, typecheck, test
 - [x] **TEST-05**: Database seed script works with Next.js development workflow
 
 ## Future Requirements
@@ -151,8 +151,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | UX-05 | Phase 30 | Complete |
 | TEST-01 | Phase 31 | Pending |
 | TEST-02 | Phase 31 | Pending |
-| TEST-03 | Phase 31 | Pending |
-| TEST-04 | Phase 31 | Pending |
+| TEST-03 | Phase 31 | Complete |
+| TEST-04 | Phase 31 | Complete |
 | TEST-05 | Phase 24 | Complete |
 
 **Coverage:**
