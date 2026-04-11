@@ -126,8 +126,10 @@ Plans:
   5. Resident can view notification list and manage notification preferences
 **Plans**: 2 plans
 Plans:
-- [ ] 25-01-PLAN.md — Auth pages (login, register, admin login), Server Actions, middleware route protection
-- [ ] 25-02-PLAN.md — Guest upgrade workflow, admin approval, seed script Supabase Auth migration
+- [ ] 27-01-PLAN.md — Facility browsing, slot booking (single + recurring), My Bookings, cancel and bulk-cancel
+- [ ] 27-02-PLAN.md — Discover page, Info Centre articles, notifications list and preferences, More menu
+
+
 **UI hint**: yes
 
 ### Phase 28: Admin Portal
@@ -212,7 +214,7 @@ Plans:
 | 24. Foundation | v3.0 | 2/2 | Complete    | 2026-04-11 |
 | 25. Authentication | v3.0 | 2/2 | Complete    | 2026-04-11 |
 | 26. Resident Core | v3.0 | 2/2 | Complete    | 2026-04-11 |
-| 27. Resident Secondary | v3.0 | 0/TBD | Not started | - |
+| 27. Resident Secondary | v3.0 | 0/2 | Planned | - |
 | 28. Admin Portal | v3.0 | 0/TBD | Not started | - |
 | 29. Real-time & Communication | v3.0 | 0/TBD | Not started | - |
 | 30. i18n & UX Polish | v3.0 | 0/TBD | Not started | - |
