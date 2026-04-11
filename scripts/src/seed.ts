@@ -6,6 +6,7 @@ import {
 } from "@workspace/db";
 import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
+import { createClient } from "@supabase/supabase-js";
 
 async function hashPasswordBcrypt(password: string): Promise<string> {
   return bcrypt.hash(password, 10);
@@ -21,6 +22,64 @@ const SEED_IDS = {
   contentStaff: "00000000-0000-4000-8000-000000000102",
   supportStaff: "00000000-0000-4000-8000-000000000103",
 } as const;
+
+async function seedAuthUsers() {
+  console.log("Seeding Supabase Auth users...");
+  const supabaseAdmin = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+
+  const authUsers = [
+    // Resident/guest users
+    { id: SEED_IDS.guestUser, email: "demo@starcity.com", password: "password123",
+      user_metadata: { name: "Ko Zin Min", phone: "09-999-111-222", user_type: "guest" } },
+    { id: SEED_IDS.residentUser, email: "resident@starcity.com", password: "password123",
+      user_metadata: { name: "Ma Aye Aye", phone: "09-888-333-444", user_type: "resident" } },
+    { id: SEED_IDS.guestUser2, email: "aung.kyaw@gmail.com", password: "password123",
+      user_metadata: { name: "Ko Aung Kyaw", phone: "09-777-222-333", user_type: "guest" } },
+    { id: SEED_IDS.guestUser3, email: "thida.nwe@outlook.com", password: "password123",
+      user_metadata: { name: "Ma Thida Nwe", phone: "09-666-444-555", user_type: "guest" } },
+    // Staff users
+    { id: SEED_IDS.adminStaff, email: "admin@starcity.com", password: "admin123",
+      user_metadata: { name: "U Kyaw Zin", role: "admin" } },
+    { id: SEED_IDS.contentStaff, email: "content@starcity.com", password: "content123",
+      user_metadata: { name: "Ma Su Su", role: "content_manager" } },
+    { id: SEED_IDS.supportStaff, email: "support@starcity.com", password: "support123",
+      user_metadata: { name: "Ko Nay Lin", role: "ticket_handler" } },
+  ];
+
+  for (const u of authUsers) {
+    // Try to create; if user exists, update instead
+    const { data, error } = await supabaseAdmin.auth.admin.createUser({
+      email: u.email,
+      password: u.password,
+      email_confirm: true,
+      user_metadata: u.user_metadata,
+    });
+    if (error) {
+      if (error.message?.includes("already been registered") || error.status === 422) {
+        console.log(`  Auth user ${u.email} already exists, updating...`);
+        const { data: listData } = await supabaseAdmin.auth.admin.listUsers();
+        const users = listData?.users ?? [];
+        const existing = users.find((eu: { email?: string }) => eu.email === u.email);
+        if (existing) {
+          await supabaseAdmin.auth.admin.updateUserById((existing as { id: string }).id, {
+            password: u.password,
+            user_metadata: u.user_metadata,
+            email_confirm: true,
+          });
+          console.log(`  Updated auth user: ${u.email}`);
+        }
+      } else {
+        console.error(`  Failed to create auth user ${u.email}:`, error.message);
+      }
+    } else {
+      console.log(`  Created auth user: ${u.email} (${data.user.id})`);
+    }
+  }
+  console.log("Supabase Auth users seeded.");
+}
 
 async function seedUsers() {
   console.log("Seeding users...");
@@ -541,6 +600,13 @@ async function seedNotifications() {
 
 async function seed() {
   console.log("Seeding database...");
+
+  // Seed Supabase Auth users first (requires env vars)
+  if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    await seedAuthUsers();
+  } else {
+    console.log("Skipping Supabase Auth seeding (NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY not set)");
+  }
 
   await seedStaffUsers();
   await seedUsers();
