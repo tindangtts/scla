@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v3.0
 milestone_name: Next.js Migration
 status: executing
-stopped_at: Completed 28-01-PLAN.md
-last_updated: "2026-04-11T17:36:14.626Z"
+stopped_at: Completed 28-02-PLAN.md
+last_updated: "2026-04-11T17:38:39.009Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 8
   completed_phases: 4
   total_plans: 11
-  completed_plans: 9
+  completed_plans: 10
   percent: 0
 ---
 
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-04-11)
 ## Current Position
 
 Phase: 28 (admin-portal) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 Status: Ready to execute
 Last activity: 2026-04-11
 
@@ -71,6 +71,8 @@ Recent decisions affecting current work:
 - [Phase 27-01]: Member rate used for all residents (no member/non-member distinction yet)
 - [Phase 27-02]: Client component extraction for interactive mark-as-read buttons in server component notification pages
 - [Phase 28-admin-portal]: Admin query helpers follow src/lib/queries/admin-*.ts pattern, role assignment syncs both app DB and Supabase Auth
+- [Phase 28]: Admin ticket queries join usersTable for submitter info without user scope
+- [Phase 28]: All content mutations create audit log entries with actor tracking via requireAdmin()
 
 ### Pending Todos
 
@@ -82,6 +84,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-11T17:36:14.623Z
-Stopped at: Completed 28-01-PLAN.md
+Last session: 2026-04-11T17:38:39.007Z
+Stopped at: Completed 28-02-PLAN.md
 Resume file: None

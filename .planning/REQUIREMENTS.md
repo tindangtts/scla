@@ -45,9 +45,9 @@ Requirements for Next.js migration. Each maps to roadmap phases.
 - [x] **ADM-01**: Admin can view dashboard with KPI stats
 - [x] **ADM-02**: Admin can manage users (list, view detail, role assignment)
 - [x] **ADM-03**: Admin can approve/reject resident upgrade requests
-- [ ] **ADM-04**: Admin can manage maintenance tickets (status updates, assignment)
-- [ ] **ADM-05**: Admin can manage facilities and view bookings
-- [ ] **ADM-06**: Admin can manage content (announcements, promotions, newsletters, FAQs)
+- [x] **ADM-04**: Admin can manage maintenance tickets (status updates, assignment)
+- [x] **ADM-05**: Admin can manage facilities and view bookings
+- [x] **ADM-06**: Admin can manage content (announcements, promotions, newsletters, FAQs)
 - [ ] **ADM-07**: Admin can manage staff accounts
 - [ ] **ADM-08**: Admin can view audit logs with action/date filters
 - [ ] **ADM-09**: Admin can credit/debit resident wallets with audit trail
@@ -132,9 +132,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ADM-01 | Phase 28 | Complete |
 | ADM-02 | Phase 28 | Complete |
 | ADM-03 | Phase 28 | Complete |
-| ADM-04 | Phase 28 | Pending |
-| ADM-05 | Phase 28 | Pending |
-| ADM-06 | Phase 28 | Pending |
+| ADM-04 | Phase 28 | Complete |
+| ADM-05 | Phase 28 | Complete |
+| ADM-06 | Phase 28 | Complete |
 | ADM-07 | Phase 28 | Pending |
 | ADM-08 | Phase 28 | Pending |
 | ADM-09 | Phase 28 | Pending |
