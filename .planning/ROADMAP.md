@@ -56,7 +56,7 @@ See `.planning/milestones/v2.1-ROADMAP.md` for full details.
 **Milestone Goal:** Migrate the entire SCLA stack from separate React SPAs + Express backend into a unified Next.js 15 App Router application with Supabase Auth, preserving all v2.1 functionality.
 
 - [x] **Phase 24: Foundation** — Next.js project scaffolding, Supabase client, Drizzle integration, workspace restructure (completed 2026-04-11)
-- [ ] **Phase 25: Authentication** — Supabase Auth replacing custom JWT, middleware, registration/login/session
+- [x] **Phase 25: Authentication** — Supabase Auth replacing custom JWT, middleware, registration/login/session (completed 2026-04-11)
 - [ ] **Phase 26: Resident Core** — Home, bills, wallet, maintenance tickets, profile
 - [ ] **Phase 27: Resident Secondary** — Facilities/bookings, Discover, Info Centre, notifications
 - [ ] **Phase 28: Admin Portal** — Dashboard, user management, content management, audit logs, wallet operations
@@ -95,7 +95,7 @@ Plans:
 **Plans**: 2 plans
 Plans:
 - [x] 25-01-PLAN.md — Auth pages (login, register, admin login), Server Actions, middleware route protection
-- [ ] 25-02-PLAN.md — Guest upgrade workflow, admin approval, seed script Supabase Auth migration
+- [x] 25-02-PLAN.md — Guest upgrade workflow, admin approval, seed script Supabase Auth migration
 
 ### Phase 26: Resident Core
 **Goal**: Authenticated residents can manage their apartment finances and maintenance — viewing bills, paying invoices, managing wallet, creating and tracking maintenance tickets, and editing their profile — all via Server Components
@@ -109,7 +109,7 @@ Plans:
   5. Resident can view wallet transaction history and edit their profile details
 **Plans**: 2 plans
 Plans:
-- [ ] 25-01-PLAN.md — Auth pages (login, register, admin login), Server Actions, middleware route protection
+- [x] 25-01-PLAN.md — Auth pages (login, register, admin login), Server Actions, middleware route protection
 - [ ] 25-02-PLAN.md — Guest upgrade workflow, admin approval, seed script Supabase Auth migration
 **UI hint**: yes
 
@@ -209,7 +209,7 @@ Plans:
 | 22 | v2.1 | 2/2 | Complete | 2026-04-11 |
 | 23 | v2.1 | 2/2 | Complete | 2026-04-11 |
 | 24. Foundation | v3.0 | 2/2 | Complete    | 2026-04-11 |
-| 25. Authentication | v3.0 | 1/2 | In Progress|  |
+| 25. Authentication | v3.0 | 2/2 | Complete   | 2026-04-11 |
 | 26. Resident Core | v3.0 | 0/TBD | Not started | - |
 | 27. Resident Secondary | v3.0 | 0/TBD | Not started | - |
 | 28. Admin Portal | v3.0 | 0/TBD | Not started | - |

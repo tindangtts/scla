@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v3.0
 milestone_name: Next.js Migration
-status: executing
-stopped_at: Completed 25-01-PLAN.md
-last_updated: "2026-04-11T16:41:29.608Z"
+status: verifying
+stopped_at: Completed 25-02-PLAN.md
+last_updated: "2026-04-11T16:50:46.067Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 8
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 4
-  completed_plans: 3
+  completed_plans: 4
   percent: 0
 ---
 
@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-04-11)
 
 Phase: 25 (authentication) — EXECUTING
 Plan: 2 of 2
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-04-11
 
 Progress: [░░░░░░░░░░] 0% (v3.0 milestone)
@@ -64,6 +64,8 @@ Recent decisions affecting current work:
 - [Phase 24]: Seed script decoupled to scripts/ workspace with inline bcryptjs (10 rounds)
 - [Phase 25-authentication]: Inline Supabase client in middleware for route protection instead of updateSession helper
 - [Phase 25-authentication]: Registration syncs to both Supabase Auth and app DB with bcryptjs for dual-source consistency
+- [Phase 25]: Admin approval updates both app DB and Supabase Auth user_metadata for dual-source consistency
+- [Phase 25]: Seed script conditionally seeds Supabase Auth users when env vars present, skips gracefully otherwise
 
 ### Pending Todos
 
@@ -75,6 +77,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-11T16:41:29.603Z
-Stopped at: Completed 25-01-PLAN.md
+Last session: 2026-04-11T16:50:46.064Z
+Stopped at: Completed 25-02-PLAN.md
 Resume file: None
