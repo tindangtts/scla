@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import { approveUpgrade, rejectUpgrade } from "./actions";
 
 export const dynamic = "force-dynamic";
@@ -39,9 +40,23 @@ export default async function UpgradeRequestsPage() {
     .from(upgradeRequestsTable)
     .orderBy(desc(upgradeRequestsTable.submittedAt));
 
+  const pendingCount = requests.filter((r) => r.status === "pending").length;
+
   return (
     <div className="p-4 space-y-4">
-      <h1 className="text-xl font-bold">Upgrade Requests</h1>
+      <Link
+        href="/admin/dashboard"
+        className="text-sm text-blue-600 hover:underline inline-block"
+      >
+        &larr; Back to Dashboard
+      </Link>
+
+      <div className="flex items-center gap-3">
+        <h1 className="text-xl font-bold">Upgrade Requests</h1>
+        {pendingCount > 0 && (
+          <Badge variant="default">{pendingCount} pending</Badge>
+        )}
+      </div>
 
       {requests.length === 0 && (
         <p className="text-muted-foreground">No upgrade requests yet.</p>
