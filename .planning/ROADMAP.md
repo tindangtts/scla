@@ -63,7 +63,7 @@ See `.planning/milestones/v3.0-ROADMAP.md` for full details.
 **Granularity:** coarse (3 phases for 19 requirements)
 
 - [x] **Phase 33: UI Polish** — Restore brand warmth on auth pages, strengthen bottom nav, verify status badge rendering and admin/resident visual distinction (completed 2026-04-12)
-- [ ] **Phase 34: i18n Backfill + Typecheck Cleanup** — Complete Myanmar translations for v3.0 UI strings and resolve pre-existing typecheck errors blocking CI
+- [x] **Phase 34: i18n Backfill + Typecheck Cleanup** — Complete Myanmar translations for v3.0 UI strings and resolve pre-existing typecheck errors blocking CI (completed 2026-04-12)
 - [ ] **Phase 35: Vercel Deployment** — Configure Vercel project, migrate secrets, set up cron, deploy preview + production, and document WebSocket deferral
 
 ## Phase Details
@@ -93,7 +93,7 @@ See `.planning/milestones/v3.0-ROADMAP.md` for full details.
   4. `pnpm --filter @workspace/web typecheck` exits with code 0 — no remaining typecheck errors in api route `__tests__` or elsewhere
   5. CI typecheck step passes on every push/PR, unblocking the pipeline for deploy
 **Plans**: 1 plan (coarse — i18n audit + typecheck cleanup are independent, file-disjoint concerns bundled under deep_work_rules)
-  - [ ] 34-01-PLAN.md — Verify EN/MY translation parity (I18N-01/02/03) and fix 13 pre-existing typecheck errors across 6 api route test files (TYPE-01/02)
+  - [x] 34-01-PLAN.md — Verify EN/MY translation parity (I18N-01/02/03) and fix 13 pre-existing typecheck errors across 6 api route test files (TYPE-01/02)
 
 ### Phase 35: Vercel Deployment
 **Goal**: Production users reach the SCLA app at a stable HTTPS URL with daily cron running, all secrets securely stored, and chat working via polling fallback.
@@ -144,5 +144,5 @@ See `.planning/milestones/v3.0-ROADMAP.md` for full details.
 | 18-23 | v2.1 | 13 | Complete | 2026-04-11 |
 | 24-32 | v3.0 | 21 | Complete | 2026-04-12 |
 | 33 | v3.1 | 1/1 | Complete    | 2026-04-12 |
-| 34 | v3.1 | 0/1 | Not started | — |
+| 34 | v3.1 | 1/1 | Complete   | 2026-04-12 |
 | 35 | v3.1 | 0/? | Not started | — |

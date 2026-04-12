@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v3.1
 milestone_name: Deploy-Ready Polish
 status: verifying
-stopped_at: Completed 33-01-PLAN.md
-last_updated: "2026-04-12T07:20:03.484Z"
+stopped_at: Completed 34-01-PLAN.md
+last_updated: "2026-04-12T07:31:56.192Z"
 last_activity: 2026-04-12
 progress:
   total_phases: 3
-  completed_phases: 1
-  total_plans: 1
-  completed_plans: 1
+  completed_phases: 2
+  total_plans: 2
+  completed_plans: 2
 ---
 
 # Project State
@@ -20,12 +20,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-12)
 
 **Core value:** Residents can manage their apartment lifecycle — bills, maintenance, bookings, and community info — from a single mobile-first web app without visiting the management office.
-**Current focus:** Phase 33 — ui-polish
+**Current focus:** Phase 34 — i18n-typecheck
 
 ## Current Position
 
-Phase: 34
-Plan: Not started
+Phase: 34 (i18n-typecheck) — EXECUTING
+Plan: 1 of 1
 Status: Phase complete — ready for verification
 Last activity: 2026-04-12
 
@@ -53,6 +53,9 @@ Recent decisions affecting current work:
 - [Phase 33]: 33-01: SC mark placed ABOVE existing h2 heading (not replacing it) to preserve E2E heading probes and auth.login translation contract
 - [Phase 33]: 33-01: Gold (accent) chosen over teal (primary) for nav active indicator to avoid monochrome active state paired with primary-filled icon tile
 - [Phase 33]: 33-01: Dark-mode badge legibility via scoped .dark .badge-* overrides on fixed-hue classes only; destructive/muted badges rely on token flips
+- [Phase 34-i18n-typecheck]: 34-01: Used Option B (Parameters<typeof mock>) over Option A (direct reference) for TS2556 fix — Option A breaks at runtime because vi.mock factories are hoisted above const declarations
+- [Phase 34-i18n-typecheck]: 34-01: TS2345 NextRequest fix used FALLBACK (ConstructorParameters cast) over PRIMARY (deep pnpm-versioned import) — public-API machinery is more robust to Next upgrades
+- [Phase 34-i18n-typecheck]: 34-01: 70 hardcoded-English JSX leaks in runtime .tsx deferred to post-deploy i18n-runtime-cleanup plan — plan scope forbids runtime edits
 
 ### Pending Todos
 
@@ -66,7 +69,7 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-12T07:16:53.278Z
-Stopped at: Completed 33-01-PLAN.md
+Last session: 2026-04-12T07:31:56.190Z
+Stopped at: Completed 34-01-PLAN.md
 Resume file: None
 Next step: `/gsd:plan-phase 33`

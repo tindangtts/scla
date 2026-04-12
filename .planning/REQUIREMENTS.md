@@ -17,14 +17,14 @@ Requirements for Deploy-Ready Polish milestone. Each maps to roadmap phases.
 
 ### Internationalization
 
-- [ ] **I18N-01**: All user-facing strings introduced during v3.0 UI migration have Myanmar translations in messages/my.json
-- [ ] **I18N-02**: Myanmar translation key count matches English (no orphaned keys in either file)
-- [ ] **I18N-03**: Full EN↔MY toggle pass — every route renders correctly in both locales with no fallback-to-English text
+- [x] **I18N-01**: All user-facing strings introduced during v3.0 UI migration have Myanmar translations in messages/my.json
+- [x] **I18N-02**: Myanmar translation key count matches English (no orphaned keys in either file)
+- [x] **I18N-03**: Full EN↔MY toggle pass — every route renders correctly in both locales with no fallback-to-English text
 
 ### Type Safety
 
-- [ ] **TYPE-01**: All pre-existing typecheck errors in api route test files resolved (`pnpm --filter @workspace/web typecheck` exits 0)
-- [ ] **TYPE-02**: CI typecheck step runs clean on every PR/push
+- [x] **TYPE-01**: All pre-existing typecheck errors in api route test files resolved (`pnpm --filter @workspace/web typecheck` exits 0)
+- [x] **TYPE-02**: CI typecheck step runs clean on every PR/push
 
 ### Deployment
 
@@ -74,11 +74,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | UI-03 | Phase 33 | Complete |
 | UI-04 | Phase 33 | Complete |
 | UI-05 | Phase 33 | Complete |
-| I18N-01 | Phase 34 | Pending |
-| I18N-02 | Phase 34 | Pending |
-| I18N-03 | Phase 34 | Pending |
-| TYPE-01 | Phase 34 | Pending |
-| TYPE-02 | Phase 34 | Pending |
+| I18N-01 | Phase 34 | Complete |
+| I18N-02 | Phase 34 | Complete |
+| I18N-03 | Phase 34 | Complete |
+| TYPE-01 | Phase 34 | Complete |
+| TYPE-02 | Phase 34 | Complete |
 | DEPLOY-01 | Phase 35 | Pending |
 | DEPLOY-02 | Phase 35 | Pending |
 | DEPLOY-03 | Phase 35 | Pending |
