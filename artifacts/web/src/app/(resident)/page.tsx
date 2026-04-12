@@ -232,6 +232,68 @@ export default async function ResidentHomePage() {
           )}
         </section>
 
+        {/* Community Notices */}
+        {data.latestAnnouncement && (
+          <section aria-labelledby="notices-heading" className="space-y-3">
+            <div className="flex items-end justify-between">
+              <h3 id="notices-heading" className="text-base font-bold tracking-tight">
+                Community Notices
+              </h3>
+              <Link href="/discover" className="text-xs font-bold text-primary hover:underline">
+                View all
+              </Link>
+            </div>
+            <Link
+              href={`/discover/announcements/${data.latestAnnouncement.id}`}
+              className="block rounded-2xl bg-card border border-card-border border-l-4 border-l-accent p-5 shadow-sm hover:shadow-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              {data.latestAnnouncement.isPinned && (
+                <span className="inline-block px-2.5 py-1 bg-accent/20 text-accent-foreground text-[10px] font-black uppercase tracking-wider rounded-md mb-2">
+                  Pinned
+                </span>
+              )}
+              <p className="font-bold text-base text-foreground leading-snug">
+                {data.latestAnnouncement.title}
+              </p>
+              <p className="text-sm font-medium text-muted-foreground mt-2 line-clamp-2 leading-relaxed">
+                {data.latestAnnouncement.summary}
+              </p>
+            </Link>
+          </section>
+        )}
+
+        {/* Offers for You */}
+        {data.promotions.length > 0 && (
+          <section aria-labelledby="offers-heading" className="space-y-3">
+            <div className="flex items-end justify-between">
+              <h3 id="offers-heading" className="text-base font-bold tracking-tight">
+                Offers for You
+              </h3>
+              <Link href="/discover" className="text-xs font-bold text-primary hover:underline">
+                View all
+              </Link>
+            </div>
+            <div className="space-y-2.5">
+              {data.promotions.map((promo) => (
+                <Link
+                  key={promo.id}
+                  href={`/discover/promotions/${promo.id}`}
+                  className="flex items-center gap-4 rounded-2xl bg-card border border-card-border p-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  <div className="w-12 h-12 bg-primary/10 rounded-xl shrink-0 flex items-center justify-center">
+                    <span className="text-primary font-black text-xl">%</span>
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="font-bold text-sm text-foreground truncate">{promo.title}</p>
+                    <p className="text-xs font-medium text-muted-foreground mt-0.5">{promo.partnerName}</p>
+                  </div>
+                  <ChevronRight className="w-5 h-5 text-muted-foreground shrink-0" />
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
         <QuickActionsGrid />
       </div>
     </>
