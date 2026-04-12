@@ -142,6 +142,6 @@ See `.planning/milestones/v3.0-ROADMAP.md` for full details.
 | 11-17 | v2.0 | 25 | Complete | 2026-04-10 |
 | 18-23 | v2.1 | 13 | Complete | 2026-04-11 |
 | 24-32 | v3.0 | 21 | Complete | 2026-04-12 |
-| 33 | v3.1 | 1/1 | Complete   | 2026-04-12 |
+| 33 | v3.1 | 1/1 | Complete    | 2026-04-12 |
 | 34 | v3.1 | 0/? | Not started | — |
 | 35 | v3.1 | 0/? | Not started | — |
