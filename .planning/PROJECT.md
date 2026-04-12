@@ -73,7 +73,30 @@ Residents can manage their apartment lifecycle — bills, maintenance, bookings,
 
 ### Active
 
-(To be defined for next milestone)
+<!-- v3.1 Deploy-Ready Polish -->
+
+- [ ] Polish resident login page — restore brand warmth (SC logo mark, decorative accents)
+- [ ] Verify home-page push-notification banner renders when unsubscribed
+- [ ] Strengthen bottom-nav visual weight and active-tab indicator
+- [ ] Verify status badge tints (.badge-*) render with correct colors across dark/light mode
+- [ ] Backfill Myanmar translations for new copy introduced in v3.0 UI migration
+- [ ] Fix pre-existing typecheck errors in test files (api route __tests__)
+- [ ] Configure Vercel project for the Next.js monolith (root dir, build cmd, env vars)
+- [ ] Move secrets to Vercel env: Supabase keys, VAPID, Resend, CRON_SECRET, DATABASE_URL
+- [ ] Configure Vercel Cron to hit /api/cron/bill-overdue-check daily with secret header
+- [ ] Ship to Vercel preview, smoke-test, promote to production
+- [ ] Document WebSocket deferral — chat uses polling fallback until Supabase Realtime migration
+
+## Current Milestone: v3.1 Deploy-Ready Polish
+
+**Goal:** Close gaps from v3.0 UI review, complete Myanmar i18n, fix typecheck blockers, and ship to Vercel production with verified end-to-end flows.
+
+**Target features:**
+- UI polish on auth pages and bottom nav (5 gaps from agent-browser review)
+- Myanmar translation completeness for all UI strings
+- Typecheck passing (zero errors across the repo)
+- Vercel deployment (preview + production)
+- WebSocket chat continues on polling fallback (Supabase Realtime deferred)
 
 <details>
 <summary>v3.0 Next.js Migration (49 requirements)</summary>
@@ -172,4 +195,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-12 after v3.0 milestone completion*
+*Last updated: 2026-04-12 after v3.1 milestone start*
