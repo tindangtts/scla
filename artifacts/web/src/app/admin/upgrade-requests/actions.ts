@@ -91,7 +91,7 @@ export async function approveUpgrade(formData: FormData) {
     }
   }
 
-  revalidatePath("/upgrade-requests");
+  revalidatePath("/admin/upgrade-requests");
 }
 
 export async function rejectUpgrade(formData: FormData) {
@@ -123,5 +123,5 @@ export async function rejectUpgrade(formData: FormData) {
     .set({ upgradeStatus: "rejected" })
     .where(eq(usersTable.id, request.userId));
 
-  revalidatePath("/upgrade-requests");
+  revalidatePath("/admin/upgrade-requests");
 }

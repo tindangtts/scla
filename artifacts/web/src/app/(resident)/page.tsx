@@ -167,19 +167,19 @@ export default async function ResidentHomePage() {
       <div className="grid grid-cols-3 gap-3">
         <Link
           href="/bills"
-          className="flex flex-col items-center gap-1 p-3 bg-white border rounded-lg text-center hover:bg-muted/50"
+          className="flex flex-col items-center gap-1 p-3 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg text-center hover:bg-muted/50"
         >
           <span className="text-sm font-medium">Pay Bills</span>
         </Link>
         <Link
           href="/star-assist"
-          className="flex flex-col items-center gap-1 p-3 bg-white border rounded-lg text-center hover:bg-muted/50"
+          className="flex flex-col items-center gap-1 p-3 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg text-center hover:bg-muted/50"
         >
           <span className="text-sm font-medium">New Ticket</span>
         </Link>
         <Link
           href="/wallet"
-          className="flex flex-col items-center gap-1 p-3 bg-white border rounded-lg text-center hover:bg-muted/50"
+          className="flex flex-col items-center gap-1 p-3 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg text-center hover:bg-muted/50"
         >
           <span className="text-sm font-medium">View Wallet</span>
         </Link>

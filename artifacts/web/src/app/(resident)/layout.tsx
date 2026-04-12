@@ -5,6 +5,7 @@ import NotificationBell from "@/components/notification-bell";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LocaleSwitcher } from "@/components/locale-switcher";
 import { getTranslations } from "next-intl/server";
+import Link from "next/link";
 
 export default async function ResidentLayout({
   children,
@@ -42,21 +43,21 @@ export default async function ResidentLayout({
       <main className="flex-1 pb-16 lg:pb-0">{children}</main>
 
       <nav className="fixed bottom-0 w-full bg-white dark:bg-gray-900 border-t dark:border-gray-700 flex justify-around py-2 text-xs text-gray-600 dark:text-gray-300 lg:hidden">
-        <a href="/" className="flex flex-col items-center gap-1">
+        <Link href="/" className="flex flex-col items-center gap-1">
           <span>{t("home")}</span>
-        </a>
-        <a href="/bills" className="flex flex-col items-center gap-1">
+        </Link>
+        <Link href="/bills" className="flex flex-col items-center gap-1">
           <span>{t("bills")}</span>
-        </a>
-        <a href="/star-assist" className="flex flex-col items-center gap-1">
+        </Link>
+        <Link href="/star-assist" className="flex flex-col items-center gap-1">
           <span>{t("starAssist")}</span>
-        </a>
-        <a href="/bookings" className="flex flex-col items-center gap-1">
+        </Link>
+        <Link href="/bookings" className="flex flex-col items-center gap-1">
           <span>{t("bookings")}</span>
-        </a>
-        <a href="/more" className="flex flex-col items-center gap-1">
+        </Link>
+        <Link href="/more" className="flex flex-col items-center gap-1">
           <span>{t("more")}</span>
-        </a>
+        </Link>
       </nav>
     </div>
   );
