@@ -43,16 +43,23 @@ vi.mock("@workspace/db/schema", () => ({
   },
 }));
 
-import { POST } from "../route";
+import { GET, POST } from "../route";
 
-function makeRequest(url: string, headers?: Record<string, string>) {
+function makePostRequest(url: string, headers?: Record<string, string>) {
   return new NextRequest(new URL(url, "http://localhost:3000"), {
     method: "POST",
     headers,
   });
 }
 
-describe("POST /api/cron/bill-overdue-check", () => {
+function makeGetRequest(url: string, headers?: Record<string, string>) {
+  return new NextRequest(new URL(url, "http://localhost:3000"), {
+    method: "GET",
+    headers,
+  });
+}
+
+describe("POST /api/cron/bill-overdue-check (legacy path)", () => {
   const originalEnv = { ...process.env };
 
   beforeEach(() => {
@@ -66,7 +73,7 @@ describe("POST /api/cron/bill-overdue-check", () => {
 
   it("returns 401 when cron secret is wrong", async () => {
     const res = await POST(
-      makeRequest("/api/cron/bill-overdue-check", {
+      makePostRequest("/api/cron/bill-overdue-check", {
         "x-cron-secret": "wrong-secret",
       }),
     );
@@ -80,7 +87,7 @@ describe("POST /api/cron/bill-overdue-check", () => {
     mockWhere.mockResolvedValue([]);
 
     const res = await POST(
-      makeRequest("/api/cron/bill-overdue-check", {
+      makePostRequest("/api/cron/bill-overdue-check", {
         "x-cron-secret": "test-secret",
       }),
     );
@@ -99,7 +106,7 @@ describe("POST /api/cron/bill-overdue-check", () => {
     mockNotifyBillOverdue.mockResolvedValue(undefined);
 
     const res = await POST(
-      makeRequest("/api/cron/bill-overdue-check", {
+      makePostRequest("/api/cron/bill-overdue-check", {
         "x-cron-secret": "test-secret",
       }),
     );
@@ -120,7 +127,7 @@ describe("POST /api/cron/bill-overdue-check", () => {
     mockNotifyBillOverdue.mockRejectedValue(new Error("Push failed"));
 
     const res = await POST(
-      makeRequest("/api/cron/bill-overdue-check", {
+      makePostRequest("/api/cron/bill-overdue-check", {
         "x-cron-secret": "test-secret",
       }),
     );
@@ -128,5 +135,91 @@ describe("POST /api/cron/bill-overdue-check", () => {
     expect(res.status).toBe(200);
     const body = await res.json();
     expect(body).toEqual({ processed: 0, errors: 1, total: 1 });
+  });
+});
+
+describe("GET /api/cron/bill-overdue-check (Vercel Cron path)", () => {
+  const originalEnv = { ...process.env };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    process.env.CRON_SECRET = "test-secret";
+  });
+
+  afterEach(() => {
+    process.env = { ...originalEnv };
+  });
+
+  it("returns 401 when called without any auth header and CRON_SECRET is set", async () => {
+    const res = await GET(makeGetRequest("/api/cron/bill-overdue-check"));
+
+    expect(res.status).toBe(401);
+    const body = await res.json();
+    expect(body.error).toBe("Unauthorized");
+  });
+
+  it("returns 200 when Authorization: Bearer matches CRON_SECRET", async () => {
+    mockWhere.mockResolvedValue([]);
+
+    const res = await GET(
+      makeGetRequest("/api/cron/bill-overdue-check", {
+        authorization: "Bearer test-secret",
+      }),
+    );
+
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body).toEqual({ processed: 0, errors: 0, total: 0 });
+  });
+
+  it("returns 401 when Authorization: Bearer is wrong", async () => {
+    const res = await GET(
+      makeGetRequest("/api/cron/bill-overdue-check", {
+        authorization: "Bearer WRONG",
+      }),
+    );
+
+    expect(res.status).toBe(401);
+    const body = await res.json();
+    expect(body.error).toBe("Unauthorized");
+  });
+
+  it("permits call when CRON_SECRET is not set (dev mode)", async () => {
+    delete process.env.CRON_SECRET;
+    mockWhere.mockResolvedValue([]);
+
+    const res = await GET(makeGetRequest("/api/cron/bill-overdue-check"));
+
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body).toEqual({ processed: 0, errors: 0, total: 0 });
+  });
+
+  it("honors ?force=true query param (processes all overdue, not just yesterday's)", async () => {
+    const invoices = [
+      { id: "inv-1", userId: "user-1", invoiceNumber: "INV-001", totalAmount: "50000" },
+    ];
+    mockWhere.mockResolvedValue(invoices);
+    mockNotifyBillOverdue.mockResolvedValue(undefined);
+
+    const res = await GET(
+      makeGetRequest("/api/cron/bill-overdue-check?force=true", {
+        authorization: "Bearer test-secret",
+      }),
+    );
+
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body).toEqual({ processed: 1, errors: 0, total: 1 });
+    // When force=true, the SQL condition should be `< current_date` rather than
+    // `= current_date - interval '1 day'`. Confirm via the sql template captured
+    // in the drizzle mock (see `and` mock).
+    const { and } = await import("drizzle-orm");
+    const lastCall = (and as unknown as { mock: { calls: unknown[][] } }).mock.calls.at(-1);
+    expect(lastCall).toBeDefined();
+    const conditions = lastCall as unknown[];
+    // The second condition is the dueDate SQL — force mode uses "< current_date"
+    const dueDateCond = conditions[1] as { strings: string[] };
+    expect(dueDateCond.strings.join("")).toContain("< current_date");
   });
 });
