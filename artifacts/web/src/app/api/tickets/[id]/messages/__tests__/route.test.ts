@@ -25,8 +25,8 @@ const mockInsert = vi.fn(() => ({ values: mockInsertValues }));
 
 vi.mock("@/lib/db", () => ({
   db: {
-    select: (...args: unknown[]) => mockSelectObj(...args),
-    insert: (...args: unknown[]) => mockInsert(...args),
+    select: (...args: Parameters<typeof mockSelectObj>) => mockSelectObj(...args),
+    insert: (...args: Parameters<typeof mockInsert>) => mockInsert(...args),
   },
 }));
 
@@ -60,7 +60,10 @@ vi.stubGlobal("fetch", vi.fn().mockResolvedValue({}));
 import { GET, POST } from "../route";
 
 function makeRequest(url: string, options?: RequestInit) {
-  return new NextRequest(new URL(url, "http://localhost:3000"), options);
+  return new NextRequest(
+    new URL(url, "http://localhost:3000"),
+    options as ConstructorParameters<typeof NextRequest>[1],
+  );
 }
 
 function makeParams(id: string) {

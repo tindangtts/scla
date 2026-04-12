@@ -23,9 +23,9 @@ const mockSelect = vi.fn(() => ({ from: mockFrom }));
 
 vi.mock("@/lib/db", () => ({
   db: {
-    select: (...args: unknown[]) => mockSelect(...args),
-    insert: (...args: unknown[]) => mockInsert(...args),
-    delete: (...args: unknown[]) => mockDelete(...args),
+    select: (...args: Parameters<typeof mockSelect>) => mockSelect(...args),
+    insert: (...args: Parameters<typeof mockInsert>) => mockInsert(...args),
+    delete: (...args: Parameters<typeof mockDelete>) => mockDelete(...args),
   },
 }));
 

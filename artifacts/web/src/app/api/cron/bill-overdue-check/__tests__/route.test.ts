@@ -8,7 +8,7 @@ const mockSelect = vi.fn(() => ({ from: mockFrom }));
 
 vi.mock("@/lib/db", () => ({
   db: {
-    select: (...args: unknown[]) => mockSelect(...args),
+    select: (...args: Parameters<typeof mockSelect>) => mockSelect(...args),
   },
 }));
 
