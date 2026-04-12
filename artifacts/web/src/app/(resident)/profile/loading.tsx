@@ -1,5 +1,13 @@
-import { DetailSkeleton } from "@/components/skeletons";
+import { HeroHeaderSkeleton, CardSkeleton } from "@/components/skeletons";
 
 export default function Loading() {
-  return <DetailSkeleton />;
+  return (
+    <>
+      <HeroHeaderSkeleton />
+      <div className="px-5 -mt-8 pb-8 relative z-20 space-y-5">
+        <CardSkeleton className="min-h-[300px]" />
+        <CardSkeleton className="min-h-[180px]" />
+      </div>
+    </>
+  );
 }

@@ -1,10 +1,18 @@
-import { CardGridSkeleton } from "@/components/skeletons";
+import { Skeleton, CardGridSkeleton } from "@/components/skeletons";
 
 export default function Loading() {
   return (
-    <div className="p-4 space-y-4">
-      <div className="h-8 w-32 animate-pulse rounded bg-muted" />
-      <CardGridSkeleton count={4} />
+    <div className="space-y-6">
+      <div className="space-y-2">
+        <Skeleton className="h-8 w-60" />
+        <Skeleton className="h-3 w-96" />
+      </div>
+      <CardGridSkeleton count={6} />
+      <div className="flex gap-2 flex-wrap">
+        <Skeleton className="h-9 w-36 rounded-xl" />
+        <Skeleton className="h-9 w-36 rounded-xl" />
+        <Skeleton className="h-9 w-36 rounded-xl" />
+      </div>
     </div>
   );
 }

@@ -1,11 +1,13 @@
-import { CardSkeleton, ListSkeleton } from "@/components/skeletons";
+import { HeroHeaderSkeleton, CardSkeleton, ListSkeleton } from "@/components/skeletons";
 
 export default function Loading() {
   return (
-    <div className="p-4 space-y-4">
-      <div className="h-8 w-32 animate-pulse rounded bg-muted" />
-      <CardSkeleton />
-      <ListSkeleton rows={5} />
-    </div>
+    <>
+      <HeroHeaderSkeleton />
+      <div className="px-5 -mt-8 pb-8 relative z-20 space-y-5">
+        <CardSkeleton className="min-h-[180px]" />
+        <ListSkeleton rows={4} />
+      </div>
+    </>
   );
 }
