@@ -20,10 +20,10 @@ test.describe('Authentication and Dashboard', () => {
     ).toBeVisible({ timeout: 10000 });
 
     // Dashboard shows wallet balance card
-    await expect(page.getByText('Wallet Balance')).toBeVisible();
+    await expect(page.getByText('Wallet Balance').first()).toBeVisible();
 
-    // Dashboard shows unpaid bills card
-    await expect(page.getByText('Unpaid Bills')).toBeVisible();
+    // Dashboard shows unpaid bills card (appears in card title and CTA button, so use first)
+    await expect(page.getByText('Unpaid Bills').first()).toBeVisible();
   });
 
   test('invalid credentials show error message', async ({ page }) => {

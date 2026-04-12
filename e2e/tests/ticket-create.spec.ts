@@ -30,8 +30,8 @@ test.describe('Ticket Creation', () => {
       'Leaking pipe under kitchen sink needs urgent repair. Water damage is spreading.'
     );
 
-    // Submit the ticket
-    await page.locator('button[type="submit"]').click();
+    // Submit the ticket (scope to form to avoid matching layout's logout button)
+    await page.locator('form button[type="submit"]', { hasText: /submit ticket/i }).click();
 
     // After success, the form shows a success message with "submitted successfully"
     await expect(
@@ -59,9 +59,9 @@ test.describe('Ticket Creation', () => {
     ).toBeVisible({ timeout: 10000 });
 
     // At least one ticket card with a ticket number pattern should be visible
-    // Ticket numbers follow the pattern TK-XXXX
+    // Ticket numbers follow the pattern SA-XXXX (Star Assist prefix)
     await expect(
-      page.locator('text=/TK-\\d+/').first()
+      page.locator('text=/SA-\\d+/').first()
     ).toBeVisible({ timeout: 10000 });
   });
 });
