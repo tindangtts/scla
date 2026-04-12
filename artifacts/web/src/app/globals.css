@@ -159,15 +159,22 @@
 
 /* Status badge colors — reused across bills, tickets, bookings */
 .badge-unpaid         { background: hsl(var(--destructive) / 0.10); color: hsl(var(--destructive)); }
-.badge-partially-paid { background: hsl(38 92% 50% / 0.10);        color: hsl(38 92% 40%); }
-.badge-paid           { background: hsl(158 64% 45% / 0.10);       color: hsl(158 64% 35%); }
-.badge-overdue        { background: hsl(var(--destructive) / 0.12); color: hsl(var(--destructive)); }
+.badge-partially-paid { background: hsl(38 92% 50% / 0.12);        color: hsl(38 92% 40%); }
+.badge-paid           { background: hsl(158 64% 45% / 0.12);       color: hsl(158 64% 32%); }
+.badge-overdue        { background: hsl(var(--destructive) / 0.14); color: hsl(var(--destructive)); }
 .badge-open           { background: hsl(var(--destructive) / 0.10); color: hsl(var(--destructive)); }
-.badge-in-progress    { background: hsl(38 92% 50% / 0.10);        color: hsl(38 92% 40%); }
-.badge-completed      { background: hsl(158 64% 45% / 0.10);       color: hsl(158 64% 35%); }
+.badge-in-progress    { background: hsl(38 92% 50% / 0.12);        color: hsl(38 92% 40%); }
+.badge-completed      { background: hsl(158 64% 45% / 0.12);       color: hsl(158 64% 32%); }
 .badge-closed         { background: hsl(var(--muted));             color: hsl(var(--muted-foreground)); }
-.badge-upcoming       { background: hsl(213 94% 68% / 0.10);       color: hsl(213 94% 50%); }
+.badge-upcoming       { background: hsl(213 94% 68% / 0.12);       color: hsl(213 94% 48%); }
 .badge-cancelled      { background: hsl(var(--muted));             color: hsl(var(--muted-foreground)); }
+
+/* Dark-mode foreground lift — keeps badges legible on dark cards */
+.dark .badge-partially-paid { color: hsl(38 92% 65%); }
+.dark .badge-paid           { color: hsl(158 64% 60%); }
+.dark .badge-in-progress    { color: hsl(38 92% 65%); }
+.dark .badge-completed      { color: hsl(158 64% 60%); }
+.dark .badge-upcoming       { color: hsl(213 94% 72%); }
 
 /* Custom utilities */
 @layer utilities {
