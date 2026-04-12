@@ -63,7 +63,7 @@ See `.planning/milestones/v2.1-ROADMAP.md` for full details.
 - [x] **Phase 29: Real-time & Communication** — WebSocket chat, push notifications, email, in-app notifications (completed 2026-04-11)
 - [x] **Phase 30: i18n & UX Polish** — Myanmar/English i18n, dark mode, PWA, mobile layout, loading states (completed 2026-04-11)
 - [x] **Phase 31: Testing & CI** — Unit tests, integration tests, E2E tests, CI/CD pipeline (completed 2026-04-11)
-- [ ] **Phase 32: Integration Fixes & Polish** — Admin routing fix, bottom nav <Link>, dark mode gaps, formatting
+- [x] **Phase 32: Integration Fixes & Polish** — Admin routing fix, bottom nav <Link>, dark mode gaps, formatting (completed 2026-04-12)
 
 ## Phase Details
 
@@ -209,7 +209,7 @@ Plans:
   5. pnpm format:check passes with no errors
 **Plans**: 1 plan
 Plans:
-- [ ] 32-01-PLAN.md — Admin routing fix, bottom nav Link, dark mode cards, code formatting
+- [x] 32-01-PLAN.md — Admin routing fix, bottom nav Link, dark mode cards, code formatting
 **UI hint**: yes
 
 ## Progress
@@ -238,4 +238,4 @@ Plans:
 | 29. Real-time & Communication | v3.0 | 5/5 | Complete    | 2026-04-11 |
 | 30. i18n & UX Polish | v3.0 | 2/2 | Complete    | 2026-04-11 |
 | 31. Testing & CI | v3.0 | 2/2 | Complete    | 2026-04-11 |
-| 32. Integration Fixes & Polish | v3.0 | 0/1 | Planning complete | - |
+| 32. Integration Fixes & Polish | v3.0 | 1/1 | Complete   | 2026-04-12 |

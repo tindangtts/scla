@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v3.0
 milestone_name: Next.js Migration
 status: verifying
-stopped_at: Completed 31-01-PLAN.md
-last_updated: "2026-04-11T18:50:50.058Z"
-last_activity: 2026-04-11
+stopped_at: Completed 32-01-PLAN.md
+last_updated: "2026-04-12T02:06:27.407Z"
+last_activity: 2026-04-12
 progress:
-  total_phases: 8
-  completed_phases: 8
-  total_plans: 20
-  completed_plans: 20
+  total_phases: 9
+  completed_phases: 9
+  total_plans: 21
+  completed_plans: 21
   percent: 0
 ---
 
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-11)
 
 **Core value:** Residents can manage their apartment lifecycle — bills, maintenance, bookings, and community info — from a single mobile-first web app without visiting the management office.
-**Current focus:** Phase 31 — testing-ci
+**Current focus:** Phase 32 — integration-fixes-polish
 
 ## Current Position
 
-Phase: 31
-Plan: Not started
+Phase: 32 (integration-fixes-polish) — EXECUTING
+Plan: 1 of 1
 Status: Phase complete — ready for verification
-Last activity: 2026-04-11
+Last activity: 2026-04-12
 
 Progress: [░░░░░░░░░░] 0% (v3.0 milestone)
 
@@ -88,6 +88,7 @@ Recent decisions affecting current work:
 - [Phase 31-02]: E2E tests use native form selectors instead of data-testid for Next.js Server Actions forms
 - [Phase 31-02]: E2E tests excluded from CI workflow (require running Next.js server + Supabase DB)
 - [Phase 31-testing-ci]: Vitest with node environment for server-side test suite; mock chain pattern for Drizzle ORM queries
+- [Phase 32]: Renamed (admin) route group to admin segment for URL-matching file-system routing
 
 ### Pending Todos
 
@@ -99,6 +100,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-11T18:48:07.636Z
-Stopped at: Completed 31-01-PLAN.md
+Last session: 2026-04-12T02:06:27.405Z
+Stopped at: Completed 32-01-PLAN.md
 Resume file: None
