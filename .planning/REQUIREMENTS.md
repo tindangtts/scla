@@ -9,11 +9,11 @@ Requirements for Deploy-Ready Polish milestone. Each maps to roadmap phases.
 
 ### UI Polish
 
-- [ ] **UI-01**: Resident login page restores brand warmth — SC logo mark visible, decorative gradient/blur accents behind form, approachable tone
-- [ ] **UI-02**: Home page push-notification banner renders correctly when resident hasn't subscribed yet, hides after subscription
-- [ ] **UI-03**: Bottom navigation has stronger active-tab indicator (visible line/dot/color flash) and comfortable tap targets (>=44px)
-- [ ] **UI-04**: Status badges (.badge-unpaid, .badge-paid, .badge-open, .badge-upcoming, etc.) verified visually across light + dark mode with correct tinted backgrounds
-- [ ] **UI-05**: Admin login page visually distinct from resident (darker theme confirmed), no regression from v3.0
+- [x] **UI-01**: Resident login page restores brand warmth — SC logo mark visible, decorative gradient/blur accents behind form, approachable tone
+- [x] **UI-02**: Home page push-notification banner renders correctly when resident hasn't subscribed yet, hides after subscription
+- [x] **UI-03**: Bottom navigation has stronger active-tab indicator (visible line/dot/color flash) and comfortable tap targets (>=44px)
+- [x] **UI-04**: Status badges (.badge-unpaid, .badge-paid, .badge-open, .badge-upcoming, etc.) verified visually across light + dark mode with correct tinted backgrounds
+- [x] **UI-05**: Admin login page visually distinct from resident (darker theme confirmed), no regression from v3.0
 
 ### Internationalization
 
@@ -69,11 +69,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| UI-01 | Phase 33 | Pending |
-| UI-02 | Phase 33 | Pending |
-| UI-03 | Phase 33 | Pending |
-| UI-04 | Phase 33 | Pending |
-| UI-05 | Phase 33 | Pending |
+| UI-01 | Phase 33 | Complete |
+| UI-02 | Phase 33 | Complete |
+| UI-03 | Phase 33 | Complete |
+| UI-04 | Phase 33 | Complete |
+| UI-05 | Phase 33 | Complete |
 | I18N-01 | Phase 34 | Pending |
 | I18N-02 | Phase 34 | Pending |
 | I18N-03 | Phase 34 | Pending |

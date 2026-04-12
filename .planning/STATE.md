@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v3.1
 milestone_name: Deploy-Ready Polish
-status: ready
-stopped_at: null
-last_updated: "2026-04-12T07:00:00.000Z"
+status: verifying
+stopped_at: Completed 33-01-PLAN.md
+last_updated: "2026-04-12T07:16:53.280Z"
 last_activity: 2026-04-12
 progress:
   total_phases: 3
-  completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
+  completed_phases: 1
+  total_plans: 1
+  completed_plans: 1
 ---
 
 # Project State
@@ -20,14 +20,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-12)
 
 **Core value:** Residents can manage their apartment lifecycle — bills, maintenance, bookings, and community info — from a single mobile-first web app without visiting the management office.
-**Current focus:** Phase 33 (UI Polish) — ready to plan
+**Current focus:** Phase 33 — ui-polish
 
 ## Current Position
 
-Phase: 33 — UI Polish (not started)
-Plan: —
-Status: Roadmap approved; ready to plan Phase 33
-Last activity: 2026-04-12 — Roadmap created, 19/19 v3.1 requirements mapped across Phases 33–35
+Phase: 33 (ui-polish) — EXECUTING
+Plan: 1 of 1
+Status: Phase complete — ready for verification
+Last activity: 2026-04-12
 
 ## Roadmap Summary
 
@@ -50,6 +50,9 @@ Recent decisions affecting current work:
 - [v3.1]: UI gaps sourced from agent-browser visual review of v3.0 production build
 - [v3.1]: Phase numbering continues from 33 (v3.0 ended at 32)
 - [v3.1]: 3 phases at coarse granularity — UI Polish → i18n/Typecheck → Vercel Deployment
+- [Phase 33]: 33-01: SC mark placed ABOVE existing h2 heading (not replacing it) to preserve E2E heading probes and auth.login translation contract
+- [Phase 33]: 33-01: Gold (accent) chosen over teal (primary) for nav active indicator to avoid monochrome active state paired with primary-filled icon tile
+- [Phase 33]: 33-01: Dark-mode badge legibility via scoped .dark .badge-* overrides on fixed-hue classes only; destructive/muted badges rely on token flips
 
 ### Pending Todos
 
@@ -63,7 +66,7 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-12
-Stopped at: Roadmap creation complete for v3.1
+Last session: 2026-04-12T07:16:53.278Z
+Stopped at: Completed 33-01-PLAN.md
 Resume file: None
 Next step: `/gsd:plan-phase 33`
