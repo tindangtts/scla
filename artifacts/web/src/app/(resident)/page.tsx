@@ -20,6 +20,7 @@ import {
   ArrowUpRight,
   Ticket as TicketIcon,
 } from "lucide-react";
+import PushPrompt from "@/components/push-prompt";
 
 export const dynamic = "force-dynamic";
 
@@ -67,6 +68,7 @@ export default async function ResidentHomePage() {
         <h2 className="sr-only">Welcome, {firstName}</h2>
 
         <div className="px-5 -mt-8 space-y-5 pb-8 relative z-20">
+          <PushPrompt />
           <Link
             href="/upgrade"
             className="block rounded-[1.75rem] bg-gradient-gold text-accent-foreground p-6 shadow-xl shadow-accent/20 hover:-translate-y-0.5 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -105,6 +107,7 @@ export default async function ResidentHomePage() {
       <h2 className="sr-only">Welcome, {firstName}</h2>
 
       <div className="px-5 -mt-8 space-y-5 pb-8 relative z-20">
+        <PushPrompt />
         {/* Primary money card — Wallet + Unpaid overview */}
         <div className="grid grid-cols-2 gap-3">
           <Link

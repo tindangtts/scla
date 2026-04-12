@@ -20,6 +20,19 @@ export default function LoginPage() {
       title="Your building. Your life. All in one place."
       subtitle="Pay bills, book SCSC facilities, request maintenance, and stay in the loop on community updates."
     >
+      <div className="mb-6 flex items-center gap-3">
+        <div
+          aria-hidden="true"
+          className="w-12 h-12 rounded-2xl bg-gradient-teal flex items-center justify-center shadow-lg shadow-primary/20 rotate-3 transition-transform hover:rotate-6"
+        >
+          <span className="text-primary-foreground font-black text-xl tracking-tighter -rotate-3">SC</span>
+        </div>
+        <div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Star City Living</p>
+          <p className="text-xs font-semibold text-foreground">Resident portal</p>
+        </div>
+      </div>
+
       <div className="space-y-1 mb-6">
         <h2 className="text-2xl font-extrabold tracking-tight">{t("login")}</h2>
         <p className="text-sm text-muted-foreground">

@@ -20,9 +20,15 @@ export default function AdminLoginPage() {
       title={t("adminPortal")}
       subtitle="Manage residents, tickets, facilities, and estate operations from a single unified console."
     >
-      <div className="flex items-center gap-2.5 mb-6">
-        <div className="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
-          <ShieldCheck className="w-5 h-5" aria-hidden="true" />
+      <div className="mb-6 flex items-center gap-3">
+        <div
+          aria-hidden="true"
+          className="relative w-12 h-12 rounded-2xl bg-gradient-teal flex items-center justify-center shadow-lg shadow-primary/20 rotate-3 transition-transform hover:rotate-6"
+        >
+          <span className="text-primary-foreground font-black text-xl tracking-tighter -rotate-3">SC</span>
+          <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-accent text-accent-foreground flex items-center justify-center shadow-sm">
+            <ShieldCheck className="w-3 h-3" aria-hidden="true" />
+          </div>
         </div>
         <div>
           <h2 className="text-xl font-extrabold tracking-tight leading-tight">
