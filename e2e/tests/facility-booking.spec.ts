@@ -33,6 +33,16 @@ test.describe('Facility Booking', () => {
     // Should be on a facility detail page
     await expect(page).toHaveURL(/\/bookings\/facilities\/.+/);
 
+    // Jump to a random future date (30-180 days out) to avoid conflicts across test runs.
+    // Shared DB state between runs means booking the same slot twice would fail.
+    const daysOut = 30 + Math.floor(Math.random() * 150);
+    const futureDate = new Date();
+    futureDate.setDate(futureDate.getDate() + daysOut);
+    const futureDateStr = futureDate.toISOString().split('T')[0];
+    const currentUrl = new URL(page.url());
+    currentUrl.searchParams.set('date', futureDateStr);
+    await page.goto(currentUrl.toString());
+
     // Wait for "Available Slots" heading to appear
     await expect(
       page.getByText('Available Slots')
