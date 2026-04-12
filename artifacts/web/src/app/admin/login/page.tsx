@@ -48,7 +48,7 @@ export default function AdminLoginPage() {
             name="email"
             type="email"
             autoComplete="email"
-            placeholder="staff@starcity.mm"
+            placeholder="admin@starcity.com"
             required
           />
         </div>
