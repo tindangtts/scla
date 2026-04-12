@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Bell, X } from "lucide-react";
 
 function urlBase64ToUint8Array(base64String: string): Uint8Array {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
@@ -44,15 +45,12 @@ export default function PushPrompt() {
     if (!("serviceWorker" in navigator)) return;
 
     if (Notification.permission === "granted") {
-      // Already granted - silently register SW
       registerAndSubscribe().catch(console.error);
       return;
     }
 
     if (Notification.permission === "default") {
-      // Check if user dismissed before
       if (localStorage.getItem("push-prompt-dismissed")) return;
-
       const timer = setTimeout(() => setShowBanner(true), 3000);
       return () => clearTimeout(timer);
     }
@@ -74,24 +72,29 @@ export default function PushPrompt() {
   if (!showBanner) return null;
 
   return (
-    <div className="mx-4 mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg flex items-start gap-3 text-sm">
-      <div className="flex-1">
-        <p className="text-blue-900">
-          Enable push notifications to stay updated on your tickets and bills.
+    <div className="mx-5 mt-3 rounded-2xl border border-primary/20 bg-primary/5 dark:bg-primary/10 backdrop-blur-sm p-3.5 flex items-center gap-3 shadow-sm">
+      <div className="w-10 h-10 rounded-xl bg-primary/15 text-primary flex items-center justify-center shrink-0">
+        <Bell className="w-5 h-5" aria-hidden="true" />
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="text-sm font-bold text-foreground leading-tight">Stay informed</p>
+        <p className="text-xs font-medium text-muted-foreground mt-0.5">
+          Get alerts for ticket updates and bills.
         </p>
       </div>
-      <div className="flex gap-2 shrink-0">
+      <div className="flex gap-1 shrink-0">
         <button
           onClick={handleEnable}
-          className="px-3 py-1 bg-blue-600 text-white rounded text-xs font-medium hover:bg-blue-700"
+          className="px-3 py-1.5 bg-primary text-primary-foreground rounded-lg text-xs font-bold hover:bg-primary/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           Enable
         </button>
         <button
           onClick={handleDismiss}
-          className="px-3 py-1 bg-white border border-gray-300 rounded text-xs text-gray-600 hover:bg-gray-50"
+          aria-label="Dismiss"
+          className="p-1.5 rounded-lg text-muted-foreground hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
-          Dismiss
+          <X className="w-3.5 h-3.5" aria-hidden="true" />
         </button>
       </div>
     </div>
