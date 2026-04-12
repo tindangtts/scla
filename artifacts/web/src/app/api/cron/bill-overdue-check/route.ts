@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { invoicesTable } from "@workspace/db/schema";
-import { eq, and, lt, sql } from "drizzle-orm";
+import { eq, and, sql } from "drizzle-orm";
 import { notifyBillOverdue } from "@/lib/notifications";
 
 export async function POST(request: NextRequest) {
@@ -13,15 +13,15 @@ export async function POST(request: NextRequest) {
 
   const force = request.nextUrl.searchParams.get("force") === "true";
 
-  // Find overdue invoices
+  // due_date column is stored as text (legacy schema) — cast to date for comparison
   const conditions = [eq(invoicesTable.status, "unpaid")];
 
   if (force) {
     // All overdue: dueDate < today
-    conditions.push(lt(invoicesTable.dueDate, sql`current_date`));
+    conditions.push(sql`${invoicesTable.dueDate}::date < current_date`);
   } else {
     // Only newly overdue: dueDate was yesterday
-    conditions.push(sql`${invoicesTable.dueDate} = current_date - interval '1 day'`);
+    conditions.push(sql`${invoicesTable.dueDate}::date = current_date - interval '1 day'`);
   }
 
   const overdueInvoices = await db

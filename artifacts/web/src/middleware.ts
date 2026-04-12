@@ -69,5 +69,10 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)"],
+  // Exclude static assets AND /api/* — API routes handle their own auth and
+  // should return 401 JSON (not 307 redirects to /login) when unauthenticated.
+  // Cron routes authenticate via CRON_SECRET header, not session cookies.
+  matcher: [
+    "/((?!api|_next/static|_next/image|favicon.ico|manifest.json|sw.js|offline.html|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
+  ],
 };
