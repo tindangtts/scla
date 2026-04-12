@@ -63,6 +63,7 @@ See `.planning/milestones/v2.1-ROADMAP.md` for full details.
 - [x] **Phase 29: Real-time & Communication** — WebSocket chat, push notifications, email, in-app notifications (completed 2026-04-11)
 - [x] **Phase 30: i18n & UX Polish** — Myanmar/English i18n, dark mode, PWA, mobile layout, loading states (completed 2026-04-11)
 - [x] **Phase 31: Testing & CI** — Unit tests, integration tests, E2E tests, CI/CD pipeline (completed 2026-04-11)
+- [ ] **Phase 32: Integration Fixes & Polish** — Admin routing fix, bottom nav <Link>, dark mode gaps, formatting
 
 ## Phase Details
 
@@ -195,6 +196,20 @@ Plans:
 - [x] 31-01-PLAN.md — Vitest setup, unit tests for auth/notification/push helpers, API route integration tests
 - [x] 31-02-PLAN.md — Playwright E2E tests for Next.js, GitHub Actions CI pipeline
 
+### Phase 32: Integration Fixes & Polish
+**Goal**: Fix admin routing architecture (rename (admin) to admin), replace bottom nav <a> with Next.js <Link>, add missing dark mode classes, fix revalidatePath inconsistencies, and run code formatting
+**Depends on**: Phase 31
+**Requirements**: ADM-01 through ADM-10 (re-verified after routing fix)
+**Gap Closure:** Closes gaps from v3.0 milestone audit
+**Success Criteria** (what must be TRUE):
+  1. Admin sidebar navigation links all resolve to correct pages (no 404s)
+  2. Admin redirect() calls after mutations land on the correct admin page
+  3. Bottom nav taps perform client-side navigation (no full page reload)
+  4. Dashboard quick action cards render correctly in dark mode
+  5. pnpm format:check passes with no errors
+**Plans**: TBD
+**UI hint**: yes
+
 ## Progress
 
 | Phase | Milestone | Plans | Status | Completed |
@@ -221,3 +236,4 @@ Plans:
 | 29. Real-time & Communication | v3.0 | 5/5 | Complete    | 2026-04-11 |
 | 30. i18n & UX Polish | v3.0 | 2/2 | Complete    | 2026-04-11 |
 | 31. Testing & CI | v3.0 | 2/2 | Complete    | 2026-04-11 |
+| 32. Integration Fixes & Polish | v3.0 | 0/TBD | Not started | - |
