@@ -1,24 +1,10 @@
 import { requireAdmin } from "@/lib/auth";
 import { adminLogout } from "./logout-action";
-import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LocaleSwitcher } from "@/components/locale-switcher";
 import { getTranslations } from "next-intl/server";
-import { AdminNavLink } from "./nav-link";
-import {
-  LayoutDashboard,
-  Users,
-  ShieldCheck,
-  Ticket as TicketIcon,
-  Dumbbell,
-  FileText,
-  UserCog,
-  ScrollText,
-  Wallet,
-  LogOut,
-  Building2,
-} from "lucide-react";
-import type { ComponentType } from "react";
+import { AdminNavLink, type AdminNavIcon } from "./nav-link";
+import { LogOut, Building2 } from "lucide-react";
 
 type NavKey =
   | "dashboard"
@@ -34,19 +20,19 @@ type NavKey =
 interface NavItem {
   key: NavKey;
   href: string;
-  icon: ComponentType<{ className?: string }>;
+  icon: AdminNavIcon;
 }
 
 const navItems: NavItem[] = [
-  { key: "dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
-  { key: "users", href: "/admin/users", icon: Users },
-  { key: "upgradeRequests", href: "/admin/upgrade-requests", icon: ShieldCheck },
-  { key: "tickets", href: "/admin/tickets", icon: TicketIcon },
-  { key: "facilities", href: "/admin/facilities", icon: Dumbbell },
-  { key: "content", href: "/admin/content", icon: FileText },
-  { key: "staff", href: "/admin/staff", icon: UserCog },
-  { key: "auditLogs", href: "/admin/audit-logs", icon: ScrollText },
-  { key: "wallets", href: "/admin/wallets", icon: Wallet },
+  { key: "dashboard", href: "/admin/dashboard", icon: "dashboard" },
+  { key: "users", href: "/admin/users", icon: "users" },
+  { key: "upgradeRequests", href: "/admin/upgrade-requests", icon: "shield" },
+  { key: "tickets", href: "/admin/tickets", icon: "ticket" },
+  { key: "facilities", href: "/admin/facilities", icon: "dumbbell" },
+  { key: "content", href: "/admin/content", icon: "file" },
+  { key: "staff", href: "/admin/staff", icon: "userCog" },
+  { key: "auditLogs", href: "/admin/audit-logs", icon: "scroll" },
+  { key: "wallets", href: "/admin/wallets", icon: "wallet" },
 ];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {

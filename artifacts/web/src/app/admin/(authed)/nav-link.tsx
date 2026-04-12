@@ -2,27 +2,63 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronRight } from "lucide-react";
+import {
+  ChevronRight,
+  LayoutDashboard,
+  Users,
+  ShieldCheck,
+  Ticket,
+  Dumbbell,
+  FileText,
+  UserCog,
+  ScrollText,
+  Wallet,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { ComponentType } from "react";
+
+export type AdminNavIcon =
+  | "dashboard"
+  | "users"
+  | "shield"
+  | "ticket"
+  | "dumbbell"
+  | "file"
+  | "userCog"
+  | "scroll"
+  | "wallet";
+
+const ICONS: Record<AdminNavIcon, ComponentType<{ className?: string }>> = {
+  dashboard: LayoutDashboard,
+  users: Users,
+  shield: ShieldCheck,
+  ticket: Ticket,
+  dumbbell: Dumbbell,
+  file: FileText,
+  userCog: UserCog,
+  scroll: ScrollText,
+  wallet: Wallet,
+};
 
 interface AdminNavLinkProps {
   href: string;
   label: string;
-  icon: ComponentType<{ className?: string }>;
+  icon: AdminNavIcon;
   rootHref?: string;
 }
 
 /**
  * Client-side active-state link for the admin sidebar. Keeps the layout
- * itself a Server Component so we don't pull auth data across the client
- * boundary.
+ * itself a Server Component — we pass only an icon KEY (string) across the
+ * server/client boundary, then look up the actual component here.
  */
-export function AdminNavLink({ href, label, icon: Icon, rootHref }: AdminNavLinkProps) {
+export function AdminNavLink({ href, label, icon, rootHref }: AdminNavLinkProps) {
   const pathname = usePathname();
   const isActive =
     pathname === href ||
     (href !== (rootHref ?? "/admin/dashboard") && pathname.startsWith(href));
+
+  const Icon = ICONS[icon];
 
   return (
     <Link
