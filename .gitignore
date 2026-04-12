@@ -65,3 +65,5 @@ e2e/.auth/
 
 # Claude Code local tooling (user-specific)
 .claude/
+.vercel
+*.bk
