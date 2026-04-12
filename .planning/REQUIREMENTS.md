@@ -69,13 +69,30 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (To be populated by roadmapper) | | |
+| UI-01 | Phase 33 | Pending |
+| UI-02 | Phase 33 | Pending |
+| UI-03 | Phase 33 | Pending |
+| UI-04 | Phase 33 | Pending |
+| UI-05 | Phase 33 | Pending |
+| I18N-01 | Phase 34 | Pending |
+| I18N-02 | Phase 34 | Pending |
+| I18N-03 | Phase 34 | Pending |
+| TYPE-01 | Phase 34 | Pending |
+| TYPE-02 | Phase 34 | Pending |
+| DEPLOY-01 | Phase 35 | Pending |
+| DEPLOY-02 | Phase 35 | Pending |
+| DEPLOY-03 | Phase 35 | Pending |
+| DEPLOY-04 | Phase 35 | Pending |
+| DEPLOY-05 | Phase 35 | Pending |
+| DEPLOY-06 | Phase 35 | Pending |
+| WS-01 | Phase 35 | Pending |
+| WS-02 | Phase 35 | Pending |
 
 **Coverage:**
 - v3.1 requirements: 19 total
-- Mapped to phases: 0
-- Unmapped: 19 ⚠️
+- Mapped to phases: 19 ✓
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-12*
-*Last updated: 2026-04-12 after initial definition*
+*Last updated: 2026-04-12 after roadmap creation (v3.1 traceability populated)*

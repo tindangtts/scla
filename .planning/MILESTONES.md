@@ -1,5 +1,13 @@
 # Milestones
 
+## v3.1 Deploy-Ready Polish (In Progress)
+
+**Phases:** 33-35 (3 phases)
+**Goal:** Close gaps from v3.0 UI review, complete Myanmar i18n, fix typecheck blockers, ship to Vercel production
+**Requirements:** 19 total
+
+---
+
 ## v3.0 Next.js Migration (Shipped: 2026-04-12)
 
 **Phases completed:** 9 phases, 21 plans, 42 tasks
