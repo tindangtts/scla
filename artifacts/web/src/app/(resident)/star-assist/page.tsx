@@ -1,46 +1,51 @@
+import Link from "next/link";
 import { requireAuth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { usersTable } from "@workspace/db/schema";
 import { eq } from "drizzle-orm";
 import { getTickets } from "@/lib/queries/tickets";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import Link from "next/link";
+import { AppHeader } from "@/components/layout/app-header";
+import { EmptyState } from "@/components/ui/empty-state";
+import { formatDate, humanizeStatus, statusBadgeClass } from "@/lib/format";
+import {
+  Plus,
+  Zap,
+  Wrench,
+  Sparkles,
+  HelpCircle,
+  Wind,
+  Bug,
+  Hammer,
+  CircleDashed,
+  Ticket as TicketIcon,
+  ChevronRight,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+import type { ComponentType } from "react";
 
 export const dynamic = "force-dynamic";
 
 const STATUS_FILTERS = [
   { label: "All", value: "" },
   { label: "Open", value: "open" },
-  { label: "In Progress", value: "in_progress" },
+  { label: "In progress", value: "in_progress" },
   { label: "Completed", value: "completed" },
   { label: "Closed", value: "closed" },
 ] as const;
 
-const STATUS_VARIANT: Record<string, "default" | "secondary" | "outline" | "destructive"> = {
-  open: "default",
-  in_progress: "secondary",
-  completed: "outline",
-  closed: "destructive",
+const CATEGORY_META: Record<
+  string,
+  { label: string; icon: ComponentType<{ className?: string }>; tint: string }
+> = {
+  electricals: { label: "Electricals", icon: Zap, tint: "text-amber-600 bg-amber-500/10" },
+  plumbing: { label: "Plumbing", icon: Wrench, tint: "text-blue-600 bg-blue-500/10" },
+  housekeeping: { label: "Housekeeping", icon: Sparkles, tint: "text-violet-600 bg-violet-500/10" },
+  general_enquiry: { label: "General", icon: HelpCircle, tint: "text-primary bg-primary/10" },
+  air_conditioning: { label: "Air conditioning", icon: Wind, tint: "text-cyan-600 bg-cyan-500/10" },
+  pest_control: { label: "Pest control", icon: Bug, tint: "text-emerald-600 bg-emerald-500/10" },
+  civil_works: { label: "Civil works", icon: Hammer, tint: "text-orange-600 bg-orange-500/10" },
+  other: { label: "Other", icon: CircleDashed, tint: "text-muted-foreground bg-muted" },
 };
-
-const CATEGORY_LABELS: Record<string, string> = {
-  electricals: "Electricals",
-  plumbing: "Plumbing",
-  housekeeping: "Housekeeping",
-  general_enquiry: "General Enquiry",
-  air_conditioning: "Air Conditioning",
-  pest_control: "Pest Control",
-  civil_works: "Civil Works",
-  other: "Other",
-};
-
-function formatStatus(status: string): string {
-  return status
-    .split("_")
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(" ");
-}
 
 export default async function StarAssistPage({
   searchParams,
@@ -59,8 +64,8 @@ export default async function StarAssistPage({
   const dbUser = dbUsers[0];
   if (!dbUser) {
     return (
-      <div className="p-4">
-        <p className="text-muted-foreground">User account not found. Please contact support.</p>
+      <div className="p-5">
+        <p className="text-muted-foreground">User account not found.</p>
       </div>
     );
   }
@@ -68,71 +73,111 @@ export default async function StarAssistPage({
   const tickets = await getTickets(dbUser.id, status);
 
   return (
-    <div className="p-4 space-y-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold">Star Assist</h1>
+    <>
+      <AppHeader name="Star Assist" subtitle={`${tickets.length} ticket${tickets.length === 1 ? "" : "s"}`} />
+
+      <div className="px-5 -mt-8 pb-8 relative z-20 space-y-5">
+        {/* New ticket CTA */}
         <Link
           href="/star-assist/new"
-          className="inline-flex h-9 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90"
+          className="group block rounded-2xl bg-primary text-primary-foreground p-4 shadow-lg shadow-primary/20 hover:shadow-xl hover:-translate-y-0.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
-          New Ticket
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 rounded-xl bg-white/15 backdrop-blur-sm">
+                <Plus className="w-5 h-5" aria-hidden="true" />
+              </div>
+              <div>
+                <p className="font-extrabold tracking-tight">New request</p>
+                <p className="text-xs font-medium opacity-80">
+                  Report an issue or request a service
+                </p>
+              </div>
+            </div>
+            <ChevronRight className="w-5 h-5 opacity-80 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
+          </div>
         </Link>
-      </div>
 
-      {/* Status filter tabs */}
-      <div className="flex gap-2 overflow-x-auto pb-1">
-        {STATUS_FILTERS.map((filter) => {
-          const isActive = (!status && filter.value === "") || status === filter.value;
-          return (
-            <Link
-              key={filter.value}
-              href={filter.value ? `/star-assist?status=${filter.value}` : "/star-assist"}
-            >
-              <Badge variant={isActive ? "default" : "outline"}>{filter.label}</Badge>
-            </Link>
-          );
-        })}
-      </div>
-
-      {/* Ticket list */}
-      {tickets.length === 0 ? (
-        <Card>
-          <CardContent className="pt-6 text-center">
-            <p className="text-muted-foreground mb-2">
-              No tickets found. Create your first ticket!
-            </p>
-            <Link href="/star-assist/new" className="text-primary hover:underline text-sm">
-              Create a new ticket
-            </Link>
-          </CardContent>
-        </Card>
-      ) : (
-        <div className="space-y-3">
-          {tickets.map((ticket) => (
-            <Link key={ticket.id} href={`/star-assist/${ticket.id}`}>
-              <Card className="hover:bg-accent/50 transition-colors mb-3">
-                <CardHeader className="pb-2">
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-sm">{ticket.ticketNumber}</span>
-                    <Badge variant={STATUS_VARIANT[ticket.status] ?? "default"}>
-                      {formatStatus(ticket.status)}
-                    </Badge>
-                  </div>
-                  <CardTitle className="text-base">{ticket.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <div className="flex items-center justify-between text-sm text-muted-foreground">
-                    <Badge variant="outline" className="text-xs">
-                      {CATEGORY_LABELS[ticket.category] ?? ticket.category}
-                    </Badge>
-                    <span>{new Date(ticket.createdAt).toLocaleDateString()}</span>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
+        {/* Status filters */}
+        <div role="tablist" aria-label="Filter tickets" className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1">
+          {STATUS_FILTERS.map((filter) => {
+            const isActive = (!status && filter.value === "") || status === filter.value;
+            return (
+              <Link
+                key={filter.value}
+                href={filter.value ? `/star-assist?status=${filter.value}` : "/star-assist"}
+                role="tab"
+                aria-selected={isActive}
+                className={cn(
+                  "shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                  isActive
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "bg-card border border-card-border text-muted-foreground hover:text-foreground hover:bg-muted",
+                )}
+              >
+                {filter.label}
+              </Link>
+            );
+          })}
         </div>
-      )}
-    </div>
+
+        {/* Ticket list */}
+        {tickets.length === 0 ? (
+          <EmptyState
+            icon={TicketIcon}
+            title="No tickets yet"
+            description="Tell us what needs fixing — we'll dispatch the right team and keep you posted."
+            action={
+              <Link
+                href="/star-assist/new"
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-primary text-primary-foreground rounded-xl text-xs font-bold hover:bg-primary/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                Create ticket
+                <ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
+              </Link>
+            }
+          />
+        ) : (
+          <ul className="space-y-2.5">
+            {tickets.map((ticket) => {
+              const meta = CATEGORY_META[ticket.category] ?? CATEGORY_META.other;
+              const Icon = meta.icon;
+              return (
+                <li key={ticket.id}>
+                  <Link
+                    href={`/star-assist/${ticket.id}`}
+                    className="flex items-start gap-3 rounded-2xl bg-card border border-card-border p-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    <div className={cn("p-2.5 rounded-xl shrink-0", meta.tint)}>
+                      <Icon className="w-4 h-4" aria-hidden="true" />
+                    </div>
+                    <div className="flex-1 min-w-0 space-y-1.5">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="text-[11px] font-bold text-muted-foreground tabular-nums">
+                          {ticket.ticketNumber}
+                        </span>
+                        <span
+                          className={cn(
+                            "px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider",
+                            statusBadgeClass(ticket.status),
+                          )}
+                        >
+                          {humanizeStatus(ticket.status)}
+                        </span>
+                      </div>
+                      <p className="text-sm font-bold text-foreground truncate">{ticket.title}</p>
+                      <div className="flex items-center justify-between text-[11px] text-muted-foreground font-medium">
+                        <span>{meta.label}</span>
+                        <span>{formatDate(ticket.createdAt)}</span>
+                      </div>
+                    </div>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </div>
+    </>
   );
 }

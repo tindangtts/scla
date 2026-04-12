@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 import { cancelBooking } from "./cancel-action";
 import { Button } from "@/components/ui/button";
+import { AlertCircle, X, Repeat } from "lucide-react";
 
 export function CancelButton({
   bookingId,
@@ -14,10 +15,17 @@ export function CancelButton({
   const [state, formAction, isPending] = useActionState(cancelBooking, {});
 
   return (
-    <div className="space-y-3">
-      {state.error && <p className="text-sm text-red-600">{state.error}</p>}
+    <div className="space-y-2.5">
+      {state.error ? (
+        <div
+          className="flex items-start gap-2 rounded-xl border border-destructive/40 bg-destructive/5 px-3 py-2.5 text-sm text-red-600"
+          role="alert"
+        >
+          <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" aria-hidden="true" />
+          <span>{state.error}</span>
+        </div>
+      ) : null}
 
-      {/* Single Cancel */}
       <form
         action={formAction}
         onSubmit={(e) => {
@@ -28,13 +36,18 @@ export function CancelButton({
       >
         <input type="hidden" name="bookingId" value={bookingId} />
         <input type="hidden" name="mode" value="single" />
-        <Button type="submit" variant="destructive" className="w-full" disabled={isPending}>
-          {isPending ? "Cancelling..." : "Cancel Booking"}
+        <Button
+          type="submit"
+          variant="destructive"
+          className="w-full h-11 rounded-xl font-bold"
+          disabled={isPending}
+        >
+          <X className="w-4 h-4" aria-hidden="true" />
+          {isPending ? "Cancelling..." : "Cancel booking"}
         </Button>
       </form>
 
-      {/* Bulk Cancel for Recurring */}
-      {hasRecurringGroup && (
+      {hasRecurringGroup ? (
         <form
           action={formAction}
           onSubmit={(e) => {
@@ -52,13 +65,14 @@ export function CancelButton({
           <Button
             type="submit"
             variant="outline"
-            className="w-full border-destructive text-destructive hover:bg-destructive/10"
+            className="w-full h-11 rounded-xl font-bold border-destructive/50 text-destructive hover:bg-destructive/10"
             disabled={isPending}
           >
-            {isPending ? "Cancelling..." : "Cancel All Future Recurring"}
+            <Repeat className="w-4 h-4" aria-hidden="true" />
+            {isPending ? "Cancelling..." : "Cancel all future recurring"}
           </Button>
         </form>
-      )}
+      ) : null}
     </div>
   );
 }

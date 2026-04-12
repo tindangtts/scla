@@ -1,17 +1,13 @@
-import { getAnnouncements, getNewsletters, getPromotions } from "@/lib/queries/discover";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
+import { getAnnouncements, getNewsletters, getPromotions } from "@/lib/queries/discover";
+import { AppHeader } from "@/components/layout/app-header";
+import { EmptyState } from "@/components/ui/empty-state";
+import { formatDate } from "@/lib/format";
+import { Megaphone, Newspaper, Tag, Pin, ChevronRight, Sparkles } from "lucide-react";
+import { cn } from "@/lib/utils";
+import type { ComponentType } from "react";
 
 export const dynamic = "force-dynamic";
-
-function formatDate(date: Date) {
-  return new Date(date).toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
-}
 
 export default async function DiscoverPage() {
   const [announcements, newsletters, promotions] = await Promise.all([
@@ -21,86 +17,140 @@ export default async function DiscoverPage() {
   ]);
 
   return (
-    <div className="p-4 space-y-6">
-      <h2 className="text-xl font-bold">Discover</h2>
+    <>
+      <AppHeader name="Discover" subtitle="News, promotions, and community updates" />
 
-      {/* Announcements */}
-      <section className="space-y-3">
-        <h3 className="text-lg font-semibold">Announcements</h3>
-        {announcements.length === 0 ? (
-          <p className="text-sm text-muted-foreground">No announcements available</p>
-        ) : (
-          announcements.slice(0, 5).map((item) => (
-            <Link key={item.id} href={`/discover/announcements/${item.id}`}>
-              <Card className="hover:bg-muted/50 transition-colors mb-2">
-                <CardContent className="pt-4 pb-4">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="space-y-1 min-w-0 flex-1">
-                      <p className="text-sm font-medium">{item.title}</p>
-                      <p className="text-xs text-muted-foreground line-clamp-2">{item.summary}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {formatDate(item.publishedAt)}
-                      </p>
-                    </div>
-                    {item.isPinned && <Badge variant="secondary">Pinned</Badge>}
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-          ))
-        )}
-      </section>
+      <div className="px-5 -mt-8 pb-8 relative z-20 space-y-6">
+        <Section
+          title="Announcements"
+          icon={Megaphone}
+          tint="text-primary bg-primary/10"
+          empty="No announcements available"
+        >
+          {announcements.slice(0, 5).map((item) => (
+            <ContentCard
+              key={item.id}
+              href={`/discover/announcements/${item.id}`}
+              title={item.title}
+              summary={item.summary}
+              meta={formatDate(item.publishedAt)}
+              pinned={item.isPinned}
+            />
+          ))}
+        </Section>
 
-      {/* Newsletters */}
-      <section className="space-y-3">
-        <h3 className="text-lg font-semibold">Newsletters</h3>
-        {newsletters.length === 0 ? (
-          <p className="text-sm text-muted-foreground">No newsletters available</p>
-        ) : (
-          newsletters.slice(0, 5).map((item) => (
-            <Link key={item.id} href={`/discover/newsletters/${item.id}`}>
-              <Card className="hover:bg-muted/50 transition-colors mb-2">
-                <CardContent className="pt-4 pb-4">
-                  <div className="space-y-1">
-                    <p className="text-sm font-medium">{item.title}</p>
-                    <p className="text-xs text-muted-foreground line-clamp-2">{item.summary}</p>
-                    <p className="text-xs text-muted-foreground">{formatDate(item.publishedAt)}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-          ))
-        )}
-      </section>
+        <Section
+          title="Newsletters"
+          icon={Newspaper}
+          tint="text-violet-600 bg-violet-500/10"
+          empty="No newsletters available"
+        >
+          {newsletters.slice(0, 5).map((item) => (
+            <ContentCard
+              key={item.id}
+              href={`/discover/newsletters/${item.id}`}
+              title={item.title}
+              summary={item.summary}
+              meta={formatDate(item.publishedAt)}
+            />
+          ))}
+        </Section>
 
-      {/* Promotions */}
-      <section className="space-y-3">
-        <h3 className="text-lg font-semibold">Promotions</h3>
-        {promotions.length === 0 ? (
-          <p className="text-sm text-muted-foreground">No promotions available</p>
-        ) : (
-          promotions.slice(0, 5).map((item) => (
-            <Link key={item.id} href={`/discover/promotions/${item.id}`}>
-              <Card className="hover:bg-muted/50 transition-colors mb-2">
-                <CardContent className="pt-4 pb-4">
-                  <div className="space-y-1">
-                    <p className="text-sm font-medium">{item.title}</p>
-                    <p className="text-xs text-muted-foreground line-clamp-2">{item.description}</p>
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                      <span>{item.partnerName}</span>
-                      <span>-</span>
-                      <span>
-                        {formatDate(item.validFrom)}
-                        {item.validUntil && ` - ${formatDate(item.validUntil)}`}
-                      </span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-          ))
-        )}
-      </section>
-    </div>
+        <Section
+          title="Promotions"
+          icon={Tag}
+          tint="text-amber-600 bg-amber-500/10"
+          empty="No promotions available"
+        >
+          {promotions.slice(0, 5).map((item) => (
+            <ContentCard
+              key={item.id}
+              href={`/discover/promotions/${item.id}`}
+              title={item.title}
+              summary={item.description}
+              meta={`${item.partnerName} · ${formatDate(item.validFrom)}${item.validUntil ? ` – ${formatDate(item.validUntil)}` : ""}`}
+            />
+          ))}
+        </Section>
+      </div>
+    </>
+  );
+}
+
+function Section({
+  title,
+  icon: Icon,
+  tint,
+  empty,
+  children,
+}: {
+  title: string;
+  icon: ComponentType<{ className?: string }>;
+  tint: string;
+  empty: string;
+  children: React.ReactNode;
+}) {
+  const items = Array.isArray(children) ? children : [children];
+  const hasItems = items.filter(Boolean).length > 0;
+
+  return (
+    <section aria-labelledby={`section-${title.toLowerCase()}`} className="space-y-3">
+      <div className="flex items-center gap-2.5">
+        <div className={cn("p-2 rounded-xl", tint)}>
+          <Icon className="w-4 h-4" aria-hidden="true" />
+        </div>
+        <h2
+          id={`section-${title.toLowerCase()}`}
+          className="text-base font-bold tracking-tight"
+        >
+          {title}
+        </h2>
+      </div>
+      {hasItems ? (
+        <ul className="space-y-2.5">{children}</ul>
+      ) : (
+        <EmptyState icon={Sparkles} title={empty} />
+      )}
+    </section>
+  );
+}
+
+function ContentCard({
+  href,
+  title,
+  summary,
+  meta,
+  pinned,
+}: {
+  href: string;
+  title: string;
+  summary?: string | null;
+  meta: string;
+  pinned?: boolean;
+}) {
+  return (
+    <li>
+      <Link
+        href={href}
+        className="block rounded-2xl bg-card border border-card-border p-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      >
+        <div className="flex items-start justify-between gap-3 mb-1.5">
+          <p className="text-sm font-bold text-foreground truncate">{title}</p>
+          {pinned ? (
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-accent/20 text-accent-foreground text-[10px] font-bold uppercase tracking-wider shrink-0">
+              <Pin className="w-2.5 h-2.5" aria-hidden="true" />
+              Pinned
+            </span>
+          ) : null}
+        </div>
+        {summary ? (
+          <p className="text-xs text-muted-foreground font-medium line-clamp-2 mb-2">{summary}</p>
+        ) : null}
+        <div className="flex items-center justify-between">
+          <p className="text-[11px] text-muted-foreground font-semibold">{meta}</p>
+          <ChevronRight className="w-3.5 h-3.5 text-muted-foreground" aria-hidden="true" />
+        </div>
+      </Link>
+    </li>
   );
 }

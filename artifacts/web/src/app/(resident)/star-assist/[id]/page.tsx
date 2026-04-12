@@ -4,37 +4,23 @@ import { usersTable } from "@workspace/db/schema";
 import { eq } from "drizzle-orm";
 import { getTicketById, getTicketMessages } from "@/lib/queries/tickets";
 import { notFound } from "next/navigation";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import Link from "next/link";
+import { AppSubHeader } from "@/components/layout/app-header";
 import TicketChat from "./ticket-chat";
+import { formatDate, formatDateTime, humanizeStatus, statusBadgeClass } from "@/lib/format";
+import { cn } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
-
-const STATUS_VARIANT: Record<string, "default" | "secondary" | "outline" | "destructive"> = {
-  open: "default",
-  in_progress: "secondary",
-  completed: "outline",
-  closed: "destructive",
-};
 
 const CATEGORY_LABELS: Record<string, string> = {
   electricals: "Electricals",
   plumbing: "Plumbing",
   housekeeping: "Housekeeping",
-  general_enquiry: "General Enquiry",
-  air_conditioning: "Air Conditioning",
-  pest_control: "Pest Control",
-  civil_works: "Civil Works",
+  general_enquiry: "General enquiry",
+  air_conditioning: "Air conditioning",
+  pest_control: "Pest control",
+  civil_works: "Civil works",
   other: "Other",
 };
-
-function formatStatus(status: string): string {
-  return status
-    .split("_")
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(" ");
-}
 
 export default async function TicketDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const user = await requireAuth();
@@ -49,93 +35,92 @@ export default async function TicketDetailPage({ params }: { params: Promise<{ i
   const dbUser = dbUsers[0];
   if (!dbUser) {
     return (
-      <div className="p-4">
-        <p className="text-muted-foreground">User account not found. Please contact support.</p>
+      <div className="p-5">
+        <p className="text-muted-foreground">User account not found.</p>
       </div>
     );
   }
 
   const ticket = await getTicketById(id, dbUser.id);
-  if (!ticket) {
-    notFound();
-  }
+  if (!ticket) notFound();
 
   const messages = await getTicketMessages(ticket.id);
 
-  const ticketNumber = ticket.ticketNumber;
-
   return (
-    <div className="p-4 space-y-4">
-      <Link href="/star-assist" className="text-sm text-primary hover:underline">
-        &larr; Back to tickets
-      </Link>
+    <>
+      <AppSubHeader title={ticket.ticketNumber} backHref="/star-assist" backLabel="All tickets" />
 
-      {/* Ticket header */}
-      <div className="space-y-2">
-        <div className="flex items-center justify-between">
-          <h1 className="text-xl font-bold">{ticketNumber}</h1>
-          <Badge variant={STATUS_VARIANT[ticket.status] ?? "default"}>
-            {formatStatus(ticket.status)}
-          </Badge>
+      <div className="px-5 -mt-6 pb-8 relative z-20 space-y-4">
+        {/* Overview */}
+        <div className="rounded-2xl bg-card border border-card-border p-5 shadow-sm">
+          <div className="flex items-start justify-between gap-3 mb-3">
+            <h2 className="text-lg font-extrabold tracking-tight">{ticket.title}</h2>
+            <span
+              className={cn(
+                "px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shrink-0",
+                statusBadgeClass(ticket.status),
+              )}
+            >
+              {humanizeStatus(ticket.status)}
+            </span>
+          </div>
+          <div className="flex items-center gap-2 flex-wrap text-xs">
+            <span className="px-2.5 py-1 rounded-full bg-primary/10 text-primary font-bold">
+              {CATEGORY_LABELS[ticket.category] ?? ticket.category}
+            </span>
+            <span className="text-muted-foreground font-medium">
+              Opened {formatDate(ticket.createdAt)}
+            </span>
+          </div>
+          <div className="mt-4 pt-4 border-t border-border">
+            <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">
+              Description
+            </p>
+            <p className="text-sm text-foreground whitespace-pre-wrap leading-relaxed">
+              {ticket.description}
+            </p>
+          </div>
         </div>
-        <h2 className="text-lg">{ticket.title}</h2>
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Badge variant="outline">{CATEGORY_LABELS[ticket.category] ?? ticket.category}</Badge>
-          <span>{new Date(ticket.createdAt).toLocaleDateString()}</span>
-        </div>
-      </div>
 
-      {/* Description */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Description</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-sm whitespace-pre-wrap">{ticket.description}</p>
-        </CardContent>
-      </Card>
-
-      {/* Attachment */}
-      {ticket.attachmentUrl && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">Attachment</CardTitle>
-          </CardHeader>
-          <CardContent>
+        {/* Attachment */}
+        {ticket.attachmentUrl ? (
+          <div className="rounded-2xl bg-card border border-card-border p-3 shadow-sm overflow-hidden">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={ticket.attachmentUrl}
-              alt="Ticket attachment"
-              className="max-w-full rounded-md"
+              alt={`Attachment for ${ticket.title}`}
+              className="w-full rounded-xl max-h-96 object-cover"
             />
-          </CardContent>
-        </Card>
-      )}
+          </div>
+        ) : null}
 
-      {/* Updates (legacy JSON array) */}
-      {ticket.updates && ticket.updates.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">Updates</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            {ticket.updates.map((update) => (
-              <div key={update.id} className="border-b pb-3 last:border-0">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="font-medium">{update.author}</span>
-                  <span className="text-muted-foreground text-xs">
-                    {new Date(update.createdAt).toLocaleString()}
-                  </span>
-                </div>
-                <p className="text-sm mt-1">{update.message}</p>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-      )}
+        {/* Updates (legacy JSON array) */}
+        {ticket.updates && ticket.updates.length > 0 ? (
+          <div className="rounded-2xl bg-card border border-card-border p-5 shadow-sm space-y-3">
+            <h3 className="text-sm font-bold tracking-tight">Status updates</h3>
+            <ol className="space-y-3 border-l-2 border-primary/20 pl-4">
+              {ticket.updates.map((update) => (
+                <li key={update.id} className="relative">
+                  <span
+                    aria-hidden="true"
+                    className="absolute -left-[1.35rem] top-1.5 w-2.5 h-2.5 rounded-full bg-primary ring-4 ring-card"
+                  />
+                  <div className="flex items-center justify-between gap-2 text-xs">
+                    <span className="font-bold text-foreground">{update.author}</span>
+                    <span className="text-muted-foreground">
+                      {formatDateTime(update.createdAt)}
+                    </span>
+                  </div>
+                  <p className="text-sm text-foreground mt-1 leading-relaxed">{update.message}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        ) : null}
 
-      {/* Real-time chat */}
-      <TicketChat ticketId={ticket.id} initialMessages={messages} />
-    </div>
+        {/* Real-time chat */}
+        <TicketChat ticketId={ticket.id} initialMessages={messages} />
+      </div>
+    </>
   );
 }

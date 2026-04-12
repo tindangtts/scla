@@ -5,18 +5,22 @@ import { submitUpgradeRequest } from "./actions";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { AlertCircle, CheckCircle2 } from "lucide-react";
 
 export function UpgradeForm() {
   const [state, formAction, isPending] = useActionState(submitUpgradeRequest, {});
 
   if (state.success) {
     return (
-      <div className="text-center py-4">
-        <p className="text-green-600 font-medium">
+      <div className="text-center py-4 space-y-3">
+        <div className="mx-auto w-14 h-14 rounded-2xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center">
+          <CheckCircle2 className="w-7 h-7" aria-hidden="true" />
+        </div>
+        <p className="text-foreground font-extrabold tracking-tight">
           Your upgrade request has been submitted successfully!
         </p>
-        <p className="text-sm text-muted-foreground mt-2">
-          Our team will review your request within 1-2 business days.
+        <p className="text-xs text-muted-foreground max-w-sm mx-auto">
+          Our team will review your request within 1–2 business days.
         </p>
       </div>
     );
@@ -24,12 +28,18 @@ export function UpgradeForm() {
 
   return (
     <form action={formAction} className="space-y-4">
-      <div className="space-y-2">
-        <Label htmlFor="unitNumber">Unit Number</Label>
-        <Input id="unitNumber" name="unitNumber" type="text" placeholder="e.g. A-12-03" required />
+      <div className="space-y-1.5">
+        <Label htmlFor="unitNumber">Unit number</Label>
+        <Input
+          id="unitNumber"
+          name="unitNumber"
+          type="text"
+          placeholder="e.g. A-12-03"
+          required
+        />
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-1.5">
         <Label htmlFor="residentId">Resident ID</Label>
         <Input
           id="residentId"
@@ -40,13 +50,13 @@ export function UpgradeForm() {
         />
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-1.5">
         <Label htmlFor="developmentName">Development</Label>
         <select
           id="developmentName"
           name="developmentName"
           required
-          className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-xs transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1"
         >
           <option value="">Select development</option>
           <option value="City Loft">City Loft</option>
@@ -55,10 +65,18 @@ export function UpgradeForm() {
         </select>
       </div>
 
-      {state.error && <p className="text-sm text-red-600">{state.error}</p>}
+      {state.error ? (
+        <div
+          className="flex items-start gap-2 rounded-lg border border-destructive/40 bg-destructive/5 px-3 py-2 text-sm text-red-600"
+          role="alert"
+        >
+          <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" aria-hidden="true" />
+          <span>{state.error}</span>
+        </div>
+      ) : null}
 
-      <Button type="submit" className="w-full" disabled={isPending}>
-        {isPending ? "Submitting..." : "Submit Upgrade Request"}
+      <Button type="submit" className="w-full h-11 font-bold" disabled={isPending}>
+        {isPending ? "Submitting..." : "Submit upgrade request"}
       </Button>
     </form>
   );

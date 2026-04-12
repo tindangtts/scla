@@ -1,43 +1,41 @@
 import { notFound } from "next/navigation";
 import { getArticleById } from "@/lib/queries/info";
-import { Badge } from "@/components/ui/badge";
-import Link from "next/link";
+import { AppSubHeader } from "@/components/layout/app-header";
+import { formatDate } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
-
-function formatDate(date: Date) {
-  return new Date(date).toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
-}
 
 export default async function ArticleDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const article = await getArticleById(id);
-
-  if (!article) {
-    notFound();
-  }
+  if (!article) notFound();
 
   return (
-    <div className="p-4 space-y-4">
-      <Link
-        href={`/info-centre?category=${article.categoryId}`}
-        className="text-sm text-blue-600 hover:underline"
-      >
-        &larr; Back to {article.categoryName}
-      </Link>
+    <>
+      <AppSubHeader
+        title={article.categoryName}
+        backHref={`/info-centre?category=${article.categoryId}`}
+        backLabel={article.categoryName}
+      />
 
-      <h2 className="text-xl font-bold">{article.title}</h2>
-
-      <div className="flex items-center gap-2">
-        <Badge variant="secondary">{article.categoryName}</Badge>
-        <span className="text-sm text-muted-foreground">{formatDate(article.publishedAt)}</span>
+      <div className="px-5 -mt-6 pb-8 relative z-20">
+        <article className="rounded-2xl bg-card border border-card-border p-6 shadow-sm space-y-5">
+          <header className="space-y-2">
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-secondary text-secondary-foreground text-[10px] font-bold uppercase tracking-wider">
+              {article.categoryName}
+            </span>
+            <h1 className="text-2xl font-extrabold tracking-tight leading-tight">
+              {article.title}
+            </h1>
+            <p className="text-xs text-muted-foreground font-semibold">
+              Published {formatDate(article.publishedAt)}
+            </p>
+          </header>
+          <div className="prose prose-sm max-w-none text-foreground whitespace-pre-wrap leading-relaxed">
+            {article.content}
+          </div>
+        </article>
       </div>
-
-      <div className="text-sm leading-relaxed whitespace-pre-wrap">{article.content}</div>
-    </div>
+    </>
   );
 }

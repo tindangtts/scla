@@ -3,39 +3,22 @@ import { db } from "@/lib/db";
 import { usersTable } from "@workspace/db/schema";
 import { eq } from "drizzle-orm";
 import { getBookingById } from "@/lib/queries/bookings";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import Link from "next/link";
 import { notFound } from "next/navigation";
+import { AppSubHeader } from "@/components/layout/app-header";
 import { CancelButton } from "./cancel-button";
+import { formatMMK, formatDate, humanizeStatus, statusBadgeClass } from "@/lib/format";
+import { cn } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
-function formatMMK(amount: string | number) {
-  return Number(amount).toLocaleString() + " MMK";
-}
-
-function statusVariant(status: string) {
-  switch (status) {
-    case "upcoming":
-      return "default" as const;
-    case "completed":
-      return "secondary" as const;
-    case "cancelled":
-      return "destructive" as const;
-    default:
-      return "outline" as const;
-  }
-}
-
 const CATEGORY_LABELS: Record<string, string> = {
-  swimming_pool: "Swimming Pool",
-  tennis_court: "Tennis Court",
-  basketball_court: "Basketball Court",
+  swimming_pool: "Swimming pool",
+  tennis_court: "Tennis court",
+  basketball_court: "Basketball court",
   gym: "Gym",
-  badminton_court: "Badminton Court",
-  function_room: "Function Room",
-  squash_court: "Squash Court",
+  badminton_court: "Badminton court",
+  function_room: "Function room",
+  squash_court: "Squash court",
 };
 
 export default async function BookingDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -51,84 +34,78 @@ export default async function BookingDetailPage({ params }: { params: Promise<{ 
   const dbUser = dbUsers[0];
   if (!dbUser) {
     return (
-      <div className="p-4">
+      <div className="p-5">
         <p className="text-muted-foreground">User account not found.</p>
       </div>
     );
   }
 
   const booking = await getBookingById(id, dbUser.id);
-  if (!booking) {
-    notFound();
-  }
+  if (!booking) notFound();
 
   return (
-    <div className="p-4 space-y-4">
-      <Link href="/bookings" className="text-sm text-primary hover:underline">
-        &larr; Back to Bookings
-      </Link>
+    <>
+      <AppSubHeader
+        title={booking.bookingNumber}
+        backHref="/bookings"
+        backLabel="All bookings"
+      />
 
-      <Card>
-        <CardContent className="pt-4 pb-4 space-y-4">
-          <div className="flex items-start justify-between">
-            <h2 className="text-xl font-bold">{booking.bookingNumber}</h2>
-            <Badge variant={statusVariant(booking.status)}>{booking.status}</Badge>
+      <div className="px-5 -mt-6 pb-8 relative z-20 space-y-4">
+        {/* Hero card */}
+        <div className="rounded-2xl bg-card border border-card-border p-5 shadow-sm">
+          <div className="flex items-start justify-between gap-3 mb-1">
+            <h2 className="text-lg font-extrabold tracking-tight">{booking.facilityName}</h2>
+            <span
+              className={cn(
+                "px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shrink-0",
+                statusBadgeClass(booking.status),
+              )}
+            >
+              {humanizeStatus(booking.status)}
+            </span>
           </div>
+          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            {CATEGORY_LABELS[booking.facilityCategory] ?? booking.facilityCategory}
+          </p>
 
-          <div className="space-y-2 text-sm">
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Facility</span>
-              <span className="font-medium">{booking.facilityName}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Category</span>
-              <span className="font-medium">
-                {CATEGORY_LABELS[booking.facilityCategory] ?? booking.facilityCategory}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Date</span>
-              <span className="font-medium">{booking.date}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Time</span>
-              <span className="font-medium">
-                {booking.startTime.substring(0, 5)} - {booking.endTime.substring(0, 5)}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Amount</span>
-              <span className="font-medium">{formatMMK(booking.totalAmount)}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Payment</span>
-              <Badge variant="outline">{booking.paymentStatus}</Badge>
-            </div>
-            {booking.recurringGroupId && (
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Type</span>
-                <Badge variant="outline">Recurring</Badge>
-              </div>
-            )}
-            {booking.notes && (
-              <div>
-                <span className="text-muted-foreground">Notes</span>
-                <p className="mt-1">{booking.notes}</p>
-              </div>
-            )}
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Created</span>
-              <span className="font-medium">
-                {new Date(booking.createdAt).toLocaleDateString()}
-              </span>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+          <dl className="grid grid-cols-2 gap-y-4 gap-x-3 mt-5 pt-5 border-t border-border text-sm">
+            <DetailRow label="Date" value={formatDate(booking.date)} />
+            <DetailRow
+              label="Time"
+              value={`${booking.startTime.substring(0, 5)} – ${booking.endTime.substring(0, 5)}`}
+            />
+            <DetailRow label="Amount" value={formatMMK(booking.totalAmount)} />
+            <DetailRow label="Payment" value={humanizeStatus(booking.paymentStatus)} />
+            {booking.recurringGroupId ? <DetailRow label="Type" value="Recurring" /> : null}
+            <DetailRow label="Created" value={formatDate(booking.createdAt)} />
+          </dl>
 
-      {booking.status === "upcoming" && (
-        <CancelButton bookingId={booking.id} hasRecurringGroup={!!booking.recurringGroupId} />
-      )}
+          {booking.notes ? (
+            <div className="pt-4 mt-4 border-t border-border">
+              <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1">
+                Notes
+              </p>
+              <p className="text-sm text-foreground leading-relaxed">{booking.notes}</p>
+            </div>
+          ) : null}
+        </div>
+
+        {booking.status === "upcoming" ? (
+          <CancelButton bookingId={booking.id} hasRecurringGroup={!!booking.recurringGroupId} />
+        ) : null}
+      </div>
+    </>
+  );
+}
+
+function DetailRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <dt className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+        {label}
+      </dt>
+      <dd className="mt-0.5 text-sm font-semibold text-foreground tabular-nums">{value}</dd>
     </div>
   );
 }

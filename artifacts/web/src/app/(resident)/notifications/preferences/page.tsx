@@ -2,8 +2,7 @@ import { requireAuth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { usersTable } from "@workspace/db/schema";
 import { eq } from "drizzle-orm";
-import { Card, CardContent } from "@/components/ui/card";
-import Link from "next/link";
+import { AppSubHeader } from "@/components/layout/app-header";
 import { PreferencesForm } from "./preferences-form";
 
 export const dynamic = "force-dynamic";
@@ -20,25 +19,28 @@ export default async function NotificationPreferencesPage() {
   const dbUser = dbUsers[0];
   if (!dbUser) {
     return (
-      <div className="p-4">
+      <div className="p-5">
         <p className="text-muted-foreground">User account not found.</p>
       </div>
     );
   }
 
   return (
-    <div className="p-4 space-y-4">
-      <Link href="/notifications" className="text-sm text-blue-600 hover:underline">
-        &larr; Back to Notifications
-      </Link>
+    <>
+      <AppSubHeader
+        title="Notification preferences"
+        backHref="/notifications"
+        backLabel="Notifications"
+      />
 
-      <h2 className="text-xl font-bold">Notification Preferences</h2>
-
-      <Card>
-        <CardContent className="pt-6">
+      <div className="px-5 -mt-6 pb-8 relative z-20">
+        <div className="rounded-2xl bg-card border border-card-border p-5 shadow-sm">
+          <p className="text-xs text-muted-foreground font-medium mb-5">
+            Choose how you want to hear from us. You can change these anytime.
+          </p>
           <PreferencesForm emailNotifications={dbUser.emailNotifications} />
-        </CardContent>
-      </Card>
-    </div>
+        </div>
+      </div>
+    </>
   );
 }
