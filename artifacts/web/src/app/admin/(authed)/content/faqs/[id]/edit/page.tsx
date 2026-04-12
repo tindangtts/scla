@@ -1,10 +1,11 @@
 import { requireAdmin } from "@/lib/auth";
 import { getFaqById } from "@/lib/queries/admin-content";
 import { notFound } from "next/navigation";
+import { AdminPageHeader } from "@/components/layout/admin-page-header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Link from "next/link";
+import { Textarea } from "@/components/ui/textarea";
 import { updateFaq } from "../../actions";
 
 export const dynamic = "force-dynamic";
@@ -13,65 +14,64 @@ export default async function EditFaqPage({ params }: { params: Promise<{ id: st
   await requireAdmin();
   const { id } = await params;
   const faq = await getFaqById(id);
-
-  if (!faq) {
-    notFound();
-  }
+  if (!faq) notFound();
 
   return (
     <div className="max-w-2xl">
-      <Link href="/admin/content/faqs" className="text-sm text-muted-foreground hover:underline">
-        &larr; Back to FAQs
-      </Link>
+      <AdminPageHeader title="Edit FAQ" backHref="/admin/content/faqs" backLabel="FAQs" />
 
-      <h1 className="text-2xl font-bold mt-2 mb-4">Edit FAQ</h1>
-
-      <form action={updateFaq} className="space-y-4">
+      <form
+        action={updateFaq}
+        className="rounded-2xl bg-card border border-card-border p-6 shadow-sm space-y-5"
+      >
         <input type="hidden" name="id" value={faq.id} />
 
-        <div>
+        <div className="space-y-1.5">
           <Label htmlFor="question">Question</Label>
           <Input id="question" name="question" defaultValue={faq.question} required />
         </div>
 
-        <div>
+        <div className="space-y-1.5">
           <Label htmlFor="answer">Answer</Label>
-          <textarea
+          <Textarea
             id="answer"
             name="answer"
             required
-            rows={4}
+            rows={5}
             defaultValue={faq.answer}
-            className="w-full border rounded px-3 py-2 text-sm bg-background"
           />
         </div>
 
-        <div>
-          <Label htmlFor="category">Category</Label>
-          <Input id="category" name="category" defaultValue={faq.category} />
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-1.5">
+            <Label htmlFor="category">Category</Label>
+            <Input id="category" name="category" defaultValue={faq.category} />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="sortOrder">Sort order</Label>
+            <Input
+              id="sortOrder"
+              name="sortOrder"
+              type="number"
+              defaultValue={String(faq.sortOrder)}
+            />
+          </div>
         </div>
 
-        <div>
-          <Label htmlFor="sortOrder">Sort Order</Label>
-          <Input
-            id="sortOrder"
-            name="sortOrder"
-            type="number"
-            defaultValue={String(faq.sortOrder)}
-          />
-        </div>
-
-        <div className="flex items-center gap-2">
+        <label className="flex items-center gap-3 px-3 py-2.5 rounded-xl border border-border bg-muted/40 cursor-pointer hover:bg-muted transition-colors">
           <input
             type="checkbox"
             id="isPublished"
             name="isPublished"
             defaultChecked={faq.isPublished}
+            className="h-4 w-4 rounded border-input accent-primary"
           />
-          <Label htmlFor="isPublished">Published</Label>
-        </div>
+          <span className="block text-sm font-bold">Published</span>
+        </label>
 
-        <Button type="submit">Update FAQ</Button>
+        <Button type="submit" className="font-bold">
+          Update FAQ
+        </Button>
       </form>
     </div>
   );

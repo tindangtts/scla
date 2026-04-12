@@ -1,65 +1,65 @@
 import { requireAdmin } from "@/lib/auth";
+import { AdminPageHeader } from "@/components/layout/admin-page-header";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { createStaff } from "../actions";
 
 export const dynamic = "force-dynamic";
 
 const ROLES = [
   { value: "admin", label: "Admin" },
-  { value: "content_manager", label: "Content Manager" },
-  { value: "ticket_handler", label: "Ticket Handler" },
-  { value: "booking_manager", label: "Booking Manager" },
-  { value: "user_verifier", label: "User Verifier" },
+  { value: "content_manager", label: "Content manager" },
+  { value: "ticket_handler", label: "Ticket handler" },
+  { value: "booking_manager", label: "Booking manager" },
+  { value: "user_verifier", label: "User verifier" },
 ];
 
 export default async function NewStaffPage() {
   await requireAdmin();
 
   return (
-    <div>
-      <div className="flex items-center gap-3 mb-6">
-        <Link href="/admin/staff" className="text-blue-600 hover:underline text-sm">
-          &larr; Back to Staff
-        </Link>
-        <h2 className="text-2xl font-bold">New Staff Member</h2>
-      </div>
+    <div className="max-w-xl">
+      <AdminPageHeader
+        title="New staff member"
+        backHref="/admin/staff"
+        backLabel="Staff"
+      />
 
-      <form action={createStaff} className="max-w-md space-y-4">
-        <div>
-          <label className="block text-sm font-medium mb-1">Name</label>
-          <input
-            type="text"
-            name="name"
-            required
-            className="w-full px-3 py-2 border rounded-md text-sm"
-          />
+      <form
+        action={createStaff}
+        className="rounded-2xl bg-card border border-card-border p-6 shadow-sm space-y-5"
+      >
+        <div className="space-y-1.5">
+          <Label htmlFor="name">Full name</Label>
+          <Input id="name" name="name" type="text" autoComplete="name" required />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium mb-1">Email</label>
-          <input
-            type="email"
-            name="email"
-            required
-            className="w-full px-3 py-2 border rounded-md text-sm"
-          />
+        <div className="space-y-1.5">
+          <Label htmlFor="email">Email</Label>
+          <Input id="email" name="email" type="email" autoComplete="email" required />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium mb-1">Password</label>
-          <input
-            type="password"
+        <div className="space-y-1.5">
+          <Label htmlFor="password">Password</Label>
+          <Input
+            id="password"
             name="password"
+            type="password"
+            autoComplete="new-password"
             required
             minLength={6}
-            className="w-full px-3 py-2 border rounded-md text-sm"
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium mb-1">Role</label>
-          <select name="role" required className="w-full px-3 py-2 border rounded-md text-sm">
+        <div className="space-y-1.5">
+          <Label htmlFor="role">Role</Label>
+          <select
+            id="role"
+            name="role"
+            required
+            className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1"
+          >
             {ROLES.map((r) => (
               <option key={r.value} value={r.value}>
                 {r.label}
@@ -68,7 +68,9 @@ export default async function NewStaffPage() {
           </select>
         </div>
 
-        <Button type="submit">Create Staff</Button>
+        <Button type="submit" className="font-bold">
+          Create staff
+        </Button>
       </form>
     </div>
   );

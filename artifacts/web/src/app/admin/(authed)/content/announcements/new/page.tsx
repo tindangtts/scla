@@ -1,8 +1,9 @@
 import { requireAdmin } from "@/lib/auth";
+import { AdminPageHeader } from "@/components/layout/admin-page-header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Link from "next/link";
+import { Textarea } from "@/components/ui/textarea";
 import { createAnnouncement } from "../actions";
 
 export const dynamic = "force-dynamic";
@@ -12,68 +13,75 @@ export default async function NewAnnouncementPage() {
 
   return (
     <div className="max-w-2xl">
-      <Link
-        href="/admin/content/announcements"
-        className="text-sm text-muted-foreground hover:underline"
+      <AdminPageHeader
+        title="New announcement"
+        backHref="/admin/content/announcements"
+        backLabel="Announcements"
+      />
+
+      <form
+        action={createAnnouncement}
+        className="rounded-2xl bg-card border border-card-border p-6 shadow-sm space-y-5"
       >
-        &larr; Back to Announcements
-      </Link>
-
-      <h1 className="text-2xl font-bold mt-2 mb-4">New Announcement</h1>
-
-      <form action={createAnnouncement} className="space-y-4">
-        <div>
+        <div className="space-y-1.5">
           <Label htmlFor="title">Title</Label>
           <Input id="title" name="title" required />
         </div>
 
-        <div>
+        <div className="space-y-1.5">
           <Label htmlFor="summary">Summary</Label>
           <Input id="summary" name="summary" required />
         </div>
 
-        <div>
+        <div className="space-y-1.5">
           <Label htmlFor="content">Content</Label>
-          <textarea
-            id="content"
-            name="content"
-            required
-            rows={6}
-            className="w-full border rounded px-3 py-2 text-sm bg-background"
+          <Textarea id="content" name="content" required rows={8} />
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-1.5">
+            <Label htmlFor="type">Type</Label>
+            <select
+              id="type"
+              name="type"
+              className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1"
+            >
+              <option value="announcement">Announcement</option>
+              <option value="newsletter">Newsletter</option>
+            </select>
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="targetAudience">Audience</Label>
+            <select
+              id="targetAudience"
+              name="targetAudience"
+              className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1"
+            >
+              <option value="all">Everyone</option>
+              <option value="residents_only">Residents only</option>
+              <option value="guests_only">Guests only</option>
+            </select>
+          </div>
+        </div>
+
+        <label className="flex items-center gap-3 px-3 py-2.5 rounded-xl border border-border bg-muted/40 cursor-pointer hover:bg-muted transition-colors">
+          <input
+            type="checkbox"
+            id="isDraft"
+            name="isDraft"
+            className="h-4 w-4 rounded border-input accent-primary"
           />
-        </div>
+          <span>
+            <span className="block text-sm font-bold">Save as draft</span>
+            <span className="block text-xs text-muted-foreground">
+              Drafts stay hidden from residents until published.
+            </span>
+          </span>
+        </label>
 
-        <div>
-          <Label htmlFor="type">Type</Label>
-          <select
-            id="type"
-            name="type"
-            className="w-full border rounded px-3 py-2 text-sm bg-background"
-          >
-            <option value="announcement">Announcement</option>
-            <option value="newsletter">Newsletter</option>
-          </select>
-        </div>
-
-        <div>
-          <Label htmlFor="targetAudience">Target Audience</Label>
-          <select
-            id="targetAudience"
-            name="targetAudience"
-            className="w-full border rounded px-3 py-2 text-sm bg-background"
-          >
-            <option value="all">All</option>
-            <option value="residents_only">Residents Only</option>
-            <option value="guests_only">Guests Only</option>
-          </select>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <input type="checkbox" id="isDraft" name="isDraft" />
-          <Label htmlFor="isDraft">Save as Draft</Label>
-        </div>
-
-        <Button type="submit">Create Announcement</Button>
+        <Button type="submit" className="font-bold">
+          Create announcement
+        </Button>
       </form>
     </div>
   );

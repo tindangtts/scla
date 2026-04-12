@@ -1,9 +1,12 @@
+import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
 import { getFaqs } from "@/lib/queries/admin-content";
-import { Badge } from "@/components/ui/badge";
+import { AdminPageHeader } from "@/components/layout/admin-page-header";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { EmptyState } from "@/components/ui/empty-state";
 import { deleteFaq } from "./actions";
+import { Plus, HelpCircle, Edit, Trash2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -13,61 +16,89 @@ export default async function FaqsPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold">FAQs</h1>
-        <Link href="/admin/content/faqs/new">
-          <Button size="sm">New FAQ</Button>
-        </Link>
-      </div>
+      <AdminPageHeader
+        title="FAQs"
+        description={`${faqs.length} total`}
+        backHref="/admin/content"
+        backLabel="Content"
+        action={
+          <Link
+            href="/admin/content/faqs/new"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary text-primary-foreground text-sm font-bold hover:bg-primary/90"
+          >
+            <Plus className="w-4 h-4" aria-hidden="true" />
+            New FAQ
+          </Link>
+        }
+      />
 
       {faqs.length === 0 ? (
-        <p className="text-muted-foreground">No FAQs yet.</p>
+        <EmptyState
+          icon={HelpCircle}
+          title="No FAQs yet"
+          description="Answer common questions to reduce ticket volume."
+        />
       ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b text-left">
-                <th className="p-2">Question</th>
-                <th className="p-2">Category</th>
-                <th className="p-2">Published</th>
-                <th className="p-2">Sort Order</th>
-                <th className="p-2">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {faqs.map((faq) => (
-                <tr key={faq.id} className="border-b hover:bg-muted/50">
-                  <td className="p-2 max-w-sm truncate">{faq.question}</td>
-                  <td className="p-2">{faq.category}</td>
-                  <td className="p-2">
-                    {faq.isPublished ? (
-                      <Badge variant="secondary" className="text-green-600">
-                        Published
-                      </Badge>
-                    ) : (
-                      <Badge variant="outline">Draft</Badge>
-                    )}
-                  </td>
-                  <td className="p-2">{faq.sortOrder}</td>
-                  <td className="p-2">
-                    <div className="flex gap-2">
-                      <Link href={`/admin/content/faqs/${faq.id}/edit`}>
-                        <Button size="sm" variant="outline">
-                          Edit
-                        </Button>
-                      </Link>
-                      <form action={deleteFaq}>
-                        <input type="hidden" name="id" value={faq.id} />
-                        <Button type="submit" size="sm" variant="destructive">
-                          Delete
-                        </Button>
-                      </form>
-                    </div>
-                  </td>
+        <div className="rounded-2xl bg-card border border-card-border shadow-sm overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-left text-[10px] uppercase tracking-wider text-muted-foreground bg-muted/60 border-b border-border">
+                  <th className="py-3 px-4 font-bold">Question</th>
+                  <th className="py-3 px-4 font-bold">Category</th>
+                  <th className="py-3 px-4 font-bold">Status</th>
+                  <th className="py-3 px-4 font-bold">Order</th>
+                  <th className="py-3 px-4 font-bold text-right">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {faqs.map((faq) => (
+                  <tr key={faq.id} className="hover:bg-muted/40 transition-colors">
+                    <td className="py-3 px-4 max-w-sm">
+                      <p className="font-semibold text-foreground truncate">{faq.question}</p>
+                    </td>
+                    <td className="py-3 px-4 text-muted-foreground">{faq.category}</td>
+                    <td className="py-3 px-4">
+                      <span
+                        className={cn(
+                          "inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider",
+                          faq.isPublished
+                            ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
+                            : "bg-muted text-muted-foreground",
+                        )}
+                      >
+                        {faq.isPublished ? "Published" : "Draft"}
+                      </span>
+                    </td>
+                    <td className="py-3 px-4 tabular-nums">{faq.sortOrder}</td>
+                    <td className="py-3 px-4 text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <Link
+                          href={`/admin/content/faqs/${faq.id}/edit`}
+                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-muted text-foreground text-xs font-bold hover:bg-muted/80"
+                        >
+                          <Edit className="w-3 h-3" aria-hidden="true" />
+                          Edit
+                        </Link>
+                        <form action={deleteFaq}>
+                          <input type="hidden" name="id" value={faq.id} />
+                          <Button
+                            type="submit"
+                            size="sm"
+                            variant="destructive"
+                            className="h-7 px-2.5 text-xs font-bold"
+                          >
+                            <Trash2 className="w-3 h-3" aria-hidden="true" />
+                            Delete
+                          </Button>
+                        </form>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </div>

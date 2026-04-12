@@ -2,37 +2,15 @@ import { requireAdmin } from "@/lib/auth";
 import { getTicketById, getStaffMembers } from "@/lib/queries/admin-tickets";
 import { getTicketMessages } from "@/lib/queries/tickets";
 import { notFound } from "next/navigation";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { AdminPageHeader } from "@/components/layout/admin-page-header";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { updateTicketStatus, assignTicket } from "./actions";
 import TicketChat from "./ticket-chat";
+import { formatDate, humanizeStatus, statusBadgeClass } from "@/lib/format";
+import { cn } from "@/lib/utils";
+import { Mail, User, Paperclip } from "lucide-react";
 
 export const dynamic = "force-dynamic";
-
-function statusBadge(status: string) {
-  switch (status) {
-    case "open":
-      return <Badge variant="default">Open</Badge>;
-    case "in_progress":
-      return (
-        <Badge variant="secondary" className="text-yellow-600">
-          In Progress
-        </Badge>
-      );
-    case "completed":
-      return (
-        <Badge variant="secondary" className="text-green-600">
-          Completed
-        </Badge>
-      );
-    case "closed":
-      return <Badge variant="outline">Closed</Badge>;
-    default:
-      return <Badge variant="outline">{status}</Badge>;
-  }
-}
 
 function formatCategory(category: string) {
   return category.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
@@ -46,159 +24,176 @@ export default async function AdminTicketDetailPage({
   await requireAdmin();
   const { id } = await params;
   const ticket = await getTicketById(id);
-
-  if (!ticket) {
-    notFound();
-  }
+  if (!ticket) notFound();
 
   const staffMembers = await getStaffMembers();
   const messages = await getTicketMessages(ticket.id);
+  const assignedName = ticket.assignedTo
+    ? staffMembers.find((s) => s.id === ticket.assignedTo)?.name
+    : null;
 
   return (
-    <div className="max-w-3xl space-y-6">
-      <Link href="/admin/tickets" className="text-sm text-muted-foreground hover:underline">
-        &larr; Back to Tickets
-      </Link>
-
-      {/* Header */}
-      <div className="flex items-center gap-3 flex-wrap">
-        <h1 className="text-2xl font-bold">{ticket.ticketNumber}</h1>
-        {statusBadge(ticket.status)}
-        <Badge variant="outline">{formatCategory(ticket.category)}</Badge>
-      </div>
-      <h2 className="text-lg font-semibold">{ticket.title}</h2>
-
-      {/* Detail card */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Ticket Details</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-3 text-sm">
-          <div>
-            <span className="text-muted-foreground">Description:</span>
-            <p className="mt-1 whitespace-pre-wrap">{ticket.description}</p>
+    <div className="max-w-4xl">
+      <AdminPageHeader
+        title={ticket.ticketNumber}
+        description={ticket.title}
+        backHref="/admin/tickets"
+        backLabel="All tickets"
+        action={
+          <div className="flex items-center gap-1.5">
+            <span
+              className={cn(
+                "inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider",
+                statusBadgeClass(ticket.status),
+              )}
+            >
+              {humanizeStatus(ticket.status)}
+            </span>
+            <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-secondary text-secondary-foreground text-[10px] font-bold uppercase tracking-wider">
+              {formatCategory(ticket.category)}
+            </span>
           </div>
-          <div className="grid grid-cols-2 gap-2">
-            <div>
-              <span className="text-muted-foreground">Service Type:</span> {ticket.serviceType}
-            </div>
-            <div>
-              <span className="text-muted-foreground">Unit:</span> {ticket.unitNumber || "-"}
-            </div>
-            <div>
-              <span className="text-muted-foreground">Created:</span>{" "}
-              {ticket.createdAt.toLocaleDateString()}
-            </div>
-            <div>
-              <span className="text-muted-foreground">Updated:</span>{" "}
-              {ticket.updatedAt.toLocaleDateString()}
-            </div>
-          </div>
-          {ticket.attachmentUrl && (
-            <div>
-              <span className="text-muted-foreground">Attachment:</span>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={ticket.attachmentUrl}
-                alt="Ticket attachment"
-                className="mt-2 max-w-full max-h-64 rounded border"
-              />
-            </div>
-          )}
-        </CardContent>
-      </Card>
+        }
+      />
 
-      {/* Submitter card */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Submitter</CardTitle>
-        </CardHeader>
-        <CardContent className="text-sm">
-          <div>
-            <span className="text-muted-foreground">Name:</span> {ticket.userName}
+      <div className="grid gap-4 lg:grid-cols-3">
+        {/* Main column */}
+        <div className="lg:col-span-2 space-y-4">
+          {/* Description */}
+          <div className="rounded-2xl bg-card border border-card-border p-5 shadow-sm">
+            <h2 className="text-sm font-bold tracking-tight mb-2">Description</h2>
+            <p className="text-sm text-foreground whitespace-pre-wrap leading-relaxed">
+              {ticket.description}
+            </p>
+            <dl className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-border text-sm">
+              <div>
+                <dt className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                  Service type
+                </dt>
+                <dd className="text-sm font-semibold text-foreground">{ticket.serviceType}</dd>
+              </div>
+              <div>
+                <dt className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                  Unit
+                </dt>
+                <dd className="text-sm font-semibold text-foreground tabular-nums">
+                  {ticket.unitNumber || "—"}
+                </dd>
+              </div>
+              <div>
+                <dt className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                  Created
+                </dt>
+                <dd className="text-sm font-semibold text-foreground">
+                  {formatDate(ticket.createdAt)}
+                </dd>
+              </div>
+              <div>
+                <dt className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                  Updated
+                </dt>
+                <dd className="text-sm font-semibold text-foreground">
+                  {formatDate(ticket.updatedAt)}
+                </dd>
+              </div>
+            </dl>
+            {ticket.attachmentUrl ? (
+              <div className="mt-4 pt-4 border-t border-border">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-2 flex items-center gap-1.5">
+                  <Paperclip className="w-3 h-3" aria-hidden="true" />
+                  Attachment
+                </p>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={ticket.attachmentUrl}
+                  alt={`Attachment for ${ticket.title}`}
+                  className="max-h-64 rounded-xl border border-border"
+                />
+              </div>
+            ) : null}
           </div>
-          <div>
-            <span className="text-muted-foreground">Email:</span> {ticket.userEmail}
-          </div>
-        </CardContent>
-      </Card>
 
-      {/* Status update form */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Update Status</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form action={updateTicketStatus} className="flex gap-2 items-end">
+          {/* Chat */}
+          <TicketChat ticketId={ticket.id} initialMessages={messages} />
+        </div>
+
+        {/* Side column */}
+        <aside className="space-y-4">
+          {/* Submitter */}
+          <div className="rounded-2xl bg-card border border-card-border p-5 shadow-sm space-y-3">
+            <h3 className="text-sm font-bold tracking-tight">Submitter</h3>
+            <div className="flex items-center gap-2.5 text-sm">
+              <div className="p-1.5 rounded-lg bg-primary/10 text-primary">
+                <User className="w-3.5 h-3.5" aria-hidden="true" />
+              </div>
+              <span className="font-semibold text-foreground">{ticket.userName}</span>
+            </div>
+            <div className="flex items-center gap-2.5 text-sm">
+              <div className="p-1.5 rounded-lg bg-muted text-muted-foreground">
+                <Mail className="w-3.5 h-3.5" aria-hidden="true" />
+              </div>
+              <span className="text-muted-foreground break-all">{ticket.userEmail}</span>
+            </div>
+          </div>
+
+          {/* Status update */}
+          <form
+            action={updateTicketStatus}
+            className="rounded-2xl bg-card border border-card-border p-5 shadow-sm space-y-3"
+          >
+            <h3 className="text-sm font-bold tracking-tight">Update status</h3>
             <input type="hidden" name="ticketId" value={ticket.id} />
-            <div className="flex-1">
-              <label htmlFor="status" className="text-sm font-medium block mb-1">
-                New Status
-              </label>
-              <select
-                id="status"
-                name="status"
-                defaultValue={ticket.status}
-                className="w-full border rounded px-3 py-2 text-sm bg-background"
-              >
-                <option value="open">Open</option>
-                <option value="in_progress">In Progress</option>
-                <option value="completed">Completed</option>
-                <option value="closed">Closed</option>
-              </select>
-            </div>
-            <Button type="submit" size="sm">
-              Update
+            <select
+              name="status"
+              defaultValue={ticket.status}
+              aria-label="New status"
+              className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1"
+            >
+              <option value="open">Open</option>
+              <option value="in_progress">In progress</option>
+              <option value="completed">Completed</option>
+              <option value="closed">Closed</option>
+            </select>
+            <Button type="submit" size="sm" className="w-full font-bold">
+              Update status
             </Button>
           </form>
-        </CardContent>
-      </Card>
 
-      {/* Assignment form */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Assign to Staff</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {ticket.assignedTo && (
-            <p className="text-sm text-muted-foreground mb-2">
-              Currently assigned to:{" "}
-              <strong>
-                {staffMembers.find((s) => s.id === ticket.assignedTo)?.name || "Unknown"}
-              </strong>
-            </p>
-          )}
-          <form action={assignTicket} className="flex gap-2 items-end">
+          {/* Assignment */}
+          <form
+            action={assignTicket}
+            className="rounded-2xl bg-card border border-card-border p-5 shadow-sm space-y-3"
+          >
+            <h3 className="text-sm font-bold tracking-tight">Assignment</h3>
+            {assignedName ? (
+              <p className="text-xs text-muted-foreground font-medium">
+                Currently: <span className="font-bold text-foreground">{assignedName}</span>
+              </p>
+            ) : (
+              <p className="text-xs text-muted-foreground font-medium">Currently unassigned</p>
+            )}
             <input type="hidden" name="ticketId" value={ticket.id} />
-            <div className="flex-1">
-              <label htmlFor="staffId" className="text-sm font-medium block mb-1">
-                Staff Member
-              </label>
-              <select
-                id="staffId"
-                name="staffId"
-                defaultValue={ticket.assignedTo || ""}
-                className="w-full border rounded px-3 py-2 text-sm bg-background"
-              >
-                <option value="" disabled>
-                  Select staff member
+            <select
+              name="staffId"
+              defaultValue={ticket.assignedTo || ""}
+              aria-label="Assign to staff"
+              className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1"
+            >
+              <option value="" disabled>
+                Select staff member
+              </option>
+              {staffMembers.map((staff) => (
+                <option key={staff.id} value={staff.id}>
+                  {staff.name}
                 </option>
-                {staffMembers.map((staff) => (
-                  <option key={staff.id} value={staff.id}>
-                    {staff.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <Button type="submit" size="sm">
+              ))}
+            </select>
+            <Button type="submit" size="sm" className="w-full font-bold">
               Assign
             </Button>
           </form>
-        </CardContent>
-      </Card>
-
-      {/* Real-time chat */}
-      <TicketChat ticketId={ticket.id} initialMessages={messages} />
+        </aside>
+      </div>
     </div>
   );
 }
