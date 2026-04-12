@@ -92,7 +92,8 @@ See `.planning/milestones/v3.0-ROADMAP.md` for full details.
   3. Full EN↔MY locale toggle pass confirms every route (resident + admin) renders in both locales with no English fallback text leaking into Myanmar mode
   4. `pnpm --filter @workspace/web typecheck` exits with code 0 — no remaining typecheck errors in api route `__tests__` or elsewhere
   5. CI typecheck step passes on every push/PR, unblocking the pipeline for deploy
-**Plans**: TBD
+**Plans**: 1 plan (coarse — i18n audit + typecheck cleanup are independent, file-disjoint concerns bundled under deep_work_rules)
+  - [ ] 34-01-PLAN.md — Verify EN/MY translation parity (I18N-01/02/03) and fix 13 pre-existing typecheck errors across 6 api route test files (TYPE-01/02)
 
 ### Phase 35: Vercel Deployment
 **Goal**: Production users reach the SCLA app at a stable HTTPS URL with daily cron running, all secrets securely stored, and chat working via polling fallback.
@@ -143,5 +144,5 @@ See `.planning/milestones/v3.0-ROADMAP.md` for full details.
 | 18-23 | v2.1 | 13 | Complete | 2026-04-11 |
 | 24-32 | v3.0 | 21 | Complete | 2026-04-12 |
 | 33 | v3.1 | 1/1 | Complete    | 2026-04-12 |
-| 34 | v3.1 | 0/? | Not started | — |
+| 34 | v3.1 | 0/1 | Not started | — |
 | 35 | v3.1 | 0/? | Not started | — |
