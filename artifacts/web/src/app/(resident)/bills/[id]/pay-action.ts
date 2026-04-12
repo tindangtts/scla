@@ -8,10 +8,11 @@ import { eq, and } from "drizzle-orm";
 import { getWalletBalance } from "@/lib/queries/wallet";
 
 export async function payInvoice(
-  prevState: { error?: string; success?: boolean },
+  prevState: { error?: string; success?: boolean; paymentMethod?: string; sessionId?: string },
   formData: FormData,
-): Promise<{ error?: string; success?: boolean }> {
+): Promise<{ error?: string; success?: boolean; paymentMethod?: string; sessionId?: string }> {
   const invoiceId = formData.get("invoiceId") as string;
+  const paymentMethod = formData.get("paymentMethod") as string;
   if (!invoiceId) {
     return { error: "Invoice ID is required." };
   }
@@ -80,5 +81,6 @@ export async function payInvoice(
   revalidatePath("/wallet");
   revalidatePath("/");
 
-  return { success: true };
+  const sessionId = crypto.randomUUID();
+  return { success: true, paymentMethod: paymentMethod || undefined, sessionId };
 }
