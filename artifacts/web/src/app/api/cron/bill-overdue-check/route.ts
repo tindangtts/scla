@@ -4,10 +4,18 @@ import { invoicesTable } from "@workspace/db/schema";
 import { eq, and, sql } from "drizzle-orm";
 import { notifyBillOverdue } from "@/lib/notifications";
 
-export async function POST(request: NextRequest) {
-  // Auth check: if CRON_SECRET is configured, require matching header
+function isAuthorized(request: NextRequest): boolean {
   const cronSecret = process.env.CRON_SECRET;
-  if (cronSecret && request.headers.get("x-cron-secret") !== cronSecret) {
+  if (!cronSecret) return true; // local dev — no secret configured
+  const headerSecret = request.headers.get("x-cron-secret");
+  if (headerSecret && headerSecret === cronSecret) return true;
+  const authHeader = request.headers.get("authorization");
+  if (authHeader && authHeader === `Bearer ${cronSecret}`) return true;
+  return false;
+}
+
+async function runOverdueCheck(request: NextRequest) {
+  if (!isAuthorized(request)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -51,4 +59,12 @@ export async function POST(request: NextRequest) {
     errors,
     total: overdueInvoices.length,
   });
+}
+
+export async function GET(request: NextRequest) {
+  return runOverdueCheck(request);
+}
+
+export async function POST(request: NextRequest) {
+  return runOverdueCheck(request);
 }
