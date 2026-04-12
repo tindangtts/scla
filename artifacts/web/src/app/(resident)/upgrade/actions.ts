@@ -7,9 +7,9 @@ import { usersTable, upgradeRequestsTable } from "@workspace/db/schema";
 import { eq, and } from "drizzle-orm";
 
 export async function submitUpgradeRequest(
-  prevState: { error?: string; success?: boolean },
+  prevState: { error?: string; success?: boolean; paymentMethod?: string; sessionId?: string },
   formData: FormData,
-): Promise<{ error?: string; success?: boolean }> {
+): Promise<{ error?: string; success?: boolean; paymentMethod?: string; sessionId?: string }> {
   const supabase = await createClient();
   const {
     data: { user },
@@ -22,6 +22,7 @@ export async function submitUpgradeRequest(
   const unitNumber = (formData.get("unitNumber") as string)?.trim();
   const residentId = (formData.get("residentId") as string)?.trim();
   const developmentName = (formData.get("developmentName") as string)?.trim();
+  const paymentMethod = formData.get("paymentMethod") as string;
 
   if (!unitNumber || !residentId || !developmentName) {
     return { error: "All fields are required." };
@@ -67,5 +68,6 @@ export async function submitUpgradeRequest(
   await db.update(usersTable).set({ upgradeStatus: "pending" }).where(eq(usersTable.id, dbUser.id));
 
   revalidatePath("/upgrade");
-  return { success: true };
+  const sessionId = crypto.randomUUID();
+  return { success: true, paymentMethod, sessionId };
 }
