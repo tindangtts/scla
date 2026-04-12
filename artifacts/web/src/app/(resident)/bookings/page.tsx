@@ -81,9 +81,7 @@ export default async function BookingsPage({
         {STATUS_FILTERS.map((filter) => (
           <Link key={filter.label} href={filter.href}>
             <Badge
-              variant={
-                (status ?? undefined) === filter.value ? "default" : "outline"
-              }
+              variant={(status ?? undefined) === filter.value ? "default" : "outline"}
               className="cursor-pointer whitespace-nowrap"
             >
               {filter.label}
@@ -96,9 +94,7 @@ export default async function BookingsPage({
       {bookings.length === 0 ? (
         <Card>
           <CardContent className="pt-6">
-            <p className="text-center text-muted-foreground">
-              No bookings found.
-            </p>
+            <p className="text-center text-muted-foreground">No bookings found.</p>
           </CardContent>
         </Card>
       ) : (
@@ -109,12 +105,8 @@ export default async function BookingsPage({
                 <CardContent className="pt-4 pb-4">
                   <div className="flex items-start justify-between">
                     <div className="space-y-1">
-                      <p className="text-sm font-medium">
-                        {booking.bookingNumber}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        {booking.facilityName}
-                      </p>
+                      <p className="text-sm font-medium">{booking.bookingNumber}</p>
+                      <p className="text-xs text-muted-foreground">{booking.facilityName}</p>
                     </div>
                     <div className="flex items-center gap-1.5">
                       {booking.recurringGroupId && (
@@ -122,9 +114,7 @@ export default async function BookingsPage({
                           Recurring
                         </Badge>
                       )}
-                      <Badge variant={statusVariant(booking.status)}>
-                        {booking.status}
-                      </Badge>
+                      <Badge variant={statusVariant(booking.status)}>{booking.status}</Badge>
                     </div>
                   </div>
                   <div className="mt-2 flex items-center justify-between">
@@ -132,9 +122,7 @@ export default async function BookingsPage({
                       {booking.date} | {booking.startTime.substring(0, 5)} -{" "}
                       {booking.endTime.substring(0, 5)}
                     </p>
-                    <p className="text-sm font-semibold">
-                      {formatMMK(booking.totalAmount)}
-                    </p>
+                    <p className="text-sm font-semibold">{formatMMK(booking.totalAmount)}</p>
                   </div>
                 </CardContent>
               </Card>

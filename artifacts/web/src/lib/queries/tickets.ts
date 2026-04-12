@@ -10,21 +10,12 @@ import { eq, and, desc, asc, count } from "drizzle-orm";
 /**
  * Get tickets for a user, optionally filtered by status.
  */
-export async function getTickets(
-  userId: string,
-  status?: string
-): Promise<Ticket[]> {
+export async function getTickets(userId: string, status?: string): Promise<Ticket[]> {
   const conditions = [eq(ticketsTable.userId, userId)];
 
-  if (
-    status &&
-    ["open", "in_progress", "completed", "closed"].includes(status)
-  ) {
+  if (status && ["open", "in_progress", "completed", "closed"].includes(status)) {
     conditions.push(
-      eq(
-        ticketsTable.status,
-        status as "open" | "in_progress" | "completed" | "closed"
-      )
+      eq(ticketsTable.status, status as "open" | "in_progress" | "completed" | "closed"),
     );
   }
 
@@ -38,10 +29,7 @@ export async function getTickets(
 /**
  * Get a single ticket by ID, scoped to a specific user.
  */
-export async function getTicketById(
-  id: string,
-  userId: string
-): Promise<Ticket | null> {
+export async function getTicketById(id: string, userId: string): Promise<Ticket | null> {
   const rows = await db
     .select()
     .from(ticketsTable)
@@ -54,9 +42,7 @@ export async function getTicketById(
 /**
  * Get messages for a ticket, ordered chronologically.
  */
-export async function getTicketMessages(
-  ticketId: string
-): Promise<TicketMessage[]> {
+export async function getTicketMessages(ticketId: string): Promise<TicketMessage[]> {
   return db
     .select()
     .from(ticketMessagesTable)
@@ -68,9 +54,7 @@ export async function getTicketMessages(
  * Generate the next ticket number in SA-XXXX format.
  */
 export async function getNextTicketNumber(): Promise<string> {
-  const result = await db
-    .select({ total: count() })
-    .from(ticketsTable);
+  const result = await db.select({ total: count() }).from(ticketsTable);
 
   const nextNum = (result[0]?.total ?? 0) + 1;
   return "SA-" + String(nextNum).padStart(4, "0");

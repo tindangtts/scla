@@ -34,9 +34,7 @@ export const UserUserType = {
   resident: "resident",
 } as const;
 
-export type UserUpgradeStatus =
-  | (typeof UserUpgradeStatus)[keyof typeof UserUpgradeStatus]
-  | null;
+export type UserUpgradeStatus = (typeof UserUpgradeStatus)[keyof typeof UserUpgradeStatus] | null;
 
 export const UserUpgradeStatus = {
   none: "none",
@@ -93,8 +91,7 @@ export interface ResidentUpgradeRequest {
   reviewNote?: string | null;
 }
 
-export type AnnouncementType =
-  (typeof AnnouncementType)[keyof typeof AnnouncementType];
+export type AnnouncementType = (typeof AnnouncementType)[keyof typeof AnnouncementType];
 
 export const AnnouncementType = {
   announcement: "announcement",
@@ -189,8 +186,7 @@ export const PaymentSessionPaymentMethod = {
   kbzpay: "kbzpay",
 } as const;
 
-export type PaymentSessionStatus =
-  (typeof PaymentSessionStatus)[keyof typeof PaymentSessionStatus];
+export type PaymentSessionStatus = (typeof PaymentSessionStatus)[keyof typeof PaymentSessionStatus];
 
 export const PaymentSessionStatus = {
   pending: "pending",
@@ -252,8 +248,7 @@ export interface Deposit {
   transactions: DepositTransaction[];
 }
 
-export type TicketCategory =
-  (typeof TicketCategory)[keyof typeof TicketCategory];
+export type TicketCategory = (typeof TicketCategory)[keyof typeof TicketCategory];
 
 export const TicketCategory = {
   electricals: "electricals",
@@ -335,8 +330,7 @@ export interface TicketSummary {
   recentlyUpdated: number;
 }
 
-export type FacilityCategory =
-  (typeof FacilityCategory)[keyof typeof FacilityCategory];
+export type FacilityCategory = (typeof FacilityCategory)[keyof typeof FacilityCategory];
 
 export const FacilityCategory = {
   swimming_pool: "swimming_pool",
@@ -385,8 +379,7 @@ export const BookingStatus = {
   cancelled: "cancelled",
 } as const;
 
-export type BookingPaymentStatus =
-  (typeof BookingPaymentStatus)[keyof typeof BookingPaymentStatus];
+export type BookingPaymentStatus = (typeof BookingPaymentStatus)[keyof typeof BookingPaymentStatus];
 
 export const BookingPaymentStatus = {
   pending: "pending",
@@ -439,8 +432,7 @@ export interface InfoArticle {
   publishedAt: string;
 }
 
-export type HomeSummaryUserType =
-  (typeof HomeSummaryUserType)[keyof typeof HomeSummaryUserType];
+export type HomeSummaryUserType = (typeof HomeSummaryUserType)[keyof typeof HomeSummaryUserType];
 
 export const HomeSummaryUserType = {
   guest: "guest",
@@ -460,8 +452,7 @@ export interface HomeSummary {
   walletBalance?: number | null;
 }
 
-export type AppNotificationType =
-  (typeof AppNotificationType)[keyof typeof AppNotificationType];
+export type AppNotificationType = (typeof AppNotificationType)[keyof typeof AppNotificationType];
 
 export const AppNotificationType = {
   ticket_update: "ticket_update",
@@ -507,8 +498,7 @@ export type ListInvoicesParams = {
   month?: string;
 };
 
-export type ListInvoicesStatus =
-  (typeof ListInvoicesStatus)[keyof typeof ListInvoicesStatus];
+export type ListInvoicesStatus = (typeof ListInvoicesStatus)[keyof typeof ListInvoicesStatus];
 
 export const ListInvoicesStatus = {
   unpaid: "unpaid",
@@ -520,8 +510,7 @@ export type ListTicketsParams = {
   status?: ListTicketsStatus;
 };
 
-export type ListTicketsStatus =
-  (typeof ListTicketsStatus)[keyof typeof ListTicketsStatus];
+export type ListTicketsStatus = (typeof ListTicketsStatus)[keyof typeof ListTicketsStatus];
 
 export const ListTicketsStatus = {
   open: "open",
@@ -540,8 +529,7 @@ export type ListBookingsParams = {
   status?: ListBookingsStatus;
 };
 
-export type ListBookingsStatus =
-  (typeof ListBookingsStatus)[keyof typeof ListBookingsStatus];
+export type ListBookingsStatus = (typeof ListBookingsStatus)[keyof typeof ListBookingsStatus];
 
 export const ListBookingsStatus = {
   upcoming: "upcoming",

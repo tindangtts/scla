@@ -13,11 +13,7 @@ function formatDate(date: Date) {
   });
 }
 
-export default async function ArticleDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function ArticleDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const article = await getArticleById(id);
 
@@ -38,14 +34,10 @@ export default async function ArticleDetailPage({
 
       <div className="flex items-center gap-2">
         <Badge variant="secondary">{article.categoryName}</Badge>
-        <span className="text-sm text-muted-foreground">
-          {formatDate(article.publishedAt)}
-        </span>
+        <span className="text-sm text-muted-foreground">{formatDate(article.publishedAt)}</span>
       </div>
 
-      <div className="text-sm leading-relaxed whitespace-pre-wrap">
-        {article.content}
-      </div>
+      <div className="text-sm leading-relaxed whitespace-pre-wrap">{article.content}</div>
     </div>
   );
 }

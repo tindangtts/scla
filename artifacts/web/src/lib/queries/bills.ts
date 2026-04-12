@@ -7,9 +7,7 @@ export async function getBills(userId: string, status?: string) {
 
   if (status === "overdue") {
     conditions.push(eq(invoicesTable.status, "unpaid"));
-    conditions.push(
-      lt(invoicesTable.dueDate, sql`current_date`)
-    );
+    conditions.push(lt(invoicesTable.dueDate, sql`current_date`));
   } else if (status === "unpaid" || status === "paid" || status === "partially_paid") {
     conditions.push(eq(invoicesTable.status, status));
   }

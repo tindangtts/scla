@@ -3,12 +3,7 @@
 import { useActionState } from "react";
 import Link from "next/link";
 import { register } from "./actions";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -21,9 +16,7 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-sm">
-        <h1 className="text-2xl font-bold text-center mb-6">
-          Star City Living
-        </h1>
+        <h1 className="text-2xl font-bold text-center mb-6">Star City Living</h1>
 
         <Card>
           <CardHeader>
@@ -33,13 +26,7 @@ export default function RegisterPage() {
             <form action={formAction} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="name">{t("name")}</Label>
-                <Input
-                  id="name"
-                  name="name"
-                  type="text"
-                  placeholder="Your full name"
-                  required
-                />
+                <Input id="name" name="name" type="text" placeholder="Your full name" required />
               </div>
 
               <div className="space-y-2">
@@ -55,13 +42,7 @@ export default function RegisterPage() {
 
               <div className="space-y-2">
                 <Label htmlFor="phone">{t("phone")}</Label>
-                <Input
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  placeholder="09xxxxxxxx"
-                  required
-                />
+                <Input id="phone" name="phone" type="tel" placeholder="09xxxxxxxx" required />
               </div>
 
               <div className="space-y-2">
@@ -86,9 +67,7 @@ export default function RegisterPage() {
                 />
               </div>
 
-              {state.error && (
-                <p className="text-sm text-red-600">{state.error}</p>
-              )}
+              {state.error && <p className="text-sm text-red-600">{state.error}</p>}
 
               <Button type="submit" className="w-full" disabled={isPending}>
                 {isPending ? t("creatingAccount") : t("register")}

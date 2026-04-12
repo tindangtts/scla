@@ -16,10 +16,7 @@ const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
  * GET /api/tickets/[id]/messages
  * Returns all messages for a ticket, ordered chronologically.
  */
-export async function GET(
-  _request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -58,10 +55,7 @@ export async function GET(
  * POST /api/tickets/[id]/messages
  * Creates a new message on a ticket.
  */
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -89,10 +83,7 @@ export async function POST(
 
   const body = await request.json().catch(() => null);
   if (!body || typeof body.content !== "string" || body.content.trim() === "") {
-    return NextResponse.json(
-      { error: "Content is required" },
-      { status: 400 },
-    );
+    return NextResponse.json({ error: "Content is required" }, { status: 400 });
   }
 
   // Determine sender ID and type from authenticated user
@@ -118,10 +109,7 @@ export async function POST(
       .limit(1);
 
     if (userRows.length === 0) {
-      return NextResponse.json(
-        { error: "User account not found" },
-        { status: 404 },
-      );
+      return NextResponse.json({ error: "User account not found" }, { status: 404 });
     }
     senderId = userRows[0].id;
     senderType = "resident";
@@ -139,8 +127,7 @@ export async function POST(
 
   // Broadcast to WebSocket clients (fire-and-forget, cross-process)
   try {
-    const wsBroadcastUrl =
-      process.env.WS_BROADCAST_URL || "http://localhost:3003/broadcast";
+    const wsBroadcastUrl = process.env.WS_BROADCAST_URL || "http://localhost:3003/broadcast";
     fetch(wsBroadcastUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

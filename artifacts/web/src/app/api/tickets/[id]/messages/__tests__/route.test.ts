@@ -40,8 +40,16 @@ vi.mock("drizzle-orm", () => ({
 }));
 
 vi.mock("@workspace/db/schema", () => ({
-  ticketMessagesTable: { ticketId: "ticket_messages_ticketId", createdAt: "ticket_messages_createdAt" },
-  ticketsTable: { id: "tickets_id", userId: "tickets_userId", assignedTo: "tickets_assignedTo", ticketNumber: "tickets_ticketNumber" },
+  ticketMessagesTable: {
+    ticketId: "ticket_messages_ticketId",
+    createdAt: "ticket_messages_createdAt",
+  },
+  ticketsTable: {
+    id: "tickets_id",
+    userId: "tickets_userId",
+    assignedTo: "tickets_assignedTo",
+    ticketNumber: "tickets_ticketNumber",
+  },
   usersTable: { id: "users_id", email: "users_email" },
   staffUsersTable: { id: "staff_users_id", email: "staff_users_email" },
 }));
@@ -72,10 +80,9 @@ describe("GET /api/tickets/[id]/messages", () => {
   it("returns 401 when unauthenticated", async () => {
     mockGetUser.mockResolvedValue({ data: { user: null } });
 
-    const res = await GET(
-      makeRequest(`/api/tickets/${VALID_UUID}/messages`),
-      { params: makeParams(VALID_UUID) }
-    );
+    const res = await GET(makeRequest(`/api/tickets/${VALID_UUID}/messages`), {
+      params: makeParams(VALID_UUID),
+    });
 
     expect(res.status).toBe(401);
     const body = await res.json();
@@ -85,10 +92,9 @@ describe("GET /api/tickets/[id]/messages", () => {
   it("returns 400 for invalid UUID", async () => {
     mockGetUser.mockResolvedValue({ data: { user: mockUser } });
 
-    const res = await GET(
-      makeRequest(`/api/tickets/${INVALID_UUID}/messages`),
-      { params: makeParams(INVALID_UUID) }
-    );
+    const res = await GET(makeRequest(`/api/tickets/${INVALID_UUID}/messages`), {
+      params: makeParams(INVALID_UUID),
+    });
 
     expect(res.status).toBe(400);
     const body = await res.json();
@@ -99,10 +105,9 @@ describe("GET /api/tickets/[id]/messages", () => {
     mockGetUser.mockResolvedValue({ data: { user: mockUser } });
     mockLimit.mockResolvedValue([]);
 
-    const res = await GET(
-      makeRequest(`/api/tickets/${VALID_UUID}/messages`),
-      { params: makeParams(VALID_UUID) }
-    );
+    const res = await GET(makeRequest(`/api/tickets/${VALID_UUID}/messages`), {
+      params: makeParams(VALID_UUID),
+    });
 
     expect(res.status).toBe(404);
     const body = await res.json();
@@ -126,10 +131,9 @@ describe("GET /api/tickets/[id]/messages", () => {
     });
     mockOrderBy.mockResolvedValue(messages);
 
-    const res = await GET(
-      makeRequest(`/api/tickets/${VALID_UUID}/messages`),
-      { params: makeParams(VALID_UUID) }
-    );
+    const res = await GET(makeRequest(`/api/tickets/${VALID_UUID}/messages`), {
+      params: makeParams(VALID_UUID),
+    });
 
     expect(res.status).toBe(200);
     const body = await res.json();
@@ -150,7 +154,7 @@ describe("POST /api/tickets/[id]/messages", () => {
         method: "POST",
         body: JSON.stringify({ content: "Hello" }),
       }),
-      { params: makeParams(VALID_UUID) }
+      { params: makeParams(VALID_UUID) },
     );
 
     expect(res.status).toBe(401);
@@ -165,7 +169,7 @@ describe("POST /api/tickets/[id]/messages", () => {
         method: "POST",
         body: JSON.stringify({ content: "" }),
       }),
-      { params: makeParams(VALID_UUID) }
+      { params: makeParams(VALID_UUID) },
     );
 
     expect(res.status).toBe(400);
@@ -181,7 +185,7 @@ describe("POST /api/tickets/[id]/messages", () => {
         method: "POST",
         body: JSON.stringify({ content: "Hello" }),
       }),
-      { params: makeParams(INVALID_UUID) }
+      { params: makeParams(INVALID_UUID) },
     );
 
     expect(res.status).toBe(400);
@@ -190,18 +194,28 @@ describe("POST /api/tickets/[id]/messages", () => {
   it("returns 201 with message when resident sends", async () => {
     mockGetUser.mockResolvedValue({ data: { user: mockUser } });
 
-    const createdMessage = { id: "msg-new", content: "Hello", senderType: "resident", senderId: "user-1" };
+    const createdMessage = {
+      id: "msg-new",
+      content: "Hello",
+      senderType: "resident",
+      senderId: "user-1",
+    };
 
     // Multiple limit/where calls: ticket check, staff check, user check, then notification ticket check
     let limitCall = 0;
     mockLimit.mockImplementation(() => {
       limitCall++;
       switch (limitCall) {
-        case 1: return [{ id: VALID_UUID }]; // ticket exists
-        case 2: return []; // not staff
-        case 3: return [{ id: "user-1" }]; // user found
-        case 4: return [{ userId: "user-1", assignedTo: "staff-1", ticketNumber: "TK-001" }]; // ticket for notification
-        default: return [];
+        case 1:
+          return [{ id: VALID_UUID }]; // ticket exists
+        case 2:
+          return []; // not staff
+        case 3:
+          return [{ id: "user-1" }]; // user found
+        case 4:
+          return [{ userId: "user-1", assignedTo: "staff-1", ticketNumber: "TK-001" }]; // ticket for notification
+        default:
+          return [];
       }
     });
     mockReturning.mockResolvedValue([createdMessage]);
@@ -211,7 +225,7 @@ describe("POST /api/tickets/[id]/messages", () => {
         method: "POST",
         body: JSON.stringify({ content: "Hello" }),
       }),
-      { params: makeParams(VALID_UUID) }
+      { params: makeParams(VALID_UUID) },
     );
 
     expect(res.status).toBe(201);
@@ -222,16 +236,25 @@ describe("POST /api/tickets/[id]/messages", () => {
   it("returns 201 with staff senderType when staff sends", async () => {
     mockGetUser.mockResolvedValue({ data: { user: mockUser } });
 
-    const createdMessage = { id: "msg-new", content: "Reply", senderType: "staff", senderId: "staff-1" };
+    const createdMessage = {
+      id: "msg-new",
+      content: "Reply",
+      senderType: "staff",
+      senderId: "staff-1",
+    };
 
     let limitCall = 0;
     mockLimit.mockImplementation(() => {
       limitCall++;
       switch (limitCall) {
-        case 1: return [{ id: VALID_UUID }]; // ticket exists
-        case 2: return [{ id: "staff-1" }]; // is staff
-        case 3: return [{ userId: "user-1", assignedTo: null, ticketNumber: "TK-001" }]; // ticket for notification
-        default: return [];
+        case 1:
+          return [{ id: VALID_UUID }]; // ticket exists
+        case 2:
+          return [{ id: "staff-1" }]; // is staff
+        case 3:
+          return [{ userId: "user-1", assignedTo: null, ticketNumber: "TK-001" }]; // ticket for notification
+        default:
+          return [];
       }
     });
     mockReturning.mockResolvedValue([createdMessage]);
@@ -241,7 +264,7 @@ describe("POST /api/tickets/[id]/messages", () => {
         method: "POST",
         body: JSON.stringify({ content: "Reply" }),
       }),
-      { params: makeParams(VALID_UUID) }
+      { params: makeParams(VALID_UUID) },
     );
 
     expect(res.status).toBe(201);

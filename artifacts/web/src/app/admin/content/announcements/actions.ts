@@ -14,10 +14,7 @@ export async function createAnnouncement(formData: FormData) {
   const content = formData.get("content") as string;
   const summary = formData.get("summary") as string;
   const type = formData.get("type") as "announcement" | "newsletter";
-  const targetAudience = formData.get("targetAudience") as
-    | "all"
-    | "residents_only"
-    | "guests_only";
+  const targetAudience = formData.get("targetAudience") as "all" | "residents_only" | "guests_only";
   const isDraft = formData.get("isDraft") === "on";
 
   if (!title || !content || !summary) return;
@@ -54,10 +51,7 @@ export async function updateAnnouncement(formData: FormData) {
   const content = formData.get("content") as string;
   const summary = formData.get("summary") as string;
   const type = formData.get("type") as "announcement" | "newsletter";
-  const targetAudience = formData.get("targetAudience") as
-    | "all"
-    | "residents_only"
-    | "guests_only";
+  const targetAudience = formData.get("targetAudience") as "all" | "residents_only" | "guests_only";
   const isDraft = formData.get("isDraft") === "on";
 
   if (!id || !title || !content || !summary) return;
@@ -93,9 +87,7 @@ export async function deleteAnnouncement(formData: FormData) {
   const id = formData.get("id") as string;
   if (!id) return;
 
-  await db
-    .delete(announcementsTable)
-    .where(eq(announcementsTable.id, id));
+  await db.delete(announcementsTable).where(eq(announcementsTable.id, id));
 
   await db.insert(auditLogsTable).values({
     actorId: staff.id,

@@ -1,20 +1,13 @@
 import { requireAdmin } from "@/lib/auth";
 import { getAllFacilities } from "@/lib/queries/admin-facilities";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
 function formatCategory(category: string) {
-  return category
-    .replace(/_/g, " ")
-    .replace(/\b\w/g, (c) => c.toUpperCase());
+  return category.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
 export default async function AdminFacilitiesPage() {
@@ -25,10 +18,7 @@ export default async function AdminFacilitiesPage() {
     <div>
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">Facilities</h1>
-        <Link
-          href="/admin/facilities/bookings"
-          className="text-sm text-primary hover:underline"
-        >
+        <Link href="/admin/facilities/bookings" className="text-sm text-primary hover:underline">
           View All Bookings
         </Link>
       </div>
@@ -57,17 +47,15 @@ export default async function AdminFacilitiesPage() {
                   {formatCategory(facility.category)}
                 </div>
                 <div>
-                  <span className="text-muted-foreground">Member Rate:</span>{" "}
-                  {facility.memberRate} MMK/hr
+                  <span className="text-muted-foreground">Member Rate:</span> {facility.memberRate}{" "}
+                  MMK/hr
                 </div>
                 <div>
-                  <span className="text-muted-foreground">Capacity:</span>{" "}
-                  {facility.maxCapacity}
+                  <span className="text-muted-foreground">Capacity:</span> {facility.maxCapacity}
                 </div>
                 <div>
                   <span className="text-muted-foreground">Hours:</span>{" "}
-                  {facility.openingTime.substring(0, 5)} -{" "}
-                  {facility.closingTime.substring(0, 5)}
+                  {facility.openingTime.substring(0, 5)} - {facility.closingTime.substring(0, 5)}
                 </div>
                 <div className="pt-2">
                   <Link

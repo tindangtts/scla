@@ -1,14 +1,12 @@
 import { Resend } from "resend";
 
-const resend = process.env.RESEND_API_KEY
-  ? new Resend(process.env.RESEND_API_KEY)
-  : null;
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 export async function sendBillOverdueEmail(
   to: string,
   userName: string,
   invoiceNumber: string,
-  amount: number
+  amount: number,
 ) {
   if (!resend) {
     console.warn("[email] RESEND_API_KEY not configured, skipping email");
@@ -38,7 +36,7 @@ export async function sendTicketUpdateEmail(
   to: string,
   userName: string,
   ticketNumber: string,
-  newStatus: string
+  newStatus: string,
 ) {
   if (!resend) {
     console.warn("[email] RESEND_API_KEY not configured, skipping email");

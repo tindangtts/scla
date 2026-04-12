@@ -7,12 +7,14 @@ import type { SQL } from "drizzle-orm";
 export async function getAuditLogs(
   actionFilter?: string,
   dateFrom?: string,
-  dateTo?: string
+  dateTo?: string,
 ): Promise<AuditLog[]> {
   const conditions: SQL[] = [];
 
   if (actionFilter) {
-    conditions.push(eq(auditLogsTable.action, actionFilter as typeof auditLogsTable.action.enumValues[number]));
+    conditions.push(
+      eq(auditLogsTable.action, actionFilter as (typeof auditLogsTable.action.enumValues)[number]),
+    );
   }
 
   if (dateFrom) {

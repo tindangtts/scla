@@ -15,12 +15,7 @@ export async function getUnreadCount(userId: string) {
   const result = await db
     .select({ value: count() })
     .from(notificationsTable)
-    .where(
-      and(
-        eq(notificationsTable.userId, userId),
-        eq(notificationsTable.isRead, false)
-      )
-    );
+    .where(and(eq(notificationsTable.userId, userId), eq(notificationsTable.isRead, false)));
 
   return result[0]?.value ?? 0;
 }
@@ -29,22 +24,12 @@ export async function markAsRead(notificationId: string, userId: string) {
   await db
     .update(notificationsTable)
     .set({ isRead: true })
-    .where(
-      and(
-        eq(notificationsTable.id, notificationId),
-        eq(notificationsTable.userId, userId)
-      )
-    );
+    .where(and(eq(notificationsTable.id, notificationId), eq(notificationsTable.userId, userId)));
 }
 
 export async function markAllAsRead(userId: string) {
   await db
     .update(notificationsTable)
     .set({ isRead: true })
-    .where(
-      and(
-        eq(notificationsTable.userId, userId),
-        eq(notificationsTable.isRead, false)
-      )
-    );
+    .where(and(eq(notificationsTable.userId, userId), eq(notificationsTable.isRead, false)));
 }

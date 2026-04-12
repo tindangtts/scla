@@ -4,12 +4,7 @@ import { usersTable } from "@workspace/db/schema";
 import { walletTransactionsTable } from "@workspace/db/schema";
 import { eq } from "drizzle-orm";
 import { getWalletBalance, getWalletTransactions } from "@/lib/queries/wallet";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 export const dynamic = "force-dynamic";
@@ -62,9 +57,7 @@ export default async function WalletPage() {
         </CardHeader>
         <CardContent>
           {transactions.length === 0 ? (
-            <p className="text-center text-muted-foreground py-4">
-              No transactions yet.
-            </p>
+            <p className="text-center text-muted-foreground py-4">No transactions yet.</p>
           ) : (
             <ul className="space-y-3">
               {transactions.map((tx) => (
@@ -80,13 +73,9 @@ export default async function WalletPage() {
                   </div>
                   <div className="flex items-center gap-2">
                     <Badge
-                      variant={
-                        tx.type === "credit" ? "default" : "destructive"
-                      }
+                      variant={tx.type === "credit" ? "default" : "destructive"}
                       className={
-                        tx.type === "credit"
-                          ? "bg-green-100 text-green-800 hover:bg-green-100"
-                          : ""
+                        tx.type === "credit" ? "bg-green-100 text-green-800 hover:bg-green-100" : ""
                       }
                     >
                       {tx.type}

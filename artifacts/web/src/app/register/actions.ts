@@ -7,10 +7,7 @@ import { db } from "@/lib/db";
 import { usersTable } from "@workspace/db/schema";
 import bcrypt from "bcryptjs";
 
-export async function register(
-  prevState: { error?: string },
-  formData: FormData
-) {
+export async function register(prevState: { error?: string }, formData: FormData) {
   const name = formData.get("name") as string;
   const email = formData.get("email") as string;
   const phone = formData.get("phone") as string;

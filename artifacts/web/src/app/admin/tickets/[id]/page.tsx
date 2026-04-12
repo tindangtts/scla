@@ -3,12 +3,7 @@ import { getTicketById, getStaffMembers } from "@/lib/queries/admin-tickets";
 import { getTicketMessages } from "@/lib/queries/tickets";
 import { notFound } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { updateTicketStatus, assignTicket } from "./actions";
@@ -40,9 +35,7 @@ function statusBadge(status: string) {
 }
 
 function formatCategory(category: string) {
-  return category
-    .replace(/_/g, " ")
-    .replace(/\b\w/g, (c) => c.toUpperCase());
+  return category.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
 export default async function AdminTicketDetailPage({
@@ -63,10 +56,7 @@ export default async function AdminTicketDetailPage({
 
   return (
     <div className="max-w-3xl space-y-6">
-      <Link
-        href="/admin/tickets"
-        className="text-sm text-muted-foreground hover:underline"
-      >
+      <Link href="/admin/tickets" className="text-sm text-muted-foreground hover:underline">
         &larr; Back to Tickets
       </Link>
 
@@ -90,12 +80,10 @@ export default async function AdminTicketDetailPage({
           </div>
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <span className="text-muted-foreground">Service Type:</span>{" "}
-              {ticket.serviceType}
+              <span className="text-muted-foreground">Service Type:</span> {ticket.serviceType}
             </div>
             <div>
-              <span className="text-muted-foreground">Unit:</span>{" "}
-              {ticket.unitNumber || "-"}
+              <span className="text-muted-foreground">Unit:</span> {ticket.unitNumber || "-"}
             </div>
             <div>
               <span className="text-muted-foreground">Created:</span>{" "}
@@ -127,12 +115,10 @@ export default async function AdminTicketDetailPage({
         </CardHeader>
         <CardContent className="text-sm">
           <div>
-            <span className="text-muted-foreground">Name:</span>{" "}
-            {ticket.userName}
+            <span className="text-muted-foreground">Name:</span> {ticket.userName}
           </div>
           <div>
-            <span className="text-muted-foreground">Email:</span>{" "}
-            {ticket.userEmail}
+            <span className="text-muted-foreground">Email:</span> {ticket.userEmail}
           </div>
         </CardContent>
       </Card>
@@ -146,10 +132,7 @@ export default async function AdminTicketDetailPage({
           <form action={updateTicketStatus} className="flex gap-2 items-end">
             <input type="hidden" name="ticketId" value={ticket.id} />
             <div className="flex-1">
-              <label
-                htmlFor="status"
-                className="text-sm font-medium block mb-1"
-              >
+              <label htmlFor="status" className="text-sm font-medium block mb-1">
                 New Status
               </label>
               <select
@@ -181,18 +164,14 @@ export default async function AdminTicketDetailPage({
             <p className="text-sm text-muted-foreground mb-2">
               Currently assigned to:{" "}
               <strong>
-                {staffMembers.find((s) => s.id === ticket.assignedTo)?.name ||
-                  "Unknown"}
+                {staffMembers.find((s) => s.id === ticket.assignedTo)?.name || "Unknown"}
               </strong>
             </p>
           )}
           <form action={assignTicket} className="flex gap-2 items-end">
             <input type="hidden" name="ticketId" value={ticket.id} />
             <div className="flex-1">
-              <label
-                htmlFor="staffId"
-                className="text-sm font-medium block mb-1"
-              >
+              <label htmlFor="staffId" className="text-sm font-medium block mb-1">
                 Staff Member
               </label>
               <select

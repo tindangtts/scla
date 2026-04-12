@@ -28,10 +28,7 @@ export default async function NotificationPreferencesPage() {
 
   return (
     <div className="p-4 space-y-4">
-      <Link
-        href="/notifications"
-        className="text-sm text-blue-600 hover:underline"
-      >
+      <Link href="/notifications" className="text-sm text-blue-600 hover:underline">
         &larr; Back to Notifications
       </Link>
 

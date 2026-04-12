@@ -2,12 +2,7 @@ import { requireAuth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { usersTable } from "@workspace/db/schema";
 import { eq } from "drizzle-orm";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import { UpgradeForm } from "./upgrade-form";
 
@@ -29,9 +24,7 @@ export default async function UpgradePage() {
       <div className="p-4">
         <Card>
           <CardContent className="pt-6">
-            <p className="text-muted-foreground">
-              User account not found. Please contact support.
-            </p>
+            <p className="text-muted-foreground">User account not found. Please contact support.</p>
           </CardContent>
         </Card>
       </div>
@@ -46,9 +39,7 @@ export default async function UpgradePage() {
             <CardTitle>Already Verified</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-muted-foreground mb-4">
-              You are already a verified resident.
-            </p>
+            <p className="text-muted-foreground mb-4">You are already a verified resident.</p>
             <Link href="/" className="text-primary hover:underline">
               Back to Home
             </Link>
@@ -67,8 +58,8 @@ export default async function UpgradePage() {
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground mb-4">
-              Your upgrade request is pending review. Our team will verify your
-              details within 1-2 business days.
+              Your upgrade request is pending review. Our team will verify your details within 1-2
+              business days.
             </p>
             <Link href="/" className="text-primary hover:underline">
               Back to Home
@@ -88,8 +79,8 @@ export default async function UpgradePage() {
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground mb-4">
-            Enter your apartment details below. Our management team will verify
-            your information and approve your upgrade.
+            Enter your apartment details below. Our management team will verify your information and
+            approve your upgrade.
           </p>
           <UpgradeForm />
         </CardContent>

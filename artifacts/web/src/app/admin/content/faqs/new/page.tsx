@@ -12,10 +12,7 @@ export default async function NewFaqPage() {
 
   return (
     <div className="max-w-2xl">
-      <Link
-        href="/admin/content/faqs"
-        className="text-sm text-muted-foreground hover:underline"
-      >
+      <Link href="/admin/content/faqs" className="text-sm text-muted-foreground hover:underline">
         &larr; Back to FAQs
       </Link>
 
@@ -40,30 +37,16 @@ export default async function NewFaqPage() {
 
         <div>
           <Label htmlFor="category">Category</Label>
-          <Input
-            id="category"
-            name="category"
-            defaultValue="General"
-          />
+          <Input id="category" name="category" defaultValue="General" />
         </div>
 
         <div>
           <Label htmlFor="sortOrder">Sort Order</Label>
-          <Input
-            id="sortOrder"
-            name="sortOrder"
-            type="number"
-            defaultValue="0"
-          />
+          <Input id="sortOrder" name="sortOrder" type="number" defaultValue="0" />
         </div>
 
         <div className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            id="isPublished"
-            name="isPublished"
-            defaultChecked
-          />
+          <input type="checkbox" id="isPublished" name="isPublished" defaultChecked />
           <Label htmlFor="isPublished">Published</Label>
         </div>
 

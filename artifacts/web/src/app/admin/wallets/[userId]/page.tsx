@@ -15,8 +15,7 @@ export default async function WalletDetailPage({
 }) {
   await requireAdmin();
   const { userId } = await params;
-  const { user, balance, recentTransactions } =
-    await getResidentWalletDetail(userId);
+  const { user, balance, recentTransactions } = await getResidentWalletDetail(userId);
 
   if (!user) {
     notFound();
@@ -30,10 +29,7 @@ export default async function WalletDetailPage({
   return (
     <div>
       <div className="flex items-center gap-3 mb-6">
-        <Link
-          href="/admin/wallets"
-          className="text-blue-600 hover:underline text-sm"
-        >
+        <Link href="/admin/wallets" className="text-blue-600 hover:underline text-sm">
           &larr; Back to Wallets
         </Link>
         <h2 className="text-2xl font-bold">Wallet: {user.name}</h2>
@@ -55,11 +51,7 @@ export default async function WalletDetailPage({
 
           <div>
             <label className="block text-sm font-medium mb-1">Type</label>
-            <select
-              name="type"
-              required
-              className="w-full px-3 py-2 border rounded-md text-sm"
-            >
+            <select name="type" required className="w-full px-3 py-2 border rounded-md text-sm">
               <option value="credit">Credit</option>
               <option value="debit">Debit</option>
             </select>
@@ -78,9 +70,7 @@ export default async function WalletDetailPage({
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">
-              Description
-            </label>
+            <label className="block text-sm font-medium mb-1">Description</label>
             <input
               type="text"
               name="description"
@@ -91,9 +81,7 @@ export default async function WalletDetailPage({
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">
-              Reason (optional)
-            </label>
+            <label className="block text-sm font-medium mb-1">Reason (optional)</label>
             <input
               type="text"
               name="reason"
@@ -126,15 +114,9 @@ export default async function WalletDetailPage({
               <tbody>
                 {recentTransactions.map((tx) => (
                   <tr key={tx.id} className="border-b hover:bg-gray-50">
-                    <td className="py-2 px-3 whitespace-nowrap">
-                      {tx.createdAt.toLocaleString()}
-                    </td>
+                    <td className="py-2 px-3 whitespace-nowrap">{tx.createdAt.toLocaleString()}</td>
                     <td className="py-2 px-3">
-                      <Badge
-                        variant={
-                          tx.type === "credit" ? "default" : "destructive"
-                        }
-                      >
+                      <Badge variant={tx.type === "credit" ? "default" : "destructive"}>
                         {tx.type === "credit" ? "Credit" : "Debit"}
                       </Badge>
                     </td>

@@ -4,11 +4,7 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { createClient as createAdminClient } from "@supabase/supabase-js";
 import { db } from "@/lib/db";
-import {
-  usersTable,
-  staffUsersTable,
-  upgradeRequestsTable,
-} from "@workspace/db/schema";
+import { usersTable, staffUsersTable, upgradeRequestsTable } from "@workspace/db/schema";
 import { eq } from "drizzle-orm";
 
 async function verifyAdmin() {
@@ -76,18 +72,13 @@ export async function approveUpgrade(formData: FormData) {
     // Find the auth user by email, then update metadata
     const listResult = await adminClient.auth.admin.listUsers();
     const users = listResult.data?.users ?? [];
-    const authUser = users.find(
-      (u: { email?: string }) => u.email === request.userEmail
-    );
+    const authUser = users.find((u: { email?: string }) => u.email === request.userEmail);
     if (authUser) {
-      await adminClient.auth.admin.updateUserById(
-        (authUser as { id: string }).id,
-        {
-          user_metadata: {
-            user_type: "resident",
-          },
-        }
-      );
+      await adminClient.auth.admin.updateUserById((authUser as { id: string }).id, {
+        user_metadata: {
+          user_type: "resident",
+        },
+      });
     }
   }
 

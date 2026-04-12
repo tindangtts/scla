@@ -8,7 +8,7 @@ import { eq, and } from "drizzle-orm";
 
 export async function submitUpgradeRequest(
   prevState: { error?: string; success?: boolean },
-  formData: FormData
+  formData: FormData,
 ): Promise<{ error?: string; success?: boolean }> {
   const supabase = await createClient();
   const {
@@ -45,10 +45,7 @@ export async function submitUpgradeRequest(
     .select()
     .from(upgradeRequestsTable)
     .where(
-      and(
-        eq(upgradeRequestsTable.userId, dbUser.id),
-        eq(upgradeRequestsTable.status, "pending")
-      )
+      and(eq(upgradeRequestsTable.userId, dbUser.id), eq(upgradeRequestsTable.status, "pending")),
     );
 
   if (pendingRequests.length > 0) {
@@ -67,10 +64,7 @@ export async function submitUpgradeRequest(
   });
 
   // Update user upgrade status
-  await db
-    .update(usersTable)
-    .set({ upgradeStatus: "pending" })
-    .where(eq(usersTable.id, dbUser.id));
+  await db.update(usersTable).set({ upgradeStatus: "pending" }).where(eq(usersTable.id, dbUser.id));
 
   revalidatePath("/upgrade");
   return { success: true };

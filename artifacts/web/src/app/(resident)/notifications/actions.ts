@@ -8,7 +8,7 @@ import { eq, and } from "drizzle-orm";
 
 export async function markAsReadAction(
   prevState: { error?: string; success?: boolean },
-  formData: FormData
+  formData: FormData,
 ): Promise<{ error?: string; success?: boolean }> {
   const notificationId = formData.get("notificationId") as string;
   if (!notificationId) {
@@ -32,10 +32,7 @@ export async function markAsReadAction(
     .update(notificationsTable)
     .set({ isRead: true })
     .where(
-      and(
-        eq(notificationsTable.id, notificationId),
-        eq(notificationsTable.userId, dbUser.id)
-      )
+      and(eq(notificationsTable.id, notificationId), eq(notificationsTable.userId, dbUser.id)),
     );
 
   revalidatePath("/notifications");
@@ -44,7 +41,7 @@ export async function markAsReadAction(
 
 export async function markAllAsReadAction(
   prevState: { error?: string; success?: boolean },
-  formData: FormData
+  formData: FormData,
 ): Promise<{ error?: string; success?: boolean }> {
   const user = await requireAuth();
 
@@ -62,12 +59,7 @@ export async function markAllAsReadAction(
   await db
     .update(notificationsTable)
     .set({ isRead: true })
-    .where(
-      and(
-        eq(notificationsTable.userId, dbUser.id),
-        eq(notificationsTable.isRead, false)
-      )
-    );
+    .where(and(eq(notificationsTable.userId, dbUser.id), eq(notificationsTable.isRead, false)));
 
   revalidatePath("/notifications");
   return { success: true };

@@ -24,18 +24,11 @@ export function TicketForm() {
   if (state.success) {
     return (
       <div className="text-center py-4 space-y-3">
-        <p className="text-green-600 font-medium">
-          Your ticket has been submitted successfully!
-        </p>
+        <p className="text-green-600 font-medium">Your ticket has been submitted successfully!</p>
         {state.ticketId && (
-          <p className="text-sm text-muted-foreground">
-            Ticket ID: {state.ticketId}
-          </p>
+          <p className="text-sm text-muted-foreground">Ticket ID: {state.ticketId}</p>
         )}
-        <Link
-          href="/star-assist"
-          className="text-primary hover:underline text-sm"
-        >
+        <Link href="/star-assist" className="text-primary hover:underline text-sm">
           View your tickets
         </Link>
       </div>
@@ -100,9 +93,7 @@ export function TicketForm() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="attachment">
-          Attach Photo (optional, max 5MB)
-        </Label>
+        <Label htmlFor="attachment">Attach Photo (optional, max 5MB)</Label>
         <input
           id="attachment"
           name="attachment"
@@ -112,9 +103,7 @@ export function TicketForm() {
         />
       </div>
 
-      {state.error && (
-        <p className="text-sm text-red-600">{state.error}</p>
-      )}
+      {state.error && <p className="text-sm text-red-600">{state.error}</p>}
 
       <Button type="submit" className="w-full" disabled={isPending}>
         {isPending ? "Submitting..." : "Submit Ticket"}

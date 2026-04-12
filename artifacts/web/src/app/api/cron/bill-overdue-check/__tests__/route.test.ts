@@ -28,7 +28,7 @@ vi.mock("drizzle-orm", () => ({
       strings: Array.from(strings),
       values,
     }),
-    {}
+    {},
   ),
 }));
 
@@ -68,7 +68,7 @@ describe("POST /api/cron/bill-overdue-check", () => {
     const res = await POST(
       makeRequest("/api/cron/bill-overdue-check", {
         "x-cron-secret": "wrong-secret",
-      })
+      }),
     );
 
     expect(res.status).toBe(401);
@@ -82,7 +82,7 @@ describe("POST /api/cron/bill-overdue-check", () => {
     const res = await POST(
       makeRequest("/api/cron/bill-overdue-check", {
         "x-cron-secret": "test-secret",
-      })
+      }),
     );
 
     expect(res.status).toBe(200);
@@ -101,7 +101,7 @@ describe("POST /api/cron/bill-overdue-check", () => {
     const res = await POST(
       makeRequest("/api/cron/bill-overdue-check", {
         "x-cron-secret": "test-secret",
-      })
+      }),
     );
 
     expect(res.status).toBe(200);
@@ -122,7 +122,7 @@ describe("POST /api/cron/bill-overdue-check", () => {
     const res = await POST(
       makeRequest("/api/cron/bill-overdue-check", {
         "x-cron-secret": "test-secret",
-      })
+      }),
     );
 
     expect(res.status).toBe(200);

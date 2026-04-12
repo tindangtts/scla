@@ -20,15 +20,9 @@ export type AdminTicket = Ticket & {
 export async function getAllTickets(status?: string): Promise<AdminTicket[]> {
   const conditions: ReturnType<typeof eq>[] = [];
 
-  if (
-    status &&
-    ["open", "in_progress", "completed", "closed"].includes(status)
-  ) {
+  if (status && ["open", "in_progress", "completed", "closed"].includes(status)) {
     conditions.push(
-      eq(
-        ticketsTable.status,
-        status as "open" | "in_progress" | "completed" | "closed"
-      )
+      eq(ticketsTable.status, status as "open" | "in_progress" | "completed" | "closed"),
     );
   }
 
@@ -53,9 +47,7 @@ export async function getAllTickets(status?: string): Promise<AdminTicket[]> {
 /**
  * Get a single ticket by ID (not user-scoped) with submitter info.
  */
-export async function getTicketById(
-  id: string
-): Promise<AdminTicket | null> {
+export async function getTicketById(id: string): Promise<AdminTicket | null> {
   const rows = await db
     .select({
       ticket: ticketsTable,
@@ -80,8 +72,5 @@ export async function getTicketById(
  * Get active staff members for assignment dropdown.
  */
 export async function getStaffMembers(): Promise<StaffUser[]> {
-  return db
-    .select()
-    .from(staffUsersTable)
-    .where(eq(staffUsersTable.isActive, true));
+  return db.select().from(staffUsersTable).where(eq(staffUsersTable.isActive, true));
 }

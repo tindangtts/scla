@@ -3,10 +3,7 @@ import { infoCategoriesTable, infoArticlesTable, faqsTable } from "@workspace/db
 import { eq, and, asc, desc } from "drizzle-orm";
 
 export async function getInfoCategories() {
-  return db
-    .select()
-    .from(infoCategoriesTable)
-    .orderBy(asc(infoCategoriesTable.name));
+  return db.select().from(infoCategoriesTable).orderBy(asc(infoCategoriesTable.name));
 }
 
 export async function getArticlesByCategory(categoryId: string) {

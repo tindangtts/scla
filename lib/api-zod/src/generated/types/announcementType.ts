@@ -6,8 +6,7 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type AnnouncementType =
-  (typeof AnnouncementType)[keyof typeof AnnouncementType];
+export type AnnouncementType = (typeof AnnouncementType)[keyof typeof AnnouncementType];
 
 export const AnnouncementType = {
   announcement: "announcement",

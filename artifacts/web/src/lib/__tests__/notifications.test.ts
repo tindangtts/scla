@@ -42,11 +42,7 @@ vi.mock("@workspace/db/schema", () => ({
   },
 }));
 
-import {
-  notifyBillOverdue,
-  notifyTicketUpdate,
-  notifyNewMessage,
-} from "../notifications";
+import { notifyBillOverdue, notifyTicketUpdate, notifyNewMessage } from "../notifications";
 
 describe("notification helpers", () => {
   beforeEach(() => {
@@ -71,7 +67,7 @@ describe("notification helpers", () => {
           userId: "user-1",
           title: "Bill Overdue",
           type: "general",
-        })
+        }),
       );
       expect(mockSendPushToUser).toHaveBeenCalledWith("user-1", {
         title: "Bill Overdue",
@@ -82,7 +78,7 @@ describe("notification helpers", () => {
         "r@test.com",
         "Resident",
         "INV-001",
-        50000
+        50000,
       );
     });
 
@@ -116,7 +112,7 @@ describe("notification helpers", () => {
         "r@test.com",
         "Resident",
         "TK-001",
-        "in_progress"
+        "in_progress",
       );
     });
 

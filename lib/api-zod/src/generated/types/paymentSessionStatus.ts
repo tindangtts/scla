@@ -6,8 +6,7 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type PaymentSessionStatus =
-  (typeof PaymentSessionStatus)[keyof typeof PaymentSessionStatus];
+export type PaymentSessionStatus = (typeof PaymentSessionStatus)[keyof typeof PaymentSessionStatus];
 
 export const PaymentSessionStatus = {
   pending: "pending",

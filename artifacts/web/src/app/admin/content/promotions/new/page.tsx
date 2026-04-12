@@ -60,12 +60,7 @@ export default async function NewPromotionPage() {
         </div>
 
         <div className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            id="isActive"
-            name="isActive"
-            defaultChecked
-          />
+          <input type="checkbox" id="isActive" name="isActive" defaultChecked />
           <Label htmlFor="isActive">Active</Label>
         </div>
 

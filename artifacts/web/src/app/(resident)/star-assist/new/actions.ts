@@ -23,7 +23,7 @@ const MAX_FILE_SIZE = 5_000_000; // 5MB
 
 export async function createTicket(
   prevState: { error?: string; success?: boolean; ticketId?: string },
-  formData: FormData
+  formData: FormData,
 ): Promise<{ error?: string; success?: boolean; ticketId?: string }> {
   const supabase = await createClient();
   const {
@@ -45,10 +45,7 @@ export async function createTicket(
     return { error: "Title must be between 3 and 200 characters." };
   }
 
-  if (
-    !category ||
-    !VALID_CATEGORIES.includes(category as (typeof VALID_CATEGORIES)[number])
-  ) {
+  if (!category || !VALID_CATEGORIES.includes(category as (typeof VALID_CATEGORIES)[number])) {
     return { error: "Please select a valid category." };
   }
 
@@ -80,8 +77,7 @@ export async function createTicket(
   if (attachment && attachment.size > 0) {
     if (!VALID_IMAGE_TYPES.includes(attachment.type)) {
       return {
-        error:
-          "Invalid file type. Only JPEG, PNG, and WebP images are allowed.",
+        error: "Invalid file type. Only JPEG, PNG, and WebP images are allowed.",
       };
     }
     if (attachment.size > MAX_FILE_SIZE) {

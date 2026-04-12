@@ -44,9 +44,7 @@ export default async function AnnouncementsPage() {
                       {a.type === "newsletter" ? "Newsletter" : "Announcement"}
                     </Badge>
                   </td>
-                  <td className="p-2 capitalize">
-                    {a.targetAudience.replace(/_/g, " ")}
-                  </td>
+                  <td className="p-2 capitalize">{a.targetAudience.replace(/_/g, " ")}</td>
                   <td className="p-2">
                     {a.isDraft ? (
                       <Badge variant="secondary" className="text-yellow-600">
@@ -58,9 +56,7 @@ export default async function AnnouncementsPage() {
                       </Badge>
                     )}
                   </td>
-                  <td className="p-2">
-                    {a.publishedAt.toLocaleDateString()}
-                  </td>
+                  <td className="p-2">{a.publishedAt.toLocaleDateString()}</td>
                   <td className="p-2">
                     <div className="flex gap-2">
                       <Link href={`/admin/content/announcements/${a.id}/edit`}>
@@ -70,11 +66,7 @@ export default async function AnnouncementsPage() {
                       </Link>
                       <form action={deleteAnnouncement}>
                         <input type="hidden" name="id" value={a.id} />
-                        <Button
-                          type="submit"
-                          size="sm"
-                          variant="destructive"
-                        >
+                        <Button type="submit" size="sm" variant="destructive">
                           Delete
                         </Button>
                       </form>

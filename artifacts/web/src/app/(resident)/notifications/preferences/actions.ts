@@ -8,7 +8,7 @@ import { eq } from "drizzle-orm";
 
 export async function updatePreferences(
   prevState: { error?: string; success?: boolean },
-  formData: FormData
+  formData: FormData,
 ): Promise<{ error?: string; success?: boolean }> {
   const emailNotifications = formData.get("emailNotifications") === "on";
 

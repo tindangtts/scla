@@ -54,9 +54,7 @@ export default async function StaffPage() {
                       {s.isActive ? "Active" : "Inactive"}
                     </Badge>
                   </td>
-                  <td className="py-2 px-3">
-                    {s.createdAt.toLocaleDateString()}
-                  </td>
+                  <td className="py-2 px-3">{s.createdAt.toLocaleDateString()}</td>
                   <td className="py-2 px-3">
                     <Link
                       href={`/admin/staff/${s.id}/edit`}

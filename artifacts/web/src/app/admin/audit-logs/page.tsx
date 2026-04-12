@@ -39,7 +39,7 @@ export default async function AuditLogsPage({
   const logs = await getAuditLogs(
     actionFilter || undefined,
     dateFrom || undefined,
-    dateTo || undefined
+    dateTo || undefined,
   );
 
   return (
@@ -98,13 +98,9 @@ export default async function AuditLogsPage({
             </thead>
             <tbody>
               {logs.map((log) => {
-                const metaStr = log.metadata
-                  ? JSON.stringify(log.metadata)
-                  : "-";
+                const metaStr = log.metadata ? JSON.stringify(log.metadata) : "-";
                 const truncatedMeta =
-                  metaStr.length > 100
-                    ? metaStr.substring(0, 100) + "..."
-                    : metaStr;
+                  metaStr.length > 100 ? metaStr.substring(0, 100) + "..." : metaStr;
 
                 return (
                   <tr key={log.id} className="border-b hover:bg-gray-50">
@@ -113,17 +109,13 @@ export default async function AuditLogsPage({
                     </td>
                     <td className="py-2 px-3">{log.actorEmail}</td>
                     <td className="py-2 px-3">
-                      <Badge variant="outline">
-                        {formatAction(log.action)}
-                      </Badge>
+                      <Badge variant="outline">{formatAction(log.action)}</Badge>
                     </td>
                     <td className="py-2 px-3">{log.targetType}</td>
                     <td className="py-2 px-3 font-mono text-xs">
                       {log.targetId.substring(0, 8)}...
                     </td>
-                    <td className="py-2 px-3 text-xs max-w-[200px] truncate">
-                      {truncatedMeta}
-                    </td>
+                    <td className="py-2 px-3 text-xs max-w-[200px] truncate">{truncatedMeta}</td>
                   </tr>
                 );
               })}

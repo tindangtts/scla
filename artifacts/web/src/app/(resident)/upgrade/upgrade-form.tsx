@@ -7,10 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 
 export function UpgradeForm() {
-  const [state, formAction, isPending] = useActionState(
-    submitUpgradeRequest,
-    {}
-  );
+  const [state, formAction, isPending] = useActionState(submitUpgradeRequest, {});
 
   if (state.success) {
     return (
@@ -29,13 +26,7 @@ export function UpgradeForm() {
     <form action={formAction} className="space-y-4">
       <div className="space-y-2">
         <Label htmlFor="unitNumber">Unit Number</Label>
-        <Input
-          id="unitNumber"
-          name="unitNumber"
-          type="text"
-          placeholder="e.g. A-12-03"
-          required
-        />
+        <Input id="unitNumber" name="unitNumber" type="text" placeholder="e.g. A-12-03" required />
       </div>
 
       <div className="space-y-2">
@@ -64,9 +55,7 @@ export function UpgradeForm() {
         </select>
       </div>
 
-      {state.error && (
-        <p className="text-sm text-red-600">{state.error}</p>
-      )}
+      {state.error && <p className="text-sm text-red-600">{state.error}</p>}
 
       <Button type="submit" className="w-full" disabled={isPending}>
         {isPending ? "Submitting..." : "Submit Upgrade Request"}

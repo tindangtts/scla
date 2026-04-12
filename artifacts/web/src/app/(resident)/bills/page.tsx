@@ -67,11 +67,7 @@ export default async function BillsPage({
         {STATUS_FILTERS.map((filter) => (
           <Link key={filter.label} href={filter.href}>
             <Badge
-              variant={
-                (status ?? undefined) === filter.value
-                  ? "default"
-                  : "outline"
-              }
+              variant={(status ?? undefined) === filter.value ? "default" : "outline"}
               className="cursor-pointer whitespace-nowrap"
             >
               {filter.label}
@@ -84,9 +80,7 @@ export default async function BillsPage({
       {bills.length === 0 ? (
         <Card>
           <CardContent className="pt-6">
-            <p className="text-center text-muted-foreground">
-              No bills found.
-            </p>
+            <p className="text-center text-muted-foreground">No bills found.</p>
           </CardContent>
         </Card>
       ) : (
@@ -97,9 +91,7 @@ export default async function BillsPage({
                 <CardContent className="pt-4 pb-4">
                   <div className="flex items-start justify-between">
                     <div className="space-y-1">
-                      <p className="text-sm font-medium">
-                        {bill.invoiceNumber}
-                      </p>
+                      <p className="text-sm font-medium">{bill.invoiceNumber}</p>
                       <p className="text-xs text-muted-foreground">
                         {bill.category} - {bill.month}
                       </p>
@@ -109,15 +101,12 @@ export default async function BillsPage({
                     </Badge>
                   </div>
                   <div className="mt-2 flex items-center justify-between">
-                    <p className="text-sm font-semibold">
-                      {formatMMK(bill.totalAmount)}
-                    </p>
-                    {Number(bill.paidAmount) > 0 &&
-                      bill.status !== "paid" && (
-                        <p className="text-xs text-muted-foreground">
-                          Paid: {formatMMK(bill.paidAmount)}
-                        </p>
-                      )}
+                    <p className="text-sm font-semibold">{formatMMK(bill.totalAmount)}</p>
+                    {Number(bill.paidAmount) > 0 && bill.status !== "paid" && (
+                      <p className="text-xs text-muted-foreground">
+                        Paid: {formatMMK(bill.paidAmount)}
+                      </p>
+                    )}
                   </div>
                 </CardContent>
               </Card>

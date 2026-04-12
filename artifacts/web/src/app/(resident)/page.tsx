@@ -29,9 +29,7 @@ export default async function ResidentHomePage() {
       <div className="p-4">
         <Card>
           <CardContent className="pt-6">
-            <p className="text-muted-foreground">
-              User account not found. Please contact support.
-            </p>
+            <p className="text-muted-foreground">User account not found. Please contact support.</p>
           </CardContent>
         </Card>
       </div>
@@ -50,8 +48,8 @@ export default async function ResidentHomePage() {
           </CardHeader>
           <CardContent className="space-y-3">
             <p className="text-muted-foreground">
-              You are browsing as a guest. Upgrade to a verified resident to
-              access bills, wallet, maintenance tickets, and more.
+              You are browsing as a guest. Upgrade to a verified resident to access bills, wallet,
+              maintenance tickets, and more.
             </p>
             <Link
               href="/upgrade"
@@ -70,9 +68,7 @@ export default async function ResidentHomePage() {
 
   return (
     <div className="p-4 space-y-4">
-      <h2 className="text-2xl font-bold">
-        Welcome, {dbUser.name.split(" ")[0]}
-      </h2>
+      <h2 className="text-2xl font-bold">Welcome, {dbUser.name.split(" ")[0]}</h2>
 
       {/* Wallet Balance */}
       <Card>
@@ -83,10 +79,7 @@ export default async function ResidentHomePage() {
         </CardHeader>
         <CardContent>
           <p className="text-2xl font-bold">{formatMMK(data.walletBalance)}</p>
-          <Link
-            href="/wallet"
-            className="text-sm text-blue-600 hover:underline mt-1 inline-block"
-          >
+          <Link href="/wallet" className="text-sm text-blue-600 hover:underline mt-1 inline-block">
             View Wallet
           </Link>
         </CardContent>
@@ -95,9 +88,7 @@ export default async function ResidentHomePage() {
       {/* Unpaid Bills */}
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-muted-foreground">
-            Unpaid Bills
-          </CardTitle>
+          <CardTitle className="text-sm font-medium text-muted-foreground">Unpaid Bills</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-2xl font-bold">
@@ -140,9 +131,7 @@ export default async function ResidentHomePage() {
                   >
                     <div>
                       <p className="text-sm font-medium">{ticket.title}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {ticket.ticketNumber}
-                      </p>
+                      <p className="text-xs text-muted-foreground">{ticket.ticketNumber}</p>
                     </div>
                     <Badge
                       variant={

@@ -29,9 +29,7 @@ function statusBadge(status: string) {
 }
 
 function formatCategory(category: string) {
-  return category
-    .replace(/_/g, " ")
-    .replace(/\b\w/g, (c) => c.toUpperCase());
+  return category.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
 export default async function AdminTicketsPage({
@@ -47,9 +45,7 @@ export default async function AdminTicketsPage({
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold">
-          Tickets ({tickets.length})
-        </h1>
+        <h1 className="text-2xl font-bold">Tickets ({tickets.length})</h1>
       </div>
 
       {/* Filter bar */}
@@ -105,10 +101,7 @@ export default async function AdminTicketsPage({
                     </Link>
                   </td>
                   <td className="p-2">
-                    <Link
-                      href={`/admin/tickets/${ticket.id}`}
-                      className="hover:underline"
-                    >
+                    <Link href={`/admin/tickets/${ticket.id}`} className="hover:underline">
                       {ticket.title}
                     </Link>
                   </td>
@@ -116,9 +109,7 @@ export default async function AdminTicketsPage({
                   <td className="p-2">{statusBadge(ticket.status)}</td>
                   <td className="p-2">{ticket.userName}</td>
                   <td className="p-2">{ticket.unitNumber || "-"}</td>
-                  <td className="p-2">
-                    {ticket.createdAt.toLocaleDateString()}
-                  </td>
+                  <td className="p-2">{ticket.createdAt.toLocaleDateString()}</td>
                 </tr>
               ))}
             </tbody>

@@ -1,10 +1,5 @@
 import { db } from "@/lib/db";
-import {
-  usersTable,
-  ticketsTable,
-  bookingsTable,
-  invoicesTable,
-} from "@workspace/db/schema";
+import { usersTable, ticketsTable, bookingsTable, invoicesTable } from "@workspace/db/schema";
 import { eq, sql } from "drizzle-orm";
 
 export async function getAdminDashboardStats() {

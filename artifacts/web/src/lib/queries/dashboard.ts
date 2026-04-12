@@ -1,9 +1,5 @@
 import { db } from "@/lib/db";
-import {
-  invoicesTable,
-  ticketsTable,
-  walletTransactionsTable,
-} from "@workspace/db/schema";
+import { invoicesTable, ticketsTable, walletTransactionsTable } from "@workspace/db/schema";
 import { eq, sql, desc, and } from "drizzle-orm";
 
 export async function getDashboardData(userId: string) {
@@ -14,9 +10,7 @@ export async function getDashboardData(userId: string) {
       total: sql<string>`coalesce(sum(${invoicesTable.totalAmount} - ${invoicesTable.paidAmount}), 0)::text`,
     })
     .from(invoicesTable)
-    .where(
-      and(eq(invoicesTable.userId, userId), eq(invoicesTable.status, "unpaid"))
-    );
+    .where(and(eq(invoicesTable.userId, userId), eq(invoicesTable.status, "unpaid")));
 
   // Recent tickets (last 3)
   const recentTickets = await db

@@ -61,24 +61,17 @@ export default async function NotificationsPage() {
     <div className="p-4 space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-bold">Notifications</h2>
-        <Link
-          href="/notifications/preferences"
-          className="text-sm text-blue-600 hover:underline"
-        >
+        <Link href="/notifications/preferences" className="text-sm text-blue-600 hover:underline">
           Settings
         </Link>
       </div>
 
-      {unreadCount > 0 && (
-        <MarkAllAsReadButton />
-      )}
+      {unreadCount > 0 && <MarkAllAsReadButton />}
 
       {notifications.length === 0 ? (
         <Card>
           <CardContent className="pt-6">
-            <p className="text-center text-muted-foreground">
-              No notifications yet.
-            </p>
+            <p className="text-center text-muted-foreground">No notifications yet.</p>
           </CardContent>
         </Card>
       ) : (
@@ -86,25 +79,15 @@ export default async function NotificationsPage() {
           {notifications.map((notification) => (
             <Card
               key={notification.id}
-              className={
-                !notification.isRead
-                  ? "border-l-4 border-l-blue-500"
-                  : ""
-              }
+              className={!notification.isRead ? "border-l-4 border-l-blue-500" : ""}
             >
               <CardContent className="pt-4 pb-4">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-1 min-w-0 flex-1">
-                    <p
-                      className={`text-sm ${
-                        !notification.isRead ? "font-bold" : "font-medium"
-                      }`}
-                    >
+                    <p className={`text-sm ${!notification.isRead ? "font-bold" : "font-medium"}`}>
                       {notification.title}
                     </p>
-                    <p className="text-xs text-muted-foreground">
-                      {notification.body}
-                    </p>
+                    <p className="text-xs text-muted-foreground">{notification.body}</p>
                     <div className="flex items-center gap-2">
                       <Badge variant="outline" className="text-xs">
                         {TYPE_LABELS[notification.type] ?? notification.type}
@@ -114,9 +97,7 @@ export default async function NotificationsPage() {
                       </span>
                     </div>
                   </div>
-                  {!notification.isRead && (
-                    <MarkAsReadButton notificationId={notification.id} />
-                  )}
+                  {!notification.isRead && <MarkAsReadButton notificationId={notification.id} />}
                 </div>
               </CardContent>
             </Card>

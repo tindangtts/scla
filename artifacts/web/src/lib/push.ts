@@ -3,25 +3,19 @@ import { db } from "@/lib/db";
 import { pushSubscriptionsTable } from "@workspace/db/schema";
 import { eq } from "drizzle-orm";
 
-if (
-  process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY &&
-  process.env.VAPID_PRIVATE_KEY
-) {
+if (process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY && process.env.VAPID_PRIVATE_KEY) {
   webpush.setVapidDetails(
     "mailto:noreply@starcityliving.com",
     process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY,
-    process.env.VAPID_PRIVATE_KEY
+    process.env.VAPID_PRIVATE_KEY,
   );
 }
 
 export async function sendPushToUser(
   userId: string,
-  payload: { title: string; body: string; url: string }
+  payload: { title: string; body: string; url: string },
 ) {
-  if (
-    !process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY ||
-    !process.env.VAPID_PRIVATE_KEY
-  ) {
+  if (!process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || !process.env.VAPID_PRIVATE_KEY) {
     console.warn("[push] VAPID keys not configured, skipping push notification");
     return;
   }
@@ -41,7 +35,7 @@ export async function sendPushToUser(
             auth: sub.auth,
           },
         },
-        JSON.stringify(payload)
+        JSON.stringify(payload),
       );
     } catch (err: unknown) {
       const statusCode =
@@ -51,14 +45,9 @@ export async function sendPushToUser(
 
       if (statusCode === 410) {
         // Subscription expired / unsubscribed — remove from DB
-        await db
-          .delete(pushSubscriptionsTable)
-          .where(eq(pushSubscriptionsTable.id, sub.id));
+        await db.delete(pushSubscriptionsTable).where(eq(pushSubscriptionsTable.id, sub.id));
       } else {
-        console.error(
-          `[push] Failed to send to subscription ${sub.id}:`,
-          err
-        );
+        console.error(`[push] Failed to send to subscription ${sub.id}:`, err);
       }
     }
   }

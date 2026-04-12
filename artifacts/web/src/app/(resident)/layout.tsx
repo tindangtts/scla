@@ -7,16 +7,11 @@ import { LocaleSwitcher } from "@/components/locale-switcher";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 
-export default async function ResidentLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function ResidentLayout({ children }: { children: React.ReactNode }) {
   const user = await requireAuth();
   const t = await getTranslations("nav");
   const th = await getTranslations("header");
-  const displayName =
-    user.user_metadata?.name || user.email?.split("@")[0] || "User";
+  const displayName = user.user_metadata?.name || user.email?.split("@")[0] || "User";
 
   return (
     <div className="min-h-screen flex flex-col">

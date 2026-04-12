@@ -38,22 +38,12 @@ export default async function EditAnnouncementPage({
 
         <div>
           <Label htmlFor="title">Title</Label>
-          <Input
-            id="title"
-            name="title"
-            defaultValue={announcement.title}
-            required
-          />
+          <Input id="title" name="title" defaultValue={announcement.title} required />
         </div>
 
         <div>
           <Label htmlFor="summary">Summary</Label>
-          <Input
-            id="summary"
-            name="summary"
-            defaultValue={announcement.summary}
-            required
-          />
+          <Input id="summary" name="summary" defaultValue={announcement.summary} required />
         </div>
 
         <div>

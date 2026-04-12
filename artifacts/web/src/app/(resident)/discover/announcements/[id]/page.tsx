@@ -27,10 +27,7 @@ export default async function AnnouncementDetailPage({
 
   return (
     <div className="p-4 space-y-4">
-      <Link
-        href="/discover"
-        className="text-sm text-blue-600 hover:underline"
-      >
+      <Link href="/discover" className="text-sm text-blue-600 hover:underline">
         &larr; Back to Discover
       </Link>
 
@@ -47,9 +44,7 @@ export default async function AnnouncementDetailPage({
         </div>
       )}
 
-      <div className="text-sm leading-relaxed whitespace-pre-wrap">
-        {announcement.content}
-      </div>
+      <div className="text-sm leading-relaxed whitespace-pre-wrap">{announcement.content}</div>
     </div>
   );
 }

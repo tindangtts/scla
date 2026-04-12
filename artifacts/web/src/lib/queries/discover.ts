@@ -6,12 +6,7 @@ export async function getAnnouncements() {
   return db
     .select()
     .from(announcementsTable)
-    .where(
-      and(
-        eq(announcementsTable.isDraft, false),
-        eq(announcementsTable.type, "announcement")
-      )
-    )
+    .where(and(eq(announcementsTable.isDraft, false), eq(announcementsTable.type, "announcement")))
     .orderBy(desc(announcementsTable.isPinned), desc(announcementsTable.publishedAt))
     .limit(20);
 }
@@ -20,12 +15,7 @@ export async function getNewsletters() {
   return db
     .select()
     .from(announcementsTable)
-    .where(
-      and(
-        eq(announcementsTable.isDraft, false),
-        eq(announcementsTable.type, "newsletter")
-      )
-    )
+    .where(and(eq(announcementsTable.isDraft, false), eq(announcementsTable.type, "newsletter")))
     .orderBy(desc(announcementsTable.publishedAt))
     .limit(20);
 }
@@ -37,8 +27,8 @@ export async function getPromotions() {
     .where(
       and(
         eq(promotionsTable.isActive, true),
-        sql`(${promotionsTable.validUntil} IS NULL OR ${promotionsTable.validUntil} >= NOW())`
-      )
+        sql`(${promotionsTable.validUntil} IS NULL OR ${promotionsTable.validUntil} >= NOW())`,
+      ),
     )
     .orderBy(desc(promotionsTable.createdAt))
     .limit(20);
@@ -52,8 +42,8 @@ export async function getAnnouncementById(id: string) {
       and(
         eq(announcementsTable.id, id),
         eq(announcementsTable.isDraft, false),
-        eq(announcementsTable.type, "announcement")
-      )
+        eq(announcementsTable.type, "announcement"),
+      ),
     )
     .limit(1);
 
@@ -68,8 +58,8 @@ export async function getNewsletterById(id: string) {
       and(
         eq(announcementsTable.id, id),
         eq(announcementsTable.isDraft, false),
-        eq(announcementsTable.type, "newsletter")
-      )
+        eq(announcementsTable.type, "newsletter"),
+      ),
     )
     .limit(1);
 

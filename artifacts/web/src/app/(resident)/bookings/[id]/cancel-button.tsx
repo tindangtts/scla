@@ -15,9 +15,7 @@ export function CancelButton({
 
   return (
     <div className="space-y-3">
-      {state.error && (
-        <p className="text-sm text-red-600">{state.error}</p>
-      )}
+      {state.error && <p className="text-sm text-red-600">{state.error}</p>}
 
       {/* Single Cancel */}
       <form
@@ -30,12 +28,7 @@ export function CancelButton({
       >
         <input type="hidden" name="bookingId" value={bookingId} />
         <input type="hidden" name="mode" value="single" />
-        <Button
-          type="submit"
-          variant="destructive"
-          className="w-full"
-          disabled={isPending}
-        >
+        <Button type="submit" variant="destructive" className="w-full" disabled={isPending}>
           {isPending ? "Cancelling..." : "Cancel Booking"}
         </Button>
       </form>
@@ -47,7 +40,7 @@ export function CancelButton({
           onSubmit={(e) => {
             if (
               !window.confirm(
-                "Are you sure you want to cancel ALL future bookings in this recurring group?"
+                "Are you sure you want to cancel ALL future bookings in this recurring group?",
               )
             ) {
               e.preventDefault();
@@ -62,9 +55,7 @@ export function CancelButton({
             className="w-full border-destructive text-destructive hover:bg-destructive/10"
             disabled={isPending}
           >
-            {isPending
-              ? "Cancelling..."
-              : "Cancel All Future Recurring"}
+            {isPending ? "Cancelling..." : "Cancel All Future Recurring"}
           </Button>
         </form>
       )}

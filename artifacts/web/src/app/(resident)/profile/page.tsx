@@ -2,12 +2,7 @@ import { requireAuth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { usersTable } from "@workspace/db/schema";
 import { eq } from "drizzle-orm";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { EditForm } from "./edit-form";
 
@@ -29,9 +24,7 @@ export default async function ProfilePage() {
       <div className="p-4">
         <Card>
           <CardContent className="pt-6">
-            <p className="text-muted-foreground">
-              User account not found. Please contact support.
-            </p>
+            <p className="text-muted-foreground">User account not found. Please contact support.</p>
           </CardContent>
         </Card>
       </div>
@@ -47,11 +40,7 @@ export default async function ProfilePage() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="text-lg">{dbUser.name}</CardTitle>
-            <Badge
-              variant={
-                dbUser.userType === "resident" ? "default" : "secondary"
-              }
-            >
+            <Badge variant={dbUser.userType === "resident" ? "default" : "secondary"}>
               {dbUser.userType}
             </Badge>
           </div>
@@ -86,9 +75,7 @@ export default async function ProfilePage() {
             )}
             <div>
               <p className="text-muted-foreground">Member Since</p>
-              <p className="font-medium">
-                {new Date(dbUser.createdAt).toLocaleDateString()}
-              </p>
+              <p className="font-medium">{new Date(dbUser.createdAt).toLocaleDateString()}</p>
             </div>
           </div>
         </CardContent>

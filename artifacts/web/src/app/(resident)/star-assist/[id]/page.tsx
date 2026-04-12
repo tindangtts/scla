@@ -4,22 +4,14 @@ import { usersTable } from "@workspace/db/schema";
 import { eq } from "drizzle-orm";
 import { getTicketById, getTicketMessages } from "@/lib/queries/tickets";
 import { notFound } from "next/navigation";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import TicketChat from "./ticket-chat";
 
 export const dynamic = "force-dynamic";
 
-const STATUS_VARIANT: Record<
-  string,
-  "default" | "secondary" | "outline" | "destructive"
-> = {
+const STATUS_VARIANT: Record<string, "default" | "secondary" | "outline" | "destructive"> = {
   open: "default",
   in_progress: "secondary",
   completed: "outline",
@@ -44,11 +36,7 @@ function formatStatus(status: string): string {
     .join(" ");
 }
 
-export default async function TicketDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function TicketDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const user = await requireAuth();
   const { id } = await params;
 
@@ -62,9 +50,7 @@ export default async function TicketDetailPage({
   if (!dbUser) {
     return (
       <div className="p-4">
-        <p className="text-muted-foreground">
-          User account not found. Please contact support.
-        </p>
+        <p className="text-muted-foreground">User account not found. Please contact support.</p>
       </div>
     );
   }
@@ -80,10 +66,7 @@ export default async function TicketDetailPage({
 
   return (
     <div className="p-4 space-y-4">
-      <Link
-        href="/star-assist"
-        className="text-sm text-primary hover:underline"
-      >
+      <Link href="/star-assist" className="text-sm text-primary hover:underline">
         &larr; Back to tickets
       </Link>
 
@@ -97,9 +80,7 @@ export default async function TicketDetailPage({
         </div>
         <h2 className="text-lg">{ticket.title}</h2>
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Badge variant="outline">
-            {CATEGORY_LABELS[ticket.category] ?? ticket.category}
-          </Badge>
+          <Badge variant="outline">{CATEGORY_LABELS[ticket.category] ?? ticket.category}</Badge>
           <span>{new Date(ticket.createdAt).toLocaleDateString()}</span>
         </div>
       </div>

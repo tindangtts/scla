@@ -30,11 +30,7 @@ export default async function UsersPage({
           defaultValue={search}
           className="px-3 py-2 border rounded-md text-sm flex-1 min-w-[200px]"
         />
-        <select
-          name="role"
-          defaultValue={role}
-          className="px-3 py-2 border rounded-md text-sm"
-        >
+        <select name="role" defaultValue={role} className="px-3 py-2 border rounded-md text-sm">
           <option value="">All Roles</option>
           <option value="guest">Guest</option>
           <option value="resident">Resident</option>
@@ -73,18 +69,12 @@ export default async function UsersPage({
                   <td className="py-2 px-3">{user.email}</td>
                   <td className="py-2 px-3">{user.phone}</td>
                   <td className="py-2 px-3">
-                    <Badge
-                      variant={
-                        user.userType === "resident" ? "default" : "outline"
-                      }
-                    >
+                    <Badge variant={user.userType === "resident" ? "default" : "outline"}>
                       {user.userType}
                     </Badge>
                   </td>
                   <td className="py-2 px-3">{user.unitNumber || "-"}</td>
-                  <td className="py-2 px-3">
-                    {user.createdAt.toLocaleDateString()}
-                  </td>
+                  <td className="py-2 px-3">{user.createdAt.toLocaleDateString()}</td>
                 </tr>
               ))}
             </tbody>

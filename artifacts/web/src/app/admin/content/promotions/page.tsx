@@ -51,14 +51,8 @@ export default async function PromotionsPage() {
                       <Badge variant="outline">Inactive</Badge>
                     )}
                   </td>
-                  <td className="p-2">
-                    {p.validFrom.toLocaleDateString()}
-                  </td>
-                  <td className="p-2">
-                    {p.validUntil
-                      ? p.validUntil.toLocaleDateString()
-                      : "-"}
-                  </td>
+                  <td className="p-2">{p.validFrom.toLocaleDateString()}</td>
+                  <td className="p-2">{p.validUntil ? p.validUntil.toLocaleDateString() : "-"}</td>
                   <td className="p-2">
                     <div className="flex gap-2">
                       <Link href={`/admin/content/promotions/${p.id}/edit`}>
@@ -68,11 +62,7 @@ export default async function PromotionsPage() {
                       </Link>
                       <form action={deletePromotion}>
                         <input type="hidden" name="id" value={p.id} />
-                        <Button
-                          type="submit"
-                          size="sm"
-                          variant="destructive"
-                        >
+                        <Button type="submit" size="sm" variant="destructive">
                           Delete
                         </Button>
                       </form>

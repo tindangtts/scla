@@ -13,11 +13,7 @@ function formatDate(date: Date) {
   });
 }
 
-export default async function PromotionDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function PromotionDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const promotion = await getPromotionById(id);
 
@@ -27,10 +23,7 @@ export default async function PromotionDetailPage({
 
   return (
     <div className="p-4 space-y-4">
-      <Link
-        href="/discover"
-        className="text-sm text-blue-600 hover:underline"
-      >
+      <Link href="/discover" className="text-sm text-blue-600 hover:underline">
         &larr; Back to Discover
       </Link>
 
@@ -48,9 +41,7 @@ export default async function PromotionDetailPage({
         </p>
       </div>
 
-      <div className="text-sm leading-relaxed whitespace-pre-wrap">
-        {promotion.description}
-      </div>
+      <div className="text-sm leading-relaxed whitespace-pre-wrap">{promotion.description}</div>
     </div>
   );
 }

@@ -28,13 +28,7 @@ export function MarkAllAsReadButton() {
 
   return (
     <form action={formAction}>
-      <Button
-        type="submit"
-        variant="outline"
-        size="sm"
-        className="text-xs"
-        disabled={isPending}
-      >
+      <Button type="submit" variant="outline" size="sm" className="text-xs" disabled={isPending}>
         {isPending ? "Marking..." : "Mark all as read"}
       </Button>
     </form>

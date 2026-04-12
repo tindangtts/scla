@@ -25,11 +25,8 @@ export async function getFacilities(category?: string): Promise<Facility[]> {
       .where(
         and(
           eq(facilitiesTable.isAvailable, true),
-          eq(
-            facilitiesTable.category,
-            category as Facility["category"]
-          )
-        )
+          eq(facilitiesTable.category, category as Facility["category"]),
+        ),
       )
       .orderBy(asc(facilitiesTable.name));
   }
@@ -45,11 +42,7 @@ export async function getFacilities(category?: string): Promise<Facility[]> {
  * Get a single facility by ID.
  */
 export async function getFacilityById(id: string): Promise<Facility | null> {
-  const rows = await db
-    .select()
-    .from(facilitiesTable)
-    .where(eq(facilitiesTable.id, id))
-    .limit(1);
+  const rows = await db.select().from(facilitiesTable).where(eq(facilitiesTable.id, id)).limit(1);
 
   return rows[0] ?? null;
 }
@@ -60,7 +53,7 @@ export async function getFacilityById(id: string): Promise<Facility | null> {
  */
 export async function getAvailableSlots(
   facilityId: string,
-  date: string
+  date: string,
 ): Promise<{ startTime: string; endTime: string; isBooked: boolean }[]> {
   // Get facility hours
   const facility = await getFacilityById(facilityId);
@@ -81,13 +74,11 @@ export async function getAvailableSlots(
       and(
         eq(bookingsTable.facilityId, facilityId),
         eq(bookingsTable.date, date),
-        ne(bookingsTable.status, "cancelled")
-      )
+        ne(bookingsTable.status, "cancelled"),
+      ),
     );
 
-  const bookedStarts = new Set(
-    existingBookings.map((b) => b.startTime.substring(0, 5))
-  );
+  const bookedStarts = new Set(existingBookings.map((b) => b.startTime.substring(0, 5)));
 
   // Generate hourly slots
   const slots: { startTime: string; endTime: string; isBooked: boolean }[] = [];

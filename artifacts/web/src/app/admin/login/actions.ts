@@ -7,10 +7,7 @@ import { db } from "@/lib/db";
 import { staffUsersTable } from "@workspace/db/schema";
 import { eq, and } from "drizzle-orm";
 
-export async function adminLogin(
-  prevState: { error?: string },
-  formData: FormData
-) {
+export async function adminLogin(prevState: { error?: string }, formData: FormData) {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
 
@@ -32,12 +29,7 @@ export async function adminLogin(
   const staffRows = await db
     .select()
     .from(staffUsersTable)
-    .where(
-      and(
-        eq(staffUsersTable.email, email),
-        eq(staffUsersTable.isActive, true)
-      )
-    );
+    .where(and(eq(staffUsersTable.email, email), eq(staffUsersTable.isActive, true)));
 
   if (staffRows.length === 0) {
     // Not a staff member — sign them out and deny access

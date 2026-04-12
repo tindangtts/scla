@@ -2,12 +2,7 @@ import { requireAdmin } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { upgradeRequestsTable } from "@workspace/db/schema";
 import { desc } from "drizzle-orm";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -44,23 +39,16 @@ export default async function UpgradeRequestsPage() {
 
   return (
     <div className="p-4 space-y-4">
-      <Link
-        href="/admin/dashboard"
-        className="text-sm text-blue-600 hover:underline inline-block"
-      >
+      <Link href="/admin/dashboard" className="text-sm text-blue-600 hover:underline inline-block">
         &larr; Back to Dashboard
       </Link>
 
       <div className="flex items-center gap-3">
         <h1 className="text-xl font-bold">Upgrade Requests</h1>
-        {pendingCount > 0 && (
-          <Badge variant="default">{pendingCount} pending</Badge>
-        )}
+        {pendingCount > 0 && <Badge variant="default">{pendingCount} pending</Badge>}
       </div>
 
-      {requests.length === 0 && (
-        <p className="text-muted-foreground">No upgrade requests yet.</p>
-      )}
+      {requests.length === 0 && <p className="text-muted-foreground">No upgrade requests yet.</p>}
 
       {requests.map((request) => (
         <Card key={request.id}>
@@ -73,16 +61,13 @@ export default async function UpgradeRequestsPage() {
           <CardContent>
             <div className="grid grid-cols-2 gap-2 text-sm mb-3">
               <div>
-                <span className="text-muted-foreground">Email:</span>{" "}
-                {request.userEmail}
+                <span className="text-muted-foreground">Email:</span> {request.userEmail}
               </div>
               <div>
-                <span className="text-muted-foreground">Unit:</span>{" "}
-                {request.unitNumber}
+                <span className="text-muted-foreground">Unit:</span> {request.unitNumber}
               </div>
               <div>
-                <span className="text-muted-foreground">Resident ID:</span>{" "}
-                {request.residentId}
+                <span className="text-muted-foreground">Resident ID:</span> {request.residentId}
               </div>
               <div>
                 <span className="text-muted-foreground">Development:</span>{" "}

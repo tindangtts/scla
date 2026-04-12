@@ -5,11 +5,7 @@ import { updatePreferences } from "./actions";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 
-export function PreferencesForm({
-  emailNotifications,
-}: {
-  emailNotifications: boolean;
-}) {
+export function PreferencesForm({ emailNotifications }: { emailNotifications: boolean }) {
   const [state, formAction, isPending] = useActionState(updatePreferences, {});
 
   return (
@@ -36,13 +32,9 @@ export function PreferencesForm({
         Push notifications will be available in a future update.
       </p>
 
-      {state.error && (
-        <p className="text-sm text-red-600">{state.error}</p>
-      )}
+      {state.error && <p className="text-sm text-red-600">{state.error}</p>}
       {state.success && (
-        <p className="text-sm text-green-600 font-medium">
-          Preferences updated successfully!
-        </p>
+        <p className="text-sm text-green-600 font-medium">Preferences updated successfully!</p>
       )}
 
       <Button type="submit" className="w-full" disabled={isPending}>

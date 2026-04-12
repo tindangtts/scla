@@ -15,11 +15,7 @@ const ROLES = [
   { value: "user_verifier", label: "User Verifier" },
 ];
 
-export default async function EditStaffPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function EditStaffPage({ params }: { params: Promise<{ id: string }> }) {
   await requireAdmin();
   const { id } = await params;
   const staffMember = await getStaffById(id);

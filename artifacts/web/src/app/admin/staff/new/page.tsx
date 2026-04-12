@@ -59,11 +59,7 @@ export default async function NewStaffPage() {
 
         <div>
           <label className="block text-sm font-medium mb-1">Role</label>
-          <select
-            name="role"
-            required
-            className="w-full px-3 py-2 border rounded-md text-sm"
-          >
+          <select name="role" required className="w-full px-3 py-2 border rounded-md text-sm">
             {ROLES.map((r) => (
               <option key={r.value} value={r.value}>
                 {r.label}

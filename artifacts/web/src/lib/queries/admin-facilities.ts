@@ -16,10 +16,7 @@ export type AdminBooking = Booking & {
  * Get all facilities ordered by name (no availability filter for admin).
  */
 export async function getAllFacilities(): Promise<Facility[]> {
-  return db
-    .select()
-    .from(facilitiesTable)
-    .orderBy(asc(facilitiesTable.name));
+  return db.select().from(facilitiesTable).orderBy(asc(facilitiesTable.name));
 }
 
 /**
@@ -28,7 +25,7 @@ export async function getAllFacilities(): Promise<Facility[]> {
  */
 export async function getAllBookings(
   facilityId?: string,
-  status?: string
+  status?: string,
 ): Promise<AdminBooking[]> {
   const conditions: ReturnType<typeof eq>[] = [];
 
@@ -36,16 +33,8 @@ export async function getAllBookings(
     conditions.push(eq(bookingsTable.facilityId, facilityId));
   }
 
-  if (
-    status &&
-    ["upcoming", "completed", "cancelled"].includes(status)
-  ) {
-    conditions.push(
-      eq(
-        bookingsTable.status,
-        status as "upcoming" | "completed" | "cancelled"
-      )
-    );
+  if (status && ["upcoming", "completed", "cancelled"].includes(status)) {
+    conditions.push(eq(bookingsTable.status, status as "upcoming" | "completed" | "cancelled"));
   }
 
   const rows = await db

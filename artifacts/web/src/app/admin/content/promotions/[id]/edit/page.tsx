@@ -9,11 +9,7 @@ import { updatePromotion } from "../../actions";
 
 export const dynamic = "force-dynamic";
 
-export default async function EditPromotionPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function EditPromotionPage({ params }: { params: Promise<{ id: string }> }) {
   await requireAdmin();
   const { id } = await params;
   const promotion = await getPromotionById(id);
@@ -22,9 +18,7 @@ export default async function EditPromotionPage({
     notFound();
   }
 
-  const validFromStr = promotion.validFrom
-    .toISOString()
-    .split("T")[0];
+  const validFromStr = promotion.validFrom.toISOString().split("T")[0];
   const validUntilStr = promotion.validUntil
     ? promotion.validUntil.toISOString().split("T")[0]
     : "";
@@ -45,12 +39,7 @@ export default async function EditPromotionPage({
 
         <div>
           <Label htmlFor="title">Title</Label>
-          <Input
-            id="title"
-            name="title"
-            defaultValue={promotion.title}
-            required
-          />
+          <Input id="title" name="title" defaultValue={promotion.title} required />
         </div>
 
         <div>
@@ -67,12 +56,7 @@ export default async function EditPromotionPage({
 
         <div>
           <Label htmlFor="category">Category</Label>
-          <Input
-            id="category"
-            name="category"
-            defaultValue={promotion.category}
-            required
-          />
+          <Input id="category" name="category" defaultValue={promotion.category} required />
         </div>
 
         <div>
@@ -88,21 +72,11 @@ export default async function EditPromotionPage({
         <div className="grid grid-cols-2 gap-4">
           <div>
             <Label htmlFor="validFrom">Valid From</Label>
-            <Input
-              id="validFrom"
-              name="validFrom"
-              type="date"
-              defaultValue={validFromStr}
-            />
+            <Input id="validFrom" name="validFrom" type="date" defaultValue={validFromStr} />
           </div>
           <div>
             <Label htmlFor="validUntil">Valid Until</Label>
-            <Input
-              id="validUntil"
-              name="validUntil"
-              type="date"
-              defaultValue={validUntilStr}
-            />
+            <Input id="validUntil" name="validUntil" type="date" defaultValue={validUntilStr} />
           </div>
         </div>
 

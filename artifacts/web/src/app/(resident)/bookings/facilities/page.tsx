@@ -48,11 +48,7 @@ export default async function FacilitiesPage({
         {CATEGORY_FILTERS.map((filter) => (
           <Link key={filter.label} href={filter.href}>
             <Badge
-              variant={
-                (category ?? undefined) === filter.value
-                  ? "default"
-                  : "outline"
-              }
+              variant={(category ?? undefined) === filter.value ? "default" : "outline"}
               className="cursor-pointer whitespace-nowrap"
             >
               {filter.label}
@@ -65,18 +61,13 @@ export default async function FacilitiesPage({
       {facilities.length === 0 ? (
         <Card>
           <CardContent className="pt-6">
-            <p className="text-center text-muted-foreground">
-              No facilities found.
-            </p>
+            <p className="text-center text-muted-foreground">No facilities found.</p>
           </CardContent>
         </Card>
       ) : (
         <div className="space-y-3">
           {facilities.map((facility) => (
-            <Link
-              key={facility.id}
-              href={`/bookings/facilities/${facility.id}`}
-            >
+            <Link key={facility.id} href={`/bookings/facilities/${facility.id}`}>
               <Card className="hover:bg-muted/50 transition-colors mb-3">
                 <CardContent className="pt-4 pb-4">
                   <div className="flex items-start justify-between">
@@ -93,10 +84,7 @@ export default async function FacilitiesPage({
                   <div className="mt-2">
                     <p className="text-sm font-semibold">
                       {formatMMK(facility.memberRate)}
-                      <span className="text-xs text-muted-foreground font-normal">
-                        {" "}
-                        / hour
-                      </span>
+                      <span className="text-xs text-muted-foreground font-normal"> / hour</span>
                     </p>
                   </div>
                 </CardContent>

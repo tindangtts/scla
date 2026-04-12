@@ -2,12 +2,7 @@
 
 import { useActionState } from "react";
 import { adminLogin } from "./actions";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -52,9 +47,7 @@ export default function AdminLoginPage() {
                 />
               </div>
 
-              {state.error && (
-                <p className="text-sm text-red-600">{state.error}</p>
-              )}
+              {state.error && <p className="text-sm text-red-600">{state.error}</p>}
 
               <Button type="submit" className="w-full" disabled={isPending}>
                 {isPending ? t("signingIn") : t("login")}

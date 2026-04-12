@@ -18,10 +18,7 @@ export async function POST(request: NextRequest) {
   const { endpoint, p256dh, auth } = body;
 
   if (!endpoint || !p256dh || !auth) {
-    return NextResponse.json(
-      { error: "Missing subscription fields" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Missing subscription fields" }, { status: 400 });
   }
 
   // Look up user in app DB to get userId
@@ -62,10 +59,7 @@ export async function DELETE(request: NextRequest) {
   const { endpoint } = body;
 
   if (!endpoint) {
-    return NextResponse.json(
-      { error: "Missing endpoint" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Missing endpoint" }, { status: 400 });
   }
 
   // Look up userId
@@ -83,10 +77,7 @@ export async function DELETE(request: NextRequest) {
   await db
     .delete(pushSubscriptionsTable)
     .where(
-      and(
-        eq(pushSubscriptionsTable.endpoint, endpoint),
-        eq(pushSubscriptionsTable.userId, userId)
-      )
+      and(eq(pushSubscriptionsTable.endpoint, endpoint), eq(pushSubscriptionsTable.userId, userId)),
     );
 
   return NextResponse.json({ ok: true });

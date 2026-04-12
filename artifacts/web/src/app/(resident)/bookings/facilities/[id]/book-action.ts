@@ -4,11 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAuth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import {
-  usersTable,
-  facilitiesTable,
-  bookingsTable,
-} from "@workspace/db/schema";
+import { usersTable, facilitiesTable, bookingsTable } from "@workspace/db/schema";
 import { eq, and, ne } from "drizzle-orm";
 import { getNextBookingNumber } from "@/lib/queries/bookings";
 
@@ -20,7 +16,7 @@ interface BookActionState {
 
 export async function bookSlot(
   prevState: BookActionState,
-  formData: FormData
+  formData: FormData,
 ): Promise<BookActionState> {
   const facilityId = formData.get("facilityId") as string;
   const facilityName = formData.get("facilityName") as string;
@@ -82,8 +78,8 @@ export async function bookSlot(
           eq(bookingsTable.facilityId, facilityId),
           eq(bookingsTable.date, bookingDateStr),
           eq(bookingsTable.startTime, startTime),
-          ne(bookingsTable.status, "cancelled")
-        )
+          ne(bookingsTable.status, "cancelled"),
+        ),
       )
       .limit(1);
 

@@ -34,18 +34,13 @@ export default async function WalletsPage({
       </form>
 
       {!search ? (
-        <p className="text-muted-foreground">
-          Search for a resident to manage their wallet.
-        </p>
+        <p className="text-muted-foreground">Search for a resident to manage their wallet.</p>
       ) : residents.length === 0 ? (
         <p className="text-muted-foreground">No residents found.</p>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2">
           {residents.map((r) => (
-            <div
-              key={r.id}
-              className="border rounded-lg p-4 flex items-center justify-between"
-            >
+            <div key={r.id} className="border rounded-lg p-4 flex items-center justify-between">
               <div>
                 <p className="font-medium">{r.name}</p>
                 <p className="text-sm text-muted-foreground">{r.email}</p>

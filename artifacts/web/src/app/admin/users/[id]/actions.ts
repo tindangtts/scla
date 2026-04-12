@@ -25,10 +25,7 @@ export async function updateUserRole(formData: FormData) {
 
   if (updatedRows.length === 0) return;
 
-  await db
-    .update(usersTable)
-    .set({ userType: newRole })
-    .where(eq(usersTable.id, userId));
+  await db.update(usersTable).set({ userType: newRole }).where(eq(usersTable.id, userId));
 
   // Update Supabase Auth user_metadata
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -37,18 +34,13 @@ export async function updateUserRole(formData: FormData) {
     const adminClient = createAdminClient(supabaseUrl, serviceRoleKey);
     const listResult = await adminClient.auth.admin.listUsers();
     const users = listResult.data?.users ?? [];
-    const authUser = users.find(
-      (u: { email?: string }) => u.email === updatedRows[0].email
-    );
+    const authUser = users.find((u: { email?: string }) => u.email === updatedRows[0].email);
     if (authUser) {
-      await adminClient.auth.admin.updateUserById(
-        (authUser as { id: string }).id,
-        {
-          user_metadata: {
-            user_type: newRole,
-          },
-        }
-      );
+      await adminClient.auth.admin.updateUserById((authUser as { id: string }).id, {
+        user_metadata: {
+          user_type: newRole,
+        },
+      });
     }
   }
 

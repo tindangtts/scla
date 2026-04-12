@@ -60,9 +60,7 @@ describe("push helpers", () => {
       await sendPushToUser("user-1", { title: "Test", body: "Test", url: "/" });
 
       expect(mockSendNotification).not.toHaveBeenCalled();
-      expect(warnSpy).toHaveBeenCalledWith(
-        expect.stringContaining("VAPID keys not configured")
-      );
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining("VAPID keys not configured"));
       warnSpy.mockRestore();
     });
 
@@ -71,8 +69,20 @@ describe("push helpers", () => {
       process.env.VAPID_PRIVATE_KEY = "test-private-key";
 
       const subs = [
-        { id: "sub-1", endpoint: "https://push.example.com/1", p256dh: "key1", auth: "auth1", userId: "user-1" },
-        { id: "sub-2", endpoint: "https://push.example.com/2", p256dh: "key2", auth: "auth2", userId: "user-1" },
+        {
+          id: "sub-1",
+          endpoint: "https://push.example.com/1",
+          p256dh: "key1",
+          auth: "auth1",
+          userId: "user-1",
+        },
+        {
+          id: "sub-2",
+          endpoint: "https://push.example.com/2",
+          p256dh: "key2",
+          auth: "auth2",
+          userId: "user-1",
+        },
       ];
       mockSelectWhere.mockResolvedValue(subs);
       mockSendNotification.mockResolvedValue({});
@@ -83,7 +93,7 @@ describe("push helpers", () => {
       expect(mockSendNotification).toHaveBeenCalledTimes(2);
       expect(mockSendNotification).toHaveBeenCalledWith(
         { endpoint: "https://push.example.com/1", keys: { p256dh: "key1", auth: "auth1" } },
-        JSON.stringify({ title: "Hello", body: "World", url: "/test" })
+        JSON.stringify({ title: "Hello", body: "World", url: "/test" }),
       );
     });
 
@@ -92,7 +102,13 @@ describe("push helpers", () => {
       process.env.VAPID_PRIVATE_KEY = "test-private-key";
 
       const subs = [
-        { id: "sub-expired", endpoint: "https://push.example.com/expired", p256dh: "key1", auth: "auth1", userId: "user-1" },
+        {
+          id: "sub-expired",
+          endpoint: "https://push.example.com/expired",
+          p256dh: "key1",
+          auth: "auth1",
+          userId: "user-1",
+        },
       ];
       mockSelectWhere.mockResolvedValue(subs);
 
@@ -111,7 +127,13 @@ describe("push helpers", () => {
       process.env.VAPID_PRIVATE_KEY = "test-private-key";
 
       const subs = [
-        { id: "sub-1", endpoint: "https://push.example.com/1", p256dh: "key1", auth: "auth1", userId: "user-1" },
+        {
+          id: "sub-1",
+          endpoint: "https://push.example.com/1",
+          p256dh: "key1",
+          auth: "auth1",
+          userId: "user-1",
+        },
       ];
       mockSelectWhere.mockResolvedValue(subs);
 

@@ -31,8 +31,7 @@ export function ThemeToggle() {
       <Monitor className="h-4 w-4" />
     );
 
-  const label =
-    theme === "light" ? "Light" : theme === "dark" ? "Dark" : "System";
+  const label = theme === "light" ? "Light" : theme === "dark" ? "Dark" : "System";
 
   return (
     <button

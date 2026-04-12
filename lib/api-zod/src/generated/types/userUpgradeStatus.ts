@@ -6,9 +6,7 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type UserUpgradeStatus =
-  | (typeof UserUpgradeStatus)[keyof typeof UserUpgradeStatus]
-  | null;
+export type UserUpgradeStatus = (typeof UserUpgradeStatus)[keyof typeof UserUpgradeStatus] | null;
 
 export const UserUpgradeStatus = {
   none: "none",

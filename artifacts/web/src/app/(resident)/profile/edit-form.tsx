@@ -26,22 +26,12 @@ export function EditForm({ name, phone }: { name: string; phone: string }) {
 
       <div className="space-y-2">
         <Label htmlFor="phone">Phone</Label>
-        <Input
-          id="phone"
-          name="phone"
-          type="tel"
-          defaultValue={phone}
-          required
-        />
+        <Input id="phone" name="phone" type="tel" defaultValue={phone} required />
       </div>
 
-      {state.error && (
-        <p className="text-sm text-red-600">{state.error}</p>
-      )}
+      {state.error && <p className="text-sm text-red-600">{state.error}</p>}
       {state.success && (
-        <p className="text-sm text-green-600 font-medium">
-          Profile updated successfully!
-        </p>
+        <p className="text-sm text-green-600 font-medium">Profile updated successfully!</p>
       )}
 
       <Button type="submit" className="w-full" disabled={isPending}>

@@ -58,11 +58,7 @@ export default async function FaqsPage() {
                       </Link>
                       <form action={deleteFaq}>
                         <input type="hidden" name="id" value={faq.id} />
-                        <Button
-                          type="submit"
-                          size="sm"
-                          variant="destructive"
-                        >
+                        <Button type="submit" size="sm" variant="destructive">
                           Delete
                         </Button>
                       </form>

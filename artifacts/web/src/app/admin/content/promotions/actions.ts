@@ -91,9 +91,7 @@ export async function deletePromotion(formData: FormData) {
   const id = formData.get("id") as string;
   if (!id) return;
 
-  await db
-    .delete(promotionsTable)
-    .where(eq(promotionsTable.id, id));
+  await db.delete(promotionsTable).where(eq(promotionsTable.id, id));
 
   await db.insert(auditLogsTable).values({
     actorId: staff.id,

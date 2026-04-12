@@ -1,10 +1,5 @@
 import { requireAdmin } from "@/lib/auth";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
@@ -45,9 +40,7 @@ export default async function ContentHubPage() {
                 <CardTitle className="text-base">{section.title}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  {section.description}
-                </p>
+                <p className="text-sm text-muted-foreground">{section.description}</p>
               </CardContent>
             </Card>
           </Link>

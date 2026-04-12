@@ -38,11 +38,7 @@ const CATEGORY_LABELS: Record<string, string> = {
   squash_court: "Squash Court",
 };
 
-export default async function BookingDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function BookingDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const user = await requireAuth();
   const { id } = await params;
 
@@ -68,10 +64,7 @@ export default async function BookingDetailPage({
 
   return (
     <div className="p-4 space-y-4">
-      <Link
-        href="/bookings"
-        className="text-sm text-primary hover:underline"
-      >
+      <Link href="/bookings" className="text-sm text-primary hover:underline">
         &larr; Back to Bookings
       </Link>
 
@@ -79,9 +72,7 @@ export default async function BookingDetailPage({
         <CardContent className="pt-4 pb-4 space-y-4">
           <div className="flex items-start justify-between">
             <h2 className="text-xl font-bold">{booking.bookingNumber}</h2>
-            <Badge variant={statusVariant(booking.status)}>
-              {booking.status}
-            </Badge>
+            <Badge variant={statusVariant(booking.status)}>{booking.status}</Badge>
           </div>
 
           <div className="space-y-2 text-sm">
@@ -92,8 +83,7 @@ export default async function BookingDetailPage({
             <div className="flex justify-between">
               <span className="text-muted-foreground">Category</span>
               <span className="font-medium">
-                {CATEGORY_LABELS[booking.facilityCategory] ??
-                  booking.facilityCategory}
+                {CATEGORY_LABELS[booking.facilityCategory] ?? booking.facilityCategory}
               </span>
             </div>
             <div className="flex justify-between">
@@ -103,15 +93,12 @@ export default async function BookingDetailPage({
             <div className="flex justify-between">
               <span className="text-muted-foreground">Time</span>
               <span className="font-medium">
-                {booking.startTime.substring(0, 5)} -{" "}
-                {booking.endTime.substring(0, 5)}
+                {booking.startTime.substring(0, 5)} - {booking.endTime.substring(0, 5)}
               </span>
             </div>
             <div className="flex justify-between">
               <span className="text-muted-foreground">Amount</span>
-              <span className="font-medium">
-                {formatMMK(booking.totalAmount)}
-              </span>
+              <span className="font-medium">{formatMMK(booking.totalAmount)}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-muted-foreground">Payment</span>
@@ -140,10 +127,7 @@ export default async function BookingDetailPage({
       </Card>
 
       {booking.status === "upcoming" && (
-        <CancelButton
-          bookingId={booking.id}
-          hasRecurringGroup={!!booking.recurringGroupId}
-        />
+        <CancelButton bookingId={booking.id} hasRecurringGroup={!!booking.recurringGroupId} />
       )}
     </div>
   );

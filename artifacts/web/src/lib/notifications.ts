@@ -16,11 +16,7 @@ async function getUserEmailInfo(userId: string) {
   return rows[0] ?? null;
 }
 
-export async function notifyBillOverdue(
-  userId: string,
-  invoiceNumber: string,
-  amount: number
-) {
+export async function notifyBillOverdue(userId: string, invoiceNumber: string, amount: number) {
   const title = "Bill Overdue";
   const body = `Invoice ${invoiceNumber} for MMK ${amount.toLocaleString()} is overdue`;
 
@@ -58,7 +54,7 @@ export async function notifyTicketUpdate(
   userId: string,
   ticketId: string,
   ticketNumber: string,
-  newStatus: string
+  newStatus: string,
 ) {
   const title = "Ticket Updated";
   const body = `Ticket ${ticketNumber} is now ${newStatus}`;
@@ -91,23 +87,14 @@ export async function notifyTicketUpdate(
   try {
     const user = await getUserEmailInfo(userId);
     if (user?.emailNotifications) {
-      await sendTicketUpdateEmail(
-        user.email,
-        user.name,
-        ticketNumber,
-        newStatus
-      );
+      await sendTicketUpdateEmail(user.email, user.name, ticketNumber, newStatus);
     }
   } catch (err) {
     console.error("[notify] Failed to send ticket update email:", err);
   }
 }
 
-export async function notifyNewMessage(
-  userId: string,
-  ticketId: string,
-  ticketNumber: string
-) {
+export async function notifyNewMessage(userId: string, ticketId: string, ticketNumber: string) {
   const title = "New Message";
   const body = `New message on ticket ${ticketNumber}`;
 

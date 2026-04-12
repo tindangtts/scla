@@ -15,7 +15,7 @@ export async function createStaff(formData: FormData) {
   const name = formData.get("name") as string;
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
-  const role = formData.get("role") as typeof staffUsersTable.role.enumValues[number];
+  const role = formData.get("role") as (typeof staffUsersTable.role.enumValues)[number];
 
   if (!name || !email || !password || !role) return;
 
@@ -65,7 +65,7 @@ export async function updateStaff(formData: FormData) {
 
   const staffId = formData.get("staffId") as string;
   const name = formData.get("name") as string;
-  const role = formData.get("role") as typeof staffUsersTable.role.enumValues[number];
+  const role = formData.get("role") as (typeof staffUsersTable.role.enumValues)[number];
   const isActive = formData.get("isActive") === "on";
 
   if (!staffId || !name || !role) return;

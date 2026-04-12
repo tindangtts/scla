@@ -36,9 +36,7 @@ export default async function MorePage() {
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
                     <p className="text-sm font-medium">{item.label}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {item.description}
-                    </p>
+                    <p className="text-xs text-muted-foreground">{item.description}</p>
                   </div>
                   <span className="text-muted-foreground">&rsaquo;</span>
                 </div>

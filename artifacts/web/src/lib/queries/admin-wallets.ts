@@ -4,18 +4,11 @@ import { eq, ilike, or, desc, sql } from "drizzle-orm";
 import type { User, WalletTransaction } from "@workspace/db/schema";
 
 export async function searchResidents(search?: string): Promise<User[]> {
-  let query = db
-    .select()
-    .from(usersTable)
-    .where(eq(usersTable.userType, "resident"))
-    .$dynamic();
+  let query = db.select().from(usersTable).where(eq(usersTable.userType, "resident")).$dynamic();
 
   if (search) {
     query = query.where(
-      or(
-        ilike(usersTable.name, `%${search}%`),
-        ilike(usersTable.email, `%${search}%`)
-      )
+      or(ilike(usersTable.name, `%${search}%`), ilike(usersTable.email, `%${search}%`)),
     );
   }
 
@@ -27,11 +20,7 @@ export async function getResidentWalletDetail(userId: string): Promise<{
   balance: string;
   recentTransactions: WalletTransaction[];
 }> {
-  const userRows = await db
-    .select()
-    .from(usersTable)
-    .where(eq(usersTable.id, userId))
-    .limit(1);
+  const userRows = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
 
   const user = userRows[0] ?? null;
 

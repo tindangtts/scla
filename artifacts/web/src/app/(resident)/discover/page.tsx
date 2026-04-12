@@ -38,7 +38,9 @@ export default async function DiscoverPage() {
                     <div className="space-y-1 min-w-0 flex-1">
                       <p className="text-sm font-medium">{item.title}</p>
                       <p className="text-xs text-muted-foreground line-clamp-2">{item.summary}</p>
-                      <p className="text-xs text-muted-foreground">{formatDate(item.publishedAt)}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {formatDate(item.publishedAt)}
+                      </p>
                     </div>
                     {item.isPinned && <Badge variant="secondary">Pinned</Badge>}
                   </div>

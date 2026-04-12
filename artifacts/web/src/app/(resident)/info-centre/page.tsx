@@ -18,15 +18,10 @@ export default async function InfoCentrePage({
   searchParams: Promise<{ category?: string }>;
 }) {
   const { category } = await searchParams;
-  const [categories, faqs] = await Promise.all([
-    getInfoCategories(),
-    getFaqs(),
-  ]);
+  const [categories, faqs] = await Promise.all([getInfoCategories(), getFaqs()]);
 
   const articles = category ? await getArticlesByCategory(category) : [];
-  const selectedCategory = category
-    ? categories.find((c) => c.id === category)
-    : null;
+  const selectedCategory = category ? categories.find((c) => c.id === category) : null;
 
   return (
     <div className="p-4 space-y-6">
@@ -35,10 +30,7 @@ export default async function InfoCentrePage({
       {category && selectedCategory ? (
         /* Articles for selected category */
         <section className="space-y-3">
-          <Link
-            href="/info-centre"
-            className="text-sm text-blue-600 hover:underline"
-          >
+          <Link href="/info-centre" className="text-sm text-blue-600 hover:underline">
             &larr; Back to categories
           </Link>
           <h3 className="text-lg font-semibold">
@@ -46,9 +38,7 @@ export default async function InfoCentrePage({
           </h3>
 
           {articles.length === 0 ? (
-            <p className="text-sm text-muted-foreground">
-              No articles in this category yet.
-            </p>
+            <p className="text-sm text-muted-foreground">No articles in this category yet.</p>
           ) : (
             articles.map((article) => (
               <Link key={article.id} href={`/info-centre/${article.id}`}>
@@ -73,9 +63,7 @@ export default async function InfoCentrePage({
         /* Category cards */
         <section className="space-y-3">
           {categories.length === 0 ? (
-            <p className="text-sm text-muted-foreground">
-              No categories available.
-            </p>
+            <p className="text-sm text-muted-foreground">No categories available.</p>
           ) : (
             categories.map((cat) => (
               <Link key={cat.id} href={`/info-centre?category=${cat.id}`}>
@@ -107,10 +95,7 @@ export default async function InfoCentrePage({
           <h3 className="text-lg font-semibold">Frequently Asked Questions</h3>
           <div className="space-y-2">
             {faqs.map((faq) => (
-              <details
-                key={faq.id}
-                className="border rounded-lg overflow-hidden"
-              >
+              <details key={faq.id} className="border rounded-lg overflow-hidden">
                 <summary className="px-4 py-3 text-sm font-medium cursor-pointer hover:bg-muted/50">
                   {faq.question}
                 </summary>

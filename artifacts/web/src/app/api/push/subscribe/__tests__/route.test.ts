@@ -63,7 +63,7 @@ describe("POST /api/push/subscribe", () => {
     mockGetUser.mockResolvedValue({ data: { user: null } });
 
     const res = await POST(
-      makeRequest({ endpoint: "https://push.example.com", p256dh: "key", auth: "auth" })
+      makeRequest({ endpoint: "https://push.example.com", p256dh: "key", auth: "auth" }),
     );
 
     expect(res.status).toBe(401);
@@ -74,9 +74,7 @@ describe("POST /api/push/subscribe", () => {
   it("returns 400 when subscription fields are missing", async () => {
     mockGetUser.mockResolvedValue({ data: { user: mockUser } });
 
-    const res = await POST(
-      makeRequest({ endpoint: "https://push.example.com" })
-    );
+    const res = await POST(makeRequest({ endpoint: "https://push.example.com" }));
 
     expect(res.status).toBe(400);
     const body = await res.json();
@@ -88,7 +86,7 @@ describe("POST /api/push/subscribe", () => {
     mockWhere.mockResolvedValue([]);
 
     const res = await POST(
-      makeRequest({ endpoint: "https://push.example.com", p256dh: "key", auth: "auth" })
+      makeRequest({ endpoint: "https://push.example.com", p256dh: "key", auth: "auth" }),
     );
 
     expect(res.status).toBe(404);
@@ -105,7 +103,7 @@ describe("POST /api/push/subscribe", () => {
         endpoint: "https://push.example.com/sub1",
         p256dh: "test-p256dh",
         auth: "test-auth",
-      })
+      }),
     );
 
     expect(res.status).toBe(200);

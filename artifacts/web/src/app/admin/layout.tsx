@@ -17,11 +17,7 @@ const navKeys = [
   { key: "wallets", href: "/admin/wallets" },
 ];
 
-export default async function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const { user, staff } = await requireAdmin();
   const t = await getTranslations("admin");
   const staffName = staff.name || user.email || "Admin";
@@ -38,11 +34,7 @@ export default async function AdminLayout({
 
         <nav className="flex flex-col gap-2 flex-1">
           {navKeys.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="px-3 py-2 rounded hover:bg-gray-700"
-            >
+            <Link key={item.href} href={item.href} className="px-3 py-2 rounded hover:bg-gray-700">
               {t(item.key as Parameters<typeof t>[0])}
             </Link>
           ))}
@@ -63,9 +55,7 @@ export default async function AdminLayout({
         </form>
       </aside>
 
-      <main className="flex-1 p-6 bg-gray-50 dark:bg-gray-950">
-        {children}
-      </main>
+      <main className="flex-1 p-6 bg-gray-50 dark:bg-gray-950">{children}</main>
     </div>
   );
 }

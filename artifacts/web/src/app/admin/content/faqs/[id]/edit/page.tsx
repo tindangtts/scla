@@ -9,11 +9,7 @@ import { updateFaq } from "../../actions";
 
 export const dynamic = "force-dynamic";
 
-export default async function EditFaqPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function EditFaqPage({ params }: { params: Promise<{ id: string }> }) {
   await requireAdmin();
   const { id } = await params;
   const faq = await getFaqById(id);
@@ -24,10 +20,7 @@ export default async function EditFaqPage({
 
   return (
     <div className="max-w-2xl">
-      <Link
-        href="/admin/content/faqs"
-        className="text-sm text-muted-foreground hover:underline"
-      >
+      <Link href="/admin/content/faqs" className="text-sm text-muted-foreground hover:underline">
         &larr; Back to FAQs
       </Link>
 
@@ -38,12 +31,7 @@ export default async function EditFaqPage({
 
         <div>
           <Label htmlFor="question">Question</Label>
-          <Input
-            id="question"
-            name="question"
-            defaultValue={faq.question}
-            required
-          />
+          <Input id="question" name="question" defaultValue={faq.question} required />
         </div>
 
         <div>
@@ -60,11 +48,7 @@ export default async function EditFaqPage({
 
         <div>
           <Label htmlFor="category">Category</Label>
-          <Input
-            id="category"
-            name="category"
-            defaultValue={faq.category}
-          />
+          <Input id="category" name="category" defaultValue={faq.category} />
         </div>
 
         <div>

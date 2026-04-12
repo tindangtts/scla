@@ -4,12 +4,7 @@ import { usersTable } from "@workspace/db/schema";
 import { eq } from "drizzle-orm";
 import { getBillById } from "@/lib/queries/bills";
 import { notFound } from "next/navigation";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { PayButton } from "./pay-button";
 
@@ -32,11 +27,7 @@ function statusVariant(status: string) {
   }
 }
 
-export default async function BillDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function BillDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const user = await requireAuth();
   const { id } = await params;
 
@@ -71,9 +62,7 @@ export default async function BillDetailPage({
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="text-lg">{bill.invoiceNumber}</CardTitle>
-            <Badge variant={statusVariant(bill.status)}>
-              {bill.status.replace("_", " ")}
-            </Badge>
+            <Badge variant={statusVariant(bill.status)}>{bill.status.replace("_", " ")}</Badge>
           </div>
         </CardHeader>
         <CardContent className="space-y-3">
@@ -123,12 +112,8 @@ export default async function BillDetailPage({
                   <tr key={item.id} className="border-b">
                     <td className="py-2">{item.description}</td>
                     <td className="py-2 text-right">{item.quantity}</td>
-                    <td className="py-2 text-right">
-                      {formatMMK(item.unitPrice)}
-                    </td>
-                    <td className="py-2 text-right">
-                      {formatMMK(item.amount)}
-                    </td>
+                    <td className="py-2 text-right">{formatMMK(item.unitPrice)}</td>
+                    <td className="py-2 text-right">{formatMMK(item.amount)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -137,9 +122,7 @@ export default async function BillDetailPage({
                   <td colSpan={3} className="pt-2 text-right">
                     Total
                   </td>
-                  <td className="pt-2 text-right">
-                    {formatMMK(bill.totalAmount)}
-                  </td>
+                  <td className="pt-2 text-right">{formatMMK(bill.totalAmount)}</td>
                 </tr>
                 {Number(bill.paidAmount) > 0 && (
                   <>
@@ -147,17 +130,13 @@ export default async function BillDetailPage({
                       <td colSpan={3} className="pt-1 text-right">
                         Paid
                       </td>
-                      <td className="pt-1 text-right">
-                        {formatMMK(bill.paidAmount)}
-                      </td>
+                      <td className="pt-1 text-right">{formatMMK(bill.paidAmount)}</td>
                     </tr>
                     <tr className="font-semibold">
                       <td colSpan={3} className="pt-1 text-right">
                         Remaining
                       </td>
-                      <td className="pt-1 text-right">
-                        {formatMMK(remainingAmount)}
-                      </td>
+                      <td className="pt-1 text-right">{formatMMK(remainingAmount)}</td>
                     </tr>
                   </>
                 )}
@@ -169,10 +148,7 @@ export default async function BillDetailPage({
 
       {/* Pay Button */}
       {bill.status !== "paid" && (
-        <PayButton
-          invoiceId={bill.id}
-          amount={formatMMK(remainingAmount)}
-        />
+        <PayButton invoiceId={bill.id} amount={formatMMK(remainingAmount)} />
       )}
     </div>
   );

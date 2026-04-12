@@ -14,7 +14,7 @@ interface CancelActionState {
 
 export async function cancelBooking(
   prevState: CancelActionState,
-  formData: FormData
+  formData: FormData,
 ): Promise<CancelActionState> {
   const bookingId = formData.get("bookingId") as string;
   const mode = formData.get("mode") as string; // "single" or "bulk"
@@ -43,9 +43,7 @@ export async function cancelBooking(
     const bookings = await db
       .select({ recurringGroupId: bookingsTable.recurringGroupId })
       .from(bookingsTable)
-      .where(
-        and(eq(bookingsTable.id, bookingId), eq(bookingsTable.userId, dbUser.id))
-      )
+      .where(and(eq(bookingsTable.id, bookingId), eq(bookingsTable.userId, dbUser.id)))
       .limit(1);
 
     const booking = bookings[0];
@@ -63,8 +61,8 @@ export async function cancelBooking(
           eq(bookingsTable.recurringGroupId, booking.recurringGroupId),
           eq(bookingsTable.userId, dbUser.id),
           eq(bookingsTable.status, "upcoming"),
-          gte(bookingsTable.date, today)
-        )
+          gte(bookingsTable.date, today),
+        ),
       );
   } else {
     // Single cancel
@@ -75,8 +73,8 @@ export async function cancelBooking(
         and(
           eq(bookingsTable.id, bookingId),
           eq(bookingsTable.userId, dbUser.id),
-          eq(bookingsTable.status, "upcoming")
-        )
+          eq(bookingsTable.status, "upcoming"),
+        ),
       );
   }
 

@@ -1,12 +1,7 @@
 import { requireAdmin } from "@/lib/auth";
 import { getUserById, getUserWalletBalance } from "@/lib/queries/admin-users";
 import { notFound } from "next/navigation";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -14,11 +9,7 @@ import { updateUserRole } from "./actions";
 
 export const dynamic = "force-dynamic";
 
-export default async function UserDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function UserDetailPage({ params }: { params: Promise<{ id: string }> }) {
   await requireAdmin();
   const { id } = await params;
 
@@ -31,10 +22,7 @@ export default async function UserDetailPage({
 
   return (
     <div>
-      <Link
-        href="/admin/users"
-        className="text-sm text-blue-600 hover:underline mb-4 inline-block"
-      >
+      <Link href="/admin/users" className="text-sm text-blue-600 hover:underline mb-4 inline-block">
         &larr; Back to Users
       </Link>
 
@@ -48,30 +36,22 @@ export default async function UserDetailPage({
           </CardHeader>
           <CardContent className="space-y-2 text-sm">
             <div>
-              <span className="text-muted-foreground">Email:</span>{" "}
-              {user.email}
+              <span className="text-muted-foreground">Email:</span> {user.email}
             </div>
             <div>
-              <span className="text-muted-foreground">Phone:</span>{" "}
-              {user.phone}
+              <span className="text-muted-foreground">Phone:</span> {user.phone}
             </div>
             <div>
               <span className="text-muted-foreground">Type:</span>{" "}
-              <Badge
-                variant={
-                  user.userType === "resident" ? "default" : "outline"
-                }
-              >
+              <Badge variant={user.userType === "resident" ? "default" : "outline"}>
                 {user.userType}
               </Badge>
             </div>
             <div>
-              <span className="text-muted-foreground">Unit Number:</span>{" "}
-              {user.unitNumber || "-"}
+              <span className="text-muted-foreground">Unit Number:</span> {user.unitNumber || "-"}
             </div>
             <div>
-              <span className="text-muted-foreground">Resident ID:</span>{" "}
-              {user.residentId || "-"}
+              <span className="text-muted-foreground">Resident ID:</span> {user.residentId || "-"}
             </div>
             <div>
               <span className="text-muted-foreground">Development:</span>{" "}
@@ -95,9 +75,7 @@ export default async function UserDetailPage({
                 minimumFractionDigits: 2,
               })}
             </p>
-            <p className="text-sm text-muted-foreground mt-1">
-              Current Balance
-            </p>
+            <p className="text-sm text-muted-foreground mt-1">Current Balance</p>
           </CardContent>
         </Card>
 
@@ -110,9 +88,7 @@ export default async function UserDetailPage({
             <form action={updateUserRole} className="flex items-end gap-3">
               <input type="hidden" name="userId" value={user.id} />
               <div className="flex-1">
-                <label className="text-sm text-muted-foreground block mb-1">
-                  User Role
-                </label>
+                <label className="text-sm text-muted-foreground block mb-1">User Role</label>
                 <select
                   name="newRole"
                   defaultValue={user.userType}

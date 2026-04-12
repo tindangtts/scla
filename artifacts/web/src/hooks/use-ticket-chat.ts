@@ -20,16 +20,13 @@ export function useTicketChat(
   initialMessages: TicketMessage[],
 ): UseTicketChatReturn {
   const [messages, setMessages] = useState<TicketMessage[]>(initialMessages);
-  const [connectionStatus, setConnectionStatus] =
-    useState<ConnectionStatus>("disconnected");
+  const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>("disconnected");
 
   const wsRef = useRef<WebSocket | null>(null);
   const pollIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const retriesRef = useRef(0);
   const mountedRef = useRef(true);
-  const messageIdsRef = useRef<Set<string>>(
-    new Set(initialMessages.map((m) => m.id)),
-  );
+  const messageIdsRef = useRef<Set<string>>(new Set(initialMessages.map((m) => m.id)));
 
   // Keep messageIds in sync
   useEffect(() => {
@@ -50,9 +47,7 @@ export function useTicketChat(
       const data: TicketMessage[] = await res.json();
 
       // Check for new messages
-      const newMessages = data.filter(
-        (m) => !messageIdsRef.current.has(m.id),
-      );
+      const newMessages = data.filter((m) => !messageIdsRef.current.has(m.id));
       if (newMessages.length > 0) {
         setMessages(data);
       }

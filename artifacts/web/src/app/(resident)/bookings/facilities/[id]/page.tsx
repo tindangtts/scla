@@ -60,10 +60,7 @@ export default async function FacilityDetailPage({
 
   return (
     <div className="p-4 space-y-4">
-      <Link
-        href="/bookings/facilities"
-        className="text-sm text-primary hover:underline"
-      >
+      <Link href="/bookings/facilities" className="text-sm text-primary hover:underline">
         &larr; Back to Facilities
       </Link>
 
@@ -75,27 +72,20 @@ export default async function FacilityDetailPage({
               {CATEGORY_LABELS[facility.category] ?? facility.category}
             </Badge>
           </div>
-          <p className="text-sm text-muted-foreground">
-            {facility.description}
-          </p>
+          <p className="text-sm text-muted-foreground">{facility.description}</p>
           <div className="grid grid-cols-2 gap-2 text-sm">
             <div>
               <span className="text-muted-foreground">Member Rate:</span>{" "}
-              <span className="font-medium">
-                {formatMMK(facility.memberRate)}/hr
-              </span>
+              <span className="font-medium">{formatMMK(facility.memberRate)}/hr</span>
             </div>
             <div>
               <span className="text-muted-foreground">Non-Member:</span>{" "}
-              <span className="font-medium">
-                {formatMMK(facility.nonMemberRate)}/hr
-              </span>
+              <span className="font-medium">{formatMMK(facility.nonMemberRate)}/hr</span>
             </div>
             <div>
               <span className="text-muted-foreground">Hours:</span>{" "}
               <span className="font-medium">
-                {facility.openingTime.substring(0, 5)} -{" "}
-                {facility.closingTime.substring(0, 5)}
+                {facility.openingTime.substring(0, 5)} - {facility.closingTime.substring(0, 5)}
               </span>
             </div>
             <div>

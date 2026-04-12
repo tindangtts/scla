@@ -1,8 +1,5 @@
 import { requireAdmin } from "@/lib/auth";
-import {
-  getAllBookings,
-  getAllFacilities,
-} from "@/lib/queries/admin-facilities";
+import { getAllBookings, getAllFacilities } from "@/lib/queries/admin-facilities";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 
@@ -64,10 +61,7 @@ export default async function AdminBookingsPage({
   return (
     <div>
       <div className="flex items-center gap-3 mb-4">
-        <Link
-          href="/admin/facilities"
-          className="text-sm text-muted-foreground hover:underline"
-        >
+        <Link href="/admin/facilities" className="text-sm text-muted-foreground hover:underline">
           &larr; Facilities
         </Link>
         <h1 className="text-2xl font-bold">Bookings ({bookings.length})</h1>
@@ -140,14 +134,11 @@ export default async function AdminBookingsPage({
                   <td className="p-2">{booking.userName}</td>
                   <td className="p-2">{booking.date}</td>
                   <td className="p-2">
-                    {booking.startTime.substring(0, 5)} -{" "}
-                    {booking.endTime.substring(0, 5)}
+                    {booking.startTime.substring(0, 5)} - {booking.endTime.substring(0, 5)}
                   </td>
                   <td className="p-2">{booking.totalAmount} MMK</td>
                   <td className="p-2">{bookingStatusBadge(booking.status)}</td>
-                  <td className="p-2">
-                    {paymentStatusBadge(booking.paymentStatus)}
-                  </td>
+                  <td className="p-2">{paymentStatusBadge(booking.paymentStatus)}</td>
                 </tr>
               ))}
             </tbody>

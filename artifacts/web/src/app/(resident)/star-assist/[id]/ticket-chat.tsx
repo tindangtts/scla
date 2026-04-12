@@ -41,10 +41,7 @@ export default function TicketChat({
   ticketId: string;
   initialMessages: TicketMessage[];
 }) {
-  const { messages, sendMessage, connectionStatus } = useTicketChat(
-    ticketId,
-    initialMessages,
-  );
+  const { messages, sendMessage, connectionStatus } = useTicketChat(ticketId, initialMessages);
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -81,10 +78,7 @@ export default function TicketChat({
       </CardHeader>
       <CardContent className="space-y-3">
         {/* Message list */}
-        <div
-          ref={scrollRef}
-          className="max-h-80 overflow-y-auto space-y-3 p-1"
-        >
+        <div ref={scrollRef} className="max-h-80 overflow-y-auto space-y-3 p-1">
           {messages.length === 0 && (
             <p className="text-sm text-muted-foreground text-center py-4">
               No messages yet. Start the conversation below.
@@ -93,15 +87,10 @@ export default function TicketChat({
           {messages.map((msg) => {
             const isOwn = msg.senderType === "resident";
             return (
-              <div
-                key={msg.id}
-                className={`flex flex-col ${isOwn ? "items-end" : "items-start"}`}
-              >
+              <div key={msg.id} className={`flex flex-col ${isOwn ? "items-end" : "items-start"}`}>
                 <div
                   className={`max-w-[80%] rounded-lg px-3 py-2 ${
-                    isOwn
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted"
+                    isOwn ? "bg-primary text-primary-foreground" : "bg-muted"
                   }`}
                 >
                   <p className="text-sm whitespace-pre-wrap">{msg.content}</p>

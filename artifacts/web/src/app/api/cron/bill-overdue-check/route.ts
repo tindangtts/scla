@@ -21,9 +21,7 @@ export async function POST(request: NextRequest) {
     conditions.push(lt(invoicesTable.dueDate, sql`current_date`));
   } else {
     // Only newly overdue: dueDate was yesterday
-    conditions.push(
-      sql`${invoicesTable.dueDate} = current_date - interval '1 day'`
-    );
+    conditions.push(sql`${invoicesTable.dueDate} = current_date - interval '1 day'`);
   }
 
   const overdueInvoices = await db
@@ -41,11 +39,7 @@ export async function POST(request: NextRequest) {
 
   for (const invoice of overdueInvoices) {
     try {
-      await notifyBillOverdue(
-        invoice.userId,
-        invoice.invoiceNumber,
-        Number(invoice.totalAmount)
-      );
+      await notifyBillOverdue(invoice.userId, invoice.invoiceNumber, Number(invoice.totalAmount));
       processed++;
     } catch {
       errors++;

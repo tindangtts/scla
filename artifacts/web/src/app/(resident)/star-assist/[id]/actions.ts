@@ -2,11 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { db } from "@/lib/db";
-import {
-  ticketMessagesTable,
-  ticketsTable,
-  usersTable,
-} from "@workspace/db/schema";
+import { ticketMessagesTable, ticketsTable, usersTable } from "@workspace/db/schema";
 import { eq } from "drizzle-orm";
 import { notifyNewMessage } from "@/lib/notifications";
 
@@ -51,8 +47,7 @@ export async function sendTicketMessage({
 
   // Broadcast to WebSocket clients (fire-and-forget, cross-process)
   try {
-    const wsBroadcastUrl =
-      process.env.WS_BROADCAST_URL || "http://localhost:3003/broadcast";
+    const wsBroadcastUrl = process.env.WS_BROADCAST_URL || "http://localhost:3003/broadcast";
     fetch(wsBroadcastUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -74,11 +69,9 @@ export async function sendTicketMessage({
       .limit(1);
 
     if (ticketRows.length > 0 && ticketRows[0].assignedTo) {
-      notifyNewMessage(
-        ticketRows[0].assignedTo,
-        ticketId,
-        ticketRows[0].ticketNumber
-      ).catch(() => {});
+      notifyNewMessage(ticketRows[0].assignedTo, ticketId, ticketRows[0].ticketNumber).catch(
+        () => {},
+      );
     }
   } catch {
     // Don't block the action on notification errors

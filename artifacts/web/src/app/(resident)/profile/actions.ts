@@ -8,7 +8,7 @@ import { eq } from "drizzle-orm";
 
 export async function updateProfile(
   prevState: { error?: string; success?: boolean },
-  formData: FormData
+  formData: FormData,
 ): Promise<{ error?: string; success?: boolean }> {
   const name = (formData.get("name") as string)?.trim();
   const phone = (formData.get("phone") as string)?.trim();

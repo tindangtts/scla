@@ -35,14 +35,9 @@ export function BookingForm({
       <div className="text-center py-4 space-y-3">
         <p className="text-green-600 font-medium">Booking confirmed!</p>
         {state.bookingNumber && (
-          <p className="text-sm text-muted-foreground">
-            Booking #: {state.bookingNumber}
-          </p>
+          <p className="text-sm text-muted-foreground">Booking #: {state.bookingNumber}</p>
         )}
-        <Link
-          href="/bookings"
-          className="text-primary hover:underline text-sm"
-        >
+        <Link href="/bookings" className="text-primary hover:underline text-sm">
           View your bookings
         </Link>
       </div>
@@ -54,9 +49,7 @@ export function BookingForm({
       <h3 className="text-base font-semibold">Available Slots</h3>
 
       {slots.length === 0 ? (
-        <p className="text-sm text-muted-foreground">
-          No slots available for this date.
-        </p>
+        <p className="text-sm text-muted-foreground">No slots available for this date.</p>
       ) : (
         <div className="grid grid-cols-3 gap-2">
           {slots.map((slot) => (
@@ -65,9 +58,7 @@ export function BookingForm({
               type="button"
               disabled={slot.isBooked}
               onClick={() =>
-                setSelectedSlot(
-                  selectedSlot === slot.startTime ? null : slot.startTime
-                )
+                setSelectedSlot(selectedSlot === slot.startTime ? null : slot.startTime)
               }
               className={`rounded-md border px-2 py-2 text-sm transition-colors ${
                 slot.isBooked
@@ -92,12 +83,7 @@ export function BookingForm({
           <input
             type="hidden"
             name="endTime"
-            value={
-              String(parseInt(selectedSlot.split(":")[0], 10) + 1).padStart(
-                2,
-                "0"
-              ) + ":00"
-            }
+            value={String(parseInt(selectedSlot.split(":")[0], 10) + 1).padStart(2, "0") + ":00"}
           />
           <input type="hidden" name="rate" value={rate} />
 
@@ -146,9 +132,7 @@ export function BookingForm({
             />
           </div>
 
-          {state.error && (
-            <p className="text-sm text-red-600">{state.error}</p>
-          )}
+          {state.error && <p className="text-sm text-red-600">{state.error}</p>}
 
           <div className="text-sm text-muted-foreground">
             Total:{" "}
@@ -159,11 +143,7 @@ export function BookingForm({
           </div>
 
           <Button type="submit" className="w-full" disabled={isPending}>
-            {isPending
-              ? "Booking..."
-              : recurring
-                ? `Book ${weeks} Weekly Slots`
-                : "Book Slot"}
+            {isPending ? "Booking..." : recurring ? `Book ${weeks} Weekly Slots` : "Book Slot"}
           </Button>
         </form>
       )}

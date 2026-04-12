@@ -9,7 +9,7 @@ import { getWalletBalance } from "@/lib/queries/wallet";
 
 export async function payInvoice(
   prevState: { error?: string; success?: boolean },
-  formData: FormData
+  formData: FormData,
 ): Promise<{ error?: string; success?: boolean }> {
   const invoiceId = formData.get("invoiceId") as string;
   if (!invoiceId) {

@@ -6,8 +6,7 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type ListInvoicesStatus =
-  (typeof ListInvoicesStatus)[keyof typeof ListInvoicesStatus];
+export type ListInvoicesStatus = (typeof ListInvoicesStatus)[keyof typeof ListInvoicesStatus];
 
 export const ListInvoicesStatus = {
   unpaid: "unpaid",
