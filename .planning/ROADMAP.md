@@ -106,7 +106,9 @@ See `.planning/milestones/v3.0-ROADMAP.md` for full details.
   4. Preview deployment builds successfully; smoke test (resident login, resident dashboard, admin login, admin dashboard) passes against Supabase
   5. Production deployment on `main` branch is reachable over HTTPS at a `*.vercel.app` (or custom) domain, and ticket chat works via polling fallback with WebSocket deferral documented in-repo
   6. Replit-specific config (`.replit`, `replit.md`) is removed or archived — no residual Replit deploy signals in the repo
-**Plans**: TBD
+**Plans**: 2 plans
+  - [x] 35-01-PLAN.md — Deploy prep: vercel.json, cron handler GET/Bearer support, .env.example, DEPLOYMENT.md, remove Replit (autonomous)
+  - [ ] 35-02-PLAN.md — Deploy execution: vercel CLI link, env vars, preview + prod deploy, cron verification (requires user)
 
 ## v3.1 Coverage
 
@@ -145,4 +147,4 @@ See `.planning/milestones/v3.0-ROADMAP.md` for full details.
 | 24-32 | v3.0 | 21 | Complete | 2026-04-12 |
 | 33 | v3.1 | 1/1 | Complete    | 2026-04-12 |
 | 34 | v3.1 | 1/1 | Complete    | 2026-04-12 |
-| 35 | v3.1 | 0/? | Not started | — |
+| 35 | v3.1 | 1/2 | In Progress|  |

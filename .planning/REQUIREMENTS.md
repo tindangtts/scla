@@ -28,17 +28,17 @@ Requirements for Deploy-Ready Polish milestone. Each maps to roadmap phases.
 
 ### Deployment
 
-- [ ] **DEPLOY-01**: Vercel project configured with correct monorepo root (`artifacts/web`), install command (`pnpm install --frozen-lockfile`), and build command
+- [x] **DEPLOY-01**: Vercel project configured with correct monorepo root (`artifacts/web`), install command (`pnpm install --frozen-lockfile`), and build command
 - [ ] **DEPLOY-02**: All required env vars set in Vercel project settings (Supabase URL, anon key, service role, database URL, VAPID keys, Resend, CRON_SECRET)
-- [ ] **DEPLOY-03**: Vercel Cron schedule created to hit POST /api/cron/bill-overdue-check daily with x-cron-secret header
+- [x] **DEPLOY-03**: Vercel Cron schedule created to hit POST /api/cron/bill-overdue-check daily with x-cron-secret header
 - [ ] **DEPLOY-04**: Preview deployment succeeds, smoke test passes (login, resident dashboard, admin dashboard all render correctly against Supabase)
 - [ ] **DEPLOY-05**: Production deployment on main branch, custom or *.vercel.app domain reachable over HTTPS
-- [ ] **DEPLOY-06**: Replit-specific config (.replit, replit.md) removed or archived — Vercel is the deploy target
+- [x] **DEPLOY-06**: Replit-specific config (.replit, replit.md) removed or archived — Vercel is the deploy target
 
 ### WebSocket Strategy
 
-- [ ] **WS-01**: Ticket chat operates on polling fallback in production (WebSocket server not deployed) — verified working
-- [ ] **WS-02**: Supabase Realtime migration tracked as Future (ENH-04) — not scoped in v3.1
+- [x] **WS-01**: Ticket chat operates on polling fallback in production (WebSocket server not deployed) — verified working
+- [x] **WS-02**: Supabase Realtime migration tracked as Future (ENH-04) — not scoped in v3.1
 
 ## Future Requirements
 
@@ -79,14 +79,14 @@ Which phases cover which requirements. Updated during roadmap creation.
 | I18N-03 | Phase 34 | Complete |
 | TYPE-01 | Phase 34 | Complete |
 | TYPE-02 | Phase 34 | Complete |
-| DEPLOY-01 | Phase 35 | Pending |
+| DEPLOY-01 | Phase 35 | Complete |
 | DEPLOY-02 | Phase 35 | Pending |
-| DEPLOY-03 | Phase 35 | Pending |
+| DEPLOY-03 | Phase 35 | Complete |
 | DEPLOY-04 | Phase 35 | Pending |
 | DEPLOY-05 | Phase 35 | Pending |
-| DEPLOY-06 | Phase 35 | Pending |
-| WS-01 | Phase 35 | Pending |
-| WS-02 | Phase 35 | Pending |
+| DEPLOY-06 | Phase 35 | Complete |
+| WS-01 | Phase 35 | Complete |
+| WS-02 | Phase 35 | Complete |
 
 **Coverage:**
 - v3.1 requirements: 19 total
