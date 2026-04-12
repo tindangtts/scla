@@ -2,9 +2,10 @@ import { requireAuth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { usersTable } from "@workspace/db/schema";
 import { eq } from "drizzle-orm";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { AppHeader } from "@/components/layout/app-header";
 import { EditForm } from "./edit-form";
+import { formatDate } from "@/lib/format";
+import { Mail, Phone, MapPin, Building2, BadgeCheck, CalendarDays } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -21,75 +22,105 @@ export default async function ProfilePage() {
 
   if (!dbUser) {
     return (
-      <div className="p-4">
-        <Card>
-          <CardContent className="pt-6">
-            <p className="text-muted-foreground">User account not found. Please contact support.</p>
-          </CardContent>
-        </Card>
-      </div>
+      <>
+        <AppHeader name="Profile" />
+        <div className="p-5">
+          <p className="text-muted-foreground">User account not found. Please contact support.</p>
+        </div>
+      </>
     );
   }
 
+  const initials = dbUser.name
+    .split(" ")
+    .slice(0, 2)
+    .map((s) => s.charAt(0).toUpperCase())
+    .join("");
+
+  const isResident = dbUser.userType === "resident";
+
   return (
-    <div className="p-4 space-y-4">
-      <h2 className="text-xl font-bold">Profile</h2>
+    <>
+      <AppHeader name="Profile" subtitle={isResident ? "Verified resident" : "Guest account"} />
 
-      {/* Profile Info */}
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-lg">{dbUser.name}</CardTitle>
-            <Badge variant={dbUser.userType === "resident" ? "default" : "secondary"}>
-              {dbUser.userType}
-            </Badge>
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          <div className="grid grid-cols-1 gap-3 text-sm">
-            <div>
-              <p className="text-muted-foreground">Email</p>
-              <p className="font-medium">{dbUser.email}</p>
+      <div className="px-5 -mt-8 pb-8 relative z-20 space-y-5">
+        {/* Identity card */}
+        <div className="rounded-[1.75rem] bg-card border border-card-border p-6 shadow-sm">
+          <div className="flex items-center gap-4">
+            <div
+              aria-hidden="true"
+              className="w-16 h-16 rounded-2xl bg-gradient-teal text-primary-foreground flex items-center justify-center text-xl font-extrabold tracking-tight shadow-md shadow-primary/20"
+            >
+              {initials || "U"}
             </div>
-            <div>
-              <p className="text-muted-foreground">Phone</p>
-              <p className="font-medium">{dbUser.phone}</p>
-            </div>
-            {dbUser.unitNumber && (
-              <div>
-                <p className="text-muted-foreground">Unit Number</p>
-                <p className="font-medium">{dbUser.unitNumber}</p>
-              </div>
-            )}
-            {dbUser.residentId && (
-              <div>
-                <p className="text-muted-foreground">Resident ID</p>
-                <p className="font-medium">{dbUser.residentId}</p>
-              </div>
-            )}
-            {dbUser.developmentName && (
-              <div>
-                <p className="text-muted-foreground">Development</p>
-                <p className="font-medium">{dbUser.developmentName}</p>
-              </div>
-            )}
-            <div>
-              <p className="text-muted-foreground">Member Since</p>
-              <p className="font-medium">{new Date(dbUser.createdAt).toLocaleDateString()}</p>
+            <div className="min-w-0">
+              <h2 className="text-lg font-extrabold tracking-tight truncate">{dbUser.name}</h2>
+              <p className="text-sm text-muted-foreground truncate">{dbUser.email}</p>
+              <span
+                className={`inline-flex items-center gap-1 mt-2 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                  isResident
+                    ? "bg-primary/10 text-primary"
+                    : "bg-accent/15 text-accent-foreground"
+                }`}
+              >
+                <BadgeCheck className="w-3 h-3" aria-hidden="true" />
+                {isResident ? "Resident" : "Guest"}
+              </span>
             </div>
           </div>
-        </CardContent>
-      </Card>
 
-      {/* Edit Form */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Edit Profile</CardTitle>
-        </CardHeader>
-        <CardContent>
+          <dl className="grid grid-cols-1 gap-0 mt-6 border-t border-border divide-y divide-border">
+            <ProfileField icon={Mail} label="Email" value={dbUser.email} />
+            <ProfileField icon={Phone} label="Phone" value={dbUser.phone} />
+            {dbUser.unitNumber ? (
+              <ProfileField icon={MapPin} label="Unit number" value={dbUser.unitNumber} />
+            ) : null}
+            {dbUser.residentId ? (
+              <ProfileField icon={BadgeCheck} label="Resident ID" value={dbUser.residentId} />
+            ) : null}
+            {dbUser.developmentName ? (
+              <ProfileField icon={Building2} label="Development" value={dbUser.developmentName} />
+            ) : null}
+            <ProfileField
+              icon={CalendarDays}
+              label="Member since"
+              value={formatDate(dbUser.createdAt)}
+            />
+          </dl>
+        </div>
+
+        {/* Edit form */}
+        <section aria-labelledby="edit-profile-heading" className="rounded-2xl bg-card border border-card-border p-5 shadow-sm">
+          <h3 id="edit-profile-heading" className="text-base font-bold tracking-tight mb-4">
+            Edit profile
+          </h3>
           <EditForm name={dbUser.name} phone={dbUser.phone} />
-        </CardContent>
-      </Card>
+        </section>
+      </div>
+    </>
+  );
+}
+
+function ProfileField({
+  icon: Icon,
+  label,
+  value,
+}: {
+  icon: typeof Mail;
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="flex items-center gap-3 py-3">
+      <div className="p-2 rounded-xl bg-muted text-muted-foreground shrink-0">
+        <Icon className="w-4 h-4" aria-hidden="true" />
+      </div>
+      <div className="min-w-0 flex-1">
+        <dt className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+          {label}
+        </dt>
+        <dd className="text-sm font-semibold text-foreground truncate">{value}</dd>
+      </div>
     </div>
   );
 }
