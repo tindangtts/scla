@@ -1,22 +1,32 @@
 # Milestones
 
-## v3.0 Next.js Migration (Shipped: 2026-04-11)
+## v3.0 Next.js Migration (Shipped: 2026-04-12)
 
-**Phases completed:** 8 phases (24-31), 19 plans, 88 commits
-**Goal:** Migrate entire SCLA stack from separate React SPAs + Express to unified Next.js 15 App Router with Supabase Auth
-**Requirements:** 49 total (all satisfied)
+**Phases completed:** 9 phases, 21 plans, 42 tasks
 
 **Key accomplishments:**
 
-- Next.js 15 App Router monolith replacing 3 separate apps (scla, admin, api-server)
-- Supabase Auth (email/password) replacing custom JWT with cookie-based sessions
-- Resident portal: home dashboard, bills/payment, wallet, tickets, bookings, discover, info centre, notifications, profile
-- Admin portal: KPI dashboard, user management, ticket/facility/content management, staff, audit logs, wallet operations
-- WebSocket real-time chat with HTTP broadcast bridge and polling fallback
-- Push notifications (VAPID), transactional email (Resend), in-app notification bell
-- i18n (English + Myanmar via next-intl), dark mode (next-themes), PWA with offline support
-- 36 unit/integration tests (Vitest), 8 Playwright E2E tests, GitHub Actions CI pipeline
-- shadcn/ui component library, loading skeletons, error boundaries across all routes
+- Next.js 15 App Router with Supabase SSR, Drizzle ORM via @workspace/db, Tailwind CSS 4, and dual route groups (resident mobile-first + admin sidebar)
+- shadcn/ui component library (Button, Card, Input, Badge) with CSS variable theming, seed script ported to scripts workspace, legacy apps removed
+- Supabase Auth login/register/admin-login with Server Actions, middleware route protection, and layout auth guards using getUser() validation
+- Guest-to-resident upgrade form with admin approval workflow and idempotent Supabase Auth user seeding for all demo accounts
+- Resident dashboard with guest/resident split, bills list with status filtering, invoice payment from wallet, wallet balance view, and profile management
+- Maintenance ticket system with list/detail/creation pages, 8-category selection, photo upload (base64), and status filtering
+- SCSC facility browsing with hourly slot picker, single/recurring booking creation, and cancel/bulk-cancel via Server Actions
+- Discover page with announcements/newsletters/promotions, Info Centre with categorized articles and FAQs, notification list with mark-as-read and email preferences, and More menu navigation
+- Admin dashboard with 6 KPI stat cards, user list with search/filter, user detail with role assignment, and complete 9-item sidebar navigation
+- Admin pages for ticket management with status/assignment, facility/booking oversight, and full content CRUD (announcements, promotions, FAQs) with audit logging
+- Staff CRUD with Supabase Auth sync, filterable audit log viewer, and admin wallet credit/debit with dual audit trail
+- WebSocket real-time chat on ticket detail pages with ws library, REST API for persistence, and automatic polling fallback
+- Web Push notifications via VAPID service worker and transactional email via Resend with unified notification triggers
+- NotificationBell component with red unread badge in resident header, plus notification triggers wired into ticket status changes and message sending
+- Cross-process HTTP broadcast endpoint wiring broadcastToTicket() from Next.js message inserts to WS server
+- POST /api/cron/bill-overdue-check endpoint that queries overdue invoices and calls notifyBillOverdue() for each, closing the COMM-04 notification gap
+- next-intl i18n with English/Myanmar translations, next-themes dark mode with system detection, and responsive bottom nav hidden on desktop
+- PWA manifest with offline caching service worker, 18 route-level loading skeletons, and error boundaries for resident and admin sections
+- Vitest test suite with 36 tests covering auth/notification/push helpers and all 4 API route handlers using mocked Supabase and Drizzle
+- Playwright E2E tests rewritten for Next.js (login, tickets, bookings) with GitHub Actions CI running format, typecheck, and unit tests
+- Renamed admin route group to /admin segment, fixed revalidatePath, added client-side bottom nav, dark mode cards, and formatted 153 files
 
 ---
 

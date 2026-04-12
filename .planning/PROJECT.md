@@ -2,7 +2,7 @@
 
 ## What This Is
 
-A production-grade resident community management web application for StarCity Estate in Yangon, Myanmar, serving 9,000+ residents across three developments (City Loft, Estella, ARA). Provides residents with bill management (with wallet-based payment), maintenance ticketing with real-time WebSocket chat, facility bookings (including recurring), push/email notifications, community announcements, audit-logged admin portal, and comprehensive test coverage — all with Myanmar language support, dark mode, offline access, and CI/CD automation.
+A production-grade resident community management web application for StarCity Estate in Yangon, Myanmar, serving 9,000+ residents across three developments (City Loft, Estella, ARA). Built on Next.js 15 App Router with Supabase Auth, providing residents with bill management (with wallet-based payment), maintenance ticketing with real-time WebSocket chat, facility bookings (including recurring), push/email notifications, community announcements, audit-logged admin portal, and comprehensive test coverage — all with Myanmar language support, dark mode, offline PWA access, and CI/CD automation.
 
 ## Core Value
 
@@ -73,30 +73,29 @@ Residents can manage their apartment lifecycle — bills, maintenance, bookings,
 
 ### Active
 
-<!-- v3.0 Next.js Migration -->
+(To be defined for next milestone)
 
-- [ ] Migrate resident app (artifacts/scla) to Next.js App Router with Server Components
-- [ ] Migrate admin portal (artifacts/admin) to Next.js with role-based routing
-- [ ] Replace Express API (artifacts/api-server) with Next.js API routes / Server Actions
-- [ ] Replace custom JWT auth with Supabase Auth (email/password)
-- [ ] Supabase Auth middleware for route protection (resident vs admin roles)
-- [ ] Preserve all existing functionality: bills, tickets, bookings, wallet, notifications, chat
-- [ ] Migrate i18n (English + Myanmar) to next-intl or equivalent
-- [ ] Migrate dark mode and PWA/offline support to Next.js
-- [ ] Migrate WebSocket real-time chat to Next.js architecture
-- [ ] Migrate E2E and integration tests to Next.js test infrastructure
+<details>
+<summary>v3.0 Next.js Migration (49 requirements)</summary>
 
-## Current Milestone: v3.0 Next.js Migration
+- ✓ Next.js 15 App Router foundation with Supabase SSR and Drizzle ORM — v3.0 (Phase 24)
+- ✓ Supabase Auth replacing custom JWT with middleware route protection — v3.0 (Phase 25)
+- ✓ Guest-to-resident upgrade workflow with admin approval — v3.0 (Phase 25)
+- ✓ Resident dashboard, bills, wallet, tickets, profile migrated to Server Components — v3.0 (Phase 26)
+- ✓ Facility bookings (including recurring), discover, info centre, notifications migrated — v3.0 (Phase 27)
+- ✓ Admin portal: dashboard, users, tickets, content, staff, audit logs, wallets — v3.0 (Phase 28)
+- ✓ WebSocket real-time chat with HTTP broadcast bridge and polling fallback — v3.0 (Phase 29)
+- ✓ Web Push notifications and transactional email via Resend — v3.0 (Phase 29)
+- ✓ In-app notification bell with unread count — v3.0 (Phase 29)
+- ✓ Bill-overdue cron endpoint triggering notifications — v3.0 (Phase 29 gap closure)
+- ✓ i18n (English/Myanmar) via next-intl with cookie-based locale — v3.0 (Phase 30)
+- ✓ Dark mode via next-themes with system detection — v3.0 (Phase 30)
+- ✓ PWA with offline caching and 18 loading skeletons — v3.0 (Phase 30)
+- ✓ 36 unit/integration tests (Vitest) and 8 Playwright E2E tests — v3.0 (Phase 31)
+- ✓ GitHub Actions CI pipeline (format, typecheck, tests) — v3.0 (Phase 31)
+- ✓ Admin routing fix and code-wide Prettier formatting — v3.0 (Phase 32)
 
-**Goal:** Migrate the entire SCLA stack from separate React SPAs + Express backend into a unified Next.js application with Supabase Auth, preserving all v2.1 functionality.
-
-**Target features:**
-- Unified Next.js App Router replacing 3 separate apps
-- Server Components + Server Actions replacing Express REST + client fetching
-- Supabase Auth replacing custom JWT
-- Middleware-based route protection (resident vs admin)
-- Preserved functionality: bills, tickets, bookings, wallet, chat, notifications, admin
-- Incremental migration with feature parity validation
+</details>
 
 ### Out of Scope
 
@@ -108,19 +107,18 @@ Residents can manage their apartment lifecycle — bills, maintenance, bookings,
 
 ## Context
 
-- **Shipped:** v2.1 Quality & Infrastructure Gaps on 2026-04-11
-- **Codebase:** ~38,000 LOC TypeScript across frontend, admin, backend, and tests
-- **Test coverage:** 95+ unit/integration tests (Vitest), 3 E2E test suites (Playwright)
-- **Pre-migration stack**: React 19 + Vite (2 SPAs) + Express 5 + Drizzle ORM + PostgreSQL
-- **Migration target**: Next.js 15 + App Router + Supabase Auth + Drizzle ORM + PostgreSQL (Supabase)
-- **Monorepo**: PNPM workspaces — migrating from multi-app to unified Next.js
-- **UI**: Tailwind CSS 4 + Radix UI, mobile-first, dark mode enabled
-- **i18n**: react-i18next → next-intl (English + Myanmar, 107 translation keys)
-- **Auth**: custom JWT → Supabase Auth (email/password)
-- **Notifications**: Web Push (VAPID) + Resend email + in-app notifications
-- **Real-time**: WebSocket (ws) for ticket chat, polling fallback
-- **CI/CD**: GitHub Actions (lint + typecheck + test + deploy), daily DB backup
-- **Branch**: `migrate-nextjs` — active migration branch
+- **Shipped:** v3.0 Next.js Migration on 2026-04-12
+- **Codebase:** Unified Next.js 15 app at `artifacts/web/` with Drizzle schema at `lib/db/`
+- **Stack**: Next.js 15 App Router + Supabase Auth + Supabase PostgreSQL + Drizzle ORM + TypeScript
+- **UI**: Tailwind CSS 4 + shadcn/ui (Radix primitives), mobile-first with bottom nav, dark mode
+- **i18n**: next-intl with English + Myanmar, cookie-based locale switching
+- **Auth**: Supabase Auth (email/password) with cookie sessions and middleware route protection
+- **Route groups**: `/admin/*` for staff, `(resident)` group at root for residents
+- **Notifications**: Web Push (VAPID) + Resend email + in-app notification bell
+- **Real-time**: WebSocket (ws library) for ticket chat with HTTP broadcast bridge (port 3003) and polling fallback
+- **Test coverage:** 36 Vitest unit/integration tests + 8 Playwright E2E tests
+- **CI/CD**: GitHub Actions (format, typecheck, tests) on every push/PR
+- **Branch**: `migrate-nextjs` — merged v3.0 work
 
 ## Constraints
 
@@ -146,8 +144,15 @@ Residents can manage their apartment lifecycle — bills, maintenance, bookings,
 | Prettier for lint (no ESLint) | Sufficient for formatting, lightweight | ✓ Good |
 | Base64 image storage | MVP simplicity, upgrade to Supabase Storage later | — Pending |
 | Mock payment integration | WavePay/KBZPay deferred, missing gateway docs | — Pending |
-| Next.js over continuing Vite+Express | Unified SSR, Server Components, Supabase ecosystem alignment | — Pending |
-| Supabase Auth over custom JWT | Managed auth, row-level security, session management | — Pending |
+| Next.js over continuing Vite+Express | Unified SSR, Server Components, Supabase ecosystem alignment | ✓ Good |
+| Supabase Auth over custom JWT | Managed auth, cookie sessions, user metadata for roles | ✓ Good |
+| @supabase/ssr for Next.js | Official pattern for server/client/middleware helpers | ✓ Good |
+| Drizzle ORM retained through migration | Type-safe, schema already production-tested | ✓ Good |
+| shadcn/ui over full component library | Composable, owned components, no vendor lock-in | ✓ Good |
+| next-intl with cookie-based locale | No URL restructuring, SSR-compatible, instant switch via router.refresh() | ✓ Good |
+| Standalone WS server over Next.js custom server | Next.js doesn't natively support WS upgrade; simpler separate process | ✓ Good |
+| HTTP broadcast bridge (port 3003) over Redis pub/sub | Single-instance deployment, no extra infra | ✓ Good |
+| Route segment `admin/` over `(admin)` group | Route groups don't add URL prefix — caused routing issues in Phase 28, fixed in Phase 32 | ✓ Good |
 
 ## Evolution
 
@@ -167,4 +172,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-11 after v3.0 milestone start*
+*Last updated: 2026-04-12 after v3.0 milestone completion*
