@@ -6,8 +6,7 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type HomeSummaryUserType =
-  (typeof HomeSummaryUserType)[keyof typeof HomeSummaryUserType];
+export type HomeSummaryUserType = (typeof HomeSummaryUserType)[keyof typeof HomeSummaryUserType];
 
 export const HomeSummaryUserType = {
   guest: "guest",

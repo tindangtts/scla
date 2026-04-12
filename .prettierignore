@@ -1,0 +1,8 @@
+node_modules
+dist
+.replit
+pnpm-lock.yaml
+*.min.js
+.claude/
+.planning/
+.serena/

@@ -1,0 +1,51 @@
+{
+  "name": "@workspace/web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@radix-ui/react-label": "^2.1.8",
+    "@radix-ui/react-slot": "^1.2.4",
+    "@supabase/ssr": "^0.6",
+    "@supabase/supabase-js": "^2",
+    "@workspace/db": "workspace:*",
+    "bcryptjs": "^3.0.3",
+    "class-variance-authority": "catalog:",
+    "clsx": "catalog:",
+    "drizzle-orm": "catalog:",
+    "lucide-react": "catalog:",
+    "next": "^15",
+    "next-intl": "^4.9.1",
+    "next-themes": "^0.4.6",
+    "pg": "^8.20.0",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "resend": "^6.10.0",
+    "tailwind-merge": "catalog:",
+    "tailwindcss": "catalog:",
+    "web-push": "^3.6.7",
+    "ws": "^8.20.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/bcryptjs": "^3.0.0",
+    "@types/node": "catalog:",
+    "@types/pg": "^8.18.0",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@types/web-push": "^3.6.4",
+    "@types/ws": "^8.18.1",
+    "@vitejs/plugin-react": "catalog:",
+    "postcss": "^8",
+    "typescript": "~5.9.2",
+    "vitest": "^4.1.4"
+  }
+}

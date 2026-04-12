@@ -1,0 +1,14 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "pnpm install --frozen-lockfile",
+  "buildCommand": "pnpm --filter @workspace/web build",
+  "framework": "nextjs",
+  "outputDirectory": "artifacts/web/.next",
+  "regions": ["sin1"],
+  "crons": [
+    {
+      "path": "/api/cron/bill-overdue-check",
+      "schedule": "0 2 * * *"
+    }
+  ]
+}

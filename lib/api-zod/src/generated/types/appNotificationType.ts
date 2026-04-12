@@ -6,8 +6,7 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type AppNotificationType =
-  (typeof AppNotificationType)[keyof typeof AppNotificationType];
+export type AppNotificationType = (typeof AppNotificationType)[keyof typeof AppNotificationType];
 
 export const AppNotificationType = {
   ticket_update: "ticket_update",

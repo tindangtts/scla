@@ -6,8 +6,7 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type BookingPaymentStatus =
-  (typeof BookingPaymentStatus)[keyof typeof BookingPaymentStatus];
+export type BookingPaymentStatus = (typeof BookingPaymentStatus)[keyof typeof BookingPaymentStatus];
 
 export const BookingPaymentStatus = {
   pending: "pending",

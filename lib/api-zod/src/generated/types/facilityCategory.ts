@@ -6,8 +6,7 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type FacilityCategory =
-  (typeof FacilityCategory)[keyof typeof FacilityCategory];
+export type FacilityCategory = (typeof FacilityCategory)[keyof typeof FacilityCategory];
 
 export const FacilityCategory = {
   swimming_pool: "swimming_pool",

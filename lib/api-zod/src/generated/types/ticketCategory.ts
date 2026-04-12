@@ -6,8 +6,7 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type TicketCategory =
-  (typeof TicketCategory)[keyof typeof TicketCategory];
+export type TicketCategory = (typeof TicketCategory)[keyof typeof TicketCategory];
 
 export const TicketCategory = {
   electricals: "electricals",

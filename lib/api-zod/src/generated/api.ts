@@ -46,9 +46,7 @@ export const LoginUserResponse = zod.object({
     residentId: zod.string().nullish(),
     estateId: zod.string().nullish(),
     developmentName: zod.string().nullish(),
-    upgradeStatus: zod
-      .enum(["none", "pending", "approved", "rejected"])
-      .nullish(),
+    upgradeStatus: zod.enum(["none", "pending", "approved", "rejected"]).nullish(),
     createdAt: zod.coerce.date(),
   }),
 });
@@ -66,9 +64,7 @@ export const GetCurrentUserResponse = zod.object({
   residentId: zod.string().nullish(),
   estateId: zod.string().nullish(),
   developmentName: zod.string().nullish(),
-  upgradeStatus: zod
-    .enum(["none", "pending", "approved", "rejected"])
-    .nullish(),
+  upgradeStatus: zod.enum(["none", "pending", "approved", "rejected"]).nullish(),
   createdAt: zod.coerce.date(),
 });
 
@@ -111,9 +107,7 @@ export const ListUpgradeRequestsResponseItem = zod.object({
   reviewedAt: zod.coerce.date().nullish(),
   reviewNote: zod.string().nullish(),
 });
-export const ListUpgradeRequestsResponse = zod.array(
-  ListUpgradeRequestsResponseItem,
-);
+export const ListUpgradeRequestsResponse = zod.array(ListUpgradeRequestsResponseItem);
 
 /**
  * @summary Approve a resident upgrade request (admin)
@@ -177,9 +171,7 @@ export const ListAnnouncementsResponseItem = zod.object({
   publishedAt: zod.coerce.date(),
   isPinned: zod.boolean(),
 });
-export const ListAnnouncementsResponse = zod.array(
-  ListAnnouncementsResponseItem,
-);
+export const ListAnnouncementsResponse = zod.array(ListAnnouncementsResponseItem);
 
 /**
  * @summary Get a single announcement
@@ -307,9 +299,7 @@ export const GetInvoiceResponse = zod.object({
  * @summary Get billing summary (total outstanding, this month, count)
  */
 export const GetInvoiceSummaryResponse = zod.object({
-  totalOutstanding: zod
-    .number()
-    .describe("Total unpaid + partially paid amount in MMK"),
+  totalOutstanding: zod.number().describe("Total unpaid + partially paid amount in MMK"),
   totalThisMonth: zod.number(),
   unpaidCount: zod.number(),
   partiallyPaidCount: zod.number(),
@@ -616,9 +606,7 @@ export const ListInfoCategoriesResponseItem = zod.object({
   description: zod.string(),
   articleCount: zod.number(),
 });
-export const ListInfoCategoriesResponse = zod.array(
-  ListInfoCategoriesResponseItem,
-);
+export const ListInfoCategoriesResponse = zod.array(ListInfoCategoriesResponseItem);
 
 /**
  * @summary List info articles
@@ -662,10 +650,7 @@ export const GetInfoArticleResponse = zod.object({
  */
 export const GetHomeSummaryResponse = zod.object({
   userType: zod.enum(["guest", "resident"]),
-  outstandingBalance: zod
-    .number()
-    .nullish()
-    .describe("Total outstanding in MMK (residents only)"),
+  outstandingBalance: zod.number().nullish().describe("Total outstanding in MMK (residents only)"),
   unpaidInvoiceCount: zod.number().nullish(),
   openTicketCount: zod.number(),
   unitNumber: zod.string().nullish(),
@@ -716,6 +701,4 @@ export const ListNotificationsResponseItem = zod.object({
   relatedId: zod.string().nullish(),
   createdAt: zod.coerce.date(),
 });
-export const ListNotificationsResponse = zod.array(
-  ListNotificationsResponseItem,
-);
+export const ListNotificationsResponse = zod.array(ListNotificationsResponseItem);

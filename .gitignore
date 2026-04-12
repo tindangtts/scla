@@ -5,6 +5,7 @@ dist
 tmp
 out-tsc
 *.tsbuildinfo
+.next
 .expo
 .expo-shared
 
@@ -47,3 +48,22 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+.serena/
+
+# Environment variables — never commit secrets
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.production.local
+.env.test.local
+
+# Playwright artifacts (regenerated on every run)
+e2e/playwright-report/
+e2e/test-results/
+e2e/.auth/
+
+# Claude Code local tooling (user-specific)
+.claude/
+.vercel
+*.bk

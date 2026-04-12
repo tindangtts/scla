@@ -6,8 +6,7 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type ListTicketsStatus =
-  (typeof ListTicketsStatus)[keyof typeof ListTicketsStatus];
+export type ListTicketsStatus = (typeof ListTicketsStatus)[keyof typeof ListTicketsStatus];
 
 export const ListTicketsStatus = {
   open: "open",
