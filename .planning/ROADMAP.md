@@ -207,7 +207,9 @@ Plans:
   3. Bottom nav taps perform client-side navigation (no full page reload)
   4. Dashboard quick action cards render correctly in dark mode
   5. pnpm format:check passes with no errors
-**Plans**: TBD
+**Plans**: 1 plan
+Plans:
+- [ ] 32-01-PLAN.md — Admin routing fix, bottom nav Link, dark mode cards, code formatting
 **UI hint**: yes
 
 ## Progress
@@ -236,4 +238,4 @@ Plans:
 | 29. Real-time & Communication | v3.0 | 5/5 | Complete    | 2026-04-11 |
 | 30. i18n & UX Polish | v3.0 | 2/2 | Complete    | 2026-04-11 |
 | 31. Testing & CI | v3.0 | 2/2 | Complete    | 2026-04-11 |
-| 32. Integration Fixes & Polish | v3.0 | 0/TBD | Not started | - |
+| 32. Integration Fixes & Polish | v3.0 | 0/1 | Planning complete | - |
