@@ -52,7 +52,7 @@ export default async function ContentHubPage() {
           <Link
             key={section.href}
             href={section.href}
-            className="group rounded-2xl bg-card border border-card-border p-6 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring flex flex-col"
+            className="group rounded-2xl bg-card border border-card-border p-6 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-[transform,box-shadow] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring flex flex-col"
           >
             <div className={`p-2.5 rounded-xl ${section.tint} w-fit`}>
               <section.icon className="w-5 h-5" aria-hidden="true" />

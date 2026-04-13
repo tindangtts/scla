@@ -52,11 +52,11 @@ export default async function BookingsPage({
         {/* Book facility CTA */}
         <Link
           href="/bookings/facilities"
-          className="group block rounded-2xl bg-primary text-primary-foreground p-4 shadow-lg shadow-primary/20 hover:shadow-xl hover:-translate-y-0.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="group block rounded-2xl bg-primary text-primary-foreground p-4 shadow-lg shadow-primary/20 hover:shadow-xl hover:-translate-y-0.5 transition-[transform,box-shadow] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-xl bg-white/15 backdrop-blur-sm">
+              <div className="p-2.5 rounded-xl bg-white/15">
                 <Plus className="w-5 h-5" aria-hidden="true" />
               </div>
               <div>
@@ -113,7 +113,7 @@ export default async function BookingsPage({
               <li key={booking.id}>
                 <Link
                   href={`/bookings/${booking.id}`}
-                  className="block rounded-2xl bg-card border border-card-border p-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="block rounded-2xl bg-card border border-card-border p-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-[transform,box-shadow] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0 flex-1">

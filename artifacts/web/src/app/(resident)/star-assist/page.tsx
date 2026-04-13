@@ -80,11 +80,11 @@ export default async function StarAssistPage({
         {/* New ticket CTA */}
         <Link
           href="/star-assist/new"
-          className="group block rounded-2xl bg-primary text-primary-foreground p-4 shadow-lg shadow-primary/20 hover:shadow-xl hover:-translate-y-0.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="group block rounded-2xl bg-primary text-primary-foreground p-4 shadow-lg shadow-primary/20 hover:shadow-xl hover:-translate-y-0.5 transition-[transform,box-shadow] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-xl bg-white/15 backdrop-blur-sm">
+              <div className="p-2.5 rounded-xl bg-white/15">
                 <Plus className="w-5 h-5" aria-hidden="true" />
               </div>
               <div>
@@ -146,7 +146,7 @@ export default async function StarAssistPage({
                 <li key={ticket.id}>
                   <Link
                     href={`/star-assist/${ticket.id}`}
-                    className="flex items-start gap-3 rounded-2xl bg-card border border-card-border p-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="flex items-start gap-3 rounded-2xl bg-card border border-card-border p-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-[transform,box-shadow] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     <div className={cn("p-2.5 rounded-xl shrink-0", meta.tint)}>
                       <Icon className="w-4 h-4" aria-hidden="true" />

@@ -51,7 +51,7 @@ export default async function InfoCentrePage({
                 <li key={article.id}>
                   <Link
                     href={`/info-centre/${article.id}`}
-                    className="block rounded-2xl bg-card border border-card-border p-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="block rounded-2xl bg-card border border-card-border p-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-[transform,box-shadow] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     <div className="flex items-start justify-between gap-3 mb-1">
                       <p className="text-sm font-bold text-foreground flex-1">{article.title}</p>
@@ -97,7 +97,7 @@ export default async function InfoCentrePage({
                 <li key={cat.id}>
                   <Link
                     href={`/info-centre?category=${cat.id}`}
-                    className="flex flex-col items-start gap-2 rounded-2xl bg-card border border-card-border p-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring h-full"
+                    className="flex flex-col items-start gap-2 rounded-2xl bg-card border border-card-border p-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-[transform,box-shadow] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring h-full"
                   >
                     <span className="text-3xl" aria-hidden="true">
                       {cat.icon}

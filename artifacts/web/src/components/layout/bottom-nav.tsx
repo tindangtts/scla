@@ -50,7 +50,7 @@ export function BottomNav() {
               ) : null}
               <div
                 className={cn(
-                  "p-2 rounded-2xl transition-all duration-300 ease-out",
+                  "p-2 rounded-2xl transition-[transform,colors] duration-300 ease-out",
                   isActive
                     ? "bg-primary text-primary-foreground shadow-sm scale-110"
                     : "text-muted-foreground group-hover:bg-muted group-hover:text-foreground",
@@ -66,7 +66,7 @@ export function BottomNav() {
               </div>
               <span
                 className={cn(
-                  "text-[10px] font-bold transition-all duration-300",
+                  "text-[10px] font-bold transition-colors duration-300",
                   isActive
                     ? "text-primary tracking-wide"
                     : "text-muted-foreground/80 tracking-tight",

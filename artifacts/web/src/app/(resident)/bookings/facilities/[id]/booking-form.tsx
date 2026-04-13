@@ -86,7 +86,7 @@ export function BookingForm({
                     setSelectedSlot(isSelected ? null : slot.startTime)
                   }
                   className={cn(
-                    "rounded-xl border px-2 py-2.5 text-xs font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring tabular-nums",
+                    "rounded-xl border px-2 py-2.5 text-xs font-bold transition-[border-color,background-color] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring tabular-nums",
                     slot.isBooked
                       ? "bg-muted text-muted-foreground cursor-not-allowed opacity-50 border-transparent"
                       : isSelected

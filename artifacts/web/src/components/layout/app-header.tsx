@@ -24,8 +24,8 @@ export async function AppHeader({ name, subtitle, greeting }: AppHeaderProps) {
   return (
     <header className="bg-gradient-teal text-primary-foreground relative overflow-hidden rounded-b-[2.5rem] shadow-lg shadow-primary/20">
       {/* Soft decorative blobs */}
-      <div aria-hidden="true" className="absolute top-0 right-0 w-64 h-64 bg-white/5 blur-3xl rounded-full" />
-      <div aria-hidden="true" className="absolute -bottom-16 -left-10 w-48 h-48 bg-accent/20 blur-3xl rounded-full" />
+      <div aria-hidden="true" className="absolute top-0 right-0 w-64 h-64 bg-white/5 blur-xl rounded-full" />
+      <div aria-hidden="true" className="absolute -bottom-16 -left-10 w-48 h-48 bg-accent/20 blur-xl rounded-full" />
 
       <div className="relative z-10 px-6 pt-8 pb-8 sm:pt-10">
         <div className="flex items-start justify-between gap-4">
@@ -40,7 +40,7 @@ export async function AppHeader({ name, subtitle, greeting }: AppHeaderProps) {
             </h1>
             {subtitle ? (
               <p className="text-accent font-semibold text-sm mt-2 flex items-center gap-2">
-                <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+                <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-accent" />
                 <span className="truncate">{subtitle}</span>
               </p>
             ) : null}
@@ -93,7 +93,7 @@ export function AppSubHeader({
 }) {
   return (
     <div className="bg-gradient-teal text-primary-foreground relative overflow-hidden rounded-b-[2rem] shadow-md shadow-primary/15">
-      <div aria-hidden="true" className="absolute top-0 right-0 w-40 h-40 bg-white/5 blur-3xl rounded-full" />
+      <div aria-hidden="true" className="absolute top-0 right-0 w-40 h-40 bg-white/5 blur-xl rounded-full" />
       <div className="relative z-10 px-5 pt-6 pb-7 flex items-center justify-between gap-3">
         <div className="min-w-0 flex-1">
           {backHref ? (

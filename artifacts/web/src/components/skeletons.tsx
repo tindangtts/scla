@@ -11,7 +11,7 @@ export function Skeleton({ className = "" }: { className?: string }) {
 export function HeroHeaderSkeleton({ withSubtitle = true }: { withSubtitle?: boolean }) {
   return (
     <div className="bg-gradient-teal rounded-b-[2.5rem] px-6 pt-10 pb-10 shadow-lg shadow-primary/20 relative overflow-hidden">
-      <div aria-hidden="true" className="absolute top-0 right-0 w-64 h-64 bg-white/5 blur-3xl rounded-full" />
+      <div aria-hidden="true" className="absolute top-0 right-0 w-64 h-64 bg-white/5 blur-xl rounded-full" />
       <div className="relative space-y-2">
         <div className="h-3 w-24 rounded-full bg-white/30 animate-pulse" />
         <div className="h-7 w-40 rounded-lg bg-white/30 animate-pulse" />
@@ -24,7 +24,7 @@ export function HeroHeaderSkeleton({ withSubtitle = true }: { withSubtitle?: boo
 export function SubHeaderSkeleton() {
   return (
     <div className="bg-gradient-teal rounded-b-[2rem] px-5 pt-6 pb-7 shadow-md shadow-primary/15 relative overflow-hidden">
-      <div aria-hidden="true" className="absolute top-0 right-0 w-40 h-40 bg-white/5 blur-3xl rounded-full" />
+      <div aria-hidden="true" className="absolute top-0 right-0 w-40 h-40 bg-white/5 blur-xl rounded-full" />
       <div className="relative space-y-2">
         <div className="h-2.5 w-16 rounded-full bg-white/30 animate-pulse" />
         <div className="h-6 w-48 rounded-lg bg-white/30 animate-pulse" />

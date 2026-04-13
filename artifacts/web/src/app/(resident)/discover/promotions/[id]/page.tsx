@@ -17,7 +17,7 @@ export default async function PromotionDetailPage({ params }: { params: Promise<
 
       <div className="px-5 -mt-6 pb-8 relative z-20 space-y-4">
         <article className="rounded-2xl bg-gradient-gold text-accent-foreground p-6 shadow-lg shadow-accent/20 relative overflow-hidden">
-          <div aria-hidden="true" className="absolute -top-10 -right-10 w-40 h-40 bg-white/20 blur-3xl rounded-full" />
+          <div aria-hidden="true" className="absolute -top-10 -right-10 w-40 h-40 bg-white/20 blur-xl rounded-full" />
           <div className="relative">
             <div className="flex items-center gap-2 mb-2 flex-wrap text-[10px] uppercase tracking-wider font-bold">
               <span className="px-2 py-0.5 rounded-full bg-white/25 backdrop-blur-sm">

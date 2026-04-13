@@ -65,7 +65,7 @@ export function AdminNavLink({ href, label, icon, rootHref }: AdminNavLinkProps)
       href={href}
       aria-current={isActive ? "page" : undefined}
       className={cn(
-        "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70",
+        "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-colors group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70",
         isActive
           ? "bg-sidebar-accent text-sidebar-accent-foreground shadow-sm"
           : "text-sidebar-foreground/85 hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground",

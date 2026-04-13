@@ -138,7 +138,7 @@ export function UpgradeForm() {
               key={method}
               type="button"
               onClick={() => setPaymentMethod(method)}
-              className={`p-4 rounded-2xl border-2 transition-all duration-200 ${
+              className={`p-4 rounded-2xl border-2 transition-[border-color,background-color] duration-200 ${
                 paymentMethod === method
                   ? "border-primary bg-primary/5 shadow-inner scale-[0.98]"
                   : "border-border hover:border-primary/40 hover:bg-muted/50"

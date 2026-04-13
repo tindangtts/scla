@@ -101,7 +101,7 @@ export default async function FacilitiesPage({
                 <li key={facility.id}>
                   <Link
                     href={`/bookings/facilities/${facility.id}`}
-                    className="flex items-start gap-3 rounded-2xl bg-card border border-card-border p-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="flex items-start gap-3 rounded-2xl bg-card border border-card-border p-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-[transform,box-shadow] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     <div className={cn("p-3 rounded-2xl shrink-0", meta?.tint ?? "bg-muted text-muted-foreground")}>
                       <Icon className="w-5 h-5" aria-hidden="true" />

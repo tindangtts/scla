@@ -93,7 +93,7 @@ export default async function UpgradePage() {
       <div className="px-5 -mt-6 pb-8 relative z-20 space-y-4">
         {/* Perks */}
         <div className="rounded-2xl bg-gradient-gold text-accent-foreground p-5 shadow-lg shadow-accent/20 relative overflow-hidden">
-          <div aria-hidden="true" className="absolute -top-10 -right-10 w-40 h-40 bg-white/20 blur-3xl rounded-full" />
+          <div aria-hidden="true" className="absolute -top-10 -right-10 w-40 h-40 bg-white/20 blur-xl rounded-full" />
           <div className="relative">
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4" aria-hidden="true" />

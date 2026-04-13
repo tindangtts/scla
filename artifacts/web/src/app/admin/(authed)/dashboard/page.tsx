@@ -92,7 +92,7 @@ export default async function AdminDashboardPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-8">
         {kpis.map((kpi) => {
           const content = (
-            <div className="rounded-2xl bg-card border border-card-border p-5 shadow-sm transition-all group-hover:shadow-md group-hover:-translate-y-0.5 h-full">
+            <div className="rounded-2xl bg-card border border-card-border p-5 shadow-sm transition-[transform,box-shadow] group-hover:shadow-md group-hover:-translate-y-0.5 h-full">
               <div className="flex items-start justify-between mb-3">
                 <div className={cn("p-2 rounded-xl", kpi.tint)}>
                   <kpi.icon className="w-4 h-4" aria-hidden="true" />

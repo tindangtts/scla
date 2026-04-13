@@ -69,10 +69,10 @@ export default async function ResidentHomePage() {
         <div className="px-5 -mt-8 space-y-5 pb-8 relative z-20">
           <Link
             href="/upgrade"
-            className="block rounded-[1.75rem] bg-gradient-gold text-accent-foreground p-6 shadow-xl shadow-accent/20 hover:-translate-y-0.5 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="block rounded-[1.75rem] bg-gradient-gold text-accent-foreground p-6 shadow-xl shadow-accent/20 hover:-translate-y-0.5 transition-[transform,box-shadow] duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <div className="flex items-start gap-4">
-              <div className="p-3.5 bg-white/30 backdrop-blur-sm rounded-2xl shrink-0">
+              <div className="p-3.5 bg-white/30 rounded-2xl shrink-0">
                 <Sparkles className="w-7 h-7" aria-hidden="true" />
               </div>
               <div className="flex-1 min-w-0">
@@ -109,7 +109,7 @@ export default async function ResidentHomePage() {
         <div className="grid grid-cols-2 gap-3">
           <Link
             href="/wallet"
-            className="group rounded-2xl bg-card border border-card-border p-4 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="group rounded-2xl bg-card border border-card-border p-4 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-[transform,box-shadow] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <div className="flex items-center justify-between mb-3">
               <div className="p-2 bg-primary/10 text-primary rounded-xl">
@@ -127,7 +127,7 @@ export default async function ResidentHomePage() {
 
           <Link
             href="/bills"
-            className="group rounded-2xl bg-card border border-card-border p-4 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="group rounded-2xl bg-card border border-card-border p-4 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-[transform,box-shadow] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <div className="flex items-center justify-between mb-3">
               <div className={`p-2 rounded-xl ${hasUnpaid ? "bg-destructive/10 text-destructive" : "bg-emerald-500/10 text-emerald-600"}`}>
@@ -158,7 +158,7 @@ export default async function ResidentHomePage() {
         {hasUnpaid ? (
           <Link
             href="/bills?status=unpaid"
-            className="group block rounded-2xl bg-primary text-primary-foreground p-5 shadow-lg shadow-primary/20 hover:shadow-xl hover:-translate-y-0.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="group block rounded-2xl bg-primary text-primary-foreground p-5 shadow-lg shadow-primary/20 hover:shadow-xl hover:-translate-y-0.5 transition-[transform,box-shadow] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <div className="flex items-center justify-between">
               <div>
@@ -209,7 +209,7 @@ export default async function ResidentHomePage() {
                 <li key={ticket.id}>
                   <Link
                     href={`/star-assist/${ticket.id}`}
-                    className="flex items-center justify-between gap-3 rounded-2xl bg-card border border-card-border p-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="flex items-center justify-between gap-3 rounded-2xl bg-card border border-card-border p-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-[transform,box-shadow] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     <div className="min-w-0 flex-1">
                       <p className="text-sm font-bold text-foreground truncate">{ticket.title}</p>
@@ -275,7 +275,7 @@ export default async function ResidentHomePage() {
                 <Link
                   key={promo.id}
                   href={`/discover/promotions/${promo.id}`}
-                  className="flex items-center gap-4 rounded-2xl bg-card border border-card-border p-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="flex items-center gap-4 rounded-2xl bg-card border border-card-border p-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-[transform,box-shadow] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <div className="w-12 h-12 bg-primary/10 rounded-xl shrink-0 flex items-center justify-center">
                     <span className="text-primary font-black text-xl">%</span>
@@ -315,7 +315,7 @@ function QuickActionsGrid() {
           <Link
             key={href}
             href={href}
-            className="flex flex-col items-center gap-2 rounded-2xl bg-card border border-card-border p-3 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:scale-95 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="flex flex-col items-center gap-2 rounded-2xl bg-card border border-card-border p-3 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:scale-95 transition-[transform,box-shadow] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <div className={`p-2.5 rounded-xl ${tint}`}>
               <Icon className="w-5 h-5" aria-hidden="true" />

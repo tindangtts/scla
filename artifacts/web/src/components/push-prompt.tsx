@@ -72,7 +72,7 @@ export default function PushPrompt() {
   if (!showBanner) return null;
 
   return (
-    <div className="mx-5 mt-3 rounded-2xl border border-primary/20 bg-primary/5 dark:bg-primary/10 backdrop-blur-sm p-3.5 flex items-center gap-3 shadow-sm">
+    <div className="mx-5 mt-3 rounded-2xl border border-primary/20 bg-primary/5 dark:bg-primary/10 p-3.5 flex items-center gap-3 shadow-sm">
       <div className="w-10 h-10 rounded-xl bg-primary/15 text-primary flex items-center justify-center shrink-0">
         <Bell className="w-5 h-5" aria-hidden="true" />
       </div>
