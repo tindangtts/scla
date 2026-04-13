@@ -31,7 +31,7 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
               Published {formatDate(article.publishedAt)}
             </p>
           </header>
-          <div className="prose prose-sm max-w-none text-foreground whitespace-pre-wrap leading-relaxed">
+          <div className="prose prose-sm max-w-prose text-foreground whitespace-pre-wrap leading-relaxed">
             {article.content}
           </div>
         </article>

@@ -51,7 +51,7 @@ export default async function AnnouncementDetailPage({
             </div>
           ) : null}
 
-          <div className="prose prose-sm max-w-none text-foreground whitespace-pre-wrap leading-relaxed">
+          <div className="prose prose-sm max-w-prose text-foreground whitespace-pre-wrap leading-relaxed">
             {announcement.content}
           </div>
         </article>

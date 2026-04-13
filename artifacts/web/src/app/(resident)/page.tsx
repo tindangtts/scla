@@ -242,7 +242,7 @@ export default async function ResidentHomePage() {
             </div>
             <Link
               href={`/discover/announcements/${data.latestAnnouncement.id}`}
-              className="block rounded-2xl bg-card border border-card-border border-l-4 border-l-accent p-5 shadow-sm hover:shadow-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="block rounded-2xl bg-accent/5 border border-accent/30 p-5 shadow-sm hover:shadow-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               {data.latestAnnouncement.isPinned && (
                 <span className="inline-block px-2.5 py-1 bg-accent/20 text-accent-foreground text-[10px] font-black uppercase tracking-wider rounded-md mb-2">

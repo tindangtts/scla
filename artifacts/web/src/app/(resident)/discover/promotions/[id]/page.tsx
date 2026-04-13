@@ -40,7 +40,7 @@ export default async function PromotionDetailPage({ params }: { params: Promise<
         </article>
 
         <div className="rounded-2xl bg-card border border-card-border p-6 shadow-sm">
-          <div className="prose prose-sm max-w-none text-foreground whitespace-pre-wrap leading-relaxed">
+          <div className="prose prose-sm max-w-prose text-foreground whitespace-pre-wrap leading-relaxed">
             {promotion.description}
           </div>
         </div>

@@ -112,7 +112,7 @@ export default async function NotificationsPage() {
                   <div
                     className={cn(
                       "flex items-start gap-3 rounded-2xl bg-card border border-card-border p-4 shadow-sm transition-colors",
-                      !n.isRead && "border-l-4 border-l-primary bg-primary/5",
+                      !n.isRead && "bg-primary/5 ring-1 ring-primary/20",
                     )}
                   >
                     <div className={cn("p-2 rounded-xl shrink-0", meta.tint)}>

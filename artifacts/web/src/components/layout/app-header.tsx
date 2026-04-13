@@ -53,14 +53,14 @@ export async function AppHeader({ name, subtitle, greeting }: AppHeaderProps) {
             <div className="text-primary-foreground [&_button]:text-primary-foreground [&_button:hover]:bg-white/15">
               <ThemeToggle />
             </div>
-            <div className="p-2 rounded-md hover:bg-white/15 transition-colors">
+            <div className="p-2.5 rounded-lg hover:bg-white/15 transition-colors">
               <NotificationBell />
             </div>
             <form action={logout}>
               <button
                 type="submit"
                 aria-label={t("logout")}
-                className="p-2 rounded-md hover:bg-white/15 text-primary-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+                className="p-2.5 rounded-lg hover:bg-white/15 text-primary-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
                 title={t("logout")}
               >
                 <LogOut className="h-4 w-4" aria-hidden="true" />

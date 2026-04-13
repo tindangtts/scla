@@ -98,6 +98,16 @@ export default async function BillsPage({
             icon={FileText}
             title="No bills found"
             description={status ? "Try clearing the filter to see all your invoices." : "Your invoices will appear here once issued."}
+            action={
+              status ? (
+                <Link
+                  href="/bills"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 bg-primary text-primary-foreground rounded-xl text-xs font-bold hover:bg-primary/90 transition-colors"
+                >
+                  Clear filter
+                </Link>
+              ) : undefined
+            }
           />
         ) : (
           <ul className="space-y-2.5">
