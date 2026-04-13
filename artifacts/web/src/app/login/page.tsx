@@ -123,6 +123,25 @@ export default function LoginPage() {
               <span className="text-foreground font-medium">resident@starcity.com</span>
               <span className="mx-1.5 text-muted-foreground/40">&middot;</span>
               password123
+              <span className="ml-1 text-muted-foreground/50 text-[10px]">(City Loft)</span>
+            </span>
+          </li>
+          <li className="flex items-center gap-2">
+            <KeyRound className="w-3 h-3 text-muted-foreground/60 shrink-0" aria-hidden="true" />
+            <span>
+              <span className="text-foreground font-medium">hla.win@gmail.com</span>
+              <span className="mx-1.5 text-muted-foreground/40">&middot;</span>
+              password123
+              <span className="ml-1 text-muted-foreground/50 text-[10px]">(Estella)</span>
+            </span>
+          </li>
+          <li className="flex items-center gap-2">
+            <KeyRound className="w-3 h-3 text-muted-foreground/60 shrink-0" aria-hidden="true" />
+            <span>
+              <span className="text-foreground font-medium">nwe.nwe@gmail.com</span>
+              <span className="mx-1.5 text-muted-foreground/40">&middot;</span>
+              password123
+              <span className="ml-1 text-muted-foreground/50 text-[10px]">(ARA)</span>
             </span>
           </li>
           <li className="flex items-center gap-2">
@@ -131,6 +150,7 @@ export default function LoginPage() {
               <span className="text-foreground font-medium">demo@starcity.com</span>
               <span className="mx-1.5 text-muted-foreground/40">&middot;</span>
               password123
+              <span className="ml-1 text-muted-foreground/50 text-[10px]">(Guest)</span>
             </span>
           </li>
         </ul>

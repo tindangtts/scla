@@ -99,10 +99,14 @@ export default function LoginPage() {
               </button>
             </p>
             <div className="pt-6 border-t border-border/50">
-              <p className="text-xs text-muted-foreground/60 font-mono">
-                Demo guest: demo@starcity.com / password123
+              <p className="text-xs text-muted-foreground/60 font-mono leading-relaxed">
+                resident@starcity.com / password123 (City Loft)
                 <br />
-                Demo resident: resident@starcity.com / password123
+                hla.win@gmail.com / password123 (Estella)
+                <br />
+                nwe.nwe@gmail.com / password123 (ARA)
+                <br />
+                demo@starcity.com / password123 (Guest)
               </p>
             </div>
           </div>

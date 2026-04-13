@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { AuthShell } from "@/components/layout/auth-shell";
-import { AlertCircle, ShieldCheck } from "lucide-react";
+import { AlertCircle, ShieldCheck, Sparkles, KeyRound } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 export default function AdminLoginPage() {
@@ -80,7 +80,46 @@ export default function AdminLoginPage() {
         </Button>
       </form>
 
-      <p className="mt-6 text-center text-[11px] text-muted-foreground">
+      {/* Demo accounts */}
+      <div className="mt-6 rounded-xl border border-primary/15 bg-primary/[0.03] dark:bg-primary/[0.08] px-4 py-3.5 text-xs text-muted-foreground">
+        <div className="flex items-center gap-2 mb-2">
+          <Sparkles className="w-3.5 h-3.5 text-primary" aria-hidden="true" />
+          <p className="font-bold text-foreground text-[11px] tracking-wider uppercase">
+            Demo accounts
+          </p>
+        </div>
+        <ul className="space-y-1.5">
+          <li className="flex items-center gap-2">
+            <KeyRound className="w-3 h-3 text-muted-foreground/60 shrink-0" aria-hidden="true" />
+            <span>
+              <span className="text-foreground font-medium">admin@starcity.com</span>
+              <span className="mx-1.5 text-muted-foreground/40">&middot;</span>
+              admin123
+              <span className="ml-1 text-muted-foreground/50 text-[10px]">(Admin)</span>
+            </span>
+          </li>
+          <li className="flex items-center gap-2">
+            <KeyRound className="w-3 h-3 text-muted-foreground/60 shrink-0" aria-hidden="true" />
+            <span>
+              <span className="text-foreground font-medium">content@starcity.com</span>
+              <span className="mx-1.5 text-muted-foreground/40">&middot;</span>
+              content123
+              <span className="ml-1 text-muted-foreground/50 text-[10px]">(Content)</span>
+            </span>
+          </li>
+          <li className="flex items-center gap-2">
+            <KeyRound className="w-3 h-3 text-muted-foreground/60 shrink-0" aria-hidden="true" />
+            <span>
+              <span className="text-foreground font-medium">support@starcity.com</span>
+              <span className="mx-1.5 text-muted-foreground/40">&middot;</span>
+              support123
+              <span className="ml-1 text-muted-foreground/50 text-[10px]">(Support)</span>
+            </span>
+          </li>
+        </ul>
+      </div>
+
+      <p className="mt-3 text-center text-[11px] text-muted-foreground">
         All admin actions are logged for audit purposes.
       </p>
     </AuthShell>

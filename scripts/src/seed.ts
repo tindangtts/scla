@@ -13,6 +13,8 @@ import {
   upgradeRequestsTable,
   faqsTable,
   bookingsTable,
+  walletTransactionsTable,
+  ticketMessagesTable,
 } from "@workspace/db";
 import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
@@ -28,6 +30,9 @@ const SEED_IDS = {
   residentUser: "00000000-0000-4000-8000-000000000002",
   guestUser2: "00000000-0000-4000-8000-000000000003",
   guestUser3: "00000000-0000-4000-8000-000000000004",
+  // Additional residents for richer demo data
+  residentUser2: "00000000-0000-4000-8000-000000000005",
+  residentUser3: "00000000-0000-4000-8000-000000000006",
   adminStaff: "00000000-0000-4000-8000-000000000101",
   contentStaff: "00000000-0000-4000-8000-000000000102",
   supportStaff: "00000000-0000-4000-8000-000000000103",
@@ -65,6 +70,18 @@ async function seedAuthUsers() {
       email: "thida.nwe@outlook.com",
       password: "password123",
       user_metadata: { name: "Ma Thida Nwe", phone: "09-666-444-555", user_type: "guest" },
+    },
+    {
+      id: SEED_IDS.residentUser2,
+      email: "hla.win@gmail.com",
+      password: "password123",
+      user_metadata: { name: "U Hla Win", phone: "09-555-777-888", user_type: "resident" },
+    },
+    {
+      id: SEED_IDS.residentUser3,
+      email: "nwe.nwe@gmail.com",
+      password: "password123",
+      user_metadata: { name: "Ma Nwe Nwe Oo", phone: "09-444-666-999", user_type: "resident" },
     },
     // Staff users
     {
@@ -163,6 +180,30 @@ async function seedUsers() {
         passwordHash: await hashPasswordBcrypt("password123"),
         userType: "guest",
         upgradeStatus: "none",
+      },
+      {
+        id: SEED_IDS.residentUser2,
+        name: "U Hla Win",
+        email: "hla.win@gmail.com",
+        phone: "09-555-777-888",
+        passwordHash: await hashPasswordBcrypt("password123"),
+        userType: "resident",
+        unitNumber: "B-05-12",
+        residentId: "SC-2024-00256",
+        developmentName: "Estella",
+        upgradeStatus: "approved",
+      },
+      {
+        id: SEED_IDS.residentUser3,
+        name: "Ma Nwe Nwe Oo",
+        email: "nwe.nwe@gmail.com",
+        phone: "09-444-666-999",
+        passwordHash: await hashPasswordBcrypt("password123"),
+        userType: "resident",
+        unitNumber: "C-08-07",
+        residentId: "SC-2025-00401",
+        developmentName: "ARA",
+        upgradeStatus: "approved",
       },
     ])
     .onConflictDoNothing({ target: usersTable.email });
@@ -459,6 +500,171 @@ async function seedInvoices() {
           },
         ],
       },
+      // Water bill for Ma Aye Aye — overdue
+      {
+        invoiceNumber: "INV-2026-02-003",
+        userId: SEED_IDS.residentUser,
+        unitNumber: "A-12-03",
+        category: "Utility",
+        description: "Water Bill — January 2026",
+        issueDate: "2026-02-01",
+        dueDate: "2026-02-15",
+        totalAmount: "45000",
+        paidAmount: "0",
+        status: "unpaid" as const,
+        month: "2026-02",
+        lineItems: [
+          { id: "li13", description: "Water Consumption (38 m³)", quantity: 38, unitPrice: 1000, amount: 38000 },
+          { id: "li14", description: "Sewage Charge", quantity: 1, unitPrice: 5000, amount: 5000 },
+          { id: "li15", description: "Meter Reading Fee", quantity: 1, unitPrice: 2000, amount: 2000 },
+        ],
+      },
+      // Parking fee for Ma Aye Aye
+      {
+        invoiceNumber: "INV-2026-04-003",
+        userId: SEED_IDS.residentUser,
+        unitNumber: "A-12-03",
+        category: "Parking",
+        description: "Monthly Parking Fee — April 2026",
+        issueDate: "2026-04-01",
+        dueDate: "2026-04-15",
+        totalAmount: "80000",
+        paidAmount: "80000",
+        status: "paid" as const,
+        month: "2026-04",
+        lineItems: [
+          { id: "li16", description: "Covered Parking Bay P-A-023", quantity: 1, unitPrice: 80000, amount: 80000 },
+        ],
+      },
+      // ——— U Hla Win (Estella B-05-12) invoices ———
+      {
+        invoiceNumber: "INV-2026-04-004",
+        userId: SEED_IDS.residentUser2,
+        unitNumber: "B-05-12",
+        category: "Service Charge",
+        description: "Monthly Service Charge — April 2026",
+        issueDate: "2026-04-01",
+        dueDate: "2026-04-15",
+        totalAmount: "320000",
+        paidAmount: "0",
+        status: "unpaid" as const,
+        month: "2026-04",
+        lineItems: [
+          { id: "li17", description: "Building Management Fee", quantity: 1, unitPrice: 170000, amount: 170000 },
+          { id: "li18", description: "Common Area Maintenance", quantity: 1, unitPrice: 95000, amount: 95000 },
+          { id: "li19", description: "Security Services", quantity: 1, unitPrice: 55000, amount: 55000 },
+        ],
+      },
+      {
+        invoiceNumber: "INV-2026-04-005",
+        userId: SEED_IDS.residentUser2,
+        unitNumber: "B-05-12",
+        category: "Utility",
+        description: "Electricity Bill — March 2026",
+        issueDate: "2026-04-01",
+        dueDate: "2026-04-15",
+        totalAmount: "195000",
+        paidAmount: "195000",
+        status: "paid" as const,
+        month: "2026-04",
+        lineItems: [
+          { id: "li20", description: "Electricity Consumption (680 kWh)", quantity: 680, unitPrice: 250, amount: 170000 },
+          { id: "li21", description: "Meter Rental", quantity: 1, unitPrice: 15000, amount: 15000 },
+          { id: "li22", description: "Administration Fee", quantity: 1, unitPrice: 10000, amount: 10000 },
+        ],
+      },
+      {
+        invoiceNumber: "INV-2026-03-003",
+        userId: SEED_IDS.residentUser2,
+        unitNumber: "B-05-12",
+        category: "Service Charge",
+        description: "Monthly Service Charge — March 2026",
+        issueDate: "2026-03-01",
+        dueDate: "2026-03-15",
+        totalAmount: "320000",
+        paidAmount: "320000",
+        status: "paid" as const,
+        month: "2026-03",
+        lineItems: [
+          { id: "li23", description: "Building Management Fee", quantity: 1, unitPrice: 170000, amount: 170000 },
+          { id: "li24", description: "Common Area Maintenance", quantity: 1, unitPrice: 95000, amount: 95000 },
+          { id: "li25", description: "Security Services", quantity: 1, unitPrice: 55000, amount: 55000 },
+        ],
+      },
+      // Internet bill for U Hla Win
+      {
+        invoiceNumber: "INV-2026-04-006",
+        userId: SEED_IDS.residentUser2,
+        unitNumber: "B-05-12",
+        category: "Utility",
+        description: "Internet Service — April 2026",
+        issueDate: "2026-04-01",
+        dueDate: "2026-04-20",
+        totalAmount: "55000",
+        paidAmount: "0",
+        status: "unpaid" as const,
+        month: "2026-04",
+        lineItems: [
+          { id: "li26", description: "Fibre Broadband 100 Mbps", quantity: 1, unitPrice: 50000, amount: 50000 },
+          { id: "li27", description: "Router Rental", quantity: 1, unitPrice: 5000, amount: 5000 },
+        ],
+      },
+      // ——— Ma Nwe Nwe Oo (ARA C-08-07) invoices ———
+      {
+        invoiceNumber: "INV-2026-04-007",
+        userId: SEED_IDS.residentUser3,
+        unitNumber: "C-08-07",
+        category: "Service Charge",
+        description: "Monthly Service Charge — April 2026",
+        issueDate: "2026-04-01",
+        dueDate: "2026-04-15",
+        totalAmount: "250000",
+        paidAmount: "0",
+        status: "unpaid" as const,
+        month: "2026-04",
+        lineItems: [
+          { id: "li28", description: "Building Management Fee", quantity: 1, unitPrice: 130000, amount: 130000 },
+          { id: "li29", description: "Common Area Maintenance", quantity: 1, unitPrice: 75000, amount: 75000 },
+          { id: "li30", description: "Security Services", quantity: 1, unitPrice: 45000, amount: 45000 },
+        ],
+      },
+      {
+        invoiceNumber: "INV-2026-04-008",
+        userId: SEED_IDS.residentUser3,
+        unitNumber: "C-08-07",
+        category: "Utility",
+        description: "Electricity Bill — March 2026",
+        issueDate: "2026-04-01",
+        dueDate: "2026-04-15",
+        totalAmount: "98500",
+        paidAmount: "98500",
+        status: "paid" as const,
+        month: "2026-04",
+        lineItems: [
+          { id: "li31", description: "Electricity Consumption (310 kWh)", quantity: 310, unitPrice: 250, amount: 77500 },
+          { id: "li32", description: "Meter Rental", quantity: 1, unitPrice: 15000, amount: 15000 },
+          { id: "li33", description: "Administration Fee", quantity: 1, unitPrice: 6000, amount: 6000 },
+        ],
+      },
+      // Water bill for Ma Nwe Nwe Oo — partially paid
+      {
+        invoiceNumber: "INV-2026-03-004",
+        userId: SEED_IDS.residentUser3,
+        unitNumber: "C-08-07",
+        category: "Utility",
+        description: "Water Bill — February 2026",
+        issueDate: "2026-03-01",
+        dueDate: "2026-03-15",
+        totalAmount: "52000",
+        paidAmount: "30000",
+        status: "partially_paid" as const,
+        month: "2026-03",
+        lineItems: [
+          { id: "li34", description: "Water Consumption (42 m³)", quantity: 42, unitPrice: 1000, amount: 42000 },
+          { id: "li35", description: "Sewage Charge", quantity: 1, unitPrice: 7000, amount: 7000 },
+          { id: "li36", description: "Meter Reading Fee", quantity: 1, unitPrice: 3000, amount: 3000 },
+        ],
+      },
     ])
     .onConflictDoNothing();
   console.log("Invoices seeded.");
@@ -599,6 +805,136 @@ async function seedTickets() {
           },
         ],
       },
+      // Electricals ticket — U Hla Win
+      {
+        ticketNumber: "SA-0004",
+        userId: SEED_IDS.residentUser2,
+        title: "Flickering lights in living room",
+        category: "electricals" as const,
+        serviceType: "Repair",
+        status: "open" as const,
+        unitNumber: "B-05-12",
+        description:
+          "The ceiling lights in the living room have been flickering intermittently for the past two days. It happens mostly in the evening. I have tried replacing the bulbs but the issue persists — it may be an electrical wiring problem.",
+        updates: [],
+      },
+      // Housekeeping ticket — Ma Aye Aye
+      {
+        ticketNumber: "SA-0005",
+        userId: SEED_IDS.residentUser,
+        title: "Request for deep cleaning of corridor",
+        category: "housekeeping" as const,
+        serviceType: "Cleaning",
+        status: "completed" as const,
+        unitNumber: "A-12-03",
+        description:
+          "The corridor outside units A-12-01 to A-12-06 has not been cleaned thoroughly this week. There are stains on the floor and the rubbish area smells. Please arrange a deep cleaning.",
+        updates: [
+          {
+            id: "u3",
+            message: "Our housekeeping team has completed the deep cleaning of the 12th floor corridor in Block A. Thank you for reporting.",
+            author: "StarCity Support",
+            authorType: "staff",
+            createdAt: "2026-04-08T16:30:00Z",
+          },
+        ],
+      },
+      // Pest control — Ma Nwe Nwe Oo
+      {
+        ticketNumber: "SA-0006",
+        userId: SEED_IDS.residentUser3,
+        title: "Cockroach infestation in kitchen",
+        category: "pest_control" as const,
+        serviceType: "Pest Treatment",
+        status: "in_progress" as const,
+        unitNumber: "C-08-07",
+        description:
+          "We have noticed an increasing number of cockroaches in the kitchen area over the past week, particularly near the sink and waste bin. Please arrange pest control treatment as soon as possible.",
+        updates: [
+          {
+            id: "u4",
+            message: "We have scheduled a pest control treatment for your unit on 14 April between 2PM-4PM. Please ensure the kitchen area is accessible and all food items are covered or stored.",
+            author: "StarCity Support",
+            authorType: "staff",
+            createdAt: "2026-04-11T09:00:00Z",
+          },
+        ],
+      },
+      // Civil works — U Hla Win
+      {
+        ticketNumber: "SA-0007",
+        userId: SEED_IDS.residentUser2,
+        title: "Cracked tile in bathroom floor",
+        category: "civil_works" as const,
+        serviceType: "Repair",
+        status: "open" as const,
+        unitNumber: "B-05-12",
+        description:
+          "A floor tile in the master bathroom has developed a large crack. It is near the shower area and I am concerned about water seeping through. The crack is approximately 15cm long.",
+        updates: [],
+      },
+      // Plumbing — Ma Nwe Nwe Oo
+      {
+        ticketNumber: "SA-0008",
+        userId: SEED_IDS.residentUser3,
+        title: "Kitchen sink draining slowly",
+        category: "plumbing" as const,
+        serviceType: "Repair",
+        status: "in_progress" as const,
+        unitNumber: "C-08-07",
+        description:
+          "The kitchen sink has been draining very slowly for about a week. Water now takes over 5 minutes to drain completely. I suspect there may be a blockage in the pipe.",
+        updates: [
+          {
+            id: "u5",
+            message: "Our plumbing team visited on 10 April and performed an initial inspection. A partial blockage was found. We will return on 12 April with specialised equipment to clear the pipe fully.",
+            author: "StarCity Support",
+            authorType: "staff",
+            createdAt: "2026-04-10T15:00:00Z",
+          },
+        ],
+      },
+      // Closed ticket — Ma Aye Aye
+      {
+        ticketNumber: "SA-0009",
+        userId: SEED_IDS.residentUser,
+        title: "Replace damaged door handle",
+        category: "civil_works" as const,
+        serviceType: "Repair",
+        status: "closed" as const,
+        unitNumber: "A-12-03",
+        description:
+          "The front door handle of my unit is loose and about to fall off. It has been like this for a few days. Please send someone to fix or replace it.",
+        updates: [
+          {
+            id: "u6",
+            message: "A technician visited on 5 April and replaced the door handle with a new one. Please confirm if everything is satisfactory.",
+            author: "StarCity Support",
+            authorType: "staff",
+            createdAt: "2026-04-05T11:00:00Z",
+          },
+          {
+            id: "u7",
+            message: "The new handle works perfectly. Thank you for the quick fix!",
+            author: "Ma Aye Aye",
+            authorType: "resident",
+            createdAt: "2026-04-05T18:00:00Z",
+          },
+        ],
+      },
+      // Other category — guest user
+      {
+        ticketNumber: "SA-0010",
+        userId: SEED_IDS.guestUser2,
+        title: "Noise complaint from unit above",
+        category: "other" as const,
+        serviceType: "Complaint",
+        status: "open" as const,
+        unitNumber: null,
+        description:
+          "There has been loud construction noise from the unit above during quiet hours (after 10PM) for the past three nights. It is very disruptive and affecting our sleep.",
+        updates: [],
+      },
     ])
     .onConflictDoNothing();
   console.log("Tickets seeded.");
@@ -682,6 +1018,156 @@ async function seedBookings() {
     ])
     .onConflictDoNothing();
   console.log("Bookings seeded.");
+}
+
+async function seedWalletTransactions() {
+  const existing = await db.select().from(walletTransactionsTable).limit(1);
+  if (existing.length > 0) return;
+  console.log("Seeding wallet transactions...");
+  await db
+    .insert(walletTransactionsTable)
+    .values([
+      // Ma Aye Aye — wallet top-ups and payments
+      {
+        userId: SEED_IDS.residentUser,
+        type: "credit" as const,
+        amount: "500000",
+        description: "Wallet top-up via KBZPay",
+        reference: "KBZ-TXN-20260401-001",
+        category: "top_up",
+        createdAt: new Date("2026-04-01T10:30:00Z"),
+      },
+      {
+        userId: SEED_IDS.residentUser,
+        type: "debit" as const,
+        amount: "285000",
+        description: "Payment for INV-2026-03-001 — Service Charge March 2026",
+        reference: "INV-2026-03-001",
+        category: "bill_payment",
+        createdAt: new Date("2026-04-02T09:15:00Z"),
+      },
+      {
+        userId: SEED_IDS.residentUser,
+        type: "debit" as const,
+        amount: "100000",
+        description: "Partial payment for INV-2026-03-002 — Electricity Feb 2026",
+        reference: "INV-2026-03-002",
+        category: "bill_payment",
+        createdAt: new Date("2026-04-03T14:00:00Z"),
+      },
+      {
+        userId: SEED_IDS.residentUser,
+        type: "debit" as const,
+        amount: "80000",
+        description: "Payment for INV-2026-04-003 — Parking April 2026",
+        reference: "INV-2026-04-003",
+        category: "bill_payment",
+        createdAt: new Date("2026-04-05T08:00:00Z"),
+      },
+      {
+        userId: SEED_IDS.residentUser,
+        type: "debit" as const,
+        amount: "15000",
+        description: "Facility booking BK-0001 — Olympic Swimming Pool",
+        reference: "BK-0001",
+        category: "booking",
+        createdAt: new Date("2026-04-06T07:30:00Z"),
+      },
+      {
+        userId: SEED_IDS.residentUser,
+        type: "credit" as const,
+        amount: "5000",
+        description: "Refund for cancelled booking BK-0003 — Gymnasium",
+        reference: "BK-0003",
+        category: "refund",
+        createdAt: new Date("2026-04-07T12:00:00Z"),
+      },
+      {
+        userId: SEED_IDS.residentUser,
+        type: "credit" as const,
+        amount: "200000",
+        description: "Wallet top-up via WavePay",
+        reference: "WAVE-TXN-20260408-001",
+        category: "top_up",
+        createdAt: new Date("2026-04-08T16:45:00Z"),
+      },
+      // U Hla Win — wallet activity
+      {
+        userId: SEED_IDS.residentUser2,
+        type: "credit" as const,
+        amount: "600000",
+        description: "Wallet top-up via KBZPay",
+        reference: "KBZ-TXN-20260328-002",
+        category: "top_up",
+        createdAt: new Date("2026-03-28T11:00:00Z"),
+      },
+      {
+        userId: SEED_IDS.residentUser2,
+        type: "debit" as const,
+        amount: "320000",
+        description: "Payment for INV-2026-03-003 — Service Charge March 2026",
+        reference: "INV-2026-03-003",
+        category: "bill_payment",
+        createdAt: new Date("2026-03-30T09:00:00Z"),
+      },
+      {
+        userId: SEED_IDS.residentUser2,
+        type: "debit" as const,
+        amount: "195000",
+        description: "Payment for INV-2026-04-005 — Electricity March 2026",
+        reference: "INV-2026-04-005",
+        category: "bill_payment",
+        createdAt: new Date("2026-04-05T10:30:00Z"),
+      },
+      {
+        userId: SEED_IDS.residentUser2,
+        type: "credit" as const,
+        amount: "400000",
+        description: "Wallet top-up via WavePay",
+        reference: "WAVE-TXN-20260410-002",
+        category: "top_up",
+        createdAt: new Date("2026-04-10T14:00:00Z"),
+      },
+      // Ma Nwe Nwe Oo — wallet activity
+      {
+        userId: SEED_IDS.residentUser3,
+        type: "credit" as const,
+        amount: "350000",
+        description: "Wallet top-up via KBZPay",
+        reference: "KBZ-TXN-20260325-003",
+        category: "top_up",
+        createdAt: new Date("2026-03-25T09:00:00Z"),
+      },
+      {
+        userId: SEED_IDS.residentUser3,
+        type: "debit" as const,
+        amount: "98500",
+        description: "Payment for INV-2026-04-008 — Electricity March 2026",
+        reference: "INV-2026-04-008",
+        category: "bill_payment",
+        createdAt: new Date("2026-04-04T11:00:00Z"),
+      },
+      {
+        userId: SEED_IDS.residentUser3,
+        type: "debit" as const,
+        amount: "30000",
+        description: "Partial payment for INV-2026-03-004 — Water Feb 2026",
+        reference: "INV-2026-03-004",
+        category: "bill_payment",
+        createdAt: new Date("2026-04-06T15:30:00Z"),
+      },
+      {
+        userId: SEED_IDS.residentUser3,
+        type: "credit" as const,
+        amount: "300000",
+        description: "Wallet top-up via KBZPay",
+        reference: "KBZ-TXN-20260412-003",
+        category: "top_up",
+        createdAt: new Date("2026-04-12T10:00:00Z"),
+      },
+    ])
+    .onConflictDoNothing();
+  console.log("Wallet transactions seeded.");
 }
 
 async function seedInfoCategories() {
@@ -823,6 +1309,64 @@ async function seedNotifications() {
       isRead: false,
       relatedId: null,
     },
+    {
+      userId: SEED_IDS.residentUser,
+      title: "Ticket Update: AC Repair",
+      body: "Your ticket SA-0001 has been assigned to our HVAC team. A technician will visit on 10 April.",
+      type: "announcement" as const,
+      isRead: true,
+      relatedId: null,
+    },
+    {
+      userId: SEED_IDS.residentUser,
+      title: "Payment Received",
+      body: "Your payment of 285,000 MMK for Service Charge March 2026 has been received. Thank you!",
+      type: "announcement" as const,
+      isRead: true,
+      relatedId: null,
+    },
+    {
+      userId: SEED_IDS.residentUser,
+      title: "Overdue Invoice Reminder",
+      body: "Your Water Bill (INV-2026-02-003) of 45,000 MMK was due on 15 Feb. Please settle promptly.",
+      type: "announcement" as const,
+      isRead: false,
+      relatedId: null,
+    },
+    // U Hla Win notifications
+    {
+      userId: SEED_IDS.residentUser2,
+      title: "Invoice Due Soon",
+      body: "Your April 2026 service charge invoice (INV-2026-04-004) of 320,000 MMK is due on 15 April.",
+      type: "announcement" as const,
+      isRead: false,
+      relatedId: null,
+    },
+    {
+      userId: SEED_IDS.residentUser2,
+      title: "Ticket Submitted",
+      body: "Your ticket SA-0004 for flickering lights has been submitted. Our team will respond within 24 hours.",
+      type: "announcement" as const,
+      isRead: false,
+      relatedId: null,
+    },
+    // Ma Nwe Nwe Oo notifications
+    {
+      userId: SEED_IDS.residentUser3,
+      title: "Pest Control Scheduled",
+      body: "Pest control for ticket SA-0006 is scheduled for 14 April, 2PM-4PM. Please ensure kitchen access.",
+      type: "announcement" as const,
+      isRead: false,
+      relatedId: null,
+    },
+    {
+      userId: SEED_IDS.residentUser3,
+      title: "Partial Payment Acknowledged",
+      body: "Your partial payment of 30,000 MMK for Water Bill (INV-2026-03-004) has been recorded. Balance remaining: 22,000 MMK.",
+      type: "announcement" as const,
+      isRead: true,
+      relatedId: null,
+    },
   ]);
   console.log("Notifications seeded.");
 }
@@ -848,6 +1392,7 @@ async function seed() {
   await seedFacilities();
   await seedTickets();
   await seedBookings();
+  await seedWalletTransactions();
   await seedInfoCategories();
   await seedInfoArticles();
   await seedFaqs();
@@ -855,12 +1400,14 @@ async function seed() {
 
   console.log("\nSeeding complete!");
   console.log("Demo accounts:");
-  console.log("  Guest:    demo@starcity.com / password123");
-  console.log("  Resident: resident@starcity.com / password123");
+  console.log("  Guest:      demo@starcity.com / password123");
+  console.log("  Resident 1: resident@starcity.com / password123  (City Loft A-12-03)");
+  console.log("  Resident 2: hla.win@gmail.com / password123      (Estella B-05-12)");
+  console.log("  Resident 3: nwe.nwe@gmail.com / password123      (ARA C-08-07)");
   console.log("Admin accounts:");
-  console.log("  Admin:    admin@starcity.com / admin123");
-  console.log("  Content:  content@starcity.com / content123");
-  console.log("  Support:  support@starcity.com / support123");
+  console.log("  Admin:      admin@starcity.com / admin123");
+  console.log("  Content:    content@starcity.com / content123");
+  console.log("  Support:    support@starcity.com / support123");
 }
 
 seed()
