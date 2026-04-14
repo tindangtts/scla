@@ -3,9 +3,11 @@ import { requireAdmin } from "@/lib/auth";
 import { getAllFacilities } from "@/lib/queries/admin-facilities";
 import { AdminPageHeader } from "@/components/layout/admin-page-header";
 import { EmptyState } from "@/components/ui/empty-state";
+import { Button } from "@/components/ui/button";
 import { formatMMK } from "@/lib/format";
-import { Dumbbell, Clock, Users, CalendarRange, ArrowRight } from "lucide-react";
+import { Dumbbell, Clock, Users, CalendarRange, ArrowRight, Plus, Pencil, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { deleteFacility } from "./actions";
 
 export const dynamic = "force-dynamic";
 
@@ -23,13 +25,22 @@ export default async function AdminFacilitiesPage() {
         title="Facilities"
         description="Manage SCSC amenities and monitor bookings across the estate."
         action={
-          <Link
-            href="/admin/facilities/bookings"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary text-primary-foreground text-sm font-bold hover:bg-primary/90 transition-colors"
-          >
-            <CalendarRange className="w-4 h-4" aria-hidden="true" />
-            View all bookings
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/admin/facilities/bookings"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-muted text-foreground text-sm font-bold hover:bg-muted/80 transition-colors"
+            >
+              <CalendarRange className="w-4 h-4" aria-hidden="true" />
+              View bookings
+            </Link>
+            <Link
+              href="/admin/facilities/new"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary text-primary-foreground text-sm font-bold hover:bg-primary/90 transition-colors"
+            >
+              <Plus className="w-4 h-4" aria-hidden="true" />
+              New facility
+            </Link>
+          </div>
         }
       />
 
@@ -103,6 +114,28 @@ export default async function AdminFacilitiesPage() {
                 View bookings
                 <ArrowRight className="w-4 h-4" aria-hidden="true" />
               </Link>
+
+              <div className="flex items-center justify-between mt-3 pt-3 border-t border-border">
+                <Link
+                  href={`/admin/facilities/${facility.id}/edit`}
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-muted text-foreground text-xs font-bold hover:bg-muted/80 transition-colors"
+                >
+                  <Pencil className="w-3.5 h-3.5" aria-hidden="true" />
+                  Edit
+                </Link>
+                <form action={deleteFacility}>
+                  <input type="hidden" name="id" value={facility.id} />
+                  <Button
+                    type="submit"
+                    variant="destructive"
+                    size="sm"
+                    className="h-7 px-2.5 text-xs font-bold"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" aria-hidden="true" />
+                    Delete
+                  </Button>
+                </form>
+              </div>
             </div>
           ))}
         </div>
