@@ -60,9 +60,19 @@ Recent decisions affecting current work:
 - [Phase 35]: 35-01: Vercel region sin1 (Singapore) + cron at 02:00 UTC (08:30 Asia/Yangon) — closest region, low DB contention window
 - [Phase 35]: 35-01: Stray Replit references in pnpm-workspace.yaml/mockup-sandbox/.gitignore/CLAUDE.md left in place — out of plan scope per DEPLOY-06 boundary; post-deploy cleanup plan needed
 
+### Roadmap Evolution
+
+- Phase 36 added: Facilities: implement full CRUD following edit_facility design
+
 ### Pending Todos
 
 None yet.
+
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 260414-j8e | Implement full CRUD for facilities following edit_facility design | 2026-04-14 | e602967 | [260414-j8e-implement-full-crud-for-facilities-follo](./quick/260414-j8e-implement-full-crud-for-facilities-follo/) |
 
 ### Blockers/Concerns
 
@@ -72,7 +82,7 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-12T08:01:03.554Z
-Stopped at: Completed 35-01-PLAN.md
+Last session: 2026-04-14T06:50:52.564Z
+Stopped at: Completed quick task 260414-j8e
 Resume file: None
-Next step: `/gsd:plan-phase 33`
+Last activity: 2026-04-14 - Completed quick task 260414-j8e: Implement full CRUD for facilities following edit_facility design
