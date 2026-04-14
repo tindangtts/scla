@@ -20,6 +20,18 @@ export async function getAllFacilities(): Promise<Facility[]> {
 }
 
 /**
+ * Get a single facility by ID for admin editing.
+ */
+export async function getFacilityById(id: string): Promise<Facility | null> {
+  const rows = await db
+    .select()
+    .from(facilitiesTable)
+    .where(eq(facilitiesTable.id, id))
+    .limit(1);
+  return rows[0] ?? null;
+}
+
+/**
  * Get all bookings with optional facility and status filters.
  * Joins users table for booker name.
  */
