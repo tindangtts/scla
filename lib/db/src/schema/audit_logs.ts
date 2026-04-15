@@ -12,6 +12,9 @@ export const auditActionEnum = pgEnum("audit_action", [
   "content_update",
   "content_delete",
   "wallet_adjust",
+  "facility_create",
+  "facility_update",
+  "facility_delete",
 ]);
 
 export const auditLogsTable = pgTable(
