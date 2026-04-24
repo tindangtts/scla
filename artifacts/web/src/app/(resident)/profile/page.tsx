@@ -5,7 +5,8 @@ import { eq } from "drizzle-orm";
 import { AppHeader } from "@/components/layout/app-header";
 import { EditForm } from "./edit-form";
 import { formatDate } from "@/lib/format";
-import { Mail, Phone, MapPin, Building2, BadgeCheck, CalendarDays } from "lucide-react";
+import { Mail, Phone, MapPin, Building2, BadgeCheck, CalendarDays, Crown, ChevronRight } from "lucide-react";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -88,6 +89,38 @@ export default async function ProfilePage() {
             />
           </dl>
         </div>
+
+        {/* SCSC Membership */}
+        <section aria-labelledby="membership-heading" className="rounded-2xl bg-card border border-card-border p-5 shadow-sm">
+          <div className="flex items-center justify-between mb-4">
+            <h3 id="membership-heading" className="text-base font-bold tracking-tight">
+              SCSC Membership
+            </h3>
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-muted text-muted-foreground">
+              Non-Member
+            </span>
+          </div>
+          <div className="flex items-start gap-3 mb-4">
+            <div className="p-2.5 rounded-xl bg-accent/10 text-accent-foreground shrink-0">
+              <Crown className="w-5 h-5" aria-hidden="true" />
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-foreground">
+                Unlock member benefits
+              </p>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Get discounted facility rates, priority booking, and exclusive perks
+              </p>
+            </div>
+          </div>
+          <Link
+            href="/membership"
+            className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl bg-gradient-gold text-accent-foreground text-sm font-bold hover:opacity-90 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            View Membership Plans
+            <ChevronRight className="w-4 h-4" aria-hidden="true" />
+          </Link>
+        </section>
 
         {/* Edit form */}
         <section aria-labelledby="edit-profile-heading" className="rounded-2xl bg-card border border-card-border p-5 shadow-sm">

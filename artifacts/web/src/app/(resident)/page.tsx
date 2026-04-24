@@ -9,7 +9,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { formatMMK, greeting, humanizeStatus, statusBadgeClass } from "@/lib/format";
 import {
-  Wallet,
   CreditCard,
   ChevronRight,
   Sparkles,
@@ -66,7 +65,7 @@ export default async function ResidentHomePage() {
         {/* Hidden accessible heading so existing e2e heading probe still passes */}
         <h2 className="sr-only">Welcome, {firstName}</h2>
 
-        <div className="px-5 -mt-8 space-y-5 pb-8 relative z-20">
+        <div className="px-5 mt-2 space-y-5 pb-8 relative z-20">
           <Link
             href="/upgrade"
             className="block rounded-[1.75rem] bg-gradient-gold text-accent-foreground p-6 shadow-xl shadow-accent/20 hover:-translate-y-0.5 transition-[transform,box-shadow] duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -104,30 +103,12 @@ export default async function ResidentHomePage() {
       {/* Visible page heading, matches test probe /welcome/i */}
       <h2 className="sr-only">Welcome, {firstName}</h2>
 
-      <div className="px-5 -mt-8 space-y-5 pb-8 relative z-20">
-        {/* Primary money card — Wallet + Unpaid overview */}
-        <div className="grid grid-cols-2 gap-3">
-          <Link
-            href="/wallet"
-            className="group rounded-2xl bg-card border border-card-border p-4 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-[transform,box-shadow] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-          >
-            <div className="flex items-center justify-between mb-3">
-              <div className="p-2 bg-primary/10 text-primary rounded-xl">
-                <Wallet className="w-4 h-4" aria-hidden="true" />
-              </div>
-              <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
-            </div>
-            <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
-              Wallet Balance
-            </p>
-            <p className="text-lg font-extrabold text-foreground mt-1 tracking-tight tabular-nums">
-              {formatMMK(data.walletBalance)}
-            </p>
-          </Link>
-
+      <div className="px-5 mt-2 space-y-5 pb-8 relative z-20">
+        {/* Primary money card — Unpaid bills overview */}
+        <div className="max-w-sm">
           <Link
             href="/bills"
-            className="group rounded-2xl bg-card border border-card-border p-4 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-[transform,box-shadow] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="group p-4"
           >
             <div className="flex items-center justify-between mb-3">
               <div className={`p-2 rounded-xl ${hasUnpaid ? "bg-destructive/10 text-destructive" : "bg-emerald-500/10 text-emerald-600"}`}>

@@ -8,10 +8,11 @@ import {
   BookOpen,
   Bell,
   User,
-  Wallet,
   ChevronRight,
   Languages,
   Palette,
+  Crown,
+  Clock,
 } from "lucide-react";
 import type { ComponentType } from "react";
 
@@ -34,11 +35,18 @@ export default async function MorePage() {
       tint: "text-primary bg-primary/10",
     },
     {
-      href: "/wallet",
-      label: t("wallet"),
-      description: t("walletDesc"),
-      icon: Wallet,
-      tint: "text-emerald-600 bg-emerald-500/10",
+      href: "/membership",
+      label: t("membership"),
+      description: t("membershipDesc"),
+      icon: Crown,
+      tint: "text-amber-600 bg-amber-500/10",
+    },
+    {
+      href: "/history",
+      label: t("history"),
+      description: t("historyDesc"),
+      icon: Clock,
+      tint: "text-blue-600 bg-blue-500/10",
     },
     {
       href: "/discover",

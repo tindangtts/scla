@@ -135,8 +135,10 @@
     "notificationsDesc": "View your notifications",
     "profile": "Profile",
     "profileDesc": "View and edit your profile",
-    "wallet": "Wallet",
-    "walletDesc": "Balance and transactions",
+    "membership": "SCSC Membership",
+    "membershipDesc": "Sports club membership plans",
+    "history": "Activity History",
+    "historyDesc": "Bills, bookings, and tickets",
     "settings": "Settings",
     "settingsDesc": "Language and theme preferences"
   }

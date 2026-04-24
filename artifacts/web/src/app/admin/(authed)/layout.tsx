@@ -14,8 +14,7 @@ type NavKey =
   | "facilities"
   | "content"
   | "staff"
-  | "auditLogs"
-  | "wallets";
+  | "auditLogs";
 
 interface NavItem {
   key: NavKey;
@@ -32,7 +31,6 @@ const navItems: NavItem[] = [
   { key: "content", href: "/admin/content", icon: "file" },
   { key: "staff", href: "/admin/staff", icon: "userCog" },
   { key: "auditLogs", href: "/admin/audit-logs", icon: "scroll" },
-  { key: "wallets", href: "/admin/wallets", icon: "wallet" },
 ];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {

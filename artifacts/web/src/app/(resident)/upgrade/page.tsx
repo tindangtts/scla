@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import { AppSubHeader } from "@/components/layout/app-header";
 import { UpgradeForm } from "./upgrade-form";
 import Link from "next/link";
-import { Clock, ShieldCheck, Sparkles, CreditCard, Wallet, Ticket } from "lucide-react";
+import { Clock, ShieldCheck, Sparkles, CreditCard, Ticket } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -102,9 +102,6 @@ export default async function UpgradePage() {
             <ul className="mt-3 space-y-2 text-sm font-semibold">
               <li className="flex items-center gap-2">
                 <CreditCard className="w-4 h-4" aria-hidden="true" /> Pay bills instantly in-app
-              </li>
-              <li className="flex items-center gap-2">
-                <Wallet className="w-4 h-4" aria-hidden="true" /> Wallet & deposit tracking
               </li>
               <li className="flex items-center gap-2">
                 <Ticket className="w-4 h-4" aria-hidden="true" /> Unlimited Star Assist tickets
